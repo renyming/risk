@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class View extends Application implements Observer {
+public class View /*extends Application*/ implements Observer {
 
     public final double COUNTRY_WIDTH = 100;
     public final double COUNTRY_HEIGHT = 100;
@@ -31,13 +31,7 @@ public class View extends Application implements Observer {
     private HashMap<Integer, CountryView> countryViews;
     private HashMap<Integer, LineView> lineViews;
 
-    public void update(Observable obs, Object x) {
-        // TODO: get obs new state info, i.e., new CountryView state, then ask Model to get newCountry info ???
-        System.out.println("notify: new state is " + x);
-    }
-
-    @Override
-    public void start(Stage stage_primary) throws Exception {
+    public View() throws Exception {
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
         mainMenuPane = menuFxmlLoader.load();
         menuController = menuFxmlLoader.getController();
@@ -53,8 +47,11 @@ public class View extends Application implements Observer {
         mapStage = new Stage();
         mapStage.setTitle("Risk Game");
         mapStage.setScene(new Scene(mapRootPane));
+    }
 
-        showMenuStage();
+    public void update(Observable obs, Object x) {
+        // TODO: get obs new state info, i.e., new CountryView state, then ask Model to get newCountry info ???
+        System.out.println("notify: new state is " + x);
     }
 
     public void showMenuStage() {
@@ -75,7 +72,7 @@ public class View extends Application implements Observer {
     public void closeMenuStage() throws Exception {
         mapStage.close();
         menuStage.close();
-        this.stop();
+//        this.stop();
     }
 
     public void selectMap() {
