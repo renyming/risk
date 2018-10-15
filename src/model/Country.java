@@ -184,7 +184,7 @@ public class Country extends Observable {
      * @return false
      */
     public boolean moveArmiesTo(Country targetCountry, int armies){
-        if (!adjCountries.contains(targetCountry) || getArmies()<armies )
+        if (!adjCountries.contains(targetCountry) || getArmies()<armies || getOwner().isConnected(targetCountry))
             return false;
 
         this.setArmies(getArmies()-armies);
