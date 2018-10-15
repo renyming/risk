@@ -43,6 +43,13 @@ public class Model extends Observable {
         notifyObservers();
     }
 
+    public void initiatePlayers(int numOfPlayers){
+        for (int i = 0; i < numOfPlayers; i ++){
+            Player newPlayer = new Player("Player" + String.valueOf(i));
+            players.add(newPlayer);
+        }
+    }
+
     /**
      * load the map
      * @param filePath The path of the map file
