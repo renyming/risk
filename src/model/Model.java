@@ -60,6 +60,9 @@ public class Model extends Observable {
         }
         bodies = content.split("\n\n");
         initiateContinents(bodies[1]);
+        for(int i = 2; i < bodies.length; i ++){
+            initiateCountries(bodies[i]);
+        }
     }
 
     /**
@@ -76,6 +79,39 @@ public class Model extends Observable {
             int controlVal = Integer.parseInt(s.substring(indexOfCol + 1));
             Continent newContinent = new Continent(continentName,controlVal);
             this.continents.add(newContinent);
+        }
+    }
+
+    /**
+     * initiate countries
+     * @param countriesList The list of countries
+     */
+    private void initiateCountries(String countriesList){
+        if(countriesList.startsWith("[")){
+            int index = countriesList.indexOf(']');
+            countriesList = countriesList.substring(index + 2);
+        }
+        String[] list = countriesList.split("\n");
+        for (String s : list) {
+            String contents[] = s.split(",");
+            String continentName = contents[3];
+            int indexOfContinent = -1;
+            for(int i = 0; i < continents.size(); i ++){
+                if(continents.get(i).getName().equals(continentName)){
+                    indexOfContinent = i;
+                }
+            }
+            Country newCountry = new Country(contents[0], continents.get(indexOfContinent));
+            newCountry.setX(contents[1]);
+            newCountry.setY(contents[2]);
+
+            if(contents.length <= 4)
+                break;
+
+            for(int i = 4; i < contents.length; i ++){
+
+            }
+            countries.add(newCountry);
         }
     }
 

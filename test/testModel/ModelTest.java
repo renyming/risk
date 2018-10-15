@@ -12,6 +12,7 @@ import java.io.IOException;
 public class ModelTest {
 
     public static Model newModel1;
+    public static Model newModel2;
 
     @BeforeClass
     public static void beforeClass(){
@@ -24,6 +25,7 @@ public class ModelTest {
         newModel1.getContinents().add(new Continent("Polar Island",1));
         newModel1.getContinents().add(new Continent("Queensbasin",5));
         newModel1.getContinents().add(new Continent("Republic of Cranberra",4));
+
     }
 
     @Test
@@ -34,5 +36,7 @@ public class ModelTest {
         assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
         assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
         assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
+
+        //assertEquals(16, testedModel.getCountries().size());
     }
 }

@@ -22,7 +22,8 @@ public class Country extends Observable {
     private int armies;
     private ArrayList<Country> adjCountries;
     private boolean isProcessed;
-
+    private double x;
+    private double y;
 
     /**
      * Constructor of Country
@@ -122,6 +123,38 @@ public class Country extends Observable {
     public void setPlayer(Player player){
         this.player=player;
         callObservers();
+    }
+
+    /**
+     * Getter for y position
+     * @return y position of the country
+     */
+    public double getY(){
+        return y;
+    }
+
+    /**
+     * Setter for y position
+     * @param y The y position of the country
+     */
+    public void setY(String y){
+        this.y = Double.parseDouble(y);
+    }
+
+    /**
+     * Getter for x position
+     * @return x position of the country
+     */
+    public double getX(){
+        return x;
+    }
+
+    /**
+     * Setter for x position
+     * @param x The x position of the country
+     */
+    public void setX(String x){
+        this.x = Double.parseDouble(x);
     }
 
     /** 
