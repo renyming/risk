@@ -1,25 +1,24 @@
 package view;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Country;
-import model.Model;
+import controller.Controller;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class View /*extends Application*/ implements Observer {
+public class View implements Observer {
 
-    public final double COUNTRY_WIDTH = 100;
-    public final double COUNTRY_HEIGHT = 100;
+    public final double COUNTRY_WIDTH = 70;
+    public final double COUNTRY_HEIGHT = 70;
 
-    private Model model; // TODO: set it, where?
+    private Controller controller;
 
     private MenuController menuController;
     private MapController mapController;
@@ -50,7 +49,8 @@ public class View /*extends Application*/ implements Observer {
     }
 
     public void update(Observable obs, Object x) {
-        // TODO: get obs new state info, i.e., new CountryView state, then ask Model to get newCountry info ???
+        // TODO: get obs new state info, i.e., new CountryView state
+        // TODO: may need get additional info about Model by asking Controller
         System.out.println("notify: new state is " + x);
     }
 
@@ -69,10 +69,9 @@ public class View /*extends Application*/ implements Observer {
         lineViews = new HashMap<>();
     }
 
-    public void closeMenuStage() throws Exception {
+    public void closeMenuStage() {
         mapStage.close();
         menuStage.close();
-//        this.stop();
     }
 
     public void selectMap() {
@@ -100,13 +99,14 @@ public class View /*extends Application*/ implements Observer {
      * @return CountryView object, only useful for 'loading existing Risk map file phase'
      */
     public CountryView createCountryView(double layoutX, double layoutY, Country country) {
-        CountryView countryView = new CountryView();
-        countryView.setPrefSize(COUNTRY_WIDTH, COUNTRY_HEIGHT);
-        countryView.setLayoutX(layoutX);
-        countryView.setLayoutY(layoutY);
-        if (null != country) { countryView.addCountry(country); }
-        countryViews.put(countryView.getCountryViewId(), countryView);
-        mapRootPane.getChildren().add(countryView);
+        CountryView countryView = new CountryView(this, layoutX, layoutY, "blue");
+        if (null != country) {
+            countryView.setCountry(country);
+            countryView.updateCountryInfo();
+        }
+        countryViews.put(countryView.getId(), countryView);
+        mapRootPane.getChildren().add(countryView.getCountryPane());
+        System.out.println(countryViews.size());
         return countryView;
     }
 
@@ -126,5 +126,9 @@ public class View /*extends Application*/ implements Observer {
         return createCountryView(layoutX, layoutY, country);
     }
 
-
+    public void removeCountryView(CountryView countryView) {
+        mapRootPane.getChildren().remove(countryView.getCountryPane());
+        countryViews.remove(countryView.getId());
+        System.out.println(countryViews.size());
+    }
 }
