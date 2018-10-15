@@ -26,6 +26,15 @@ public class Model extends Observable {
         notifyObservers();
     }
 
+    /**
+     * load the map
+     *
+     * @param filePath The path of the map file
+     */
+    public void readFile(String filePath) {
+
+    }
+
 
 
 }
