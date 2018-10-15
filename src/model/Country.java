@@ -54,9 +54,27 @@ public class Country extends Observable {
         return armies;
     }
 
+    /**
+     * set army
+     * @param armies
+     */
     private void setArmies(int armies){
         this.armies=armies;
         callObservers();
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name  the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
