@@ -86,6 +86,13 @@ public class Country extends Observable {
     }
 
     /**
+     * @return the isProcessed
+     */
+    public boolean isProcessed() {
+        return isProcessed;
+    }
+
+    /**
      * Set the ownership of a country to a player
      * @param player The player who owns the country
      */
