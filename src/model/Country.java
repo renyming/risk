@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 /**
@@ -22,7 +21,6 @@ public class Country extends Observable {
     private Player player;
     private int armies;
     private ArrayList<Country> adjCountries;
-    private List<String> adjCountryNames;
 
 
     /**
@@ -136,6 +134,13 @@ public class Country extends Observable {
         this.setArmies(getArmies()-armies);
         targetCountry.setArmies(targetCountry.getArmies()+armies);
         return true;
+    }
+
+    /**
+     * @return the adjacentCountries list
+     */
+    public ArrayList<Country> getAdjCountries() {
+        return adjCountries;
     }
 
 
