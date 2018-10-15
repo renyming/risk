@@ -39,8 +39,7 @@ public class Continent {
 
     /**
     * Get the controlVal
-    * @Param:  None
-    * @return:  controlVal
+    * @return  controlVal
     */
     public int getControlVal() {
         return controlVal;
