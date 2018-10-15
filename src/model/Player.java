@@ -173,9 +173,9 @@ public class Player extends Observable {
     * @Param: None
     * @return: void
     */
-    public void subArmies(){
+    public void subArmies(int num){
 
-        armies--;
+        armies -= num;
         //notify the observer
         setChanged();
         notifyObservers(this);

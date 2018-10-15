@@ -83,7 +83,8 @@ public class PlayerTest {
     @Test
     public void subArmies() {
         int num = 9;
-        player.subArmies();
+        int subnum = 1;
+        player.subArmies(1);
         assertEquals(num, player.getArmies());
     }
 
