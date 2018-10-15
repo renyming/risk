@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -20,7 +21,9 @@ public class Country extends Observable {
     private Continent continent;
     private Player player;
     private int armies;
-    private ArrayList<Country> adjList;
+    private ArrayList<Country> adjCountries;
+    private List<String> adjCountryNames;
+
 
     /**
      * Constructor of Country
@@ -34,7 +37,7 @@ public class Country extends Observable {
         this.continent=continent;
         this.player=null;
         this.armies =0;
-        this.adjList=new ArrayList<>(adjList);
+        this.adjCountries=new ArrayList<>(adjList);
     }
 
     /**
@@ -97,7 +100,7 @@ public class Country extends Observable {
      * @return Whether the attack is valid, in another word, whether those two countries are adjacent
      */
     public boolean attack(Country attackedCountry){
-        if (!adjList.contains(attackedCountry))
+        if (!adjCountries.contains(attackedCountry))
             return false;
         //TODO: implement attack phase
         attackedCountry.beingAttacked(this);
@@ -127,7 +130,7 @@ public class Country extends Observable {
      * @return false
      */
     public boolean moveArmiesTo(Country targetCountry, int armies){
-        if (!adjList.contains(targetCountry) || getArmies()<armies)
+        if (!adjCountries.contains(targetCountry) || getArmies()<armies)
             return false;
 
         this.setArmies(getArmies()-armies);
