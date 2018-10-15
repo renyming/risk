@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class View extends Application implements Observer {
+public class View /*extends Application*/ implements Observer {
 
     public final double COUNTRY_WIDTH = 100;
     public final double COUNTRY_HEIGHT = 100;
@@ -36,8 +36,8 @@ public class View extends Application implements Observer {
         System.out.println("notify: new state is " + x);
     }
 
-    @Override
-    public void start(Stage stage_primary) throws Exception {
+//    @Override
+    public void start(/*Stage primaryStage*/) throws Exception {
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
         mainMenuPane = menuFxmlLoader.load();
         menuController = menuFxmlLoader.getController();
@@ -75,7 +75,7 @@ public class View extends Application implements Observer {
     public void closeMenuStage() throws Exception {
         mapStage.close();
         menuStage.close();
-        this.stop();
+//        this.stop();
     }
 
     public void selectMap() {
