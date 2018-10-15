@@ -73,6 +73,9 @@ public class Player extends Observable {
     */
     public void setArmies(int armies) {
         this.armies = armies;
+
+        setChanged();
+        notifyObservers(this);
     }
 
     /**
@@ -82,6 +85,9 @@ public class Player extends Observable {
     */
     public void setCountriesOwned(ArrayList<Country> countriesOwned) {
         this.countriesOwned = countriesOwned;
+
+        setChanged();
+        notifyObservers(this);
     }
 
     /**
@@ -91,7 +97,7 @@ public class Player extends Observable {
     * @return:
     */
     public void addInitArmies(){
-        armies = 15;
+        setArmies(15);
     }
 
     /**
@@ -102,8 +108,8 @@ public class Player extends Observable {
     */
     public void addRoundArmies(){
 
-        int armiesAdded = getArmiesAdded();
-        armies += armiesAdded;
+        int newArmies = armies + getArmiesAdded();
+        setArmies(newArmies);
     }
 
     /**
@@ -175,10 +181,8 @@ public class Player extends Observable {
     */
     public void subArmies(int num){
 
-        armies -= num;
-        //notify the observer
-        setChanged();
-        notifyObservers(this);
+        int newArmies = armies - num;
+        setArmies(newArmies);
     }
 
     /**
@@ -197,6 +201,9 @@ public class Player extends Observable {
 
         //verify if the country is exist in the countriesOwned??
         countriesOwned.add(c);
+
+        setChanged();
+        notifyObservers(this);
     }
 
     /**
@@ -211,6 +218,9 @@ public class Player extends Observable {
         {
             if (c.equals(it.next())){
                 it.remove();
+
+                setChanged();
+                notifyObservers(this);
                 return true;
             }
         }
