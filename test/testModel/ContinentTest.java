@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class ContinentTest {
 
-    private Continent asien;
+    private Continent asian;
     public Country china;
     public Country thailand;
     public Country singapore;
@@ -20,10 +20,10 @@ public class ContinentTest {
     @Before
     public void setUp() throws Exception {
 
-        asien = new Continent("Asien", 5);
-        china = new Country("china", asien);
-        thailand = new Country("thailand", asien);
-        singapore = new Country("singapore", asien);
+        asian = new Continent("Asian", 5);
+        china = new Country("china", asian);
+        thailand = new Country("thailand", asian);
+        singapore = new Country("singapore", asian);
     }
 
     @Test
@@ -33,10 +33,10 @@ public class ContinentTest {
         correct.add(thailand);
         correct.add(singapore);
 
-        asien.addCountry(china);
-        asien.addCountry(thailand);
-        asien.addCountry(singapore);
-        ArrayList<Country> result = asien.getCountry();
+        asian.addCountry(china);
+        asian.addCountry(thailand);
+        asian.addCountry(singapore);
+        ArrayList<Country> result = asian.getCountry();
 
         assertArrayEquals(correct.toArray(), result.toArray());
 
@@ -45,16 +45,16 @@ public class ContinentTest {
     @Test
     public void getSize() {
         int correct = 3;
-        asien.addCountry(china);
-        asien.addCountry(thailand);
-        asien.addCountry(singapore);
+        asian.addCountry(china);
+        asian.addCountry(thailand);
+        asian.addCountry(singapore);
 
-        assertEquals(correct, asien.getSize());
+        assertEquals(correct, asian.getSize());
     }
 
     @Test
     public void isEmpty() {
 
-        assertTrue(asien.isEmpty());
+        assertTrue(asian.isEmpty());
     }
 }

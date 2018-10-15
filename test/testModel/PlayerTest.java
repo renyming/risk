@@ -32,7 +32,7 @@ public class PlayerTest {
     public static void before() throws Exception{
 
 
-        asien = new Continent("Asien", 5);
+        asien = new Continent("Asian", 5);
         china = new Country("china", asien);
         thailand = new Country("thailand", asien);
         singapore = new Country("singapore", asien);
