@@ -26,15 +26,15 @@ public class Continent {
         this.name=name;
         this.ID=++cID;
         this.controlVal = controlVal;
-        contries=new ArrayList<>();
+        contries = new ArrayList<Country>();
     }
 
     /**
-     * Add a country to continent
-     * @param country Country to be added
+     * get continent name
+     * @return the name
      */
-    public void addCountry(Country country){
-        contries.add(country);
+    public String getName() {
+        return name;
     }
 
     /**
@@ -54,6 +54,14 @@ public class Continent {
     }
 
     /**
+     * Add a country to continent
+     * @param country Country to be added
+     */
+    public void addCountry(Country country){
+        contries.add(country);
+    }
+
+    /**
      * Get the number of countries of a continent
      * @return The number of countries of a continent
      */
@@ -69,13 +77,6 @@ public class Continent {
         return contries.isEmpty();
     }
 
-    /**
-     * get continent name
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
 
 
 }

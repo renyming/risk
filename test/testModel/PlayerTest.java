@@ -31,10 +31,12 @@ public class PlayerTest {
     @BeforeClass
     public static void before() throws Exception{
 
+
         asien = new Continent("Asien", 5);
         china = new Country("china", asien);
         thailand = new Country("thailand", asien);
         singapore = new Country("singapore", asien);
+
 
         asien.addCountry(china);
         asien.addCountry(thailand);
