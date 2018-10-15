@@ -1,0 +1,67 @@
+[Map]
+author=Dustwhirl
+warn=yes
+image=Aden.bmp
+wrap=no
+scroll=none
+
+[Continents]
+Berga=4
+Centre Metro=7
+Craterland=5
+Great Horn Island=2
+Greenwood Island=3
+Polar Island=1
+Queensbasin=5
+Republic of Cranberra=4
+
+[Territories]
+Barron,629,173,Berga,Grand Bank,Metroville,Banyan,Bella,Byland
+Banyan,603,242,Berga,Barron,Bella,Metroville,Mastic,Riviera
+Bella,686,239,Berga,Barron,Banyan,Bordon,Bot,Byland,Riviera
+Bordon,749,206,Berga,Bella,Bot,Byland
+Bot,744,299,Berga,Bella,Bordon,Byland,Riviera,Rand
+Byland,774,383,Berga,Barron,Bella,Bordon,Bot,Rand
+
+Martello,381,149,Centre Metro,Coron,Cannon,Cill,Menthyl,Metroville,Gray
+Menthyl,401,220,Centre Metro,Cill,Ceed,Martello,Metroville,Metron,Mastic
+Metroville,494,208,Centre Metro,Martello,Menthyl,Mastic,Barron,Banyan,Gray
+Metron,382,283,Centre Metro,Ceed,Menthyl,Mastic,Mylon,Moonbay,Marrian
+Mastic,546,285,Centre Metro,Menthyl,Metroville,Metron,Marrian,Banyan,Rhone,Riviera
+Mylon,295,326,Centre Metro,Quell,Quandry,Ceed,Metron,Moonbay,Gras
+Moonbay,388,345,Centre Metro,Metron,Mylon,Marrian,Polaris
+Marrian,482,323,Centre Metro,Metron,Mastic,Moonbay,Relish,Rhone
+
+Cyan,177,73,Craterland,Coron,Cannon,Cylac
+Coron,263,123,Craterland,Cyan,Cannon,Cylac,Cirius,Cill,Martello
+Cannon,329,65,Craterland,Cyan,Coron,Martello
+Cylac,144,145,Craterland,Cyan,Coron,Cirius,Queensryche
+Cirius,236,192,Craterland,Coron,Cylac,Cill,Ceed,Queensryche,Quell
+Cill,311,184,Craterland,Coron,Cirius,Ceed,Martello,Menthyl
+Ceed,285,264,Craterland,Cirius,Cill,Quell,Menthyl,Metron,Mylon
+
+Gray,508,106,Great Horn Island,Grand Bank,Martello,Metroville
+Grand Bank,589,106,Great Horn Island,Gray,Barron
+
+Gras,253,465,Greenwood Island,Galyn,Gilead,Quag,Mylon
+Galyn,328,487,Greenwood Island,Gras,Gilead,Gorshen
+Gilead,269,538,Greenwood Island,Gras,Galyn,Gorshen,Queew
+Gorshen,403,536,Greenwood Island,Galyn,Gilead,Polaris,Rufus
+
+Polaris,459,428,Polar Island,Moonbay,Gorshen,Rand
+
+Queensryche,154,229,Queensbasin,Cylac,Cirius,Quell,Quay,Quandry
+Quell,217,256,Queensbasin,Cirius,Ceed,Queensryche,Quandry,Mylon
+Quay,117,300,Queensbasin,Queensryche,Quandry,Quintess
+Quandry,202,303,Queensbasin,Queensryche,Quell,Quay,Quintess,Mylon
+Quail,40,371,Queensbasin,Quintess,Quot
+Quintess,106,376,Queensbasin,Quay,Quandry,Quail,Quot,Quag
+Quot,39,432,Queensbasin,Quail,Quintess,Quag,Queew
+Quag,137,430,Queensbasin,Quintess,Quot,Queew,Gras
+Queew,83,484,Queensbasin,Quot,Quag,Gilead
+
+Relish,543,373,Republic of Cranberra,Rhone,Rand,Marrian
+Rhone,600,370,Republic of Cranberra,Relish,Riviera,Rand,Mastic,Marrian
+Riviera,657,330,Republic of Cranberra,Rhone,Rand,Mastic,Banyan,Bella,Bot
+Rand,633,433,Republic of Cranberra,Relish,Rhone,Riviera,Rufus,Bot,Byland,Polaris
+Rufus,554,554,Republic of Cranberra,Rand,Gorshen
