@@ -53,6 +53,12 @@ public class Country extends Observable {
     public int getID(){ return ID; }
 
     /**
+     * Getter for country owner
+     * @return The player of this country
+     */
+    public Player getOwner() {return player;}
+
+    /**
     * Getter to get the continent it belongs to
     * @return  continent
     */
