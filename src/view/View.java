@@ -32,7 +32,7 @@ public class View extends Application implements Observer {
     private HashMap<Integer, LineView> lineViews;
 
     public void update(Observable obs, Object x) {
-        // TODO: get obs new state info
+        // TODO: get obs new state info, i.e., new CountryView state, then ask Model to get newCountry info ???
         System.out.println("notify: new state is " + x);
     }
 
@@ -60,6 +60,7 @@ public class View extends Application implements Observer {
     public void showMenuStage() {
         mapStage.hide();
         menuStage.show();
+        // TODO: clear drawing area from previous creation
         if (null != countryViews) countryViews.clear();
         if (null != lineViews) lineViews.clear();
     }
@@ -71,9 +72,10 @@ public class View extends Application implements Observer {
         lineViews = new HashMap<>();
     }
 
-    public void closeMenuStage() {
+    public void closeMenuStage() throws Exception {
         mapStage.close();
         menuStage.close();
+        this.stop();
     }
 
     public void selectMap() {
@@ -105,9 +107,7 @@ public class View extends Application implements Observer {
         countryView.setPrefSize(COUNTRY_WIDTH, COUNTRY_HEIGHT);
         countryView.setLayoutX(layoutX);
         countryView.setLayoutY(layoutY);
-        if (null != country) { //
-
-        }
+        if (null != country) { countryView.addCountry(country); }
         countryViews.put(countryView.getCountryViewId(), countryView);
         mapRootPane.getChildren().add(countryView);
         return countryView;
@@ -124,11 +124,9 @@ public class View extends Application implements Observer {
         // TODO: exist proper getter functions in Country object
         int layoutX = 0;
         int layoutY = 0;
-//        layoutX = country.getX();
-//        layoutY =  country.getY();
+//        layoutX = country.getLayoutX();
+//        layoutY =  country.getLayoutY();
         return createCountryView(layoutX, layoutY, country);
-
-
     }
 
 
