@@ -21,6 +21,7 @@ public class Country extends Observable {
     private Player player;
     private int armies;
     private ArrayList<Country> adjCountries;
+    private boolean isProcessed;
 
 
     /**
@@ -75,6 +76,13 @@ public class Country extends Observable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @param isProcessed the flat to validate map connection
+     */
+    public void setProcessed(boolean isProcessed) {
+        this.isProcessed = isProcessed;
     }
 
     /**
