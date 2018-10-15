@@ -42,7 +42,7 @@ public class MenuController {
         mainMenuPane.getChildren().add(quitPane);
     }
 
-    public void quit() throws Exception { view.closeMenuStage(); }
+    public void quit() { view.closeMenuStage(); }
 
     public void selectMap() { view.selectMap(); }
 
