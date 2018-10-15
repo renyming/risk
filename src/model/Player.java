@@ -18,6 +18,7 @@ public class Player extends Observable {
     private String name;
     private int armies;
     private ArrayList<Country> countriesOwned;
+    private String color;
 
     /**
      * Constructor of player
@@ -27,10 +28,26 @@ public class Player extends Observable {
         this.name=name;
         this.ID=++cID;
         armies = 0;
-        countriesOwned = new ArrayList<Country>();
+        countriesOwned = new ArrayList<>();
     }
 
-    /** 
+    /**
+     * Getter for color of player
+     * @return Color of this player
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * Setter for color of player
+     * @param color Color of the player
+     */
+    public void setColor(String color) {
+        this.color=color;
+    }
+
+    /**
     * Getter to get ID
     * @Param  
     * @return ID of the player
