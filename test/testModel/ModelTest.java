@@ -12,7 +12,6 @@ import java.io.IOException;
 public class ModelTest {
 
     public static Model newModel1;
-    public static Model newModel2;
 
     @BeforeClass
     public static void beforeClass(){

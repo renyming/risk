@@ -47,7 +47,7 @@ public class Model extends Observable {
      * load the map
      * @param filePath The path of the map file
      */
-    public void readFile(String filePath)throws IOException {
+    public boolean readFile(String filePath)throws IOException {
 
         String content = "";
         String line = "";
@@ -63,6 +63,7 @@ public class Model extends Observable {
         for(int i = 2; i < bodies.length; i ++){
             initiateCountries(bodies[i]);
         }
+        return true;
     }
 
     /**
