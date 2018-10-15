@@ -26,6 +26,8 @@ public class Player extends Observable {
     public Player(String name){
         this.name=name;
         this.ID=++cID;
+        armies = 0;
+        countriesOwned = new ArrayList<Country>();
     }
 
     /** 
@@ -64,6 +66,23 @@ public class Player extends Observable {
         return countriesOwned;
     }
 
+    /**
+    * set the number of armies
+    * @Param:  armies the number of armies
+    * @return:  void
+    */
+    public void setArmies(int armies) {
+        this.armies = armies;
+    }
+
+    /**
+    * set the countries owned
+    * @Param:  countriesOwned the countries owned
+    * @return:  void
+    */
+    public void setCountriesOwned(ArrayList<Country> countriesOwned) {
+        this.countriesOwned = countriesOwned;
+    }
 
     /**
     * add armies in the startup phase, before the first round of allocated armies
@@ -175,6 +194,8 @@ public class Player extends Observable {
     * @return:  void
     */
     public void addCountry(Country c){
+
+        //verify if the country is exist in the countriesOwned??
         countriesOwned.add(c);
     }
 
@@ -195,9 +216,5 @@ public class Player extends Observable {
         }
         return false;
     }
-
-
-
-
 
 }
