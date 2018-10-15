@@ -9,57 +9,57 @@ public class MenuController {
 
     public View view;
 
-    @FXML private AnchorPane pane_main_menu;
-    @FXML private AnchorPane pane_startUp_menu;
-    @FXML private AnchorPane pane_newGame_menu;
-    @FXML private AnchorPane pane_quit_menu;
-    @FXML private Label label_selected_map;
-    @FXML private Label label_map_info;
-    @FXML private Button button_start_game;
+    @FXML private AnchorPane mainMenuPane;
+    @FXML private AnchorPane startUpPane;
+    @FXML private AnchorPane newGamePane;
+    @FXML private AnchorPane quitPane;
+    @FXML private Label selectedMapLabel;
+    @FXML private Label mapInfoPane;
+    @FXML private Button startGameButton;
 
     public void initialize(View view) {
         this.view = view;
-        pane_startUp_menu.setVisible(true);
-        pane_newGame_menu.setVisible(true);
-        pane_quit_menu.setVisible(true);
-        button_start_game.setVisible(false);
+        startUpPane.setVisible(true);
+        newGamePane.setVisible(true);
+        quitPane.setVisible(true);
+        startGameButton.setVisible(false);
         switchToStartUpMenu();
     }
 
     public void switchToStartUpMenu() {
-        pane_main_menu.getChildren().clear();
-        pane_main_menu.getChildren().add(pane_startUp_menu);
+        mainMenuPane.getChildren().clear();
+        mainMenuPane.getChildren().add(startUpPane);
     }
 
     public void switchToNewGameMenu() {
         // TODO: call view to reset selected file?
-        pane_main_menu.getChildren().clear();
-        pane_main_menu.getChildren().add(pane_newGame_menu);
+        mainMenuPane.getChildren().clear();
+        mainMenuPane.getChildren().add(newGamePane);
     }
 
     public void switchToQuitMenu() {
-        pane_main_menu.getChildren().clear();
-        pane_main_menu.getChildren().add(pane_quit_menu);
+        mainMenuPane.getChildren().clear();
+        mainMenuPane.getChildren().add(quitPane);
     }
 
-    public void quit() { view.closeMenuStage(); }
+    public void quit() throws Exception { view.closeMenuStage(); }
 
     public void selectMap() { view.selectMap(); }
 
     public void setMapName(String filename, boolean valid) {
         if (valid) {
-            button_start_game.setVisible(true);
-            label_selected_map.setText("Valid map: " + filename);
-            label_selected_map.setStyle("-fx-border-color: green; -fx-border-width: 2");
+            startGameButton.setVisible(true);
+            selectedMapLabel.setText("Valid map: " + filename);
+            selectedMapLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
         } else {
-            button_start_game.setVisible(false);
-            label_selected_map.setText("Invalid map: " + filename);
-            label_selected_map.setStyle("-fx-border-color: red; -fx-border-width: 2");
+            startGameButton.setVisible(false);
+            selectedMapLabel.setText("Invalid map: " + filename);
+            selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
         }
     }
 
     public void setAdditionalMapInfo(String info) {
-        label_map_info.setText(info);
+        mapInfoPane.setText(info);
     }
 
     public void createMap() {

@@ -1,6 +1,5 @@
 package view;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -8,9 +7,9 @@ import javafx.scene.layout.AnchorPane;
 public class MapController {
 
     public View view;
-    public AnchorPane pane_map;
-    public Button button_save_edited_map;
-    public Button button_quit_to_menu;
+    public AnchorPane mapPane;
+    public Button saveEditedMapButton;
+    public Button backToMenuButton;
     public double countryViewWidth;
     public double countryViewHeight;
 
@@ -18,7 +17,7 @@ public class MapController {
         this.view = view;
         this.countryViewWidth = newCountryViewWidth;
         this.countryViewHeight = newCountryViewHeight;
-        pane_map.setOnMouseClicked((e) -> {
+        mapPane.setOnMouseClicked((e) -> {
             if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
                 createCountry(e.getX() - countryViewWidth/2, e.getY() - countryViewHeight/2);
             }
