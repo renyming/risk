@@ -6,8 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Country;
+import model.Model;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,81 +19,117 @@ public class View extends Application implements Observer {
     public final double COUNTRY_WIDTH = 100;
     public final double COUNTRY_HEIGHT = 100;
 
-    private MenuController menu_controller;
-    private MapController map_controller;
-    private Stage stage_menu;
-    private Stage stage_map;
+    private Model model; // TODO: set it, where?
+
+    private MenuController menuController;
+    private MapController mapController;
+    private Stage menuStage;
+    private Stage mapStage;
     private boolean validFile;
-    private AnchorPane pane_main_map;
-    // TODO: list of countries
-    // TODO: list of lines
+    private AnchorPane mainMenuPane;
+    private AnchorPane mapRootPane;
+    private HashMap<Integer, CountryView> countryViews;
+    private HashMap<Integer, LineView> lineViews;
+
+    public void update(Observable obs, Object x) {
+        // TODO: get obs new state info
+        System.out.println("notify: new state is " + x);
+    }
 
     @Override
     public void start(Stage stage_primary) throws Exception {
-        FXMLLoader menu_fxml_loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
-        AnchorPane pane_main_menu = menu_fxml_loader.load();
-        menu_controller = menu_fxml_loader.getController();
-        menu_controller.initialize(this);
-        stage_menu = new Stage();
-        stage_menu.setTitle("Risk Game");
-        stage_menu.setScene(new Scene(pane_main_menu));
+        FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        mainMenuPane = menuFxmlLoader.load();
+        menuController = menuFxmlLoader.getController();
+        menuController.initialize(this);
+        menuStage = new Stage();
+        menuStage.setTitle("Risk Game");
+        menuStage.setScene(new Scene(mainMenuPane));
 
-        FXMLLoader map_fxml_loader = new FXMLLoader(getClass().getResource("Map.fxml"));
-        pane_main_map = map_fxml_loader.load();
-        map_controller = map_fxml_loader.getController();
-        map_controller.initialize(this);
-        stage_map = new Stage();
-        stage_map.setTitle("Risk Game");
-        stage_map.setScene(new Scene(pane_main_map));
+        FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
+        mapRootPane = mapFxmlLoader.load();
+        mapController = mapFxmlLoader.getController();
+        mapController.initialize(this, COUNTRY_WIDTH, COUNTRY_HEIGHT);
+        mapStage = new Stage();
+        mapStage.setTitle("Risk Game");
+        mapStage.setScene(new Scene(mapRootPane));
 
         showMenuStage();
     }
 
     public void showMenuStage() {
-        stage_map.hide();
-        stage_menu.show();
+        mapStage.hide();
+        menuStage.show();
+        if (null != countryViews) countryViews.clear();
+        if (null != lineViews) lineViews.clear();
     }
 
     public void showMapStage() {
-        stage_menu.hide();
-        stage_map.show();
+        menuStage.hide();
+        mapStage.show();
+        countryViews = new HashMap<>();
+        lineViews = new HashMap<>();
     }
 
     public void closeMenuStage() {
-        stage_map.close();
-        stage_menu.close();
+        mapStage.close();
+        menuStage.close();
     }
 
     public void selectMap() {
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Risk Map File");
-        File riskMapFile = fileChooser.showOpenDialog(stage_menu);
+        File riskMapFile = fileChooser.showOpenDialog(menuStage);
         if (null != riskMapFile && riskMapFile.exists()) {
-            // TODO: ask controller, let model to valid the file format，get info
-//            validFile = menuController.checkMapFileValid(riskMapFile.getName())*/;
+            // TODO: ask model to valid the file format，get info
+//            validFile = model.checkMapFileValid(riskMapFile.getName())*/;
+            // TODO: what should I do here?
             validFile = true;
             String additional_info = "This is additional info";
-            menu_controller.setMapName(riskMapFile.getName(), validFile);
-            menu_controller.setAdditionalMapInfo(additional_info);
+            menuController.setMapName(riskMapFile.getName(), validFile);
+            menuController.setAdditionalMapInfo(additional_info);
         }
     }
 
-    public void update(Observable obs, Object x) {
-        // TODO: get obs updated info, pass it to controller
-        System.out.println("receive notify: " + x);
-    }
+    /**
+     * Editing map phase / Loading existing RISK map file phase
+     * Called by AnchorPane: mapRootPane if param country is null
+     * Called by loadCountry method if param country is not null
+     * Create a CountryView Observer object
+     * @param layoutX cursor position X relative to the mapRootPane
+     * @param layoutY cursor position Y relative to the mapRootPane
+     * @return CountryView object, only useful for 'loading existing Risk map file phase'
+     */
+    public CountryView createCountryView(double layoutX, double layoutY, Country country) {
+        CountryView countryView = new CountryView();
+        countryView.setPrefSize(COUNTRY_WIDTH, COUNTRY_HEIGHT);
+        countryView.setLayoutX(layoutX);
+        countryView.setLayoutY(layoutY);
+        if (null != country) { //
 
-    public void createCountry(double cursorX, double cursorY) {
-        Country country = new Country(cursorX, cursorY);
-        pane_main_map.getChildren().add(country);
-    }
-
-    class Country extends AnchorPane {
-        public Country(double cursorX, double cursorY) {
-            setPrefSize(COUNTRY_WIDTH, COUNTRY_HEIGHT);
-            setLayoutX(cursorX - COUNTRY_WIDTH/2);
-            setLayoutY(cursorY - COUNTRY_HEIGHT/2);
-            setStyle("-fx-background-color: red");
         }
+        countryViews.put(countryView.getCountryViewId(), countryView);
+        mapRootPane.getChildren().add(countryView);
+        return countryView;
     }
+
+    /**
+     * Loading existing RISK map file phase
+     * Called by Country object
+     * Create the corresponding CountryView Observer object and return it
+     * @param country The Country object which needs a CountryView Observer
+     */
+    public CountryView loadCountry(Country country) {
+        // TODO: following four lines code could be removed when there are
+        // TODO: exist proper getter functions in Country object
+        int layoutX = 0;
+        int layoutY = 0;
+//        layoutX = country.getX();
+//        layoutY =  country.getY();
+        return createCountryView(layoutX, layoutY, country);
+
+
+    }
+
+
 }
