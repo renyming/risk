@@ -28,16 +28,29 @@ public class Country extends Observable {
      * Constructor of Country
      * @param name The name of new country
      * @param continent The continent it belongs to
-     * @param adjList The list of adjacent countries to current country
      */
-    public Country(String name, Continent continent, ArrayList<Country> adjList){
+    public Country(String name, Continent continent){
         this.name=name;
         this.ID=++cID;
         this.continent=continent;
         this.player=null;
         this.armies =0;
-        this.adjCountries=new ArrayList<>(adjList);
+        this.adjCountries=new ArrayList<>();
     }
+
+    /**
+     * Add an adjacent country to the adjacent list
+     * @param country Country that is adjacent to this country
+     */
+    public void addEdge(Country country){
+        adjCountries.add(country);
+    }
+
+    /**
+     * Getter for country ID
+     * @return Country ID
+     */
+    public int getID(){ return ID; }
 
     /**
     * Getter to get the continent it belongs to
@@ -56,8 +69,8 @@ public class Country extends Observable {
     }
 
     /**
-     * set army
-     * @param armies
+     * Overall handler for the change of armies, will call observers
+     * @param armies Number of armies to set to
      */
     private void setArmies(int armies){
         this.armies=armies;
@@ -65,27 +78,31 @@ public class Country extends Observable {
     }
 
     /**
-     * @return the name
+     * Getter for country name
+     * @return The name of country
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @param name  the name to set
+     * Setter for country name(for which situation?)
+     * @param name The name to set to
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * @param isProcessed the flat to validate map connection
+     * Mark for processed node in map validation
+     * @param isProcessed The flag to validate map connection
      */
     public void setProcessed(boolean isProcessed) {
         this.isProcessed = isProcessed;
     }
 
     /**
+     * Getter for processed flag
      * @return the isProcessed
      */
     public boolean isProcessed() {
@@ -170,7 +187,8 @@ public class Country extends Observable {
     }
 
     /**
-     * @return the adjacentCountries list
+     * Getter for adjacent list of countries
+     * @return The adjacentCountries list
      */
     public ArrayList<Country> getAdjCountries() {
         return adjCountries;
