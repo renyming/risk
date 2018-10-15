@@ -39,8 +39,7 @@ public class Country extends Observable {
 
     /**
     * Getter to get the continent it belongs to
-    * @Param:  None
-    * @return:  continent
+    * @return  continent
     */
     public Continent getContinent() {
         return continent;
@@ -70,8 +69,8 @@ public class Country extends Observable {
 
     /** 
     * Verify if they are the same country according the ID
-    * @Param:  c Country need to be compared
-    * @return:  true same country, false different country
+    * @param  c Country need to be compared
+    * @return  true same country, false different country
     */ 
     public boolean equals(Country c) {
         return ID == c.ID? true : false;
@@ -125,7 +124,7 @@ public class Country extends Observable {
      * Move some number of armies from one country to another (fortification phase)
      * @param targetCountry The country receives the armies
      * @param armies Number of armies on moving
-     * @return
+     * @return false
      */
     public boolean moveArmiesTo(Country targetCountry, int armies){
         if (!adjList.contains(targetCountry) || getArmies()<armies)
