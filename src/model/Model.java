@@ -22,6 +22,7 @@ public class Model extends Observable {
     private ArrayList<Country> countries;
     private ArrayList<Continent> continents;
 
+    
     /**
      * ctor for Model
      */
