@@ -1,27 +1,34 @@
-package model;
+package testModel;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class UserTest {
+public class PlayerTest {
 
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
     }
 
-    @org.junit.Test
+    @Test
+    public void getID() {
+    }
+
+    @Test
     public void getName() {
     }
 
-    @org.junit.Test
+    @Test
     public void getArmies() {
     }
 
-    @org.junit.Test
+    @Test
     public void getCountriesOwned() {
     }
 }
