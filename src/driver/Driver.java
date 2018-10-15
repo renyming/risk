@@ -14,7 +14,10 @@ public class Driver extends Application {
         model = new Model();
         view = new View();
         model.addObserver(view);
-        view.start();
+
+        // initialize something here;
+
+        view.showMenuStage(); // display the game menu
     }
 
     /**
