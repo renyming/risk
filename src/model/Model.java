@@ -3,6 +3,11 @@ package model;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Define Observable class
+ * ...
+ */
+
 public class Model extends Observable {
     private List<Continent> continents;
 
@@ -20,4 +25,7 @@ public class Model extends Observable {
         setChanged();
         notifyObservers();
     }
+
+
+
 }
