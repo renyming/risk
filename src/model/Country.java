@@ -1,10 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Observable;
+
 /**
  * Define class of a country
  * The following is only base code, further features need to be added
+ *
+ * Note:
+ *      1. No arg in notifyObservers() call because view will refresh all the elements on "Country" node;
  */
-public class Country {
+public class Country extends Observable {
 
     //Unique ID for each country, starts from 1
     private int ID;
@@ -13,19 +19,22 @@ public class Country {
     private String name;
     private Continent continent;
     private Player player;
-    private int cArmy;
+    private int armies;
+    private ArrayList<Country> adjList;
 
     /**
      * Constructor of Country
      * @param name The name of new country
      * @param continent The continent it belongs to
+     * @param adjList The list of adjacent countries to current country
      */
-    public Country(String name, Continent continent){
+    public Country(String name, Continent continent, ArrayList<Country> adjList){
         this.name=name;
         this.ID=++cID;
         this.continent=continent;
         this.player=null;
-        this.cArmy=0;
+        this.armies =0;
+        this.adjList=new ArrayList<>(adjList);
     }
 
     /**
@@ -38,20 +47,93 @@ public class Country {
     }
 
     /**
+     * Getter for number of armies of a country
+     * @return The number of armies of a country
+     */
+    public int getArmies() {
+        return armies;
+    }
+
+    private void setArmies(int armies){
+        this.armies=armies;
+        callObservers();
+    }
+
+    /**
      * Set the ownership of a country to a player
      * @param player The player who owns the country
      */
     public void setPlayer(Player player){
         this.player=player;
+        callObservers();
     }
 
     /** 
-    * Verify if they are the same contry according the ID
-    * @Param:  c contry need to be compared
+    * Verify if they are the same country according the ID
+    * @Param:  c Country need to be compared
     * @return:  true same country, false different country
     */ 
     public boolean equals(Country c) {
         return ID == c.ID? true : false;
+    }
+
+    /**
+     * Add armies to a country
+     * @param armies Number of armies to be added
+     * @return Whether add operation is successful
+     */
+    public boolean addArmies(int armies){
+        //Player doesn't have enough number of armies as specified
+        if (player.getArmies()<armies)
+            return false;
+
+        player.subArmies(armies);
+        setArmies(getArmies()+armies);
+        return true;
+    }
+
+    /**
+     * Attack another country
+     * @param attackedCountry Country being attacked
+     * @return Whether the attack is valid, in another word, whether those two countries are adjacent
+     */
+    public boolean attack(Country attackedCountry){
+        if (!adjList.contains(attackedCountry))
+            return false;
+        //TODO: implement attack phase
+        attackedCountry.beingAttacked(this);
+        return true;
+    }
+
+    /**
+     * Country being attacked
+     * @param attackingCountry Country performs attacking operation
+     */
+    private void beingAttacked(Country attackingCountry){
+        return;
+    }
+
+    /**
+     * Helper method to set change state and notify observers
+     */
+    private void callObservers() {
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * Move some number of armies from one country to another (fortification phase)
+     * @param targetCountry The country receives the armies
+     * @param armies Number of armies on moving
+     * @return
+     */
+    public boolean moveArmiesTo(Country targetCountry, int armies){
+        if (!adjList.contains(targetCountry) || getArmies()<armies)
+            return false;
+
+        this.setArmies(getArmies()-armies);
+        targetCountry.setArmies(targetCountry.getArmies()+armies);
+        return true;
     }
 
 
