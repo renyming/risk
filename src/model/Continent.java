@@ -70,5 +70,13 @@ public class Continent {
         return contries.isEmpty();
     }
 
+    /**
+     * get continent name
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
 
 }
