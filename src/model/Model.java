@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -8,8 +9,27 @@ import java.util.Observable;
  * ...
  */
 
+
 public class Model extends Observable {
-    private List<Continent> continents;
+
+    public enum State {READ_FILE,START_UP,REINFORCEMENT,FORTIFICATION}
+
+    private State currentState;
+    private Player currentPlayer;
+    private int numOfCountries;
+    private int numOfContinents;
+    private ArrayList<Player> players;
+    private ArrayList<Country> countries;
+    private ArrayList<Continent> continents;
+
+    /**
+     * ctor for Model
+     */
+    public Model(){
+        players = new ArrayList<>();
+        countries = new ArrayList<>();
+        continents = new ArrayList<>();
+    }
 
     /**
      * @return the continents list
