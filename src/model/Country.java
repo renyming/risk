@@ -216,14 +216,14 @@ public class Country extends Observable {
      * @param armies Number of armies on moving
      * @return false
      */
-    public boolean moveArmiesTo(Country targetCountry, int armies){
-        if (!adjCountries.contains(targetCountry) || getArmies()<armies || getOwner().isConnected(targetCountry))
-            return false;
-
-        this.setArmies(getArmies()-armies);
-        targetCountry.setArmies(targetCountry.getArmies()+armies);
-        return true;
-    }
+//    public boolean moveArmiesTo(Country targetCountry, int armies){
+//        if (!adjCountries.contains(targetCountry) || getArmies()<armies || getOwner().isConnected(targetCountry))
+//            return false;
+//
+//        this.setArmies(getArmies()-armies);
+//        targetCountry.setArmies(targetCountry.getArmies()+armies);
+//        return true;
+//    }
 
     /**
      * Getter for adjacent list of countries

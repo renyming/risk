@@ -1,10 +1,13 @@
 package model;
 
+import common.Message;
+import common.STATE;
+import view.PlayerView;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 /**
@@ -18,12 +21,16 @@ public class Model extends Observable {
     public enum State {READ_FILE,START_UP,REINFORCEMENT,FORTIFICATION}
 
     private State currentState;
-    private Player currentPlayer;
+    private static Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
     private ArrayList<Country> countries;
     private ArrayList<Continent> continents;
+
+
+
+    private int playerCounter;
 
 
     /**
@@ -37,24 +44,46 @@ public class Model extends Observable {
 
     /**
      * for test purpose
+     * @param
      */
-    public void changeSomething() {
+    public void notify(Message message) {
         setChanged();
-        notifyObservers();
+        notifyObservers(message);
     }
 
-    public void initiatePlayers(int numOfPlayers){
+    public void nextPlayer(){
+        //change current player
+    }
+
+    public void allocateArmy(int countryId){
+        //country army + 1
+        //player army - 1
+
+    }
+
+    public void initiatePlayers(int numOfPlayers, PlayerView playerView){
+
+        playerCounter = numOfPlayers;
+
         for (int i = 0; i < numOfPlayers; i ++){
             Player newPlayer = new Player("Player" + String.valueOf(i));
             players.add(newPlayer);
         }
+
+        //give state
+        //TODO：add observer(playerView)
+
+        //current player notify
+        //all country notify
+
+        Message message = new Message(STATE.START_UP,null);
     }
 
     /**
      * load the map
      * @param filePath The path of the map file
      */
-    public boolean readFile(String filePath)throws IOException {
+    public void readFile(String filePath)throws IOException {
 
         String content = "";
         String line = "";
@@ -70,7 +99,13 @@ public class Model extends Observable {
         for(int i = 2; i < bodies.length; i ++){
             initiateCountries(bodies[i]);
         }
-        return true;
+
+        //if fail
+        Message message = new Message(STATE.LOAD_FILE,false);
+        //if ture
+        message = new Message(STATE.CREATE_OBSERVERS,true);
+
+        notify(message);
     }
 
     /**
@@ -121,6 +156,15 @@ public class Model extends Observable {
             }
             countries.add(newCountry);
         }
+    }
+
+    public void linkCountryObservers(){
+
+        //every country notify
+
+//        Message message = new Message(STATE.PLAYER_NUMBER,null);
+//
+//        notify(message);
     }
 
 
