@@ -13,6 +13,8 @@ public class Continent {
     //Counter to assign unique ID
     private static int cID=0;
     private String name;
+    // additional number of armies given to players when he hold the whole continent
+    private int controlVal;
     //May change ArrayList to other data structure later
     private ArrayList<Country> continent;
 
@@ -20,9 +22,10 @@ public class Continent {
      * Constructor of Continent
      * @param name The name of new continent
      */
-    public Continent(String name){
+    public Continent(String name, int controlVal){
         this.name=name;
         this.ID=++cID;
+        this.controlVal = controlVal;
         continent=new ArrayList<>();
     }
 
@@ -32,6 +35,15 @@ public class Continent {
      */
     public void addCountry(Country country){
         continent.add(country);
+    }
+
+    /**
+    * Get the controlVal
+    * @Param:  None
+    * @return:  controlVal
+    */
+    public int getControlVal() {
+        return controlVal;
     }
 
     /**

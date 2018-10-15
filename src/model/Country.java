@@ -29,11 +29,29 @@ public class Country {
     }
 
     /**
+    * Getter to get the continent it belongs to
+    * @Param:  None
+    * @return:  continent
+    */
+    public Continent getContinent() {
+        return continent;
+    }
+
+    /**
      * Set the ownership of a country to a player
      * @param player The player who owns the country
      */
     public void setPlayer(Player player){
         this.player=player;
+    }
+
+    /** 
+    * Verify if they are the same contry according the ID
+    * @Param:  c contry need to be compared
+    * @return:  true same country, false different country
+    */ 
+    public boolean equals(Country c) {
+        return ID == c.ID? true : false;
     }
 
 
