@@ -21,6 +21,7 @@ public class Continent {
     /**
      * Constructor of Continent
      * @param name The name of new continent
+     * @param controlVal Additional number of armies given to players when he hold the whole continent
      */
     public Continent(String name, int controlVal){
         this.name=name;
@@ -75,6 +76,19 @@ public class Continent {
      */
     public boolean isEmpty(){
         return contries.isEmpty();
+    }
+
+    /**
+    * verify if two continent is same continent
+    * @Param  c continent need to be compare
+    * @return  true same continent, false  different continent
+    */
+    public boolean equals(Continent c) {
+
+        if (this.name.equals(c.name)) {
+            return true;
+        }
+        return false;
     }
 
 
