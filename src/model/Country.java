@@ -44,6 +44,19 @@ public class Country extends Observable {
     }
 
     /**
+     * Constructor of Country
+     * @param name The name of new country
+     */
+    public Country(String name){
+        this.name=name;
+        this.ID=++cID;
+        this.player=null;
+        this.armies =0;
+        this.adjCountries=new ArrayList<>();
+        this.isProcessed = false;
+    }
+
+    /**
      * Add an adjacent country to the adjacent list
      * @param country Country that is adjacent to this country
      */
@@ -64,11 +77,19 @@ public class Country extends Observable {
     public Player getOwner() {return player;}
 
     /**
-    * Getter to get the continent it belongs to
+    * Getter for the continent it belongs to
     * @return  continent
     */
     public Continent getContinent() {
         return continent;
+    }
+
+    /**
+     * Setter for belonging continent
+     * @param continent The continent country belongs to
+     */
+    public void setContinent(Continent continent){
+        this.continent = continent;
     }
 
     /**

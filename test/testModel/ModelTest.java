@@ -49,27 +49,31 @@ public class ModelTest {
         thailand.addEdge(china);
         singapore.addEdge(china);
 
-        newModel1.getCountries().put(china.getId(), china);
+        newModel1.getCountries().put(china.getName(), china);
 
         china.setPlayer(p);
         china.setArmies(5);
     }
 
-//    @Test
-//    public void testReadFile() throws IOException {
-//
-//        Model testedModel = new Model();
-//        testedModel.readFile("Aden.map");
-//        assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
-//        assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
-//        assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
-//
-//
-//        for(int i = 0; i < newModel1.getContinents().size(); i ++){
-//            assertTrue(newModel1.getContinents().get(i).equals(testedModel.getContinents().get(i)));
-//        }
-//        //assertEquals(16, testedModel.getCountries().size());
-//    }
+    @Test
+    public void testReadFile() throws IOException {
+
+        Model testedModel = new Model();
+        testedModel.readFile("Aden.map");
+        assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
+        assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
+        assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
+
+
+        for(int i = 0; i < newModel1.getContinents().size(); i ++){
+            assertTrue(newModel1.getContinents().get(i).equals(testedModel.getContinents().get(i)));
+        }
+
+        assertEquals(42, testedModel.getCountries().size());
+        assertEquals("Queensbasin", testedModel.getCountries().get("Quandry").getContinent().getName());
+        assertEquals(7, testedModel.getCountries().get("Rand").getAdjCountries().size());
+        assertEquals(376, (int)testedModel.getCountries().get("Quintess").getY());
+    }
 
     @Test
     public void testAllocateArmy() {
@@ -77,7 +81,7 @@ public class ModelTest {
         int armiesC = 6;
         int armiesP = 6;
 
-        newModel1.allocateArmy(china.getId());
+        newModel1.allocateArmy(china.getName());
 
         assertEquals(armiesC, china.getArmies());
         assertEquals(armiesP, p.getArmies());

@@ -142,7 +142,9 @@ public class Model extends Observable {
     }
 
     /**
-     * load the map
+     * load the map from a player chose map file
+     * initiate continents,countries and players
+     * notify View
      * @param filePath The path of the map file
      */
     public void readFile(String filePath)throws IOException {
@@ -161,12 +163,10 @@ public class Model extends Observable {
         for(int i = 2; i < bodies.length; i ++){
             initiateCountries(bodies[i]);
         }
-
         //if fail
         Message message = new Message(STATE.LOAD_FILE,false);
         //if ture
         message = new Message(STATE.CREATE_OBSERVERS,countries.size());
-
         notify(message);
     }
 
@@ -188,7 +188,7 @@ public class Model extends Observable {
     }
 
     /**
-     * initiate countries
+     * initiate countries and all the neighbours
      * @param countriesList The list of countries
      */
     private void initiateCountries(String countriesList){
@@ -206,21 +206,35 @@ public class Model extends Observable {
                     indexOfContinent = i;
                 }
             }
-            Country newCountry = new Country(contents[0], continents.get(indexOfContinent));
-            newCountry.setX(contents[1]);
-            newCountry.setY(contents[2]);
+            //current country does not exist in the map
+            if(!countries.containsKey(contents[0])){
+                Country newCountry = new Country(contents[0]);
+                countries.put(contents[0],newCountry);
+            }
+            countries.get(contents[0]).setX(contents[1]);
+            countries.get(contents[0]).setY(contents[2]);
+            countries.get(contents[0]).setContinent(continents.get(indexOfContinent));
 
+            //no adjacent neighbour
             if(contents.length <= 4)
                 break;
 
             for(int i = 4; i < contents.length; i ++){
-
+                //neighbour country does not exist in the map
+                if(!countries.containsKey(contents[i])){
+                    Country newCountry = new Country(contents[i]);
+                    countries.put(contents[i],newCountry);
+                }
+                //add neighbours to current country
+                countries.get(contents[0]).addEdge(countries.get(contents[i]));
             }
-            //countries.add(newCountry);
         }
     }
 
-    public void linkCountryObservers(){
+    /**
+     *
+     */
+    public void linkCountryObservers(HashMap<Integer,CountryView>){
 
         //every country notify
 
