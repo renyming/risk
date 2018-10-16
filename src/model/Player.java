@@ -15,7 +15,8 @@ public class Player extends Observable {
     private String name;
     private int armies;
     private ArrayList<Country> countriesOwned;
-    private String color;
+    private String color = "#4B0082";
+
 
     /**
      * Constructor of player
