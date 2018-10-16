@@ -18,18 +18,13 @@ import java.util.Observable;
 
 public class Model extends Observable {
 
-    public enum State {READ_FILE,START_UP,REINFORCEMENT,FORTIFICATION}
-
-    private State currentState;
     private static Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
     private ArrayList<Country> countries;
     private ArrayList<Continent> continents;
-
-
-
+    
     private int playerCounter;
 
 
