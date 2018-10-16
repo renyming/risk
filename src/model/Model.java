@@ -160,7 +160,7 @@ public class Model extends Observable {
 
             //add observer(playerView)
             newPlayer.addObserver(playerView);
-
+            newPlayer.callObservers();
             players.add(newPlayer);
         }
 
