@@ -235,19 +235,11 @@ public class Country extends Observable {
     }
 
     /**
-     * Move some number of armies from one country to another (fortification phase)
-     * @param targetCountry The country receives the armies
-     * @param armies Number of armies on moving
-     * @return false
+     * Test if two countries are adjacent
+     * @param country The country to be tested
+     * @return true-The country passed in argument is adjacent with current country, otherwise false
      */
-//    public boolean moveArmiesTo(Country targetCountry, int armies){
-//        if (!adjCountries.contains(targetCountry) || getArmies()<armies || getOwner().isConnected(targetCountry))
-//            return false;
-//
-//        this.setArmies(getArmies()-armies);
-//        targetCountry.setArmies(targetCountry.getArmies()+armies);
-//        return true;
-//    }
+    public boolean isAdjacent(Country country) {return adjCountries.contains(country);};
 
     /**
      * Getter for adjacent list of countries

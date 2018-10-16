@@ -58,9 +58,21 @@ public class Model extends Observable {
         notifyObservers(message);
     }
 
-    // TODO
-    public void fortification(String country1, String country2, int armyNumber){
-        //if success
+    /**
+     * Method for fortification operation
+     * @param source The country moves out army
+     * @param target The country receives out army
+     * @param armyNumber Number of armies to move
+     */
+    public void fortification(Country source, Country target, int armyNumber){
+        //return no response to view if source country's army number is less than the number of armies on moving,
+        //or the source and target countries aren't connected through the same player's countries
+        if(source.getArmies()<armyNumber || source.getOwner().isConnected(source,target))
+            return;
+
+        source.setArmies(source.getArmies()-armyNumber);
+        target.setArmies(target.getArmies()+armyNumber);
+
         Message message = new Message(STATE.NEXT_PLAYER,null);
         notify(message);
 
@@ -70,40 +82,64 @@ public class Model extends Observable {
      * attack phase method
      */
     public void attack(){
-        //TODO: NEED TO IMPLEMENT NEXT PHASE
+        //TODO: NEED TO IMPLEMENT IN NEXT BUILD
     }
 
     /**
-     *  Set new current player
-     *  Add armies to the plaer
+     * Reinforcement phase
+     * Set new current player
+     * Add armies to the player
      */
     public void reinforcement(){
-        nextPlayer();
+        //get armies for each round
         currentPlayer.addRoundArmies();
+        //As the first step of each round, notify the change of current player to view
+        currentPlayer.notifyObservers();
+
+        //View already in ROUND_ROBIN state, then it finds out there's allocatable armies of this player, it will
+        //show the "Allocate Armies" button
     }
 
-    // TODO
+    /**
+     * Set current player to the next one according in round robin fashion
+     * If a new round starts from the next player, send ROUND_ROBIN STATE to view
+     * Considerations:
+     * 1. When allocate armies at start up phase, when the last player finishes army allocation, this method tells view
+     * round robin starts;
+     * 2. In round robin, when the last player finishes fortification phase, this method tells view round robin starts
+     * again, meanwhile change current player to the first player
+     */
     public void nextPlayer(){
-        //change current player
-
-        //if playercounter == 0
-        Message message = new Message(STATE.REINFORCEMENT,null);
-        notify(message);
+        int currentId=currentPlayer.getId();
+        int numPlayer=getNumOfPlayer();
+        //wraps around the bounds of ID
+        int nextId=(currentId%numPlayer+numPlayer)%numPlayer;
+        //The next player is the first player, current round ended, send STATE message
+        if (nextId==1) {
+            Message message = new Message(STATE.ROUND_ROBIN, null);
+            notify(message);
+        }
     }
 
+    /**
+     * Getter for player number
+     * @return Number of players
+     */
+    public int getNumOfPlayer() {
+        return players.size();
+    }
 
     /**
      * allocate one army in a specific counry
-     * @param countryName country name
+     * @param country Country reference
      */
-    public void allocateArmy(String countryName){
+    public void allocateArmy(Country country){
 
         //country army + 1
-        Country c = countries.get(countryName);
-        c.addArmies(1);
+        country.addArmies(1);
 
         //player army - 1
-        c.getOwner().subArmies(1);
+        country.getOwner().subArmies(1);
 
     }
 
