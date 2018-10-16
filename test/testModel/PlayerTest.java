@@ -13,6 +13,9 @@ import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test Player class
+ */
 public class PlayerTest {
 
     public static Continent asien;
@@ -29,6 +32,9 @@ public class PlayerTest {
     private Player player;
 
     @BeforeClass
+    /**
+     * Preparation before all this method
+     */
     public static void before() throws Exception{
 
 
@@ -62,6 +68,9 @@ public class PlayerTest {
     }
 
     @Before
+    /**
+     * Each time invoke method, do this preparation
+     */
     public void setUp() throws Exception {
 
         newPlayer = new Player("Lee");
@@ -78,6 +87,9 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test addInitArmies() method
+     */
     public void addInitArmies() {
 
         int num = 15;
@@ -86,6 +98,9 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test addRoundArmies() method
+     */
     public void addRoundArmies() {
         int num = 17;
         player.addRoundArmies();
@@ -93,6 +108,9 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test subArmies() method
+     */
     public void subArmies() {
         int num = 9;
         int subnum = 1;
@@ -101,12 +119,18 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test isEmptyArmy() method
+     */
     public void isEmptyArmy() {
         assertTrue(newPlayer.isEmptyArmy());
         assertFalse(player.isEmptyArmy());
     }
 
     @Test
+    /**
+     * Test addCountry() method
+     */
     public void addCountry() {
         Country[] correct = {singapore, canada, usa, china};
 
@@ -118,6 +142,9 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test delCountry() method
+     */
     public void delCountry() {
 
         Country[] correct = {singapore, canada};
@@ -130,6 +157,9 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test isContain() method
+     */
     public void isContain() {
 
         assertTrue(player.isContain(usa));
@@ -137,6 +167,9 @@ public class PlayerTest {
     }
 
     @Test
+    /**
+     * Test isConnected() method
+     */
     public void isConnected() {
 
         assertTrue(player.isConnected(canada, usa));

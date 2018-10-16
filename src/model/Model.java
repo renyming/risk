@@ -24,11 +24,8 @@ public class Model extends Observable {
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
-
     private HashMap<String,Country> countries;
-
     private ArrayList<Continent> continents;
-
     private int playerCounter;
 
 
@@ -110,12 +107,12 @@ public class Model extends Observable {
      * again, meanwhile change current player to the first player
      */
     public void nextPlayer(){
-        int currentId=currentPlayer.getId();
-        int numPlayer=getNumOfPlayer();
+        int currentId = currentPlayer.getId();
+        int numPlayer = getNumOfPlayer();
         //wraps around the bounds of ID
-        int nextId=(currentId%numPlayer+numPlayer)%numPlayer;
+        int nextId = (currentId%numPlayer+numPlayer)%numPlayer;
         //The next player is the first player, current round ended, send STATE message
-        if (nextId==1) {
+        if (nextId == 1) {
             Message message = new Message(STATE.ROUND_ROBIN, null);
             notify(message);
         }
@@ -253,7 +250,7 @@ public class Model extends Observable {
             countries.get(contents[0]).setContinent(continents.get(indexOfContinent));
 
             //no adjacent neighbour
-            if(contents.length <= 4)
+            if(contents.length <=  4)
                 break;
 
             for(int i = 4; i < contents.length; i ++){

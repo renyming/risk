@@ -15,7 +15,7 @@ public class Country extends Observable {
     //Unique ID for each country, starts from 1
     private int ID;
     //Counter to assign unique ID
-    private static int cID=0;
+    private static int cID = 0;
     private String name;
     private Continent continent;
     private Player player;
@@ -33,13 +33,13 @@ public class Country extends Observable {
      * @param continent The continent it belongs to
      */
     public Country(String name, Continent continent){
-        this.name=name;
-        this.ID=++cID;
-        this.continent=continent;
-        this.player=null;
-        this.armies =0;
-        this.adjCountries=new ArrayList<>();
-        this.isProcessed = false;
+        this.name = name;
+        this.ID = ++cID;
+        this.continent = continent;
+        this.player = null;
+        this.armies  = 0;
+        this.adjCountries = new ArrayList<>();
+        this.isProcessed  =  false;
 
     }
 
@@ -48,12 +48,12 @@ public class Country extends Observable {
      * @param name The name of new country
      */
     public Country(String name){
-        this.name=name;
-        this.ID=++cID;
-        this.player=null;
-        this.armies =0;
-        this.adjCountries=new ArrayList<>();
-        this.isProcessed = false;
+        this.name = name;
+        this.ID = ++cID;
+        this.player = null;
+        this.armies  = 0;
+        this.adjCountries = new ArrayList<>();
+        this.isProcessed  =  false;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Country extends Observable {
      * @param continent The continent country belongs to
      */
     public void setContinent(Continent continent){
-        this.continent = continent;
+        this.continent  =  continent;
     }
 
     /**
@@ -106,7 +106,7 @@ public class Country extends Observable {
      * @param armies Number of armies to set to
      */
     public void setArmies(int armies){
-        this.armies=armies;
+        this.armies = armies;
         callObservers();
     }
 
@@ -123,7 +123,7 @@ public class Country extends Observable {
      * @param name The name to set to
      */
     public void setName(String name) {
-        this.name = name;
+        this.name  =  name;
     }
 
     /**
@@ -147,7 +147,7 @@ public class Country extends Observable {
      * @param player The player who owns the country
      */
     public void setPlayer(Player player){
-        this.player=player;
+        this.player = player;
         callObservers();
     }
 
@@ -164,7 +164,7 @@ public class Country extends Observable {
      * @param y The y position of the country
      */
     public void setY(String y){
-        this.y = Double.parseDouble(y);
+        this.y  =  Double.parseDouble(y);
     }
 
     /**
@@ -180,7 +180,7 @@ public class Country extends Observable {
      * @param x The x position of the country
      */
     public void setX(String x){
-        this.x = Double.parseDouble(x);
+        this.x  =  Double.parseDouble(x);
     }
 
     /** 

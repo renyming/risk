@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test Model class
+ */
 public class ContinentTest {
 
     private Continent asian;
@@ -18,6 +21,9 @@ public class ContinentTest {
     public Country singapore;
 
     @Before
+    /**
+     * Each time invoke a method, set this info
+     */
     public void setUp() throws Exception {
 
         asian = new Continent("Asian", 5);
@@ -27,6 +33,9 @@ public class ContinentTest {
     }
 
     @Test
+    /**
+     * Test addCountry() method
+     */
     public void addCountry() {
         ArrayList<Country> correct = new ArrayList<Country>();
         correct.add(china);
@@ -43,6 +52,9 @@ public class ContinentTest {
     }
 
     @Test
+    /**
+     * Test getSize() method
+     */
     public void getSize() {
         int correct = 3;
         asian.addCountry(china);
@@ -53,6 +65,9 @@ public class ContinentTest {
     }
 
     @Test
+    /**
+     * Test isEmpty() method
+     */
     public void isEmpty() {
 
         assertTrue(asian.isEmpty());

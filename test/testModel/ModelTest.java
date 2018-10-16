@@ -12,6 +12,9 @@ import view.PlayerView;
 
 import java.io.IOException;
 
+/**
+ * Test Model class
+ */
 public class ModelTest {
 
     public static Model newModel1;
@@ -24,6 +27,9 @@ public class ModelTest {
     public static Player p;
 
     @BeforeClass
+    /**
+     * Preparation before all this method
+     */
     public static void beforeClass(){
 
         newModel1 = new Model();
@@ -56,6 +62,9 @@ public class ModelTest {
     }
 
     @Test
+    /**
+     * Test readFile() method
+     */
     public void testReadFile() throws IOException {
 
         Model testedModel = new Model();
@@ -76,6 +85,9 @@ public class ModelTest {
     }
 
     @Test
+    /**
+     * Test allocateArmy() method
+     */
     public void testAllocateArmy() {
 
         int armiesC = 6;
@@ -88,6 +100,9 @@ public class ModelTest {
     }
 
     @Test
+    /**
+     * Test initiatePlayers() method
+     */
     public void testInitiatePlayers() {
 
         PlayerView playerView = new PlayerView();

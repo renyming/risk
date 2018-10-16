@@ -19,7 +19,6 @@ public class Player extends Observable {
 
     /**
      * Constructor of player
-     * @param 
      */
     public Player(String name){
         this.Id=++cId;
@@ -46,7 +45,6 @@ public class Player extends Observable {
 
     /**
     * Getter to get Id
-    * @Param  
     * @return Id of the player
     */ 
     public int getId() {
@@ -55,7 +53,6 @@ public class Player extends Observable {
 
     /**
      * Getter to get name
-     * @Param  None
      * @return  player's name
      */
     public String getName() {
@@ -64,7 +61,6 @@ public class Player extends Observable {
 
     /**
      * Getter to get the number of armies
-     * @Param  None
      * @return The number of armies that the player has currently
      */
     public int getArmies() {
@@ -73,7 +69,6 @@ public class Player extends Observable {
 
     /**
      * Getter to get CountriesOwned
-     * @Param  None
      * @return  The list of countries object that the player has currently
      */
     public ArrayList<Country> getCountriesOwned() {
@@ -82,7 +77,7 @@ public class Player extends Observable {
 
     /**
     * set the number of armies
-    * @Param  armies the number of armies
+    * @param  armies the number of armies
     * @return  void
     */
     public void setArmies(int armies) {
@@ -94,8 +89,7 @@ public class Player extends Observable {
 
     /**
     * set the countries owned
-    * @Param  countriesOwned the countries owned
-    * @return  void
+    * @param  countriesOwned the countries owned
     */
     public void setCountriesOwned(ArrayList<Country> countriesOwned) {
         this.countriesOwned = countriesOwned;
@@ -107,8 +101,6 @@ public class Player extends Observable {
     /**
     * add armies in the startup phase, before the first round of allocated armies
     * the initial number of armies is 15
-    * @Param
-    * @return
     */
     public void addInitArmies(){
         setArmies(15);
@@ -117,8 +109,6 @@ public class Player extends Observable {
     /**
     * Add armies in the very first of the reinforcement phase
     * The number of armies added is computed based on the number of countries and cards it has
-    * @Param  None
-    * @return  None
     */
     public void addRoundArmies(){
 
@@ -128,7 +118,6 @@ public class Player extends Observable {
 
     /**
     * Compute the armiesAdded based on the number of countries continent and cards it has
-    * @Param None
     * @return armies need to be added
     */
     private int getArmiesAdded() {
@@ -153,7 +142,6 @@ public class Player extends Observable {
 
     /**
     * Compute the armiesAdded based on the continents it has
-    * @Param
     * @return the number of armies need to be added based on the continents it has
     */
     private int getArmiesAddedFromContinent() {
@@ -190,8 +178,6 @@ public class Player extends Observable {
 
     /**
     * Substract one for armies when allocated army in the initArmy() or the reinforcements phase
-    * @Param None
-    * @return void
     */
     public void subArmies(int num){
 
@@ -201,15 +187,13 @@ public class Player extends Observable {
 
     /**
     * Verify if the armies is empty
-    * @Param  None
     * @return  True if armies == 0, else False
     */
     public boolean isEmptyArmy() { return armies == 0 ? true : false; }
 
     /**
     * Add a country in the countriesOwned list
-    * @Param  c country need to be added
-    * @return  void
+    * @param  c country need to be added
     */
     public void addCountry(Country c){
 
@@ -222,7 +206,7 @@ public class Player extends Observable {
 
     /**
     * Remove a country from the countriesOwned list
-    * @Param  c country need to be deleted
+    * @param  c country need to be deleted
     * @return true delete success, false delete failed
     */
     public boolean delCountry(Country c){
@@ -301,7 +285,6 @@ public class Player extends Observable {
     /**
      * verify if two users is equal
      * @param p Player need to be compare
-     * @return
      */
     public boolean equals(Player p) {
         if (this.getId() == p.getId()) {
