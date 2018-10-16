@@ -81,7 +81,7 @@ public class ModelTest {
         int armiesC = 6;
         int armiesP = 6;
 
-        newModel1.allocateArmy(china.getName());
+        newModel1.allocateArmy(china);
 
         assertEquals(armiesC, china.getArmies());
         assertEquals(armiesP, p.getArmies());
