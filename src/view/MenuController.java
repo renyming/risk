@@ -8,8 +8,6 @@ import javafx.scene.layout.AnchorPane;
 
 public class MenuController {
 
-    public View view;
-
     @FXML private AnchorPane mainMenuPane;
     @FXML private AnchorPane startUpPane;
     @FXML private AnchorPane newGamePane;
@@ -17,31 +15,53 @@ public class MenuController {
     @FXML private Label selectedMapLabel;
     @FXML private Label mapInfoPane;
     @FXML private Button startGameButton;
-    @FXML private Label numPlayerLabel;
-    @FXML private TextField numPlayerTextField;
+    @FXML private Label playerNumInstructionLabel;
+    @FXML private TextField playerNumTextField;
+    @FXML private Label userEnteredPlayNumLabel;
+
+    private View view;
+    private int maxPlayerNum;
+
 
     public void initialize(View view) {
         this.view = view;
         startUpPane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
-        startGameButton.setVisible(false);
-        numPlayerLabel.setVisible(false);
-        numPlayerTextField.setVisible(false);
         switchToStartUpMenu();
 
-//        numPlayerLabel.setOn
+        playerNumTextField.setOnAction((event) -> {
+            playerNumInstructionLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
+            try {
+                int userEnteredPlayerNum = Integer.parseInt(playerNumTextField.getText());
+                userEnteredPlayNumLabel.setVisible(true);
+                userEnteredPlayNumLabel.setText("Total Player: " + userEnteredPlayerNum);
+                if (userEnteredPlayerNum > maxPlayerNum) {
+                    userEnteredPlayNumLabel.setText("Greater than " + maxPlayerNum);
+                    startGameButton.setVisible(false);
+                } else if (userEnteredPlayerNum <= 0) {
+                    userEnteredPlayNumLabel.setText("Must be positive");
+                    startGameButton.setVisible(false);
+                } else {
+                        playerNumInstructionLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
+                        view.initializePlayer(userEnteredPlayerNum);
+                }
+            } catch (Exception e) {
+                userEnteredPlayNumLabel.setText("Enter an integer");
+                startGameButton.setVisible(false);
+            }
+
+        });
     }
 
     public void switchToStartUpMenu() {
+        resetStartUpMenu();
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(startUpPane);
     }
 
     public void switchToNewGameMenu() {
         // TODO: call view to reset selected file?
-        selectedMapLabel.setText("Selected map: NONE");
-        selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
         mapInfoPane.setVisible(false);
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(newGamePane);
@@ -50,6 +70,17 @@ public class MenuController {
     public void switchToQuitMenu() {
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(quitPane);
+    }
+
+    public void resetStartUpMenu() {
+        selectedMapLabel.setText("Selected map: NONE");
+        selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
+        playerNumInstructionLabel.setVisible(false);
+        playerNumInstructionLabel.setStyle("-fx-border-color: yellow; -fx-border-width: 2");
+        playerNumTextField.setVisible(false);
+        playerNumTextField.clear();
+        userEnteredPlayNumLabel.setVisible(false);
+        startGameButton.setVisible(false);
     }
 
     public void quit() { view.closeMenuStage(); }
@@ -71,19 +102,16 @@ public class MenuController {
         }
     }
 
-    public void showNumPlayerTextField(int maxPlayer) {
-        numPlayerLabel.setVisible(false);
-        numPlayerTextField.setVisible(true);
-        numPlayerLabel.setText("Enter number of players, max " + maxPlayer);
+    public void showNumPlayerTextField(int maxPlayerNum) {
+        this.maxPlayerNum = maxPlayerNum;
+        playerNumInstructionLabel.setVisible(true);
+        playerNumTextField.setVisible(true);
+        playerNumInstructionLabel.setStyle("-fx-border-color: yellow; -fx-border-width: 2");
+        playerNumInstructionLabel.setText("Enter number of players, max " + maxPlayerNum);
+        userEnteredPlayNumLabel.setText("Total Player: 10");
     }
 
-    public void enterSomething() {
-        System.out.println("123");
-    }
-
-
-
-//    startGameButton.setVisible(false);
+    public void showStartGameButton() { startGameButton.setVisible(true); }
 
     public void createMap() { view.showMapStage(); }
 

@@ -1,16 +1,39 @@
 package view;
 
+import javafx.scene.control.Label;
+import model.Player;
+
 import java.util.Observable;
 import java.util.Observer;
 
 public class PlayerView implements Observer {
 
+    private View view;
+    private MapController mapController;
+    private Player currentPlayer;
+    private String name;
+    private String color;
+    private int armiesInHands;
 
+    private Label currentPlayerLabel;
+    private Label armiesInHandLabel;
 
-    @Override
-    public void update(Observable o, Object arg) {
-
+    public PlayerView(View view, MapController mapController) {
+        this.view = view;
+        this.mapController = mapController;
+        currentPlayerLabel = mapController.getCurrentPlayerLabel();
+        armiesInHandLabel = mapController.getArimesInHandLabel();
     }
 
-
+    @Override
+    public void update(Observable obs, Object arg) {
+        System.out.println("PlayerView.update: ");
+        if (null == currentPlayer) currentPlayer = (Player) obs;
+        name = currentPlayer.getName();
+        currentPlayerLabel.setText(name);
+        armiesInHands = currentPlayer.getArmies();
+        armiesInHandLabel.setText(Integer.toString(armiesInHands));
+        color = currentPlayer.getColor();
+        currentPlayerLabel.setStyle("-fx-background-color: " + color);
+    }
 }

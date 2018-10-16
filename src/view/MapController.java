@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class MapController {
 
@@ -20,6 +21,14 @@ public class MapController {
     @FXML private AnchorPane mapPane;
     @FXML private Button saveEditedMapButton;
     @FXML private Button backToMenuButton;
+    @FXML private AnchorPane currentPlayerPane;
+    @FXML private Label currentPlayerLabel;
+    @FXML private Label armiesInHandLabel;
+    @FXML private Label reinforceFromLabel;
+    @FXML private Label reinforceFromCountryLabel;
+    @FXML private Label reinforceToLabel;
+    @FXML private Label reinforceToCountryLabel;
+    @FXML private Label phaseLabel;
 
     public void initialize(View view, double newCountryViewWidth, double newCountryViewHeight) {
         this.view = view;
@@ -27,6 +36,10 @@ public class MapController {
         this.countryViewHeight = newCountryViewHeight;
         playerColor = DEFAULT_PLAYER_COLOR;
         continentColor = DEFAULT_CONTINENT_COLOR;
+        reinforceFromLabel.setVisible(false);
+        reinforceFromCountryLabel.setVisible(false);
+        reinforceToLabel.setVisible(false);
+        reinforceToCountryLabel.setVisible(false);
         mapPane.setOnMouseClicked((e) -> {
             if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
                 //TODO: get the player color somehow
@@ -37,9 +50,20 @@ public class MapController {
         });
     }
 
-    public void backToMenu() { view.showMenuStage(); }
+    public void backToMenu() {
+        // TODO: reset all Label, Button,
+        view.showMenuStage();
+    }
+
+    public AnchorPane getCurrentPlayerPane() { return currentPlayerPane; }
 
     public void setPlayerColor(String color) { playerColor = color; }
 
     public void setContinentColor(String color) { continentColor = color; }
+
+    public Label getCurrentPlayerLabel() { return currentPlayerLabel; }
+
+    public Label getArimesInHandLabel() { return armiesInHandLabel; }
+
+    public Label getPhaseLabel() { return phaseLabel; }
 }

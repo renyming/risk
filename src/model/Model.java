@@ -168,7 +168,10 @@ public class Model extends Observable {
         currentPlayer = players.get(0);
         currentPlayer.callObservers();
 
-        //all country notify
+        //notify all countriesView
+        for (String key:countries.keySet()) {
+            countries.get(key).callObservers();
+        }
 
         //give state
         Message message = new Message(STATE.INIT_ARMIES,null);
@@ -198,7 +201,7 @@ public class Model extends Observable {
             initiateCountries(bodies[i]);
         }
         //if fail
-        Message message = new Message(STATE.LOAD_FILE,false);
+        Message message = new Message(STATE.LOAD_FILE,"Why invalid");
         //if ture
         message = new Message(STATE.CREATE_OBSERVERS,countries.size());
         notify(message);
