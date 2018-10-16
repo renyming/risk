@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 
 /**
@@ -22,8 +23,9 @@ public class Model extends Observable {
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
-    // TODO: change the countries structure to HashMap<Integer, Country> contries
-    private ArrayList<Country> countries;
+
+    private HashMap<Integer,Country> countries;
+
     private ArrayList<Continent> continents;
 
     private int playerCounter;
@@ -34,7 +36,7 @@ public class Model extends Observable {
      */
     public Model(){
         players = new ArrayList<>();
-        countries = new ArrayList<>();
+        countries = new HashMap<>();
         continents = new ArrayList<>();
     }
 
@@ -121,9 +123,6 @@ public class Model extends Observable {
         currentPlayer.callObservers();
 
         //all country notify
-        for (Country c : countries) {
-            c.callObservers();
-        }
 
         //give state
         Message message = new Message(STATE.INIT_ARMIES,null);
@@ -205,7 +204,7 @@ public class Model extends Observable {
             for(int i = 4; i < contents.length; i ++){
 
             }
-            countries.add(newCountry);
+            //countries.add(newCountry);
         }
     }
 
@@ -231,7 +230,7 @@ public class Model extends Observable {
      * get country list
      * @return contries list
      */
-    public ArrayList<Country> getCountries(){
+    public HashMap<Integer, Country> getCountries(){
         return countries;
     }
 
