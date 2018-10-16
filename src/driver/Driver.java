@@ -19,6 +19,7 @@ public class Driver extends Application {
         model = new Model();
         view = new View();
         model.addObserver(view);
+        view.setModel(model); // No big controller, so View directly guides Model what to do next
 
         view.showMenuStage();
     }

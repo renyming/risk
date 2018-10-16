@@ -7,8 +7,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Country;
 import controller.Controller;
+import model.Model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,6 +20,7 @@ public class View implements Observer {
     public final double COUNTRY_WIDTH = 70;
     public final double COUNTRY_HEIGHT = 70;
 
+    private Model model;
     private Controller controller;
 
     private MenuController menuController;
@@ -47,6 +50,8 @@ public class View implements Observer {
         mapStage.setTitle("Risk Game");
         mapStage.setScene(new Scene(mapRootPane));
     }
+
+    public void setModel(Model model) { this.model = model; }
 
     public void update(Observable obs, Object x) {
         // TODO: get obs new state info, i.e., new CountryView state
@@ -79,9 +84,13 @@ public class View implements Observer {
         fileChooser.setTitle("Select Risk Map File");
         File riskMapFile = fileChooser.showOpenDialog(menuStage);
         if (null != riskMapFile && riskMapFile.exists()) {
-            // TODO: ask model to valid the file format，get info
-//            validFile = model.checkMapFileValid(riskMapFile.getName())*/;
-            // TODO: what should I do here?
+            try {
+                model.readFile(riskMapFile.getPath());
+            } catch (IOException e) {
+                System.out.println("View selectMap(): " + e.getMessage());
+            }
+
+            // TODO: move to update
             validFile = true;
             String additional_info = "This is additional info";
             menuController.setMapName(riskMapFile.getName(), validFile);
@@ -106,7 +115,6 @@ public class View implements Observer {
         }
         countryViews.put(countryView.getId(), countryView);
         mapRootPane.getChildren().add(countryView.getCountryPane());
-        System.out.println(countryViews.size());
         return countryView;
     }
 
@@ -129,6 +137,5 @@ public class View implements Observer {
     public void removeCountryView(CountryView countryView) {
         mapRootPane.getChildren().remove(countryView.getCountryPane());
         countryViews.remove(countryView.getId());
-        System.out.println(countryViews.size());
     }
 }
