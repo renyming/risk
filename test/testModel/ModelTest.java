@@ -1,17 +1,27 @@
 package testModel;
 
 import model.Continent;
+import model.Country;
 import model.Model;
 import static org.junit.Assert.*;
 
+import model.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import view.PlayerView;
 
 import java.io.IOException;
 
 public class ModelTest {
 
     public static Model newModel1;
+
+    public static Continent asien;
+    public static Country china;
+    public static Country thailand;
+    public static Country singapore;
+
+    public static Player p;
 
     @BeforeClass
     public static void beforeClass(){
@@ -26,21 +36,65 @@ public class ModelTest {
         newModel1.getContinents().add(new Continent("Queensbasin",5));
         newModel1.getContinents().add(new Continent("Republic of Cranberra",4));
 
+        asien = new Continent("Asian", 5);
+        p = new Player("Lee");
+        p.setArmies(7);
+
+        china = new Country("china", asien);
+        thailand = new Country("thailand", asien);
+        singapore = new Country("singapore", asien);
+
+        china.addEdge(thailand);
+        china.addEdge(singapore);
+        thailand.addEdge(china);
+        singapore.addEdge(china);
+
+        newModel1.getCountries().put(china.getId(), china);
+
+        china.setPlayer(p);
+        china.setArmies(5);
+    }
+
+//    @Test
+//    public void testReadFile() throws IOException {
+//
+//        Model testedModel = new Model();
+//        testedModel.readFile("Aden.map");
+//        assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
+//        assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
+//        assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
+//
+//
+//        for(int i = 0; i < newModel1.getContinents().size(); i ++){
+//            assertTrue(newModel1.getContinents().get(i).equals(testedModel.getContinents().get(i)));
+//        }
+//        //assertEquals(16, testedModel.getCountries().size());
+//    }
+
+    @Test
+    public void testAllocateArmy() {
+
+        int armiesC = 6;
+        int armiesP = 6;
+
+        newModel1.allocateArmy(china.getId());
+
+        assertEquals(armiesC, china.getArmies());
+        assertEquals(armiesP, p.getArmies());
     }
 
     @Test
-    public void testReadFile() throws IOException {
+    public void testInitiatePlayers() {
 
-        Model testedModel = new Model();
-        testedModel.readFile("Aden.map");
-        assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
-        assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
-        assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
+        PlayerView playerView = new PlayerView();
 
+        int num = 4;
 
-        for(int i = 0; i < newModel1.getContinents().size(); i ++){
-            assertTrue(newModel1.getContinents().get(i).equals(testedModel.getContinents().get(i)));
-        }
-        //assertEquals(16, testedModel.getCountries().size());
+        newModel1.initiatePlayers(4, playerView);
+
+        assertEquals(num, newModel1.getPlayers().size());
+        assertEquals(newModel1.getPlayers().get(0), newModel1.getCurrentPlayer());
     }
+
+
 }

@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * Define class of a player
@@ -11,10 +8,10 @@ import java.util.Observable;
  */
 public class Player extends Observable {
 
-    //Unique ID for each player, starts from 1
-    private int ID;
-    //Counter to assign unique ID
-    private static int cID=0;
+    //Unique Id for each player, starts from 1
+    private int Id;
+    //Counter to assign unique Id
+    private static int cId=0;
     private String name;
     private int armies;
     private ArrayList<Country> countriesOwned;
@@ -22,11 +19,11 @@ public class Player extends Observable {
 
     /**
      * Constructor of player
-     * @param name The name of new player
+     * @param 
      */
     public Player(String name){
-        this.name=name;
-        this.ID=++cID;
+        this.Id=++cId;
+        this.name= name;
         armies = 0;
         countriesOwned = new ArrayList<>();
     }
@@ -48,12 +45,12 @@ public class Player extends Observable {
     }
 
     /**
-    * Getter to get ID
+    * Getter to get Id
     * @Param  
-    * @return ID of the player
+    * @return Id of the player
     */ 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return Id;
     }
 
     /**
@@ -252,5 +249,64 @@ public class Player extends Observable {
         notifyObservers();
     }
 
+    public boolean isContain(Country c) {
 
+        for (Country each : countriesOwned) {
+            if (c.equals(each)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isConnected(Country start, Country end) {
+
+        // if doesn't contain both of countries
+        if (!isContain(start) || !isContain(end)) {
+            return false;
+        }
+
+        //both contain, BFS find a path
+        for (Country c : countriesOwned) {
+            if (!c.equals(start)) {
+                c.setProcessed(false);
+            }
+        }
+
+        Queue<Country> queue = new PriorityQueue<Country>();
+        queue.add(start);
+        start.setProcessed(true);
+
+        while (queue.isEmpty() == false) {
+            Country c = queue.poll();
+
+            ArrayList<Country> adjCountries = c.getAdjCountries();
+
+            if ( adjCountries != null && adjCountries.size() != 0) {
+
+                for(Country each : adjCountries) {
+
+                    if (each.equals(end))  return true;
+
+                    if (!each.isProcessed()) {
+                        each.setProcessed(true);
+                        queue.add(each);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * verify if two users is equal
+     * @param p Player need to be compare
+     * @return
+     */
+    public boolean equals(Player p) {
+        if (this.getId() == p.getId()) {
+            return true;
+        }
+        return false;
+    }
 }

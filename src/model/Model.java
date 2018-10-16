@@ -41,6 +41,14 @@ public class Model extends Observable {
     }
 
     /**
+     * get current player
+     * @return current player
+     */
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
      * for test purpose
      * @param
      */
@@ -49,6 +57,7 @@ public class Model extends Observable {
         notifyObservers(message);
     }
 
+    // TODO
     public void fortification(String country1, String country2, int armyNumber){
         //if success
         Message message = new Message(STATE.NEXT_PLAYER,null);
@@ -56,8 +65,11 @@ public class Model extends Observable {
 
     }
 
+    /**
+     * attack phase method
+     */
     public void attack(){
-
+        //TODO: NEED TO IMPLEMENT NEXT PHASE
     }
 
     /**
@@ -69,6 +81,7 @@ public class Model extends Observable {
         currentPlayer.addRoundArmies();
     }
 
+    // TODO
     public void nextPlayer(){
         //change current player
 
@@ -84,7 +97,6 @@ public class Model extends Observable {
      */
     public void allocateArmy(int countryId){
 
-        // TODO: change the countries structure to HashMap<Integer, Country> contries
         //country army + 1
         Country c = countries.get(countryId);
         c.addArmies(1);

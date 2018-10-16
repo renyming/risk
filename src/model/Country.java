@@ -21,9 +21,11 @@ public class Country extends Observable {
     private Player player;
     private int armies;
     private ArrayList<Country> adjCountries;
+    // verify if the country is visited in BFS
     private boolean isProcessed;
     private double x;
     private double y;
+
 
     /**
      * Constructor of Country
@@ -37,6 +39,8 @@ public class Country extends Observable {
         this.player=null;
         this.armies =0;
         this.adjCountries=new ArrayList<>();
+        this.isProcessed = false;
+
     }
 
     /**
@@ -75,11 +79,12 @@ public class Country extends Observable {
         return armies;
     }
 
+
     /**
      * Overall handler for the change of armies, will call observers
      * @param armies Number of armies to set to
      */
-    private void setArmies(int armies){
+    public void setArmies(int armies){
         this.armies=armies;
         callObservers();
     }
