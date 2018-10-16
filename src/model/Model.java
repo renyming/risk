@@ -22,6 +22,7 @@ public class Model extends Observable {
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
+    // TODO: change the countries structure to HashMap<Integer, Country> contries
     private ArrayList<Country> countries;
     private ArrayList<Continent> continents;
     
@@ -57,13 +58,13 @@ public class Model extends Observable {
 
     }
 
-    public void getAddedArmies(){
-
-    }
-
+    /**
+     *  Set new current player
+     *  Add armies to the plaer
+     */
     public void reinforcement(){
         nextPlayer();
-        getAddedArmies();
+        currentPlayer.addRoundArmies();
     }
 
     public void nextPlayer(){
@@ -74,12 +75,32 @@ public class Model extends Observable {
         notify(message);
     }
 
+
+    /**
+     * allocate one army in a specific counry
+     * @param countryId country id
+     */
     public void allocateArmy(int countryId){
+
+        // TODO: change the countries structure to HashMap<Integer, Country> contries
         //country army + 1
+        Country c = countries.get(countryId);
+        c.addArmies(1);
+
         //player army - 1
+        c.getOwner().subArmies(1);
 
     }
 
+    /**
+     * create Player object for every Player, and add the observer
+     * Players are allocated a number of initial armies
+     * notify CountryView (country info
+     * notify PlayerView  (current player)
+     * notify View (state and additional info)
+     * @param numOfPlayers number of players
+     * @param playerView  the observer
+     */
     public void initiatePlayers(int numOfPlayers, PlayerView playerView){
 
         playerCounter = numOfPlayers;
@@ -88,20 +109,25 @@ public class Model extends Observable {
 
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.addInitArmies();
+
+            //add observer(playerView)
             newPlayer.addObserver(playerView);
 
             players.add(newPlayer);
+        }
 
+        //current player notify
+        currentPlayer = players.get(0);
+        currentPlayer.callObservers();
 
+        //all country notify
+        for (Country c : countries) {
+            c.callObservers();
         }
 
         //give state
-        //TODO：add observer(playerView)
-
-        //current player notify
-        //all country notify
-
         Message message = new Message(STATE.INIT_ARMIES,null);
+        notify(message);
     }
 
     /**

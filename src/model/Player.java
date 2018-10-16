@@ -244,5 +244,13 @@ public class Player extends Observable {
         return false;
     }
 
+    /**
+     * Helper method to set change state and notify observers
+     */
+    public void callObservers() {
+        setChanged();
+        notifyObservers();
+    }
+
 
 }
