@@ -56,12 +56,14 @@ public class CountryView implements Observer {
     @Override
     public void update(Observable obj, Object x) {
         System.out.println("CountryView.update(): ");
-        country = (Country) obj;
+        if (null == country) country = (Country) obj;
         Id = country.getId();
         name = country.getName();
         arimes = country.getArmies();
         owner = country.getOwner();
+        System.out.println("owner_color: " + owner.getColor());
         ownerColor = owner.getColor();
+        System.out.println("here_2");
         countryPane.setLayoutX(country.getX());
         countryPane.setLayoutY(country.getY());
     }

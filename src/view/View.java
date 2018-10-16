@@ -19,16 +19,20 @@ public class View implements Observer {
 
     public final double COUNTRY_WIDTH = 70;
     public final double COUNTRY_HEIGHT = 70;
+    public final double GAME_BOARD_WIDTH = 1200;
+    public final double GAME_BOARD_HEIGHT = 700;
 
     private Model model;
-
     private MenuController menuController;
     private MapController mapController;
+    private PlayerView playerView;
+
     private Stage menuStage;
     private Stage mapStage;
     private String selectedFileName;
     private AnchorPane mainMenuPane;
     private AnchorPane mapRootPane;
+    private AnchorPane currentPlayerPane;
     private HashMap<Integer, CountryView> countryViews;
     private HashMap<Integer, LineView> lineViews;
 
@@ -85,16 +89,20 @@ public class View implements Observer {
             case CREATE_OBSERVERS:
                 System.out.println("create Country Observers");
                 menuController.displaySelectedFileName(selectedFileName, true, "Useful info here");
-                for (int i = 0; i < (int) message.obj; ++i) {
+                if (null == countryViews) countryViews = new HashMap<>();
+                for (int i = 1; i <= (int) message.obj; ++i) {
                     countryViews.put(i, createDefaultCountryView(0, 0, "#ff0000", "#0000ff"));
                 }
-                // TODO: let model use the key to add CountryView
-                // TODO: should add countryViews as parameter
-//                model.linkCountryObservers(countryViews);
+                model.linkCountryObservers(countryViews);
                 break;
             case PLAYER_NUMBER:
                 System.out.println("allow user to enter the number of players");
                 menuController.showNumPlayerTextField(countryViews.size());
+                break;
+            case INIT_ARMIES:
+                System.out.println("start up phase begins");
+                mapController.getPhaseLabel().setText("Start Up Phase");
+                menuController.showStartGameButton();
                 break;
         }
     }
@@ -102,6 +110,7 @@ public class View implements Observer {
     public void showMenuStage() {
         mapStage.hide();
         menuStage.show();
+        menuController.resetStartUpMenu();
         // TODO: clear drawing area from previous creation
         if (null != countryViews) countryViews.clear();
         if (null != lineViews) lineViews.clear();
@@ -110,7 +119,7 @@ public class View implements Observer {
     public void showMapStage() {
         menuStage.hide();
         mapStage.show();
-        countryViews = new HashMap<>();
+        if (null == countryViews) countryViews = new HashMap<>();
         lineViews = new HashMap<>();
     }
 
@@ -131,7 +140,6 @@ public class View implements Observer {
             try {
                 selectedFileName = riskMapFile.getName();
                 model.readFile(riskMapFile.getPath());
-                System.out.println("View.selectMap(): file path is " + riskMapFile.getPath());
             } catch (IOException e) {
                 System.out.println("View.selectMap(): " + e.getMessage());
             }
@@ -157,5 +165,10 @@ public class View implements Observer {
     public void removeCountryView(CountryView countryView) {
         countryViews.remove(countryView.getId());
         mapRootPane.getChildren().remove(countryView.getCountryPane());
+    }
+
+    public void initializePlayer(int playerNum) {
+        playerView = new PlayerView(this, mapController);
+        model.initiatePlayers(playerNum, playerView);
     }
 }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuController">
    <children>
@@ -15,13 +16,23 @@
       </AnchorPane>
       <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="200.0">
          <children>
-            <Button layoutX="50.0" layoutY="75.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="100.0" text="Select Map" />
-            <Button layoutX="50.0" layoutY="125.0" mnemonicParsing="false" onAction="#createMap" prefHeight="30.0" prefWidth="100.0" text="Create Map" />
+            <Button layoutX="50.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="100.0" text="Select Map" />
+            <Button layoutX="50.0" layoutY="105.0" mnemonicParsing="false" onAction="#createMap" prefHeight="30.0" prefWidth="100.0" text="Create Map" />
             <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartUpMenu" prefHeight="30.0" prefWidth="50.0" text="Back" />
             <Label fx:id="selectedMapLabel" alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" />
             <Label fx:id="mapInfoPane" alignment="CENTER" layoutY="35.0" prefHeight="30.0" prefWidth="200.0" text="Map info, max player, ext." />
             <Button fx:id="startGameButton" layoutX="86.0" layoutY="256.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="100.0" text="Start Game" />
-            <TextField fx:id="numPlayerTextField" layoutX="14.0" layoutY="191.0" prefHeight="30.0" prefWidth="50.0" />
+            <TextField fx:id="playerNumTextField" layoutX="14.0" layoutY="175.0" prefHeight="30.0" prefWidth="50.0" />
+            <Label fx:id="playerNumInstructionLabel" alignment="CENTER" layoutX="5.0" layoutY="140.0" prefHeight="30.0" prefWidth="190.0" text="Enter number of players, max 10">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="userEnteredPlayNumLabel" alignment="CENTER" layoutX="86.0" layoutY="175.0" prefHeight="30.0" prefWidth="100.0" text="Total player: 10">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="quitPane" prefHeight="300.0" prefWidth="200.0" visible="false">

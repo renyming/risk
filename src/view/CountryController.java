@@ -18,7 +18,7 @@ public class CountryController {
         Text t = new Text ("Stroke and Fill");
         t.setStyle("-fx-background-color: yellow");
         countryNameLabel.setText(name);
-        numArmiesLabel.setText("" + armies);
+        numArmiesLabel.setText(Integer.toString(armies));
         countryNameLabel.setStyle("-fx-background-color: " + continentColor);
         displayArmiesHBox.setStyle("-fx-background-color: " + playerColor);
     }
