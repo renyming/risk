@@ -89,7 +89,7 @@ public class Country extends Observable {
      * @param continent The continent country belongs to
      */
     public void setContinent(Continent continent){
-        this.continent  =  continent;
+        this.continent = continent;
     }
 
     /**
@@ -123,7 +123,7 @@ public class Country extends Observable {
      * @param name The name to set to
      */
     public void setName(String name) {
-        this.name  =  name;
+        this.name = name;
     }
 
     /**
@@ -164,7 +164,7 @@ public class Country extends Observable {
      * @param y The y position of the country
      */
     public void setY(String y){
-        this.y  =  Double.parseDouble(y);
+        this.y = Double.parseDouble(y);
     }
 
     /**
@@ -180,7 +180,7 @@ public class Country extends Observable {
      * @param x The x position of the country
      */
     public void setX(String x){
-        this.x  =  Double.parseDouble(x);
+        this.x = Double.parseDouble(x);
     }
 
     /** 
@@ -199,7 +199,7 @@ public class Country extends Observable {
      */
     public boolean addArmies(int armies){
         //Player doesn't have enough number of armies as specified
-        if (player.getArmies()<armies)
+        if (player.getArmies() < armies)
             return false;
         setArmies(getArmies()+armies);
         return true;
