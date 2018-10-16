@@ -33,9 +33,15 @@ public class PlayerTest {
 
 
         asien = new Continent("Asian", 5);
+
         china = new Country("china", asien);
         thailand = new Country("thailand", asien);
         singapore = new Country("singapore", asien);
+
+        china.addEdge(thailand);
+        china.addEdge(singapore);
+        thailand.addEdge(china);
+        singapore.addEdge(china);
 
 
         asien.addCountry(china);
@@ -43,8 +49,12 @@ public class PlayerTest {
         asien.addCountry(singapore);
 
         northAmerica = new Continent("NorthAmerica", 6);;
+
         canada = new Country("canada", northAmerica);
         usa = new Country("usa", northAmerica);
+
+        canada.addEdge(usa);
+        usa.addEdge(canada);
 
         northAmerica.addCountry(canada);
         northAmerica.addCountry(usa);
@@ -117,6 +127,21 @@ public class PlayerTest {
         Country[] re = player.getCountriesOwned().toArray(new Country[size]);
 
         assertArrayEquals(correct, re);
+    }
+
+    @Test
+    public void isContain() {
+
+        assertTrue(player.isContain(usa));
+        assertFalse(player.isContain(china));
+    }
+
+    @Test
+    public void isConnected() {
+
+        assertTrue(player.isConnected(canada, usa));
+        assertFalse(player.isConnected(canada, singapore));
+        assertFalse(player.isConnected(china, singapore));
     }
 
 }
