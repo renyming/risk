@@ -3,6 +3,7 @@ package model;
 import common.Message;
 import common.STATE;
 import view.PlayerView;
+import view.CountryView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -232,15 +233,20 @@ public class Model extends Observable {
     }
 
     /**
-     *
+     * link every country in the countries with corresponding CountryView
+     * @param countryViewHashMap The CountryView map
      */
-    public void linkCountryObservers(HashMap<Integer,CountryView>){
+    public void linkCountryObservers(HashMap<Integer,CountryView> countryViewHashMap){
 
-        //every country notify
-
-//        Message message = new Message(STATE.PLAYER_NUMBER,null);
-//
-//        notify(message);
+        //link every countryView
+        int id = 1;
+        for (String key:countries.keySet()) {
+            countries.get(key).addObserver(countryViewHashMap.get(id));
+            id ++;
+        }
+        //send next state message
+        Message message = new Message(STATE.PLAYER_NUMBER,null);
+        notify(message);
     }
 
 
