@@ -1,6 +1,5 @@
 package view;
 
-import model.Country;
 import model.Model;
 import common.Message;
 
@@ -70,33 +69,32 @@ public class View implements Observer {
 
     /**
      * Observer update method, allow View to know what to do next
-     * Called when corresponding Model Observable subject calls its notifyObservers() method
+     * Called by corresponding Model Observable subject
      * @param obs Model Observable subject
      * @param x Message object, encapsulated STATE info
      */
     @Override
     public void update(Observable obs, Object x) {
         Message message = (Message) x;
-//        Model model = (Model) obs;
         System.out.print("View.update(): new state is " + message.state + ", ");
         switch (message.state) {
-            case LOAD_FILE:
+            case LOAD_FILE: // TODO: Model should pass some invalid info back
                 System.out.println("tried to load an invalid file, select it again");
                 menuController.displaySelectedFileName(selectedFileName, false, "The invalid reasons");
                 break;
             case CREATE_OBSERVERS:
                 System.out.println("create Country Observers");
                 menuController.displaySelectedFileName(selectedFileName, true, "Useful info here");
-
                 for (int i = 0; i < (int) message.obj; ++i) {
-                    // create default CountryView
-                    createCountryView(0,0);
+                    countryViews.put(i, createDefaultCountryView(0, 0, "#ff0000", "#0000ff"));
                 }
-                model.linkCountryObservers(); // TODO: should add countryViews as parameter
+                // TODO: let model use the key to add CountryView
+                // TODO: should add countryViews as parameter
+//                model.linkCountryObservers(countryViews);
                 break;
             case PLAYER_NUMBER:
                 System.out.println("allow user to enter the number of players");
-                menuController.setNumPlayers();
+                menuController.showNumPlayerTextField(countryViews.size());
                 break;
         }
     }
@@ -142,38 +140,22 @@ public class View implements Observer {
 
     /**
      * Editing map phase / Loading existing RISK map file phase
-     * Called by AnchorPane: mapRootPane if param country is null
-     * Called by loadCountry method if param country is not null
-     * Create a CountryView Observer object
-     * @param layoutX cursor position X relative to the mapRootPane
-     * @param layoutY cursor position Y relative to the mapRootPane
+     * Called by mapRootPane // TODO: may change later
+     * Called by update() for CREATE_OBSERVERS state
+     * Create a Default CountryView Observer object
+     * @param layoutX countryPane left-top corner position X
+     * @param layoutY countryPane left-top corner position Y
      * @return CountryView object, only useful for 'loading existing Risk map file phase'
      */
-    public CountryView createCountryView(double layoutX, double layoutY) {
-        CountryView countryView = new CountryView(this, layoutX, layoutY);
+    public CountryView createDefaultCountryView(double layoutX, double layoutY, String playerColor, String continentColor) {
+        CountryView countryView = new CountryView(this, layoutX, layoutY, playerColor, continentColor);
         countryViews.put(countryView.getId(), countryView);
         mapRootPane.getChildren().add(countryView.getCountryPane());
         return countryView;
     }
 
-    /**
-     * Loading existing RISK map file phase
-     * Called by Country object
-     * Create the corresponding CountryView Observer object and return it
-     * @param country The Country object which needs a CountryView Observer
-     */
-    public CountryView loadCountry(Country country) {
-        // TODO: following four lines code could be removed when there are
-        // TODO: exist proper getter functions in Country object
-        int layoutX = 0;
-        int layoutY = 0;
-//        layoutX = country.getLayoutX();
-//        layoutY =  country.getLayoutY();
-        return createCountryView(layoutX, layoutY);
-    }
-
     public void removeCountryView(CountryView countryView) {
-        mapRootPane.getChildren().remove(countryView.getCountryPane());
         countryViews.remove(countryView.getId());
+        mapRootPane.getChildren().remove(countryView.getCountryPane());
     }
 }

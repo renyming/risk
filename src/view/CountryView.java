@@ -8,38 +8,36 @@ import model.Player;
 import java.util.Observable;
 import java.util.Observer;
 
-class CountryView implements Observer {
+public class CountryView implements Observer {
 
-    private static int IdCounter = 1;
+    private static int IdCounter = 0;
 
     private int Id;
-    private int arimes;
-    private String name;
+    private int arimes;        // used for additional display
+    private String name;       // used for additional display
     private Player owner;
-//    private Country country; // TODO: may not need
-    private String ownerColor;
-    private String continentColor;
+    private String ownerColor; // used for additional display
 
+    private Country country;
     private View view;
     private AnchorPane countryPane;
     private CountryController countryController;
 
 
+
     /**
      * Get necessary info for create a default countryPane, load the countryPane from Country.xml
-     * @param layoutX The x location of the countryPane relative to the mapRootPane
-     * @param layoutY The y location of the countryPane relative to the mapRootPane
+     * @param layoutX The x location of the countryPane center relative to the mapRootPane
+     * @param layoutY The y location of the countryPane center relative to the mapRootPane
      */
-    public CountryView(View view, double layoutX, double layoutY) {
-        Id = IdCounter++;
+    public CountryView(View view, double layoutX, double layoutY, String ownerColor, String continentColor) {
+        Id = ++IdCounter;
         this.view = view;
-        this.ownerColor = "#ff0000";
-        this.continentColor = "#0000ff";
         try {
             FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
             countryController = countryFxmlLoader.getController();
-            countryController.setCountryView(this);
+            countryController.setDefaultInfo(this, "Country_"+Id, 0, ownerColor, continentColor);
             countryPane.setLayoutX(layoutX);
             countryPane.setLayoutY(layoutY);
         } catch (Exception e) {
@@ -47,31 +45,28 @@ class CountryView implements Observer {
         }
     }
 
+
+
     /**
-     * Observer update method, get all Country info, store and set it to panel
-     * Called by Country object
+     * Observer update method, update all Country info, store and set it to countryPane
+     * Called by corresponding Country Observable subject
      * @param obj The relative Country Observable object
      * @param x Additional info for update
      */
+    @Override
     public void update(Observable obj, Object x) {
         System.out.println("CountryView.update(): ");
-
-        updateCountryInfo((Country) obj);
-    }
-
-    /**
-     * Update additional Country object info
-     * Called by View
-     */
-    public void updateCountryInfo(Country country) {
+        country = (Country) obj;
         Id = country.getId();
-        arimes = country.getArmies();
         name = country.getName();
+        arimes = country.getArmies();
         owner = country.getOwner();
-        ownerColor = "-fx-background-color: " + owner.getColor();
-        countryPane.setStyle(ownerColor);
-        // TODO: set owner, new owner color
+        ownerColor = owner.getColor();
+        countryPane.setLayoutX(country.getX());
+        countryPane.setLayoutY(country.getY());
     }
+
+
 
     /**
      * View use this function to add the countryPane to the mapRootPane
