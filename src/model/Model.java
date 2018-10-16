@@ -51,8 +51,32 @@ public class Model extends Observable {
         notifyObservers(message);
     }
 
+    public void fortification(String country1, String country2, int armyNumber){
+        //if success
+        Message message = new Message(STATE.NEXT_PLAYER,null);
+
+
+    }
+
+    public void attack(){
+
+    }
+
+    public void getAddedArmies(){
+
+    }
+
+    public void reinforcement(){
+        nextPlayer();
+        getAddedArmies();
+    }
+
     public void nextPlayer(){
         //change current player
+
+        //if playercounter == 0
+        Message message = new Message(STATE.REINFORCEMENT,null);
+        notify(message);
     }
 
     public void allocateArmy(int countryId){
@@ -76,7 +100,7 @@ public class Model extends Observable {
         //current player notify
         //all country notify
 
-        Message message = new Message(STATE.START_UP,null);
+        Message message = new Message(STATE.INIT_ARMIES,null);
     }
 
     /**

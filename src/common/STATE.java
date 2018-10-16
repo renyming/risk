@@ -4,8 +4,8 @@ public enum STATE {
     LOAD_FILE,
     CREATE_OBSERVERS,
     PLAYER_NUMBER,
-    START_UP,
-
-
+    INIT_ARMIES,
+    REINFORCEMENT,
+    NEXT_PLAYER,
     UNDEFINE
 }
