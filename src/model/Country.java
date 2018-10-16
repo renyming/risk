@@ -175,8 +175,6 @@ public class Country extends Observable {
         //Player doesn't have enough number of armies as specified
         if (player.getArmies()<armies)
             return false;
-
-        player.subArmies(armies);
         setArmies(getArmies()+armies);
         return true;
     }
@@ -205,7 +203,7 @@ public class Country extends Observable {
     /**
      * Helper method to set change state and notify observers
      */
-    private void callObservers() {
+    public void callObservers() {
         setChanged();
         notifyObservers();
     }

@@ -55,6 +55,7 @@ class CountryView implements Observer {
      * @param x Additional info for update
      */
     public void update(Observable obj, Object x) {
+        // TODO: use obj to update info 
         System.out.println("CountryView Observer updates");
         updateCountryInfo();
     }
