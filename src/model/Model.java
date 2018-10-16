@@ -24,7 +24,7 @@ public class Model extends Observable {
     private int numOfContinents;
     private ArrayList<Player> players;
 
-    private HashMap<Integer,Country> countries;
+    private HashMap<String,Country> countries;
 
     private ArrayList<Continent> continents;
 
@@ -93,12 +93,12 @@ public class Model extends Observable {
 
     /**
      * allocate one army in a specific counry
-     * @param countryId country id
+     * @param countryName country name
      */
-    public void allocateArmy(int countryId){
+    public void allocateArmy(String countryName){
 
         //country army + 1
-        Country c = countries.get(countryId);
+        Country c = countries.get(countryName);
         c.addArmies(1);
 
         //player army - 1
@@ -165,7 +165,7 @@ public class Model extends Observable {
         //if fail
         Message message = new Message(STATE.LOAD_FILE,false);
         //if ture
-        message = new Message(STATE.CREATE_OBSERVERS,true);
+        message = new Message(STATE.CREATE_OBSERVERS,countries.size());
 
         notify(message);
     }
@@ -242,7 +242,7 @@ public class Model extends Observable {
      * get country list
      * @return contries list
      */
-    public HashMap<Integer, Country> getCountries(){
+    public HashMap<String, Country> getCountries(){
         return countries;
     }
 
