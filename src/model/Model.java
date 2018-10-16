@@ -85,8 +85,14 @@ public class Model extends Observable {
         playerCounter = numOfPlayers;
 
         for (int i = 0; i < numOfPlayers; i ++){
+
             Player newPlayer = new Player("Player" + String.valueOf(i));
+            newPlayer.addInitArmies();
+            newPlayer.addObserver(playerView);
+
             players.add(newPlayer);
+
+
         }
 
         //give state
