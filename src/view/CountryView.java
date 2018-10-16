@@ -16,7 +16,7 @@ class CountryView implements Observer {
     private int arimes;
     private String name;
     private Player owner;
-    private Country country;
+//    private Country country; // TODO: may not need
     private String ownerColor;
     private String continentColor;
 
@@ -30,10 +30,11 @@ class CountryView implements Observer {
      * @param layoutX The x location of the countryPane relative to the mapRootPane
      * @param layoutY The y location of the countryPane relative to the mapRootPane
      */
-    public CountryView(View view, double layoutX, double layoutY, String continentColor) {
+    public CountryView(View view, double layoutX, double layoutY) {
         Id = IdCounter++;
         this.view = view;
-        this.continentColor = continentColor; // TODO: may not need
+        this.ownerColor = "#ff0000";
+        this.continentColor = "#0000ff";
         try {
             FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
@@ -41,41 +42,29 @@ class CountryView implements Observer {
             countryController.setCountryView(this);
             countryPane.setLayoutX(layoutX);
             countryPane.setLayoutY(layoutY);
-            // TODO: get user/continent color
-            // TODO: set proper test color
         } catch (Exception e) {
             System.out.println("CountryView ctor: " + e);
         }
     }
 
     /**
-     * Observer update method
+     * Observer update method, get all Country info, store and set it to panel
      * Called by Country object
      * @param obj The relative Country Observable object
      * @param x Additional info for update
      */
     public void update(Observable obj, Object x) {
-        // TODO: use obj to update info 
-        System.out.println("CountryView Observer updates");
-        updateCountryInfo();
-    }
+        System.out.println("CountryView.update(): ");
 
-    /**
-     * Set the Country Observable object
-     * Called by View
-     * @param country
-     */
-    public void setCountry(Country country) {
-        this.country = country;
-        updateCountryInfo();
+        updateCountryInfo((Country) obj);
     }
 
     /**
      * Update additional Country object info
      * Called by View
      */
-    public void updateCountryInfo() {
-        Id = country.getId(); // TODO: should be .getId()
+    public void updateCountryInfo(Country country) {
+        Id = country.getId();
         arimes = country.getArmies();
         name = country.getName();
         owner = country.getOwner();

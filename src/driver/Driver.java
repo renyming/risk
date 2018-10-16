@@ -19,7 +19,11 @@ public class Driver extends Application {
         model = new Model();
         view = new View();
         model.addObserver(view);
-        view.setModel(model); // No big controller, so View directly guides Model what to do next
+
+        // This is necessary because when the selecting map action happens,
+        // View need to pass file path to the Model, but View don't have the
+        // Model reference
+        view.setModel(model);
 
         view.showMenuStage();
     }
