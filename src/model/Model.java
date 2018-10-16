@@ -24,7 +24,7 @@ public class Model extends Observable {
     private ArrayList<Player> players;
     private ArrayList<Country> countries;
     private ArrayList<Continent> continents;
-    
+
     private int playerCounter;
 
 
@@ -49,7 +49,7 @@ public class Model extends Observable {
     public void fortification(String country1, String country2, int armyNumber){
         //if success
         Message message = new Message(STATE.NEXT_PLAYER,null);
-
+        notify(message);
 
     }
 

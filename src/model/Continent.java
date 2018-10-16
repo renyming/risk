@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Continent {
 
     //Unique ID for each continent, starts from 1
-    private int ID;
+    private int ID = 0;
     //Counter to assign unique ID
     private static int cID=0;
     private String name;
@@ -68,6 +68,10 @@ public class Continent {
      */
     public int getSize(){
         return contries.size();
+    }
+
+    public int getID(){
+        return ID;
     }
 
     /**

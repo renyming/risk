@@ -74,7 +74,7 @@ class CountryView implements Observer {
      * Called by View
      */
     public void updateCountryInfo() {
-        Id = country.getID(); // TODO: should be .getId()
+        Id = country.getId(); // TODO: should be .getId()
         arimes = country.getArmies();
         name = country.getName();
         owner = country.getOwner();
