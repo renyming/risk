@@ -3,6 +3,7 @@ package view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class MenuController {
@@ -16,6 +17,8 @@ public class MenuController {
     @FXML private Label selectedMapLabel;
     @FXML private Label mapInfoPane;
     @FXML private Button startGameButton;
+    @FXML private Label numPlayerLabel;
+    @FXML private TextField numPlayerTextField;
 
     public void initialize(View view) {
         this.view = view;
@@ -23,7 +26,11 @@ public class MenuController {
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
         startGameButton.setVisible(false);
+        numPlayerLabel.setVisible(false);
+        numPlayerTextField.setVisible(false);
         switchToStartUpMenu();
+
+//        numPlayerLabel.setOn
     }
 
     public void switchToStartUpMenu() {
@@ -55,7 +62,7 @@ public class MenuController {
             selectedMapLabel.setText("Valid map: " + filename);
             selectedMapLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
             mapInfoPane.setText(mapInfo);
-            setNumPlayers(); //TODO: for self test purposes, should be removed later
+            showNumPlayerTextField(5); //TODO: for self test purposes, should be removed later
 
         } else {
             selectedMapLabel.setText("Invalid map: " + filename);
@@ -64,9 +71,17 @@ public class MenuController {
         }
     }
 
-    public void setNumPlayers() {
-        // TODO: allow the user to enter the # of players
+    public void showNumPlayerTextField(int maxPlayer) {
+        numPlayerLabel.setVisible(false);
+        numPlayerTextField.setVisible(true);
+        numPlayerLabel.setText("Enter number of players, max " + maxPlayer);
     }
+
+    public void enterSomething() {
+        System.out.println("123");
+    }
+
+
 
 //    startGameButton.setVisible(false);
 
