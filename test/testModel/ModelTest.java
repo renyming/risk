@@ -105,11 +105,11 @@ public class ModelTest {
      */
     public void testInitiatePlayers() {
 
-        PlayerView playerView = new PlayerView();
+//        PlayerView playerView = new PlayerView();
 
         int num = 4;
 
-        newModel1.initiatePlayers(4, playerView);
+//        newModel1.initiatePlayers(4, playerView);
 
         assertEquals(num, newModel1.getPlayers().size());
         assertEquals(newModel1.getPlayers().get(0), newModel1.getCurrentPlayer());
