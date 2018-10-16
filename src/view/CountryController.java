@@ -24,4 +24,11 @@ public class CountryController {
     }
 
     public void removeCountryView() { countryView.removeCountryView(); }
+
+    public void updateCountryPaneInfo(String countryName, String playerColor, String continentColor, int armiesNumber) {
+        countryNameLabel.setText(countryName);
+        countryNameLabel.setStyle("-fx-background-color: " + continentColor);
+        numArmiesLabel.setText(Integer.toString(armiesNumber));
+        displayArmiesHBox.setStyle("-fx-background-color: " + playerColor);
+    }
 }

@@ -7,12 +7,14 @@ import static org.junit.Assert.*;
 
 import model.Player;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import view.PlayerView;
 
 import java.io.IOException;
 
+/**
+ * Test Model class
+ */
 public class ModelTest {
 
     public static Model newModel1;
@@ -25,6 +27,9 @@ public class ModelTest {
     public static Player p;
 
     @BeforeClass
+    /**
+     * Preparation before all this method
+     */
     public static void beforeClass(){
 
         newModel1 = new Model();
@@ -57,6 +62,9 @@ public class ModelTest {
     }
 
     @Test
+    /**
+     * Test readFile() method
+     */
     public void testReadFile() throws IOException {
 
         Model testedModel = new Model();
@@ -77,6 +85,9 @@ public class ModelTest {
     }
 
     @Test
+    /**
+     * Test allocateArmy() method
+     */
     public void testAllocateArmy() {
 
         int armiesC = 6;
@@ -88,18 +99,21 @@ public class ModelTest {
         assertEquals(armiesP, p.getArmies());
     }
 
-//    @Test
-//    public void testInitiatePlayers() {
-//
+    @Test
+    /**
+     * Test initiatePlayers() method
+     */
+    public void testInitiatePlayers() {
+
 //        PlayerView playerView = new PlayerView();
-//
-//        int num = 4;
-//
+
+        int num = 4;
+
 //        newModel1.initiatePlayers(4, playerView);
-//
-//        assertEquals(num, newModel1.getPlayers().size());
-//        assertEquals(newModel1.getPlayers().get(0), newModel1.getCurrentPlayer());
-//    }
+
+        assertEquals(num, newModel1.getPlayers().size());
+        assertEquals(newModel1.getPlayers().get(0), newModel1.getCurrentPlayer());
+    }
 
 
 }

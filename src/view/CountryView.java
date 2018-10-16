@@ -16,7 +16,8 @@ public class CountryView implements Observer {
     private int arimes;        // used for additional display
     private String name;       // used for additional display
     private Player owner;
-    private String ownerColor; // used for additional display
+    private String ownerColor = "red";
+    private String continentColor = "blue";
 
     private Country country;
     private View view;
@@ -33,6 +34,7 @@ public class CountryView implements Observer {
     public CountryView(View view, double layoutX, double layoutY, String ownerColor, String continentColor) {
         Id = ++IdCounter;
         this.view = view;
+        this.continentColor = continentColor;
         try {
             FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
@@ -60,12 +62,12 @@ public class CountryView implements Observer {
         Id = country.getId();
         name = country.getName();
         arimes = country.getArmies();
+        System.out.println(arimes);
         owner = country.getOwner();
-        System.out.println("owner_color: " + owner.getColor());
-        ownerColor = owner.getColor();
-        System.out.println("here_2");
+//        ownerColor = owner.getColor(); // TODO:
         countryPane.setLayoutX(country.getX());
         countryPane.setLayoutY(country.getY());
+        countryController.updateCountryPaneInfo(name, ownerColor, continentColor, arimes);
     }
 
 
