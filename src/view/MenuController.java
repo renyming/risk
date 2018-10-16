@@ -33,6 +33,9 @@ public class MenuController {
 
     public void switchToNewGameMenu() {
         // TODO: call view to reset selected file?
+        selectedMapLabel.setText("Selected map: NONE");
+        selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
+        mapInfoPane.setVisible(false);
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(newGamePane);
     }
@@ -46,32 +49,28 @@ public class MenuController {
 
     public void selectMap() { view.selectMap(); }
 
-    public void setMapName(String filename, boolean valid) {
-        if (valid) {
-            startGameButton.setVisible(true);
+    public void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
+        mapInfoPane.setVisible(true);
+        if (validFile) {
             selectedMapLabel.setText("Valid map: " + filename);
             selectedMapLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
+            mapInfoPane.setText(mapInfo);
+            setNumPlayers(); //TODO: for self test purposes, should be removed later
+
         } else {
-            startGameButton.setVisible(false);
             selectedMapLabel.setText("Invalid map: " + filename);
             selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
+            mapInfoPane.setText(mapInfo);
         }
     }
 
-    public void setAdditionalMapInfo(String info) {
-        mapInfoPane.setText(info);
+    public void setNumPlayers() {
+        // TODO: allow the user to enter the # of players
     }
 
-    public void createMap() {
-        view.showMapStage();
-    }
+//    startGameButton.setVisible(false);
 
-    public void startGame() {
-        loadMap();
-        view.showMapStage();
-    }
+    public void createMap() { view.showMapStage(); }
 
-    public void loadMap() {
-
-    }
+    public void startGame() { view.showMapStage(); }
 }

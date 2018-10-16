@@ -2,8 +2,8 @@ package common;
 
 public class Message {
 
-    STATE state;
-    Object obj;
+    public STATE state;
+    public Object obj;
 
     public Message(STATE state, Object obj){
         this.state = state;
