@@ -28,8 +28,8 @@ public class View implements Observer {
         FORTIFICATION,
     }
 
-    public final double COUNTRY_WIDTH = 70;
-    public final double COUNTRY_HEIGHT = 70;
+    public final double COUNTRY_VIEW_WIDTH = 70;
+    public final double COUNTRY_VIEW_HEIGHT = 70;
     public final double GAME_BOARD_WIDTH = 1200;
     public final double GAME_BOARD_HEIGHT = 700;
 
@@ -47,6 +47,8 @@ public class View implements Observer {
     private AnchorPane mainMenuPane;
     private AnchorPane mapRootPane;
     private HashMap<Integer, CountryView> countryViews;
+    private Country fromToCountries[];
+    private int fromToCountriesCounter;
 //    private HashMap<Integer, Line> lineViews;
 
 
@@ -67,12 +69,14 @@ public class View implements Observer {
         FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRootPane = mapFxmlLoader.load();
         mapController = mapFxmlLoader.getController();
-        mapController.initialize(this, COUNTRY_WIDTH, COUNTRY_HEIGHT);
+        mapController.initialize(this, COUNTRY_VIEW_WIDTH, COUNTRY_VIEW_HEIGHT);
         mapStage = new Stage();
         mapStage.setTitle("Risk Game");
         mapStage.setScene(new Scene(mapRootPane));
 
         pause = false;
+        fromToCountries = new Country[2];
+        fromToCountriesCounter = 0;
     }
 
 
@@ -99,7 +103,7 @@ public class View implements Observer {
         switch (message.state) {
             case LOAD_FILE: // TODO: Model should pass some invalid info back
                 System.out.println("tried to load an invalid file, select it again");
-                menuController.displaySelectedFileName(selectedFileName, false, "The invalid reasons");
+                menuController.displaySelectedFileName(selectedFileName, false, (String) message.obj);
                 break;
             case CREATE_OBSERVERS:
                 System.out.println("create Country Observers");
@@ -130,18 +134,28 @@ public class View implements Observer {
                 currentPhase = PHASE.START_UP;
                 mapController.setPhaseLabel("Start Up Phase");
                 menuController.showStartGameButton();
-                drawLines();
+                drawMap();
                 break;
             case ROUND_ROBIN:
                 System.out.println("round robin begins");
-                model.reinforcement();
                 showNextPhaseButton("Enter Reinforcement Phase");
+//                currentPhase = PHASE.REINFORCEMENT;
+                model.reinforcement();
                 pause = true;
+                break;
             case NEXT_PLAYER:
                 showNextPhaseButton("Enter Reinforcement Phase");
+                mapController.showFromToCountriesInfoPane(false);
+                System.out.println("call model next player");
+                model.nextPlayer();
+                break;
         }
     }
 
+
+    /**
+     * Display Menu page to the user, user then can interact with i.e. click buttons
+     */
     public void showMenuStage() {
         // TODO: reset all Label, Button etc.
         // TODO: clear drawing area from previous creation
@@ -153,6 +167,10 @@ public class View implements Observer {
 //        if (null != lineViews) lineViews.clear();
     }
 
+
+    /**
+     * Display
+     */
     public void showMapStage() {
         menuStage.hide();
         mapStage.show();
@@ -176,6 +194,7 @@ public class View implements Observer {
             try {
                 selectedFileName = riskMapFile.getName();
                 model.readFile(riskMapFile.getPath());
+                System.out.println("readFIle : " + riskMapFile.getPath());
             } catch (IOException e) {
                 System.out.println("View.selectMap(): " + e.getMessage());
             }
@@ -194,7 +213,6 @@ public class View implements Observer {
     public CountryView createDefaultCountryView(double layoutX, double layoutY, String playerColor, String continentColor) {
         CountryView countryView = new CountryView(this, layoutX, layoutY, playerColor, continentColor);
         countryViews.put(countryView.getId(), countryView);
-        mapRootPane.getChildren().add(countryView.getCountryPane());
         return countryView;
     }
 
@@ -218,21 +236,30 @@ public class View implements Observer {
         }
     }
 
-    public void fortification(Country fromCountry, Country toCountry, int numArmiesMove) {
-        model.fortification(fromCountry, toCountry, numArmiesMove);
+    public void fortification(int numArmiesMove) {
+        if (null != fromToCountries[0] && null != fromToCountries[1]) {
+            model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMove);
+        } else {
+            System.out.println("View.fortification(): at least one country is not set");
+        }
     }
 
-    public void startNextPhase() {
+    public void startNextPhase() { // or start current phase
         pause = false;
         mapController.hideNextPhaseButton();
         mapController.setPhaseLabel(mapController.getNextPhaseButtonTest().substring(6));
         switch (currentPhase) {
             case START_UP:
                 currentPhase = PHASE.REINFORCEMENT;
+                mapController.showFromToCountriesInfoPane(false);
                 break;
-            case REINFORCEMENT:
+            case REINFORCEMENT: // current state is reinforcement,
                 currentPhase = PHASE.FORTIFICATION;
+                mapController.showFromToCountriesInfoPane(true);
                 break;
+            case FORTIFICATION:
+                currentPhase = PHASE.REINFORCEMENT;
+                mapController.showFromToCountriesInfoPane(false);
         }
     }
 
@@ -243,61 +270,72 @@ public class View implements Observer {
     public boolean checkEdit() { return editEnable; }
 
     public void prepareNextPhase() {
-        System.out.println(currentPhase);
+        System.out.println("Current phase is " + currentPhase + ", prepare step");
         switch (currentPhase) {
             case START_UP:
                 model.nextPlayer();
                 break;
             case REINFORCEMENT:
                 showNextPhaseButton("Enter Fortification Phase");
-                mapController.showFortificationInfoPane();
                 break;
             case ATTACK:
                 break;
             case FORTIFICATION:
                 showNextPhaseButton("Enter Reinforcement Phase");
-                model.nextPlayer();
+                model.reinforcement();
+                mapController.resetFromToCountriesInfo();
                 break;
             default:
                 break;
         }
     }
 
-    public void drawLines() {
+    public void drawMap() {
         for (int key : countryViews.keySet()) {
             Country countryA = countryViews.get(key).getCountry();
             for (Country countryB : countryA.getAdjCountries()) {
                 Line line = new Line();
-                line.setStartX(countryA.getX() + COUNTRY_WIDTH/2);
-                line.setStartY(countryA.getY() + COUNTRY_HEIGHT/2);
-                line.setEndX(countryB.getX() + COUNTRY_WIDTH/2);
-                line.setEndY(countryB.getY() + COUNTRY_HEIGHT/2);
+                line.setStartX(countryA.getX() + COUNTRY_VIEW_WIDTH /2);
+                line.setStartY(countryA.getY() + COUNTRY_VIEW_HEIGHT /2);
+                line.setEndX(countryB.getX() + COUNTRY_VIEW_WIDTH /2);
+                line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT /2);
                 line.setStroke(Color.BLACK);
                 line.setStrokeWidth(2);
                 mapRootPane.getChildren().add(line);
             }
         }
+
+        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
+
     }
 
     public boolean getEditEnable() { return editEnable; }
 
-
-    // TODO: self test purpose
-    Country countries[] = new Country[2];
-    int counter = 0;
-
     public void clickedCountry(Country country) {
-        System.out.println("Clicked, phase is " + currentPhase);
+        System.out.println("Clicked country " + country.getName() + ", phase is " + currentPhase);
         if (PHASE.START_UP == currentPhase || PHASE.REINFORCEMENT == currentPhase) {
             allocateArmy(country);
         } else if (PHASE.FORTIFICATION == currentPhase) {
-            countries[counter] = country;
-            counter++;
-            System.out.println("add a country, counter is " + counter);
-            if (2 == counter) {
-                System.out.println("send fortification to model");
-                model.fortification(countries[0], countries[1], 1);
+            switch (fromToCountriesCounter++) {
+                case 0:
+                    fromToCountries[0] = country;
+                    mapController.setFromCountryInfo(country);
+                    break;
+                case 1:
+                    fromToCountries[1] = country;
+                    mapController.setToCountryInfo(country);
+                    break;
+                case 2:
+                    fromToCountriesCounter = 0;
+                    fromToCountries[0] = null;
+                    fromToCountries[1] = null;
+                    mapController.resetFromToCountriesInfo();
+                    break;
             }
         }
     }
+
+    public double getCountryViewWidth() { return COUNTRY_VIEW_WIDTH; }
+
+    public double getCountryViewHeight() { return COUNTRY_VIEW_HEIGHT; }
 }

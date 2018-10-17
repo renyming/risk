@@ -48,8 +48,8 @@ public class CountryView implements Observer {
         }
         countryController.initiate(this);
         countryController.setDefaultInfo("Country_"+Id, 0, ownerColor, continentColor);
-        countryPane.setLayoutX(layoutX);
-        countryPane.setLayoutY(layoutY);
+        countryPane.setLayoutX(layoutX + view.getCountryViewWidth()/2);
+        countryPane.setLayoutY(layoutY + view.getCountryViewHeight()/2);
         // TODO: edd drag event
     }
 
@@ -69,7 +69,7 @@ public class CountryView implements Observer {
         name = country.getName();
         armies = country.getArmies();
         owner = country.getOwner();
-        ownerColor = owner.getColor(); // TODO:
+        ownerColor = owner.getColor();
         locationX = country.getX();
         locationY = country.getY();
         countryPane.setLayoutX(locationX);
