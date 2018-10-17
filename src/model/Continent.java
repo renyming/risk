@@ -39,6 +39,14 @@ public class Continent {
     }
 
     /**
+     * set continent name
+     * @param name The name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
     * Get the controlVal
     * @return  controlVal
     */
