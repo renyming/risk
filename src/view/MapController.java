@@ -89,6 +89,10 @@ public class MapController {
 
     public void setPhaseLabel(String phase) { phaseLabel.setText(phase); }
 
+    public void hidePhaseLabel() { phaseLabel.setVisible(false); }
+
+    public void showPhaseLabel() { phaseLabel.setVisible(true); }
+
     public void showNextPhaseButton(String nextPhase) {
         nextPhaseButton.setText(nextPhase);
         nextPhaseButton.setVisible(true);

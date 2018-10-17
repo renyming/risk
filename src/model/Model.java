@@ -259,8 +259,9 @@ public class Model extends Observable {
             String continentName = s.substring(0,indexOfCol);
             int controlVal = Integer.parseInt(s.substring(indexOfCol + 1));
             Continent newContinent = new Continent(continentName,controlVal);
-            newContinent.setColor(continentColors[i]);
+            newContinent.setColor(continentColors[i % continentColors.length]);
             this.continents.add(newContinent);
+            i ++;
         }
     }
 
