@@ -111,14 +111,15 @@ public class Model extends Observable {
         int numPlayer = getNumOfPlayer();
         //wraps around the bounds of ID
         int nextId = (currentId%numPlayer+numPlayer)%numPlayer+1;
-        //CurrentPlayer notifies view to update
         currentPlayer=players.get(nextId-1);
-        currentPlayer.notify();
 
         //The next player is the first player, current round ended, send STATE message
         if (nextId == 1) {
             Message message = new Message(STATE.ROUND_ROBIN, null);
             notify(message);
+        } else {
+            //CurrentPlayer notifies view to update
+            currentPlayer.callObservers();
         }
     }
 
