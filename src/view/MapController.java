@@ -47,7 +47,7 @@ public class MapController {
         nextPhaseButton.setVisible(false);
         numArmiesMoveLabel.setVisible(false);
         numArmiesMoveTextField.setVisible(false);
-        addListener();
+        addListener(); // TODO: further refactor
         mapPane.setOnMouseClicked((e) -> {
             if (view.checkEdit() && e.getEventType() == MouseEvent.MOUSE_CLICKED) {
                 //TODO: get the player color somehow

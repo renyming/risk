@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+import static java.lang.Math.min;
+
 public class MenuController {
 
     @FXML private AnchorPane mainMenuPane;
@@ -30,6 +32,7 @@ public class MenuController {
         quitPane.setVisible(true);
         switchToStartUpMenu();
 
+        // TODO: refactor
         playerNumTextField.setOnAction((event) -> {
             playerNumInstructionLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
             try {
@@ -39,8 +42,8 @@ public class MenuController {
                 if (userEnteredPlayerNum > maxPlayerNum) {
                     userEnteredPlayNumLabel.setText("Greater than " + maxPlayerNum);
                     startGameButton.setVisible(false);
-                } else if (userEnteredPlayerNum <= 0) {
-                    userEnteredPlayNumLabel.setText("Must be positive");
+                } else if (userEnteredPlayerNum <= 1) {
+                    userEnteredPlayNumLabel.setText("Must greater than 1");
                     startGameButton.setVisible(false);
                 } else {
                     playerNumInstructionLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
@@ -49,6 +52,7 @@ public class MenuController {
             } catch (Exception e) {
                 userEnteredPlayNumLabel.setText("Enter an integer");
                 startGameButton.setVisible(false);
+                System.out.println("MenuController.initialize(): " + e.getMessage());
             }
 
         });
@@ -90,25 +94,29 @@ public class MenuController {
     public void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
         mapInfoPane.setVisible(true);
         if (validFile) {
+            playerNumInstructionLabel.setVisible(true);
+            playerNumTextField.setVisible(true);
+            userEnteredPlayNumLabel.setVisible(true);
             selectedMapLabel.setText("Valid map: " + filename);
             selectedMapLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
             mapInfoPane.setText(mapInfo);
-            showNumPlayerTextField(5); //TODO: for self test purposes, should be removed later
-
         } else {
             selectedMapLabel.setText("Invalid map: " + filename);
+            playerNumInstructionLabel.setVisible(false);
+            playerNumTextField.setVisible(false);
+            userEnteredPlayNumLabel.setVisible(false);
             selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
             mapInfoPane.setText(mapInfo);
         }
     }
 
     public void showNumPlayerTextField(int maxPlayerNum) {
-        this.maxPlayerNum = maxPlayerNum;
+        this.maxPlayerNum = min(maxPlayerNum, 10);
         playerNumInstructionLabel.setVisible(true);
         playerNumTextField.setVisible(true);
         playerNumInstructionLabel.setStyle("-fx-border-color: yellow; -fx-border-width: 2");
-        playerNumInstructionLabel.setText("Enter number of players, max " + maxPlayerNum);
-        userEnteredPlayNumLabel.setText("Total Player: 10");
+        playerNumInstructionLabel.setText("Max number of players: " + this.maxPlayerNum);
+        userEnteredPlayNumLabel.setText("Total Player: ");
     }
 
     public void showStartGameButton() { startGameButton.setVisible(true); }

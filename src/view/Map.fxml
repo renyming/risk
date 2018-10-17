@@ -22,8 +22,8 @@
             <Label fx:id="numArmiesMoveLabel" alignment="CENTER" layoutX="2.0" layoutY="360.0" prefHeight="30.0" prefWidth="108.0" text="Num Armies" />
          </children>
       </AnchorPane>
-      <Button fx:id="saveEditedMapButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Save" />
-      <Button fx:id="backToMenuButton" layoutX="160.0" layoutY="50.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="30.0" prefWidth="50.0" text="Quit" />
+      <Button fx:id="saveEditedMapButton" layoutX="280.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Save" />
+      <Button fx:id="backToMenuButton" layoutX="220.0" layoutY="10.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="30.0" prefWidth="50.0" text="Quit" />
       <Label fx:id="phaseLabel" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: black; -fx-background-color: #00ff00;" text="Current Phase" />
       <Button fx:id="nextPhaseButton" layoutX="870.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextPhase" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Reinforcement">
          <font>

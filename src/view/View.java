@@ -109,19 +109,14 @@ public class View implements Observer {
                 System.out.println("create Country Observers");
                 if (null == countryViews) {
                     countryViews = new HashMap<>();
-                } else if (0 != countryViews.size()) {
+                } else {
                     countryViews.clear();
                 }
                 menuController.displaySelectedFileName(selectedFileName, true, "Useful info here");
-                // TODO: click the 'Select Map more than once' triggers the bug
-//                System.out.println((int) message.obj + " " + countryViews.size());
                 int numOfCountries = (int) message.obj;
                 for (int i = 1; i <= numOfCountries; ++i) {
                     countryViews.put(i, createDefaultCountryView(0, 0, "#ff0000", "#0000ff"));
-//                    System.out.println((i + " " + countryViews.size()));
                 }
-//                System.out.println((int) message.obj + " " + countryViews.size());
-
                 model.linkCountryObservers(countryViews);
                 break;
             case PLAYER_NUMBER:
@@ -134,7 +129,7 @@ public class View implements Observer {
                 currentPhase = PHASE.START_UP;
                 mapController.setPhaseLabel("Start Up Phase");
                 menuController.showStartGameButton();
-                drawMap();
+//                drawMap();
                 break;
             case ROUND_ROBIN:
                 System.out.println("round robin begins");
@@ -173,6 +168,7 @@ public class View implements Observer {
      */
     public void showMapStage() {
         menuStage.hide();
+        drawMap();
         mapStage.show();
 //        lineViews = new HashMap<>();
     }
@@ -194,7 +190,6 @@ public class View implements Observer {
             try {
                 selectedFileName = riskMapFile.getName();
                 model.readFile(riskMapFile.getPath());
-                System.out.println("readFIle : " + riskMapFile.getPath());
             } catch (IOException e) {
                 System.out.println("View.selectMap(): " + e.getMessage());
             }
@@ -212,7 +207,6 @@ public class View implements Observer {
      */
     public CountryView createDefaultCountryView(double layoutX, double layoutY, String playerColor, String continentColor) {
         CountryView countryView = new CountryView(this, layoutX, layoutY, playerColor, continentColor);
-        countryViews.put(countryView.getId(), countryView);
         return countryView;
     }
 
