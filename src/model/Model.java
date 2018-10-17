@@ -318,8 +318,6 @@ public class Model extends Observable {
      * set continents list of model
      * @param continents  The continents to set
      */
-    public void setContinents(List<Continent> continents) {
-        this.continents = continents;
-    }
+    public void setContinents(List<Continent> continents) { this.continents = (ArrayList<Continent>) continents; }
 
 }
