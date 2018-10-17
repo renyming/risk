@@ -17,7 +17,7 @@
       <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="200.0">
          <children>
             <Button layoutX="50.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="100.0" text="Select Map" />
-            <Button layoutX="50.0" layoutY="105.0" mnemonicParsing="false" onAction="#createMap" prefHeight="30.0" prefWidth="100.0" text="Create Map" />
+            <Button layoutX="50.0" layoutY="105.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Create Map" />
             <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartUpMenu" prefHeight="30.0" prefWidth="50.0" text="Back" />
             <Label fx:id="selectedMapLabel" alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" />
             <Label fx:id="mapInfoPane" alignment="CENTER" layoutY="35.0" prefHeight="30.0" prefWidth="200.0" text="Map info, max player, ext." />

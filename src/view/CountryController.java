@@ -2,6 +2,7 @@ package view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -13,8 +14,16 @@ public class CountryController {
     @FXML private Label numArmiesLabel;
     @FXML private HBox displayArmiesHBox;
 
-    public void setDefaultInfo(CountryView countryView, String name, int armies, String playerColor, String continentColor) {
+    public void initiate(CountryView countryView) {
         this.countryView = countryView;
+        displayArmiesHBox.setOnMouseClicked((e) -> {
+            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
+                countryView.allocateArmy();
+            }
+        });
+    }
+
+    public void setDefaultInfo(String name, int armies, String playerColor, String continentColor) {
         Text t = new Text ("Stroke and Fill");
         t.setStyle("-fx-background-color: yellow");
         countryNameLabel.setText(name);
@@ -28,7 +37,11 @@ public class CountryController {
     public void updateCountryPaneInfo(String countryName, String playerColor, String continentColor, int armiesNumber) {
         countryNameLabel.setText(countryName);
         countryNameLabel.setStyle("-fx-background-color: " + continentColor);
+//        countryNameLabel.setStyle("-fx-background-radius: 5");
         numArmiesLabel.setText(Integer.toString(armiesNumber));
         displayArmiesHBox.setStyle("-fx-background-color: " + playerColor);
+//        displayArmiesHBox.setStyle("-fx-background-radius: 5");
     }
+
+    public HBox getDisplayArmiesHBox () { return displayArmiesHBox; }
 }
