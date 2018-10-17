@@ -160,13 +160,12 @@ public class Model extends Observable {
             newPlayer.setColor(colors[i]);
             //add observer(playerView)
             newPlayer.addObserver(playerView);
-            newPlayer.callObservers();
             players.add(newPlayer);
         }
 
         
         //notify all countriesView
-        Queue<Country> queque = new PriorityQueue<Country>();
+        ArrayList<Country> queque = new ArrayList<Country>();
         for (String key:countries.keySet()) {
             queque.add(countries.get(key));
         }
@@ -175,7 +174,9 @@ public class Model extends Observable {
 
             for (Player p : players) {
 
-                Country c = queque.poll();
+                Country c = queque.get(0);
+                queque.remove(0);
+
                 p.addCountry(c);
                 c.setPlayer(p);
 
