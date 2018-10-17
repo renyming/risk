@@ -215,6 +215,7 @@ public class Model extends Observable {
             message = new Message(STATE.LOAD_FILE,"invalid file format!");
         }
         notify(message);
+        invalidMap = true;
     }
 
     /**
