@@ -22,12 +22,12 @@ public class PlayerView implements Observer {
         this.view = view;
         this.mapController = mapController;
         currentPlayerLabel = mapController.getCurrentPlayerLabel();
-        armiesInHandLabel = mapController.getArimesInHandLabel();
+        armiesInHandLabel = mapController.getArmiesInHandLabel();
     }
 
     @Override
     public void update(Observable obs, Object arg) {
-        System.out.println("PlayerView.update: ");
+//        System.out.println("PlayerView.update: ");
         if (null == currentPlayer) currentPlayer = (Player) obs;
         name = currentPlayer.getName();
         currentPlayerLabel.setText(name);
@@ -35,5 +35,10 @@ public class PlayerView implements Observer {
         armiesInHandLabel.setText(Integer.toString(armiesInHands));
         color = currentPlayer.getColor();
         currentPlayerLabel.setStyle("-fx-background-color: " + color);
+        if (0 == armiesInHands) view.nextPlayer();
     }
+
+    public String getName() { return name; }
+
+    public int getArmiesInHands() { return armiesInHands; }
 }

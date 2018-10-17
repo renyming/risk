@@ -21,6 +21,7 @@ public class MapController {
     @FXML private AnchorPane mapPane;
     @FXML private Button saveEditedMapButton;
     @FXML private Button backToMenuButton;
+    @FXML private Button nextPhaseButton;
     @FXML private AnchorPane currentPlayerPane;
     @FXML private Label currentPlayerLabel;
     @FXML private Label armiesInHandLabel;
@@ -40,8 +41,9 @@ public class MapController {
         reinforceFromCountryLabel.setVisible(false);
         reinforceToLabel.setVisible(false);
         reinforceToCountryLabel.setVisible(false);
+        nextPhaseButton.setVisible(false);
         mapPane.setOnMouseClicked((e) -> {
-            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
+            if (view.checkEdit() && e.getEventType() == MouseEvent.MOUSE_CLICKED) {
                 //TODO: get the player color somehow
                 //TODO: get the continent color by the map continent framework
                 // cursor position is translated to the countryView lef-top corner position
@@ -63,7 +65,16 @@ public class MapController {
 
     public Label getCurrentPlayerLabel() { return currentPlayerLabel; }
 
-    public Label getArimesInHandLabel() { return armiesInHandLabel; }
+    public Label getArmiesInHandLabel() { return armiesInHandLabel; }
 
     public Label getPhaseLabel() { return phaseLabel; }
+
+    public void switchToNextPhase() {
+        view.switchToNextPhase();
+    }
+
+    public void showNextPhaseButton(String nextPhase) {
+        nextPhaseButton.setText(nextPhase);
+        nextPhaseButton.setVisible(true);
+    }
 }

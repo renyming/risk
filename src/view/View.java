@@ -1,5 +1,6 @@
 package view;
 
+import model.Country;
 import model.Model;
 import common.Message;
 
@@ -35,6 +36,8 @@ public class View implements Observer {
     private AnchorPane currentPlayerPane;
     private HashMap<Integer, CountryView> countryViews;
     private HashMap<Integer, LineView> lineViews;
+
+    private boolean editEnable = false;
 
 
 
@@ -88,11 +91,21 @@ public class View implements Observer {
                 break;
             case CREATE_OBSERVERS:
                 System.out.println("create Country Observers");
-                menuController.displaySelectedFileName(selectedFileName, true, "Useful info here");
-                if (null == countryViews) countryViews = new HashMap<>();
-                for (int i = 1; i <= (int) message.obj; ++i) {
-                    countryViews.put(i, createDefaultCountryView(0, 0, "#ff0000", "#0000ff"));
+                if (null == countryViews) {
+                    countryViews = new HashMap<>();
+                } else if (0 != countryViews.size()) {
+                    countryViews.clear();
                 }
+                menuController.displaySelectedFileName(selectedFileName, true, "Useful info here");
+                // TODO: click the 'Select Map more than once' triggers the bug
+//                System.out.println((int) message.obj + " " + countryViews.size());
+                int numOfCountries = (int) message.obj;
+                for (int i = 1; i <= numOfCountries; ++i) {
+                    countryViews.put(i, createDefaultCountryView(0, 0, "#ff0000", "#0000ff"));
+//                    System.out.println((i + " " + countryViews.size()));
+                }
+//                System.out.println((int) message.obj + " " + countryViews.size());
+
                 model.linkCountryObservers(countryViews);
                 break;
             case PLAYER_NUMBER:
@@ -104,6 +117,8 @@ public class View implements Observer {
                 mapController.getPhaseLabel().setText("Start Up Phase");
                 menuController.showStartGameButton();
                 break;
+            case ROUND_ROBIN:
+                System.out.println("round robin begins");
         }
     }
 
@@ -112,7 +127,7 @@ public class View implements Observer {
         menuStage.show();
         menuController.resetStartUpMenu();
         // TODO: clear drawing area from previous creation
-        if (null != countryViews) countryViews.clear();
+//        if (null != countryViews) countryViews.clear();
         if (null != lineViews) lineViews.clear();
     }
 
@@ -171,4 +186,32 @@ public class View implements Observer {
         playerView = new PlayerView(this, mapController);
         model.initiatePlayers(playerNum, playerView);
     }
+
+
+    public void allocateArmy(Country country) {
+        if (0 != playerView.getArmiesInHands() && playerView.getName().equals(country.getOwner().getName()))  {
+            model.allocateArmy(country);
+        }
+    }
+
+    public void nextPlayer() { model.nextPlayer(); }
+
+    public void attack() {
+        enableNextPhaseButton("Enter Attack Phase");
+        model.attack();
+    }
+
+    public void fortification(Country fromCountry, Country toCountry, int numArmiesMove) {
+        model.fortification(fromCountry, toCountry, numArmiesMove);
+    }
+
+    public void switchToNextPhase() {
+        System.out.println("entering next phase");
+    }
+
+    public void enableNextPhaseButton(String nextPhase) {
+        mapController.showNextPhaseButton(nextPhase);
+    }
+
+    public boolean checkEdit() { return editEnable; }
 }

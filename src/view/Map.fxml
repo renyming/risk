@@ -21,6 +21,6 @@
       <Button fx:id="saveEditedMapButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Save" />
       <Button fx:id="backToMenuButton" layoutX="160.0" layoutY="50.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="30.0" prefWidth="50.0" text="Quit" />
       <Label fx:id="phaseLabel" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: black;" text="Current Phase" />
-      <Button layoutX="1090.0" layoutY="660.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Next" />
+      <Button fx:id="nextPhaseButton" layoutX="1090.0" layoutY="660.0" mnemonicParsing="false" onAction="#switchToNextPhase" prefHeight="30.0" prefWidth="100.0" text="Next" />
    </children>
 </AnchorPane>

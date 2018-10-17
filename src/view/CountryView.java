@@ -1,6 +1,7 @@
 package view;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Country;
 import model.Player;
@@ -13,7 +14,7 @@ public class CountryView implements Observer {
     private static int IdCounter = 0;
 
     private int Id;
-    private int arimes;        // used for additional display
+    private int armies;        // used for additional display
     private String name;       // used for additional display
     private Player owner;
     private String ownerColor = "red";
@@ -39,12 +40,20 @@ public class CountryView implements Observer {
             FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
             countryController = countryFxmlLoader.getController();
-            countryController.setDefaultInfo(this, "Country_"+Id, 0, ownerColor, continentColor);
-            countryPane.setLayoutX(layoutX);
-            countryPane.setLayoutY(layoutY);
         } catch (Exception e) {
             System.out.println("CountryView ctor: " + e);
         }
+        countryController.initiate(this);
+        countryController.setDefaultInfo("Country_"+Id, 0, ownerColor, continentColor);
+        countryPane.setLayoutX(layoutX);
+        countryPane.setLayoutY(layoutY);
+//        countryController.getDisplayArmiesHBox().setOnMouseClicked((e) -> {
+//            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
+//                System.out.println("CountryView: " + owner.getName() + "'s country " + name + " is clicked");
+//                view.allocateArmy(country);
+//            }
+//        });
+        // TODO: edd drag event
     }
 
 
@@ -57,17 +66,16 @@ public class CountryView implements Observer {
      */
     @Override
     public void update(Observable obj, Object x) {
-        System.out.println("CountryView.update(): ");
+//        System.out.println("CountryView.update(): ");
         if (null == country) country = (Country) obj;
         Id = country.getId();
         name = country.getName();
-        arimes = country.getArmies();
-        System.out.println(arimes);
+        armies = country.getArmies();
         owner = country.getOwner();
-//        ownerColor = owner.getColor(); // TODO:
+        ownerColor = owner.getColor(); // TODO:
         countryPane.setLayoutX(country.getX());
         countryPane.setLayoutY(country.getY());
-        countryController.updateCountryPaneInfo(name, ownerColor, continentColor, arimes);
+        countryController.updateCountryPaneInfo(name, ownerColor, continentColor, armies);
     }
 
 
@@ -80,9 +88,13 @@ public class CountryView implements Observer {
     public AnchorPane getCountryPane() { return countryPane; }
 
     public void removeCountryView() {
-        countryPane.getChildren().clear();
-        view.removeCountryView(this);
+        if (view.checkEdit()) {
+            countryPane.getChildren().clear();
+            view.removeCountryView(this);
+        }
     }
+
+    public void allocateArmy() { view.allocateArmy(country); }
 
     /**
      * Get the country id as key

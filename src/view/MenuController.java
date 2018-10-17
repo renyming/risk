@@ -85,7 +85,7 @@ public class MenuController {
 
     public void quit() { view.closeMenuStage(); }
 
-    public void selectMap() { view.selectMap(); }
+    public void selectMap() {view.selectMap(); }
 
     public void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
         mapInfoPane.setVisible(true);

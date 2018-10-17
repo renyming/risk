@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="70.0" prefWidth="70.0" style="-fx-background-radius: 5; -fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CountryController">
+<AnchorPane fx:id="countryPane" prefHeight="70.0" prefWidth="70.0" style="-fx-background-radius: 5; -fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CountryController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="70.0" style="-fx-background-radius: 5;">
          <children>
@@ -23,7 +23,7 @@
                 <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="countryNameLabel" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0000ff; -fx-background-radius: 5; -fx-stroke: red; -fx-stroke-width: 2;" text="Country_99" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Label fx:id="countryNameLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0000ff; -fx-background-radius: 5;" text="Country_99" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="8.0" />
                      </font>
