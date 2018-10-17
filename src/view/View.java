@@ -240,24 +240,21 @@ public class View implements Observer {
 
     public void startNextPhase() { // or start current phase
         pause = false;
+        mapController.showPhaseLabel();
         mapController.hideNextPhaseButton();
-        mapController.hidePhaseLabel();
         mapController.setPhaseLabel(mapController.getNextPhaseButtonTest().substring(6));
         switch (currentPhase) {
             case START_UP:
                 currentPhase = PHASE.REINFORCEMENT;
                 mapController.showFromToCountriesInfoPane(false);
-                mapController.hidePhaseLabel();
                 break;
             case REINFORCEMENT: // current state is reinforcement,
                 currentPhase = PHASE.FORTIFICATION;
                 mapController.showFromToCountriesInfoPane(true);
-                mapController.hidePhaseLabel();
                 break;
             case FORTIFICATION:
                 currentPhase = PHASE.REINFORCEMENT;
                 mapController.showFromToCountriesInfoPane(false);
-                mapController.hidePhaseLabel();
                 break;
         }
     }
@@ -275,7 +272,6 @@ public class View implements Observer {
                 model.nextPlayer();
                 break;
             case REINFORCEMENT:
-                mapController.showPhaseLabel();
                 showNextPhaseButton("Enter Fortification Phase");
                 break;
             case ATTACK:
@@ -284,7 +280,6 @@ public class View implements Observer {
                 showNextPhaseButton("Enter Reinforcement Phase");
                 model.reinforcement();
                 mapController.resetFromToCountriesInfo();
-                mapController.showPhaseLabel();
                 break;
             default:
                 break;
