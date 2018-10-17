@@ -42,6 +42,4 @@ public class CountryController {
         displayArmiesHBox.setStyle("-fx-background-color: " + playerColor);
 //        displayArmiesHBox.setStyle("-fx-background-radius: 5");
     }
-
-    public HBox getDisplayArmiesHBox () { return displayArmiesHBox; }
 }

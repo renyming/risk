@@ -9,7 +9,7 @@ import java.util.Observer;
 public class PlayerView implements Observer {
 
     private View view;
-    private MapController mapController;
+//    private MapController mapController;
     private Player currentPlayer;
     private String name;
     private String color;
@@ -20,15 +20,14 @@ public class PlayerView implements Observer {
 
     public PlayerView(View view, MapController mapController) {
         this.view = view;
-        this.mapController = mapController;
+//        this.mapController = mapController;
         currentPlayerLabel = mapController.getCurrentPlayerLabel();
         armiesInHandLabel = mapController.getArmiesInHandLabel();
     }
 
     @Override
     public void update(Observable obs, Object arg) {
-//        System.out.println("PlayerView.update: ");
-        if (null == currentPlayer) currentPlayer = (Player) obs;
+        currentPlayer = (Player) obs;
         name = currentPlayer.getName();
         currentPlayerLabel.setText(name);
         armiesInHands = currentPlayer.getArmies();
@@ -36,6 +35,7 @@ public class PlayerView implements Observer {
         color = currentPlayer.getColor();
         currentPlayerLabel.setStyle("-fx-background-color: " + color);
         if (0 == armiesInHands) view.nextPlayer();
+        System.out.println("PlayerView.update: ");
     }
 
     public String getName() { return name; }

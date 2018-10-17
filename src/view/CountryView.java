@@ -47,12 +47,6 @@ public class CountryView implements Observer {
         countryController.setDefaultInfo("Country_"+Id, 0, ownerColor, continentColor);
         countryPane.setLayoutX(layoutX);
         countryPane.setLayoutY(layoutY);
-//        countryController.getDisplayArmiesHBox().setOnMouseClicked((e) -> {
-//            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
-//                System.out.println("CountryView: " + owner.getName() + "'s country " + name + " is clicked");
-//                view.allocateArmy(country);
-//            }
-//        });
         // TODO: edd drag event
     }
 
@@ -81,18 +75,14 @@ public class CountryView implements Observer {
 
 
     /**
-     * View use this function to add the countryPane to the mapRootPane
+     * View use this function to add/remove the countryPane to the mapRootPane
+     * or clear the countryPane's component
      * Called by View
      * @return the countryPane object
      */
     public AnchorPane getCountryPane() { return countryPane; }
 
-    public void removeCountryView() {
-        if (view.checkEdit()) {
-            countryPane.getChildren().clear();
-            view.removeCountryView(this);
-        }
-    }
+    public void removeCountryView() { view.removeCountryView(this); }
 
     public void allocateArmy() { view.allocateArmy(country); }
 

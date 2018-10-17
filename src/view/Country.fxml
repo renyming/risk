@@ -49,13 +49,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <AnchorPane maxHeight="50.0" maxWidth="20.0" style="-fx-background-color: yellow; -fx-background-radius: 5;" />
+                  <AnchorPane maxHeight="50.0" maxWidth="20.0" style="-fx-background-color: yellow; -fx-background-radius: 5;" visible="false" />
                   <Label fx:id="numArmiesLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="30.0" text="999" textAlignment="CENTER" GridPane.columnIndex="1">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <AnchorPane maxHeight="50.0" maxWidth="20.0" style="-fx-background-color: yellow; -fx-background-radius: 5;" GridPane.columnIndex="2" />
+                  <AnchorPane maxHeight="50.0" maxWidth="20.0" style="-fx-background-color: yellow; -fx-background-radius: 5;" visible="false" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </children>

@@ -52,10 +52,7 @@ public class MapController {
         });
     }
 
-    public void backToMenu() {
-        // TODO: reset all Label, Button,
-        view.showMenuStage();
-    }
+    public void backToMenu() { view.showMenuStage(); }
 
     public AnchorPane getCurrentPlayerPane() { return currentPlayerPane; }
 

@@ -37,7 +37,7 @@ public class View implements Observer {
     private HashMap<Integer, CountryView> countryViews;
     private HashMap<Integer, LineView> lineViews;
 
-    private boolean editEnable = false;
+    private boolean editEnable;
 
 
 
@@ -118,23 +118,26 @@ public class View implements Observer {
                 menuController.showStartGameButton();
                 break;
             case ROUND_ROBIN:
+                model.reinforcement();
                 System.out.println("round robin begins");
         }
     }
 
     public void showMenuStage() {
+        // TODO: reset all Label, Button etc.
+        // TODO: clear drawing area from previous creation
+
+        editEnable = false;
         mapStage.hide();
         menuStage.show();
         menuController.resetStartUpMenu();
-        // TODO: clear drawing area from previous creation
-//        if (null != countryViews) countryViews.clear();
+        if (null != countryViews) countryViews.clear();
         if (null != lineViews) lineViews.clear();
     }
 
     public void showMapStage() {
         menuStage.hide();
         mapStage.show();
-        if (null == countryViews) countryViews = new HashMap<>();
         lineViews = new HashMap<>();
     }
 
@@ -178,8 +181,11 @@ public class View implements Observer {
     }
 
     public void removeCountryView(CountryView countryView) {
-        countryViews.remove(countryView.getId());
-        mapRootPane.getChildren().remove(countryView.getCountryPane());
+        if (editEnable) {
+            countryView.getCountryPane().getChildren().clear();
+            mapRootPane.getChildren().remove(countryView.getCountryPane());
+            countryViews.remove(countryView.getId());
+        }
     }
 
     public void initializePlayer(int playerNum) {
