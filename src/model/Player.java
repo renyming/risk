@@ -104,7 +104,7 @@ public class Player extends Observable {
     * the initial number of armies is 15
     */
     public void addInitArmies(){
-        setArmies(15);
+        setArmies(2);
     }
 
     /**

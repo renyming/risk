@@ -43,8 +43,8 @@ public class MenuController {
                     userEnteredPlayNumLabel.setText("Must be positive");
                     startGameButton.setVisible(false);
                 } else {
-                        playerNumInstructionLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
-                        view.initializePlayer(userEnteredPlayerNum);
+                    playerNumInstructionLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
+                    view.initializePlayer(userEnteredPlayerNum);
                 }
             } catch (Exception e) {
                 userEnteredPlayNumLabel.setText("Enter an integer");
@@ -85,7 +85,7 @@ public class MenuController {
 
     public void quit() { view.closeMenuStage(); }
 
-    public void selectMap() { view.selectMap(); }
+    public void selectMap() {view.selectMap(); }
 
     public void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
         mapInfoPane.setVisible(true);

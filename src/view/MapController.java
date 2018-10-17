@@ -21,13 +21,14 @@ public class MapController {
     @FXML private AnchorPane mapPane;
     @FXML private Button saveEditedMapButton;
     @FXML private Button backToMenuButton;
+    @FXML private Button nextPhaseButton;
     @FXML private AnchorPane currentPlayerPane;
     @FXML private Label currentPlayerLabel;
     @FXML private Label armiesInHandLabel;
-    @FXML private Label reinforceFromLabel;
-    @FXML private Label reinforceFromCountryLabel;
-    @FXML private Label reinforceToLabel;
-    @FXML private Label reinforceToCountryLabel;
+    @FXML private Label fortificationFromLabel;
+    @FXML private Label fortificationFromCountryLabel;
+    @FXML private Label fortificationToLabel;
+    @FXML private Label fortificationToCountryLabel;
     @FXML private Label phaseLabel;
 
     public void initialize(View view, double newCountryViewWidth, double newCountryViewHeight) {
@@ -36,12 +37,13 @@ public class MapController {
         this.countryViewHeight = newCountryViewHeight;
         playerColor = DEFAULT_PLAYER_COLOR;
         continentColor = DEFAULT_CONTINENT_COLOR;
-        reinforceFromLabel.setVisible(false);
-        reinforceFromCountryLabel.setVisible(false);
-        reinforceToLabel.setVisible(false);
-        reinforceToCountryLabel.setVisible(false);
+        fortificationFromLabel.setVisible(false);
+        fortificationFromCountryLabel.setVisible(false);
+        fortificationToLabel.setVisible(false);
+        fortificationToCountryLabel.setVisible(false);
+        nextPhaseButton.setVisible(false);
         mapPane.setOnMouseClicked((e) -> {
-            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
+            if (view.checkEdit() && e.getEventType() == MouseEvent.MOUSE_CLICKED) {
                 //TODO: get the player color somehow
                 //TODO: get the continent color by the map continent framework
                 // cursor position is translated to the countryView lef-top corner position
@@ -50,10 +52,7 @@ public class MapController {
         });
     }
 
-    public void backToMenu() {
-        // TODO: reset all Label, Button,
-        view.showMenuStage();
-    }
+    public void backToMenu() { view.showMenuStage(); }
 
     public AnchorPane getCurrentPlayerPane() { return currentPlayerPane; }
 
@@ -63,7 +62,25 @@ public class MapController {
 
     public Label getCurrentPlayerLabel() { return currentPlayerLabel; }
 
-    public Label getArimesInHandLabel() { return armiesInHandLabel; }
+    public Label getArmiesInHandLabel() { return armiesInHandLabel; }
 
-    public Label getPhaseLabel() { return phaseLabel; }
+    public void setPhaseLabel(String phase) { phaseLabel.setText(phase); }
+
+    public void showNextPhaseButton(String nextPhase) {
+        nextPhaseButton.setText(nextPhase);
+        nextPhaseButton.setVisible(true);
+    }
+
+    public void hideNextPhaseButton() { nextPhaseButton.setVisible(false); }
+
+    public void startNextPhase() { view.startNextPhase(); }
+
+    public void showFortificationInfoPane() {
+        fortificationFromLabel.setVisible(false);
+        fortificationFromCountryLabel.setVisible(false);
+        fortificationToLabel.setVisible(false);
+        fortificationToCountryLabel.setVisible(false);
+    }
+
+    public String getNextPhaseButtonTest() { return nextPhaseButton.getText(); }
 }
