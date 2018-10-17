@@ -34,8 +34,8 @@ public class PlayerView implements Observer {
         armiesInHandLabel.setText(Integer.toString(armiesInHands));
         color = currentPlayer.getColor();
         currentPlayerLabel.setStyle("-fx-background-color: " + color);
-        if (0 == armiesInHands) view.nextPlayer();
-        System.out.println("PlayerView.update: ");
+        if (0 == armiesInHands) view.prepareNextPhase();
+//        System.out.println("PlayerView.update: ");
     }
 
     public String getName() { return name; }

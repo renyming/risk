@@ -6,6 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import model.Country;
 import model.Player;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +20,8 @@ public class CountryView implements Observer {
     private Player owner;
     private String ownerColor = "red";
     private String continentColor = "blue";
+    private double locationX;
+    private double locationY;
 
     private Country country;
     private View view;
@@ -67,8 +70,10 @@ public class CountryView implements Observer {
         armies = country.getArmies();
         owner = country.getOwner();
         ownerColor = owner.getColor(); // TODO:
-        countryPane.setLayoutX(country.getX());
-        countryPane.setLayoutY(country.getY());
+        locationX = country.getX();
+        locationY = country.getY();
+        countryPane.setLayoutX(locationX);
+        countryPane.setLayoutY(locationY);
         countryController.updateCountryPaneInfo(name, ownerColor, continentColor, armies);
     }
 
@@ -84,7 +89,7 @@ public class CountryView implements Observer {
 
     public void removeCountryView() { view.removeCountryView(this); }
 
-    public void allocateArmy() { view.allocateArmy(country); }
+    public void clicked() { view.clickedCountry(country); }
 
     /**
      * Get the country id as key
@@ -92,4 +97,12 @@ public class CountryView implements Observer {
      * @return countryView Id
      */
     public int getId() { return Id; }
+
+    public double getLocationX() { return locationX; }
+
+    public double getLocationY() { return locationY; }
+
+    public Country getCountry() { return country; }
+
+    public ArrayList<Country> getAdjCountries() { return country.getAdjCountries(); }
 }

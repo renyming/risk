@@ -25,10 +25,10 @@ public class MapController {
     @FXML private AnchorPane currentPlayerPane;
     @FXML private Label currentPlayerLabel;
     @FXML private Label armiesInHandLabel;
-    @FXML private Label reinforceFromLabel;
-    @FXML private Label reinforceFromCountryLabel;
-    @FXML private Label reinforceToLabel;
-    @FXML private Label reinforceToCountryLabel;
+    @FXML private Label fortificationFromLabel;
+    @FXML private Label fortificationFromCountryLabel;
+    @FXML private Label fortificationToLabel;
+    @FXML private Label fortificationToCountryLabel;
     @FXML private Label phaseLabel;
 
     public void initialize(View view, double newCountryViewWidth, double newCountryViewHeight) {
@@ -37,10 +37,10 @@ public class MapController {
         this.countryViewHeight = newCountryViewHeight;
         playerColor = DEFAULT_PLAYER_COLOR;
         continentColor = DEFAULT_CONTINENT_COLOR;
-        reinforceFromLabel.setVisible(false);
-        reinforceFromCountryLabel.setVisible(false);
-        reinforceToLabel.setVisible(false);
-        reinforceToCountryLabel.setVisible(false);
+        fortificationFromLabel.setVisible(false);
+        fortificationFromCountryLabel.setVisible(false);
+        fortificationToLabel.setVisible(false);
+        fortificationToCountryLabel.setVisible(false);
         nextPhaseButton.setVisible(false);
         mapPane.setOnMouseClicked((e) -> {
             if (view.checkEdit() && e.getEventType() == MouseEvent.MOUSE_CLICKED) {
@@ -64,14 +64,23 @@ public class MapController {
 
     public Label getArmiesInHandLabel() { return armiesInHandLabel; }
 
-    public Label getPhaseLabel() { return phaseLabel; }
-
-    public void switchToNextPhase() {
-        view.switchToNextPhase();
-    }
+    public void setPhaseLabel(String phase) { phaseLabel.setText(phase); }
 
     public void showNextPhaseButton(String nextPhase) {
         nextPhaseButton.setText(nextPhase);
         nextPhaseButton.setVisible(true);
     }
+
+    public void hideNextPhaseButton() { nextPhaseButton.setVisible(false); }
+
+    public void startNextPhase() { view.startNextPhase(); }
+
+    public void showFortificationInfoPane() {
+        fortificationFromLabel.setVisible(false);
+        fortificationFromCountryLabel.setVisible(false);
+        fortificationToLabel.setVisible(false);
+        fortificationToCountryLabel.setVisible(false);
+    }
+
+    public String getNextPhaseButtonTest() { return nextPhaseButton.getText(); }
 }

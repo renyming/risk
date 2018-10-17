@@ -18,7 +18,7 @@ public class CountryController {
         this.countryView = countryView;
         displayArmiesHBox.setOnMouseClicked((e) -> {
             if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                countryView.allocateArmy();
+                countryView.clicked();
             }
         });
     }
