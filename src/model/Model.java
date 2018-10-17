@@ -104,13 +104,17 @@ public class Model extends Observable {
      * 1. When allocate armies at start up phase, when the last player finishes army allocation, this method tells view
      * round robin starts;
      * 2. In round robin, when the last player finishes fortification phase, this method tells view round robin starts
-     * again, meanwhile change current player to the first player
+     * again, meanwhile change current player to the first player.
      */
     public void nextPlayer(){
         int currentId = currentPlayer.getId();
         int numPlayer = getNumOfPlayer();
         //wraps around the bounds of ID
         int nextId = (currentId%numPlayer+numPlayer)%numPlayer+1;
+        //CurrentPlayer notifies view to update
+        currentPlayer=players.get(nextId-1);
+        currentPlayer.notify();
+
         //The next player is the first player, current round ended, send STATE message
         if (nextId == 1) {
             Message message = new Message(STATE.ROUND_ROBIN, null);
