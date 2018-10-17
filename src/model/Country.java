@@ -10,7 +10,7 @@ import java.util.Observable;
  * Note:
  *      1. No arg in notifyObservers() call because view will refresh all the elements on "Country" node;
  */
-public class Country extends Observable {
+public class Country extends Observable implements Comparable<Country> {
 
     //Unique ID for each country, starts from 1
     private int ID;
@@ -247,6 +247,16 @@ public class Country extends Observable {
      */
     public ArrayList<Country> getAdjCountries() {
         return adjCountries;
+    }
+
+    /**
+     * Compare two counties based on their ID
+     * @param c Country need to be compare
+     * @return  returns a negative integer, zero, or a positive integer as this employee id,is less than, equal to, or greater than the specified object.
+     */
+    @Override
+    public int compareTo(Country c) {
+        return (this.ID - c.ID);
     }
 
 
