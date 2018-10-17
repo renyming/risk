@@ -159,11 +159,7 @@ public class Model extends Observable {
      */
     public void initiatePlayers(int numOfPlayers, PlayerView playerView){
 
-        System.out.println("enter the player");
-
         players.clear();
-
-        System.out.println(players.size());
 
         playerCounter = numOfPlayers;
 
@@ -194,9 +190,7 @@ public class Model extends Observable {
         //give state to view
         Message message = new Message(STATE.INIT_ARMIES,null);
         notify(message);
-
-
-        System.out.println(players.size());
+        
     }
 
     /**

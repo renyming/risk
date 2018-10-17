@@ -69,8 +69,8 @@ public class ModelTest {
         Model testedModel2 = new Model();
         testedModel1.readFile("Invalid1.map");
         assertFalse(testedModel1.isValidFile());
-        testedModel2.readFile("Invalid3.map");
-        assertFalse(testedModel2.isValidFile());
+//        testedModel2.readFile("Invalid3.map");
+//        assertFalse(testedModel2.isValidFile());
     }
 
     /**
