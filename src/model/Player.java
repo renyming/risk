@@ -123,8 +123,12 @@ public class Player extends Observable {
     */
     private int getArmiesAdded() {
 
+        int armiesAdded = 0;
+
         // based on countries num
-        int armiesAdded = countriesOwned.size() / 3;
+        if (countriesOwned.size() > 0) {
+            armiesAdded = countriesOwned.size() / 3;
+        }
 
         //based on continent
         armiesAdded += getArmiesAddedFromContinent();

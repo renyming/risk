@@ -8,9 +8,7 @@ import view.CountryView;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * Define Observable class
@@ -164,14 +162,35 @@ public class Model extends Observable {
             players.add(newPlayer);
         }
 
-        //current player notify
-        currentPlayer = players.get(0);
-        currentPlayer.callObservers();
+
 
         //notify all countriesView
+        Queue<Country> queque = new PriorityQueue<Country>();
+        for (String key:countries.keySet()) {
+            queque.add(countries.get(key));
+        }
+
+        while (!queque.isEmpty()) {
+
+            for (Player p : players) {
+
+                Country c = queque.poll();
+                p.addCountry(c);
+                c.setPlayer(p);
+
+                if(queque.isEmpty()) {
+                    break;
+                }
+            }
+        }
+
         for (String key:countries.keySet()) {
             countries.get(key).callObservers();
         }
+
+        //current player notify
+        currentPlayer = players.get(0);
+        currentPlayer.callObservers();
 
         //give state
         Message message = new Message(STATE.INIT_ARMIES,null);

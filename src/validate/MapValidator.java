@@ -12,15 +12,11 @@ import java.util.Map;
 
 /**
  * Map validator.
- *
- * @author Hao Lei
- * @version 1.0.0
  */
 public class MapValidator {
 
     /**
      * Validate the map data.
-     *
      * @param model model object
      * @throws InvalidMapException invalid exception
      */
@@ -43,7 +39,6 @@ public class MapValidator {
 
     /**
      * Validate continet. It should have at least one country.
-     *
      * @param continent continent object
      * @param model model object
      * @throws InvalidMapException invalid map exception
@@ -66,7 +61,6 @@ public class MapValidator {
 
     /**
      * Check if graph is a connected graph.
-     *
      * @param continent continent object
      * @param model model object
      * @return boolean true or false
@@ -93,7 +87,6 @@ public class MapValidator {
 
     /**
      * Check if the country is a valid country. It should has at least one adjacent neighbor country
-     *
      * @param country country object
      * @param model model object
      * @throws InvalidMapException invalid map exception
@@ -139,7 +132,6 @@ public class MapValidator {
 
     /**
      * Check if a graph is connected or not.
-     *
      * @param country country object
      * @param tSet tSet object
      */
@@ -160,7 +152,6 @@ public class MapValidator {
 
     /**
      * Check if the countries are uniquely associated with the continent.
-     *
      * @param model model object
      * @throws InvalidMapException invalid map exception
      */
