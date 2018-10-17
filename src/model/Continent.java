@@ -17,6 +17,7 @@ public class Continent {
     private int controlVal;
     //May change ArrayList to other data structure later
     private ArrayList<Country> contries;
+    private String color;
 
     /**
      * Constructor of Continent
@@ -28,6 +29,23 @@ public class Continent {
         this.ID=++cID;
         this.controlVal = controlVal;
         contries = new ArrayList<Country>();
+    }
+
+    /**
+     * getter for continent color
+     * @return
+     */
+    public String getColor(){
+        return color;
+    }
+
+    /**
+     * setter for continent color
+     * @param color the color to set to continent
+     * @return
+     */
+    public void setColor(String color) {
+        this.color = color;
     }
 
     /**

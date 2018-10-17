@@ -2,7 +2,6 @@ package model;
 
 import common.Message;
 import common.STATE;
-import exception.InvalidMapException;
 import validate.MapValidator;
 import view.PlayerView;
 import view.CountryView;
@@ -10,7 +9,6 @@ import view.CountryView;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -29,8 +27,8 @@ public class Model extends Observable {
     private int playerCounter;
     private boolean validFile = true;
 
-    private String[] colors = {"#FFD700","#FFFF00","#F5F5DC","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#00FFFF"};
-
+    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
+    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
 
     /**
      * ctor for Model
@@ -42,6 +40,9 @@ public class Model extends Observable {
         playerCounter = 0;
     }
 
+    /**
+     * rest model object before reload mapfile
+     */
     private void rest(){
         players = new ArrayList<>();
         countries = new HashMap<>();
@@ -165,7 +166,7 @@ public class Model extends Observable {
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.addInitArmies();
             //assign each player a different color
-            newPlayer.setColor(colors[i]);
+            newPlayer.setColor(userColors[i]);
             //add observer(playerView)
             newPlayer.addObserver(playerView);
             //newPlayer.callObservers();
@@ -248,11 +249,13 @@ public class Model extends Observable {
         int index = continentsList.indexOf("[Continents]");
         continentsList = continentsList.substring(index + 13);
         String[] list = continentsList.split("\n");
+        int i = 0;
         for (String s : list) {
             int indexOfCol = s.indexOf('=');
             String continentName = s.substring(0,indexOfCol);
             int controlVal = Integer.parseInt(s.substring(indexOfCol + 1));
             Continent newContinent = new Continent(continentName,controlVal);
+            newContinent.setColor(continentColors[i]);
             this.continents.add(newContinent);
         }
     }
