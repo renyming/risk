@@ -63,6 +63,18 @@ public class ModelTest {
 
     @Test
     /**
+     * Test map file validation
+     */
+    public void validateFile() throws IOException{
+        Model testedModel = new Model();
+        String filePath = "Invalid1.map";
+        testedModel.readFile(filePath);
+        assertFalse(testedModel.isInvalidMap());
+    }
+
+
+    @Test
+    /**
      * Test readFile() method
      */
     public void testReadFile() throws IOException {

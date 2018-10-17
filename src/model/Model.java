@@ -25,8 +25,9 @@ public class Model extends Observable {
     private HashMap<String,Country> countries;
     private ArrayList<Continent> continents;
     private int playerCounter;
+    private boolean invalidMap = true;
 
-    private String[] colors = {"#8B0000","#0000FF","#FFD700","#00FFFF","#FF1493"};
+    private String[] colors = {"#FFD700","#FFFF00","#F5F5DC","#7CFC00","#00FFFF","#00FF00","#E9967A","#BA55D3","#FFB6C1","#00FFFF"};
 
 
     /**
@@ -189,11 +190,12 @@ public class Model extends Observable {
 
     /**
      * load the map from a player chose map file
+     * validate map file
      * initiate continents,countries and players
      * notify View
      * @param filePath The path of the map file
      */
-    public void readFile(String filePath)throws IOException {
+    public void readFile(String filePath) throws IOException {
 
         String content = "";
         String line = "";
@@ -204,15 +206,23 @@ public class Model extends Observable {
             content = content + line + "\n";
             line = in.readLine();
         }
-        bodies = content.split("\n\n");
-        initiateContinents(bodies[1]);
-        for(int i = 2; i < bodies.length; i ++){
-            initiateCountries(bodies[i]);
+        //validate map file
+        try {
+            bodies = content.split("\n\n");
+            initiateContinents(bodies[1]);
+            for(int i = 2; i < bodies.length; i ++){
+                initiateCountries(bodies[i]);
+            }
+        } catch (Exception ex){
+            invalidMap = false;
+            System.out.println(ex.toString());
         }
-        //if fail
-        Message message = new Message(STATE.LOAD_FILE,"Why invalid");
-        //if ture
-        message = new Message(STATE.CREATE_OBSERVERS,countries.size());
+        Message message;
+        if(invalidMap){
+            message = new Message(STATE.CREATE_OBSERVERS,countries.size());
+        } else {
+            message = new Message(STATE.LOAD_FILE,"invalid map file");
+        }
         notify(message);
     }
 
@@ -221,8 +231,8 @@ public class Model extends Observable {
      * @param continentsList The list of continents
      */
     private void initiateContinents(String continentsList){
-        int index = continentsList.indexOf(']');
-        continentsList = continentsList.substring(index + 2);
+        int index = continentsList.indexOf("[Continents]");
+        continentsList = continentsList.substring(index + 13);
         String[] list = continentsList.split("\n");
         for (String s : list) {
             int indexOfCol = s.indexOf('=');
@@ -325,4 +335,11 @@ public class Model extends Observable {
      */
     public void setContinents(List<Continent> continents) { this.continents = (ArrayList<Continent>) continents; }
 
+    /**
+     * report if the loaded map file is valid or not
+     * @return true if the map file is valid; otherwise return false
+     */
+    public boolean isInvalidMap() {
+        return invalidMap;
+    }
 }
