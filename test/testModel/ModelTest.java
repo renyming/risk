@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import model.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import view.PlayerView;
 
 import java.io.IOException;
 
@@ -66,10 +65,12 @@ public class ModelTest {
      */
     @Test
     public void validateFile() throws IOException{
-        Model testedModel = new Model();
-        String filePath = "Invalid1.map";
-        testedModel.readFile(filePath);
-        assertFalse(testedModel.isInvalidMap());
+        Model testedModel1 = new Model();
+        Model testedModel2 = new Model();
+        testedModel1.readFile("Invalid1.map");
+        assertFalse(testedModel1.isValidFile());
+        testedModel2.readFile("Invalid3.map");
+        assertFalse(testedModel2.isValidFile());
     }
 
     /**

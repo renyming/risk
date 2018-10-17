@@ -2,6 +2,8 @@ package model;
 
 import common.Message;
 import common.STATE;
+import exception.InvalidMapException;
+import validate.MapValidator;
 import view.PlayerView;
 import view.CountryView;
 
@@ -15,7 +17,6 @@ import java.util.*;
  * ...
  */
 
-
 public class Model extends Observable {
 
     private static Player currentPlayer;
@@ -25,9 +26,9 @@ public class Model extends Observable {
     private HashMap<String,Country> countries;
     private ArrayList<Continent> continents;
     private int playerCounter;
-    private boolean invalidMap = true;
+    private boolean validFile = true;
 
-    private String[] colors = {"#FFD700","#FFFF00","#F5F5DC","#7CFC00","#00FFFF","#00FF00","#E9967A","#BA55D3","#FFB6C1","#00FFFF"};
+    private String[] colors = {"#FFD700","#FFFF00","#F5F5DC","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#00FFFF"};
 
 
     /**
@@ -187,7 +188,7 @@ public class Model extends Observable {
      * @param filePath The path of the map file
      */
     public void readFile(String filePath) throws IOException {
-
+        validFile = true;
         String content = "";
         String line = "";
         String bodies[];
@@ -205,17 +206,39 @@ public class Model extends Observable {
                 initiateCountries(bodies[i]);
             }
         } catch (Exception ex){
-            invalidMap = false;
-            System.out.println(ex.toString());
+            validFile = false;
+            ex.getMessage();
         }
         Message message;
-        if(invalidMap){
+        if(validFile){
             message = new Message(STATE.CREATE_OBSERVERS,countries.size());
         } else {
             message = new Message(STATE.LOAD_FILE,"invalid file format!");
+            notify(message);
+            return;
+        }
+
+        int index = 0;
+        for(int i = 0; i < continents.size(); i++){
+            if(continents.get(i).getName() == "Berga"){
+                index = i;
+                break;
+            }
+        }
+
+        System.out.println(continents.get(index).getSize());
+
+        try {
+            MapValidator.validateMap(this);
+        }
+        catch (Exception ex){
+            message = new Message(STATE.LOAD_FILE,"invalid map!");
+            //ex.getMessage();
+            System.out.println(ex.toString());
+            notify(message);
+            return;
         }
         notify(message);
-        invalidMap = true;
     }
 
     /**
@@ -259,9 +282,13 @@ public class Model extends Observable {
                 Country newCountry = new Country(contents[0]);
                 countries.put(contents[0],newCountry);
             }
+
             countries.get(contents[0]).setX(contents[1]);
             countries.get(contents[0]).setY(contents[2]);
             countries.get(contents[0]).setContinent(continents.get(indexOfContinent));
+
+            //add country to corresponding continents
+            continents.get(indexOfContinent).addCountry(countries.get(contents[0]));
 
             //no adjacent neighbour
             if(contents.length <=  4)
@@ -331,7 +358,7 @@ public class Model extends Observable {
      * report if the loaded map file is valid or not
      * @return true if the map file is valid; otherwise return false
      */
-    public boolean isInvalidMap() {
-        return invalidMap;
+    public boolean isValidFile() {
+        return validFile;
     }
 }

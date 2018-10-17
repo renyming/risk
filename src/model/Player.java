@@ -251,7 +251,7 @@ public class Player extends Observable {
     public boolean isConnected(Country start, Country end) {
 
         // if doesn't contain both of countries
-        if (!isContain(start) || !isContain(end)) {
+        if (!isContain(start) ||  !isContain(end)) {
             return false;
         }
 

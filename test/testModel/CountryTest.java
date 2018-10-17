@@ -74,16 +74,16 @@ public class CountryTest {
 
         player1.addInitArmies();
         assertEquals(country1.getArmies(),0);
-        assertTrue(country1.addArmies(10));
-        assertEquals(country1.getArmies(),10);
+        assertTrue(country1.addArmies(2));
+        assertEquals(country1.getArmies(),2);
 
         player1.setArmies(5);
         assertFalse(country1.addArmies(10));
-        assertEquals(country1.getArmies(),10);
+        assertEquals(country1.getArmies(),2);
 
         //boundary condition
         assertTrue(country1.addArmies(5));
-        assertEquals(country1.getArmies(),15);
+        assertEquals(country1.getArmies(),7);
     }
 
     /**
