@@ -93,7 +93,7 @@ public class PlayerTest {
     public void addInitArmies() {
 
         int num = 2;
-        newPlayer.addInitArmies();
+        newPlayer.setArmies(2);
         assertEquals(num, newPlayer.getArmies());
     }
 

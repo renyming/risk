@@ -100,14 +100,6 @@ public class Player extends Observable {
     }
 
     /**
-    * add armies in the startup phase, before the first round of allocated armies
-    * the initial number of armies is 15
-    */
-    public void addInitArmies(){
-        setArmies(2);
-    }
-
-    /**
     * Add armies in the very first of the reinforcement phase
     * The number of armies added is computed based on the number of countries and cards it has
     */

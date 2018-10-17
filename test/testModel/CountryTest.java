@@ -72,7 +72,7 @@ public class CountryTest {
     @Test
     public void addArmies() {
 
-        player1.addInitArmies();
+        player1.setArmies(2);
         assertEquals(country1.getArmies(),0);
         assertTrue(country1.addArmies(2));
         assertEquals(country1.getArmies(),2);
@@ -102,7 +102,7 @@ public class CountryTest {
     @Ignore
     public void moveArmiesTo() {
         Country country3 = new Country("country3",continent);
-        player1.addInitArmies(); //add armies to player bounded to country1 first, or no armies can be added
+        player1.setArmies(2); //add armies to player bounded to country1 first, or no armies can be added
         country1.addArmies(5);
 
         assertEquals(country1.getArmies(),2);

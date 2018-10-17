@@ -67,10 +67,13 @@ public class ModelTest {
     public void validateFile() throws IOException{
         Model testedModel1 = new Model();
         Model testedModel2 = new Model();
+        Model testedModel3 = new Model();
         testedModel1.readFile("Invalid1.map");
         assertFalse(testedModel1.isValidFile());
-//        testedModel2.readFile("Invalid3.map");
-//        assertFalse(testedModel2.isValidFile());
+        testedModel2.readFile("Invalid3.map");
+        assertFalse(testedModel2.isValidFile());
+        testedModel3.readFile("Invalid4.map");
+        assertFalse(testedModel3.isValidFile());
     }
 
     /**

@@ -84,7 +84,6 @@ public class Model extends Observable {
 
         Message message = new Message(STATE.NEXT_PLAYER,null);
         notify(message);
-
     }
 
     /**
@@ -162,11 +161,12 @@ public class Model extends Observable {
         players.clear();
 
         playerCounter = numOfPlayers;
+        int initialArmies = 50/numOfPlayers;
 
         for (int i = 0; i < numOfPlayers; i++){
 
             Player newPlayer = new Player("Player" + String.valueOf(i));
-            newPlayer.addInitArmies();
+            newPlayer.setArmies(initialArmies);
             //assign each player a different color
             newPlayer.setColor(userColors[i]);
             //add observer(playerView)
@@ -327,7 +327,6 @@ public class Model extends Observable {
         Message message = new Message(STATE.PLAYER_NUMBER,null);
         notify(message);
     }
-
 
     /**
      * get continenet list
