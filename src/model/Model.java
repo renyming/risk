@@ -48,10 +48,10 @@ public class Model extends Observable {
     }
 
     /**
-     * for test purpose
-     * @param
+     *  notify the view that model state has changed
+     * @param message The message to send to the view, may include some important information
      */
-    public void notify(Message message) {
+    private void notify(Message message) {
         setChanged();
         notifyObservers(message);
     }
@@ -109,7 +109,8 @@ public class Model extends Observable {
      */
     public void nextPlayer(){
         int currentId = currentPlayer.getId();
-        int numPlayer = getNumOfPlayer();
+        //can be achieved by players rather than getNumOfPlayer()
+        int numPlayer = players.size();
         //wraps around the bounds of ID
         int nextId = (currentId%numPlayer+numPlayer)%numPlayer+1;
         currentPlayer=players.get(nextId-1);
@@ -125,14 +126,6 @@ public class Model extends Observable {
     }
 
     /**
-     * Getter for player number
-     * @return Number of players
-     */
-    public int getNumOfPlayer() {
-        return players.size();
-    }
-
-    /**
      * allocate one army in a specific counry
      * @param country Country reference
      */
@@ -140,10 +133,8 @@ public class Model extends Observable {
 
         //country army + 1
         country.addArmies(1);
-
         //player army - 1
         country.getOwner().subArmies(1);
-
     }
 
     /**
@@ -163,6 +154,7 @@ public class Model extends Observable {
 
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.addInitArmies();
+            //assign each player a different color
             newPlayer.setColor(colors[i]);
             //add observer(playerView)
             newPlayer.addObserver(playerView);
@@ -170,20 +162,19 @@ public class Model extends Observable {
             players.add(newPlayer);
         }
         int i = 0;
+        //assign countries to all the players justly
         for (String key:countries.keySet()) {
             countries.get(key).setPlayer(players.get(i % players.size()));
             i ++;
         }
-
+        //notify view to unpdate information
         for (String key:countries.keySet()) {
             countries.get(key).callObservers();
         }
-
         //current player notify
         currentPlayer = players.get(0);
         currentPlayer.callObservers();
-
-        //give state
+        //give state to view
         Message message = new Message(STATE.INIT_ARMIES,null);
         notify(message);
     }
