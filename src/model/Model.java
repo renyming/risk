@@ -314,4 +314,12 @@ public class Model extends Observable {
         return players;
     }
 
+    /**
+     * set continents list of model
+     * @param continents  The continents to set
+     */
+    public void setContinents(List<Continent> continents) {
+        this.continents = continents;
+    }
+
 }
