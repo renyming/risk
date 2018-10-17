@@ -31,10 +31,10 @@ public class PlayerTest {
     private Player newPlayer;
     private Player player;
 
-    @BeforeClass
     /**
      * Preparation before all this method
      */
+    @BeforeClass
     public static void before() throws Exception{
 
 
@@ -54,7 +54,7 @@ public class PlayerTest {
         asien.addCountry(thailand);
         asien.addCountry(singapore);
 
-        northAmerica = new Continent("NorthAmerica", 6);;
+        northAmerica = new Continent("NorthAmerica", 6);
 
         canada = new Country("canada", northAmerica);
         usa = new Country("usa", northAmerica);
@@ -67,10 +67,10 @@ public class PlayerTest {
 
     }
 
-    @Before
     /**
      * Each time invoke method, do this preparation
      */
+    @Before
     public void setUp() throws Exception {
 
         newPlayer = new Player("Lee");
@@ -86,10 +86,10 @@ public class PlayerTest {
         player.setCountriesOwned(countries);
     }
 
-    @Test
     /**
      * Test addInitArmies() method
      */
+    @Test
     public void addInitArmies() {
 
         int num = 15;
@@ -97,20 +97,20 @@ public class PlayerTest {
         assertEquals(num, newPlayer.getArmies());
     }
 
-    @Test
     /**
      * Test addRoundArmies() method
      */
+    @Test
     public void addRoundArmies() {
         int num = 17;
         player.addRoundArmies();
         assertEquals(num, player.getArmies());
     }
 
-    @Test
     /**
      * Test subArmies() method
      */
+    @Test
     public void subArmies() {
         int num = 9;
         int subnum = 1;
@@ -118,19 +118,19 @@ public class PlayerTest {
         assertEquals(num, player.getArmies());
     }
 
-    @Test
     /**
      * Test isEmptyArmy() method
      */
+    @Test
     public void isEmptyArmy() {
         assertTrue(newPlayer.isEmptyArmy());
         assertFalse(player.isEmptyArmy());
     }
 
-    @Test
     /**
      * Test addCountry() method
      */
+    @Test
     public void addCountry() {
         Country[] correct = {singapore, canada, usa, china};
 
@@ -141,10 +141,10 @@ public class PlayerTest {
         assertArrayEquals(correct, re);
     }
 
-    @Test
     /**
      * Test delCountry() method
      */
+    @Test
     public void delCountry() {
 
         Country[] correct = {singapore, canada};
@@ -156,20 +156,20 @@ public class PlayerTest {
         assertArrayEquals(correct, re);
     }
 
-    @Test
     /**
      * Test isContain() method
      */
+    @Test
     public void isContain() {
 
         assertTrue(player.isContain(usa));
         assertFalse(player.isContain(china));
     }
 
-    @Test
     /**
      * Test isConnected() method
      */
+    @Test
     public void isConnected() {
 
         assertTrue(player.isConnected(canada, usa));

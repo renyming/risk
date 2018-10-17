@@ -212,7 +212,7 @@ public class Model extends Observable {
         if(invalidMap){
             message = new Message(STATE.CREATE_OBSERVERS,countries.size());
         } else {
-            message = new Message(STATE.LOAD_FILE,"invalid map file");
+            message = new Message(STATE.LOAD_FILE,"invalid file format!");
         }
         notify(message);
     }

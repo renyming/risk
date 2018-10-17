@@ -23,10 +23,10 @@ public class CountryTest {
     Player player1;
     Player player2;
 
-    @Before
     /**
      * Each time invoke a method, set this info
      */
+    @Before
     public void setUp() throws Exception {
         continent = new Continent("OuterSpace",10);
         country1 = new Country("Country1",continent);
@@ -41,11 +41,10 @@ public class CountryTest {
         country2.setPlayer(player2);
     }
 
-
-    @Test
     /**
      * Test addEdge() method
      */
+    @Test
     public void addEdge() {
         ArrayList<Country> result = new ArrayList<>();
         result.add(country2);
@@ -58,19 +57,19 @@ public class CountryTest {
         assertFalse(country1.getAdjCountries().equals(result));
     }
 
-    @Test
     /**
      * Test equals() method
      */
+    @Test
     public void equals() {
         assertFalse(country1.equals(country2));
         assertTrue(country1.equals(country1));
     }
 
-    @Test
     /**
      * Test addArmies() method
      */
+    @Test
     public void addArmies() {
 
         player1.addInitArmies();
@@ -87,20 +86,20 @@ public class CountryTest {
         assertEquals(country1.getArmies(),15);
     }
 
-    @Test
     /**
      * Test attack() method
      */
+    @Test
     public void attack() {
         Country country3 = new Country("country3",continent);
         assertFalse(country1.attack(country3));
         assertTrue(country1.attack(country2));
     }
 
-    @Ignore
     /**
      * Ignored moveArmiesTo() method， because this method is remove
      */
+    @Ignore
     public void moveArmiesTo() {
         Country country3 = new Country("country3",continent);
         player1.addInitArmies(); //add armies to player bounded to country1 first, or no armies can be added

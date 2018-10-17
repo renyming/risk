@@ -26,10 +26,10 @@ public class ModelTest {
 
     public static Player p;
 
-    @BeforeClass
     /**
      * Preparation before all this method
      */
+    @BeforeClass
     public static void beforeClass(){
 
         newModel1 = new Model();
@@ -61,10 +61,10 @@ public class ModelTest {
         china.setArmies(5);
     }
 
-    @Test
     /**
      * Test map file validation
      */
+    @Test
     public void validateFile() throws IOException{
         Model testedModel = new Model();
         String filePath = "Invalid1.map";
@@ -72,11 +72,10 @@ public class ModelTest {
         assertFalse(testedModel.isInvalidMap());
     }
 
-
-    @Test
     /**
      * Test readFile() method
      */
+    @Test
     public void testReadFile() throws IOException {
 
         Model testedModel = new Model();
@@ -96,10 +95,10 @@ public class ModelTest {
         assertEquals(376, (int)testedModel.getCountries().get("Quintess").getY());
     }
 
-    @Test
     /**
      * Test allocateArmy() method
      */
+    @Test
     public void testAllocateArmy() {
 
         int armiesC = 6;

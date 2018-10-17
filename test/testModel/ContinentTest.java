@@ -20,10 +20,10 @@ public class ContinentTest {
     public Country thailand;
     public Country singapore;
 
-    @Before
     /**
      * Each time invoke a method, set this info
      */
+    @Before
     public void setUp() throws Exception {
 
         asian = new Continent("Asian", 5);
@@ -32,10 +32,10 @@ public class ContinentTest {
         singapore = new Country("singapore", asian);
     }
 
-    @Test
     /**
      * Test addCountry() method
      */
+    @Test
     public void addCountry() {
         ArrayList<Country> correct = new ArrayList<Country>();
         correct.add(china);
@@ -51,10 +51,10 @@ public class ContinentTest {
 
     }
 
-    @Test
     /**
      * Test getSize() method
      */
+    @Test
     public void getSize() {
         int correct = 3;
         asian.addCountry(china);
@@ -64,10 +64,10 @@ public class ContinentTest {
         assertEquals(correct, asian.getSize());
     }
 
-    @Test
     /**
      * Test isEmpty() method
      */
+    @Test
     public void isEmpty() {
 
         assertTrue(asian.isEmpty());
