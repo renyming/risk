@@ -160,30 +160,13 @@ public class Model extends Observable {
             newPlayer.setColor(colors[i]);
             //add observer(playerView)
             newPlayer.addObserver(playerView);
+            //newPlayer.callObservers();
             players.add(newPlayer);
         }
-
-        
-        //notify all countriesView
-        ArrayList<Country> queque = new ArrayList<Country>();
+        int i = 0;
         for (String key:countries.keySet()) {
-            queque.add(countries.get(key));
-        }
-
-        while (!queque.isEmpty()) {
-
-            for (Player p : players) {
-
-                Country c = queque.get(0);
-                queque.remove(0);
-
-                p.addCountry(c);
-                c.setPlayer(p);
-
-                if(queque.isEmpty()) {
-                    break;
-                }
-            }
+            countries.get(key).setPlayer(players.get(i % players.size()));
+            i ++;
         }
 
         for (String key:countries.keySet()) {
