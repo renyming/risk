@@ -178,6 +178,7 @@ public class Model extends Observable {
         //assign countries to all the players justly
         for (String key:countries.keySet()) {
             countries.get(key).setPlayer(players.get(i % players.size()));
+            players.get(i % players.size()).addCountry(countries.get(key));
             i ++;
         }
         //notify view to unpdate information
