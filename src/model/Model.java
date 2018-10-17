@@ -26,6 +26,8 @@ public class Model extends Observable {
     private ArrayList<Continent> continents;
     private int playerCounter;
 
+    private String[] colors = {"#8B0000","#0000FF","#FFD700","#00FFFF","#FF1493"};
+
 
     /**
      * ctor for Model
@@ -155,15 +157,14 @@ public class Model extends Observable {
 
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.addInitArmies();
-
+            newPlayer.setColor(colors[i]);
             //add observer(playerView)
             newPlayer.addObserver(playerView);
             newPlayer.callObservers();
             players.add(newPlayer);
         }
 
-
-
+        
         //notify all countriesView
         Queue<Country> queque = new PriorityQueue<Country>();
         for (String key:countries.keySet()) {
