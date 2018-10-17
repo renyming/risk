@@ -55,6 +55,14 @@ public class Continent {
     }
 
     /**
+     * Set the controlVal
+     * @param value The value to set
+     */
+    public void setControlVal(int value) {
+        this.controlVal = value;
+    }
+
+    /**
      * Get all countries of a continent
      * @return List of all countries belong to the continent
      */
