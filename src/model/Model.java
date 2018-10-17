@@ -10,6 +10,7 @@ import view.CountryView;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -38,6 +39,14 @@ public class Model extends Observable {
         players = new ArrayList<>();
         countries = new HashMap<>();
         continents = new ArrayList<>();
+        playerCounter = 0;
+    }
+
+    private void rest(){
+        players = new ArrayList<>();
+        countries = new HashMap<>();
+        continents = new ArrayList<>();
+        validFile = true;
     }
 
     /**
@@ -188,7 +197,7 @@ public class Model extends Observable {
      * @param filePath The path of the map file
      */
     public void readFile(String filePath) throws IOException {
-        validFile = true;
+        rest();
         String content = "";
         String line = "";
         String bodies[];
@@ -207,7 +216,7 @@ public class Model extends Observable {
             }
         } catch (Exception ex){
             validFile = false;
-            ex.getMessage();
+            System.out.println(ex.getMessage());
         }
         Message message;
         if(validFile){
@@ -217,16 +226,6 @@ public class Model extends Observable {
             notify(message);
             return;
         }
-
-        int index = 0;
-        for(int i = 0; i < continents.size(); i++){
-            if(continents.get(i).getName() == "Berga"){
-                index = i;
-                break;
-            }
-        }
-
-        System.out.println(continents.get(index).getSize());
 
         try {
             MapValidator.validateMap(this);
