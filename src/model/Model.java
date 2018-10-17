@@ -76,7 +76,7 @@ public class Model extends Observable {
     public void fortification(Country source, Country target, int armyNumber){
         //return no response to view if source country's army number is less than the number of armies on moving,
         //or the source and target countries aren't connected through the same player's countries
-        if(source.getArmies()<armyNumber || source.getOwner().isConnected(source,target))
+        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target))
             return;
 
         source.setArmies(source.getArmies()-armyNumber);
@@ -159,9 +159,11 @@ public class Model extends Observable {
      */
     public void initiatePlayers(int numOfPlayers, PlayerView playerView){
 
+        players.clear();
+
         playerCounter = numOfPlayers;
 
-        for (int i = 0; i < numOfPlayers; i ++){
+        for (int i = 0; i < numOfPlayers; i++){
 
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.addInitArmies();
@@ -188,6 +190,7 @@ public class Model extends Observable {
         //give state to view
         Message message = new Message(STATE.INIT_ARMIES,null);
         notify(message);
+        
     }
 
     /**

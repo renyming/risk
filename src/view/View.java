@@ -306,7 +306,7 @@ public class View implements Observer {
     public boolean getEditEnable() { return editEnable; }
 
     public void clickedCountry(Country country) {
-        System.out.println("Clicked country " + country.getName() + ", phase is " + currentPhase);
+        System.out.println("Clicked country " + country.getName() +"  "+ country.getOwner().getName() + ", phase is " + currentPhase);
         if (PHASE.START_UP == currentPhase || PHASE.REINFORCEMENT == currentPhase) {
             allocateArmy(country);
         } else if (PHASE.FORTIFICATION == currentPhase) {
