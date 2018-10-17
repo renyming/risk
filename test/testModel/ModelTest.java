@@ -94,6 +94,11 @@ public class ModelTest {
         assertEquals("Queensbasin", testedModel.getCountries().get("Quandry").getContinent().getName());
         assertEquals(7, testedModel.getCountries().get("Rand").getAdjCountries().size());
         assertEquals(376, (int)testedModel.getCountries().get("Quintess").getY());
+
+
+        for(int i = 0; i < testedModel.getContinents().size(); i ++){
+            assertNotNull(testedModel.getContinents().get(i).getColor());
+        }
     }
 
     /**
