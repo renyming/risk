@@ -110,7 +110,7 @@ public class Model extends Observable {
         int currentId = currentPlayer.getId();
         int numPlayer = getNumOfPlayer();
         //wraps around the bounds of ID
-        int nextId = (currentId%numPlayer+numPlayer)%numPlayer;
+        int nextId = (currentId%numPlayer+numPlayer)%numPlayer+1;
         //The next player is the first player, current round ended, send STATE message
         if (nextId == 1) {
             Message message = new Message(STATE.ROUND_ROBIN, null);
