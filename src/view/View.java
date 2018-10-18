@@ -58,7 +58,7 @@ public class View implements Observer {
             menuController.initialize(this);
             menuStage = new Stage();
             menuStage.setTitle("Risk Game");
-            menuStage.setScene(new Scene(mainMenuPane));
+            menuStage.setScene(new Scene(mainMenuPane,500,300));
 
             FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
             mapRootPane = mapFxmlLoader.load();
@@ -66,7 +66,7 @@ public class View implements Observer {
             mapController.initialize(this);
             mapStage = new Stage();
             mapStage.setTitle("Risk Game");
-            mapStage.setScene(new Scene(mapRootPane));
+            mapStage.setScene(new Scene(mapRootPane,1000,700));
 
             pause = false;
             fromToCountriesCounter = 0;
@@ -132,6 +132,8 @@ public class View implements Observer {
             case NEXT_PLAYER:
                 showNextPhaseButton("Enter Reinforcement Phase");
                 mapController.showFromToCountriesInfoPane(false);
+                mapController.showPlayerViewPane(false);
+                mapController.showInvalidMoveLabelInfo(false, "");
                 model.nextPlayer();
                 break;
         }
@@ -253,11 +255,15 @@ public class View implements Observer {
      * @param numArmiesMove valid number of armies moved by user
      */
     public void fortification(int numArmiesMove) {
-        if (null != fromToCountries[0] && null != fromToCountries[1]) {
-            model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMove);
-            mapController.showReinforcementPhaseButton(false);
+        if (null == fromToCountries[0] || null == fromToCountries[1]) {
+            mapController.showInvalidMoveLabelInfo(true, "At least one country is not selected properly");
+        } else if (fromToCountries[0].getArmies() < numArmiesMove) {
+            mapController.showInvalidMoveLabelInfo(true, "Not enough armies to move");
         } else {
-            mapController.showInvalidMoveLabelInfo(true, "At least one country is not selected properlly");
+            // Since View does not check if there is a path between these two countries
+            // that is composed of countries that he owns, so assume it's a invalid move
+            mapController.showInvalidMoveLabelInfo(true, "There is no path between these two countries that is composed of countries that you owns");
+            model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMove);
         }
     }
 

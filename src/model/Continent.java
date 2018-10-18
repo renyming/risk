@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Define class of a continent
@@ -41,11 +43,20 @@ public class Continent {
 
     /**
      * setter for continent color
-     * @param color the color to set to continent
      * @return
      */
-    public void setColor(String color) {
-        this.color = color;
+    public void setColor() {
+
+        Random randomGenerator = new Random();
+        int red = randomGenerator.nextInt(100);
+        int green = randomGenerator.nextInt(100);
+        int blue = randomGenerator.nextInt(100);
+
+        Color randomColour = new Color(red,green,blue);
+        randomColour.darker();
+
+        String hex = "#"+Integer.toHexString(randomColour.getRGB()).substring(2);
+        this.color=hex;
     }
 
     /**
