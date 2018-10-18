@@ -1,7 +1,13 @@
 package mapeditor;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -10,26 +16,53 @@ public class ViewController {
 
     @FXML
     AnchorPane view_pane;
+    @FXML
+    Button btnAdd;
+    @FXML
+    AnchorPane draw_pane;
+    @FXML
+    Button btnReduce;
+    @FXML
+    Label lblNContinents;
 
     @FXML
     public void initialize() {
-        view_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+        btnReduce.setDisable(true);
+
+        draw_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
                 if (event.getButton()== MouseButton.PRIMARY){
                     Country country=new Country(event.getSceneX(),event.getSceneY());
                     country.relocate(event.getSceneX(),event.getSceneY());
-                    view_pane.getChildren().add(country);
-                    addDragDetection(country);
-                    addDragOver(country);
-                    addDragDropped(country);
-//                addDragDone(country);
+                    setCountryListener(country);
+                    draw_pane.getChildren().add(country);
+                    event.consume();
                 }
-
             }
         });
 
+    }
+
+    public void addContinent(){
+        btnReduce.setDisable(false);
+        View.continents.add("Continent "+(View.continents.size()+1));
+        lblNContinents.setText(Integer.toString(View.continents.size()));
+    }
+
+    public void reduceContinent(){
+        if (View.continents.size()>0)
+            View.continents.remove(View.continents.size()-1);
+        else
+            btnReduce.setDisable(true);
+        lblNContinents.setText(Integer.toString(View.continents.size()));
+    }
+
+    private void setCountryListener(Country country){
+        addDragDetection(country);
+        addDragOver(country);
+        addDragDropped(country);
     }
 
     private void addDragDetection(Country country) {
@@ -62,20 +95,6 @@ public class ViewController {
         });
     }
 
-//    private void addDragDone(Country country) {
-//        country.setOnDragDone(new EventHandler<DragEvent>() {
-//            @Override
-//            public void handle(DragEvent event) {
-//                if (event.getDragboard().hasString()) {
-//                    String stringID = event.getDragboard().getString();
-//                    int ID=Integer.parseInt(stringID);
-//                    System.out.println("Connected country"+ID+" and country"+country.getCountryId());
-//                }
-//                event.consume();
-//            }
-//        });
-//    }
-
     private void addDragOver(Country country) {
         country.setOnDragOver(new EventHandler<DragEvent>() {
             @Override
@@ -88,11 +107,15 @@ public class ViewController {
 
     private void drawLine(Country p1, Country p2){
         Edge line=new Edge(p1,p2);
+        setLineListener(line);
+
+        draw_pane.getChildren().add(line);
+    }
+
+    private void setLineListener(Edge line){
         addMouseOver(line);
         addMouseExit(line);
         addDelLine(line);
-
-        view_pane.getChildren().add(line);
     }
 
     private void addMouseOver(Edge line){
@@ -111,7 +134,7 @@ public class ViewController {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton()== MouseButton.SECONDARY){
-                    view_pane.getChildren().remove(line);
+                    draw_pane.getChildren().remove(line);
                     System.out.println("Country "+line.getP1().getCountryId()+" and Country "+line.getP2().getCountryId()+" are disconnected");
                 }
 
@@ -129,6 +152,18 @@ public class ViewController {
                 event.consume();
             }
         });
+    }
+
+    public void save(){
+        for (Node node:draw_pane.getChildren()){
+            if (node instanceof Country){
+                Country country=(Country) node;
+                ChoiceBox cb=(ChoiceBox) node.lookup("#listContinent");
+                if (cb.getSelectionModel().isEmpty())
+                    System.out.println(country.getName()+" has no continent");
+            }
+
+        }
     }
 
 }

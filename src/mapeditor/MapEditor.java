@@ -14,7 +14,7 @@ public class MapEditor extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         View view=new View();
-        Scene scene=new Scene(view,800,600);
+        Scene scene=new Scene(view,1080,720);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Map Editor");
         primaryStage.show();

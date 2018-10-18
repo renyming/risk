@@ -11,7 +11,8 @@ import static java.lang.Math.min;
 public class MenuController {
 
     @FXML private AnchorPane mainMenuPane;
-    @FXML private AnchorPane startUpPane;
+    @FXML private AnchorPane mapEditorPane;
+    @FXML private AnchorPane startGamePane;
     @FXML private AnchorPane newGamePane;
     @FXML private AnchorPane quitPane;
     @FXML private Label selectedMapLabel;
@@ -24,15 +25,17 @@ public class MenuController {
     private View view;
     private int maxPlayerNum;
 
-
     public void initialize(View view) {
         this.view = view;
-        startUpPane.setVisible(true);
+        mapEditorPane.setVisible(true);
+        startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
-        switchToStartUpMenu();
+        addEventListener();
+        switchToStartGameMenu();
+    }
 
-        // TODO: refactor
+    public void addEventListener() {
         playerNumTextField.setOnAction((event) -> {
             playerNumInstructionLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
             try {
@@ -54,18 +57,21 @@ public class MenuController {
                 startGameButton.setVisible(false);
                 System.out.println("MenuController.initialize(): " + e.getMessage());
             }
-
         });
     }
 
-    public void switchToStartUpMenu() {
+    public void switchToMapEditorMenu() {
+        mainMenuPane.getChildren().clear();
+        mainMenuPane.getChildren().add(mapEditorPane);
+    }
+
+    public void switchToStartGameMenu() {
         resetStartUpMenu();
         mainMenuPane.getChildren().clear();
-        mainMenuPane.getChildren().add(startUpPane);
+        mainMenuPane.getChildren().add(startGamePane);
     }
 
     public void switchToNewGameMenu() {
-        // TODO: call view to reset selected file?
         mapInfoPane.setVisible(false);
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(newGamePane);
@@ -121,7 +127,9 @@ public class MenuController {
 
     public void showStartGameButton() { startGameButton.setVisible(true); }
 
-    public void createMap() { view.showMapStage(); }
-
     public void startGame() { view.showMapStage(); }
+
+    public void createNewMap() { }
+
+    public void editExistingFile() { }
 }

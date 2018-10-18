@@ -1,13 +1,13 @@
 package driver;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
 import model.Model;
 import view.View;
 
 
+
 /**
-* The entrence of the application, main() method
+* The entrance of the application, like the main() method
 */
 public class Driver extends Application {
 
@@ -15,7 +15,7 @@ public class Driver extends Application {
     private View view;
 
     @Override
-    public void start(javafx.stage.Stage primaryStage) throws Exception {
+    public void start(javafx.stage.Stage primaryStage) {
         model = new Model();
         view = new View();
         model.addObserver(view);
@@ -23,17 +23,14 @@ public class Driver extends Application {
         // This is necessary because when the selecting map action happens,
         // View need to pass file path to the Model, but View don't have the
         // Model reference
-        view.setModel(model);
-
+        view.initialize(model);
         view.showMenuStage();
     }
 
+
+
     /**
-     * Called when the game quits
+     * If possible, call this function when the game quits
      */
-    public void close() {
-        this.close();
-    }
-
-
+    public void close() { this.close(); }
 }

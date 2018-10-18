@@ -89,7 +89,7 @@ public class Country extends AnchorPane {
             e.printStackTrace();
         }
         countryController = fxmlLoader.getController();
-        countryController.initialize();
+        countryController.initialize(this);
         setVisible(true);
     }
 
