@@ -236,7 +236,7 @@ public class Model extends Observable {
             MapValidator.validateMap(this);
         }
         catch (Exception ex){
-            message = new Message(STATE.LOAD_FILE,"invalid map!");
+            message = new Message(STATE.LOAD_FILE,ex.getMessage());
             //ex.getMessage();
             System.out.println(ex.toString());
             notify(message);
