@@ -18,7 +18,7 @@ public class ViewController {
             public void handle(MouseEvent event) {
 
                 if (event.getButton()== MouseButton.PRIMARY){
-                    Country country=new Country();
+                    Country country=new Country(event.getSceneX(),event.getSceneY());
                     country.relocate(event.getSceneX(),event.getSceneY());
                     view_pane.getChildren().add(country);
                     addDragDetection(country);
@@ -91,8 +91,7 @@ public class ViewController {
         addMouseOver(line);
         addMouseExit(line);
         addDelLine(line);
-        line.setStroke(Color.GREY);
-        line.setStrokeWidth(2);
+
         view_pane.getChildren().add(line);
     }
 
@@ -100,8 +99,8 @@ public class ViewController {
         line.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                line.setStroke(Color.TOMATO);
-                line.setStrokeWidth(4);
+                line.setStroke(Edge.deleteColor);
+                line.setStrokeWidth(Edge.deleteWidth);
                 event.consume();
             }
         });
@@ -125,8 +124,8 @@ public class ViewController {
         line.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                line.setStroke(Color.GREY);
-                line.setStrokeWidth(2);
+                line.setStroke(Edge.normalColor);
+                line.setStrokeWidth(Edge.normalWidth);
                 event.consume();
             }
         });

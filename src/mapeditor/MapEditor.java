@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class MapEditor extends Application {
     public static void main(String[] args){
         launch(args);
     }
@@ -14,9 +14,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         View view=new View();
-        Scene scene=new Scene(view,640,480);
+        Scene scene=new Scene(view,800,600);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Test");
+        primaryStage.setTitle("Map Editor");
         primaryStage.show();
     }
 }
