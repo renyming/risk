@@ -1,7 +1,6 @@
 package view;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Country;
 import model.Player;
@@ -88,6 +87,12 @@ public class CountryView implements Observer {
     public AnchorPane getCountryPane() { return countryPane; }
 
     public void clicked() { view.clickedCountry(country); }
+
+//    public void pressed() { view.pressedCountry(country); }
+//
+//    public void entered() { view.enteredCountry(country); }
+//
+//    public void released() { view.releasedCountry(country); }
 
     /**
      * Get the country id as key

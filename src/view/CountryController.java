@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
 public class CountryController {
 
@@ -21,12 +19,10 @@ public class CountryController {
     }
 
     public void addEventListener() {
-        countryPane.setOnMouseClicked((e) -> {
-            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                countryView.clicked();
-            }
-            e.consume();
-        });
+        countryPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) { countryView.clicked(); e.consume(); } });
+//        countryPane.setOnMousePressed((e) -> { if (e.getEventType() == MouseEvent.MOUSE_PRESSED) { countryView.pressed(); } });
+//        countryPane.setOnMouseEntered((e) -> { if (e.getEventType() == MouseEvent.MOUSE_ENTERED) { countryView.entered(); } });
+//        countryPane.setOnMouseReleased((e) -> { if (e.getEventType() == MouseEvent.MOUSE_RELEASED) { countryView.released(); } });
     }
 
     public void updateCountryPaneInfo(String countryName, String playerColor, String continentColor, int armiesNumber) {

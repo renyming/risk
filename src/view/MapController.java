@@ -28,7 +28,6 @@ public class MapController {
     private View view;
 
     public void initialize(View view) {
-        this.view = view;
         skipReinforcementPhaseButton.setVisible(false);
         numArmiesMoveTextField.setVisible(false);
         numArmiesMoveLabel.setVisible(false);
@@ -39,31 +38,33 @@ public class MapController {
         countryAName.setVisible(false);
         countryBName.setVisible(false);
         addEventListener();
+        this.view = view;
     }
 
     public void addEventListener() {
-        mapPane.setOnMouseClicked((e) -> {
-            if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                view.clickedMap();
-            }
-        });
+        mapPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) { view.clickedMap(); } });
+//        mapPane.setOnMousePressed((e) -> { if (e.getEventType() == MouseEvent.MOUSE_PRESSED) { view.pressedMap(e.getX(), e.getY()); } });
+//        mapPane.setOnMouseDragged((e) -> { if (e.getEventType() == MouseEvent.MOUSE_DRAGGED) { view.draggedMap(e.getX(), e.getY()); } });
+//        mapPane.setOnMouseReleased((e) -> { if (e.getEventType() == MouseEvent.MOUSE_RELEASED) { view.releasedMap(e.getX(), e.getY()); } });
     }
 
     public void enteredNumArmiesMoved() {
-        int numArmiesMoved = 0;
-        try {
-            numArmiesMoved = Integer.parseInt(numArmiesMoveTextField.getText());
-        } catch (Exception e) {
-            showInvalidMoveLabelInfo(true, "Enter an positive integer");
-            System.out.println("MapController.initialize(): input value not integer " + numArmiesMoveTextField.getText());
-        }
-        if (numArmiesMoved > 0) {
-            showInvalidMoveLabelInfo(false, "");
-            view.fortification(numArmiesMoved);
-        } else {
-            showInvalidMoveLabelInfo(true, "Enter an positive integer");
-            System.out.println("MapController.initialize(): input integer not positive, " + numArmiesMoveTextField.getText());
-        }
+        view.fortification(numArmiesMoveTextField.getText());
+
+//        int numArmiesMoved = 0;
+//        try {
+//            numArmiesMoved = Integer.parseInt(numArmiesMoveTextField.getText());
+//        } catch (Exception e) {
+//            showInvalidMoveLabelInfo(true, "Enter an positive integer");
+//            System.out.println("MapController.initialize(): input value not integer " + numArmiesMoveTextField.getText());
+//        }
+//        if (numArmiesMoved > 0) {
+//            showInvalidMoveLabelInfo(false, "");
+//            view.fortification(numArmiesMoved);
+//        } else {
+//            showInvalidMoveLabelInfo(true, "Enter an positive integer");
+//            System.out.println("MapController.initialize(): input integer not positive, " + numArmiesMoveTextField.getText());
+//        }
     }
 
     public void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
