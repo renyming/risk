@@ -81,16 +81,16 @@ public class Country extends AnchorPane {
         adjList=new ArrayList<>();
         edgeList=new ArrayList<>();
 
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("Country.fxml"));
-        fxmlLoader.setRoot(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        countryController = fxmlLoader.getController();
-        countryController.initialize(this);
-        setVisible(true);
+//        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("Country.fxml"));
+//        fxmlLoader.setRoot(this);
+//        try {
+//            fxmlLoader.load();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        countryController = fxmlLoader.getController();
+//        countryController.initialize(this);
+//        setVisible(true);
     }
 
     public int getCountryId(){
