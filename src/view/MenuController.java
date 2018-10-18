@@ -111,7 +111,7 @@ public class MenuController {
     }
 
     public void showNumPlayerTextField(int maxPlayerNum) {
-        this.maxPlayerNum = min(maxPlayerNum, 10);
+        this.maxPlayerNum = maxPlayerNum;
         playerNumInstructionLabel.setVisible(true);
         playerNumTextField.setVisible(true);
         playerNumInstructionLabel.setStyle("-fx-border-color: yellow; -fx-border-width: 2");
