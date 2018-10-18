@@ -6,12 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-import static java.lang.Math.min;
-
 public class MenuController {
 
     @FXML private AnchorPane mainMenuPane;
-    @FXML private AnchorPane mapEditorPane;
     @FXML private AnchorPane startGamePane;
     @FXML private AnchorPane newGamePane;
     @FXML private AnchorPane quitPane;
@@ -27,7 +24,6 @@ public class MenuController {
 
     public void initialize(View view) {
         this.view = view;
-        mapEditorPane.setVisible(true);
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
@@ -60,9 +56,8 @@ public class MenuController {
         });
     }
 
-    public void switchToMapEditorMenu() {
-        mainMenuPane.getChildren().clear();
-        mainMenuPane.getChildren().add(mapEditorPane);
+    public void switchToMapEditor() {
+        view.openMapEditor();
     }
 
     public void switchToStartGameMenu() {
@@ -129,8 +124,4 @@ public class MenuController {
     public void showStartGameButton() { startGameButton.setVisible(true); }
 
     public void startGame() { view.showMapStage(); }
-
-    public void createNewMap() { }
-
-    public void editExistingFile() { }
 }

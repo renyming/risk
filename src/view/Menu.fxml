@@ -33,15 +33,9 @@
             </ImageView>
             <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#switchToNewGameMenu" prefHeight="30.0" prefWidth="120.0" text="Start Game" />
             <Button layoutX="190.0" layoutY="220.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="120.0" text="Quit" />
-            <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchToMapEditorMenu" prefHeight="30.0" prefWidth="120.0" text="Map Editor" />
+            <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="120.0" text="Map Editor" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="mapEditorPane" prefHeight="300.0" prefWidth="500.0" visible="false">
-         <children>
-            <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#createNewMap" prefHeight="30.0" prefWidth="120.0" text="Create New Map" />
-            <Button layoutX="190.0" layoutY="220.0" mnemonicParsing="false" onAction="#editExistingFile" prefHeight="30.0" prefWidth="120.0" text="Edit Existing File" />
-            <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="Back" />
-         </children></AnchorPane>
       <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="500.0" visible="false">
          <children>
             <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="120.0" text="Select Map" />

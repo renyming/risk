@@ -1,8 +1,7 @@
 package view;
 
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
 import model.Country;
 import model.Model;
 import common.Message;
@@ -16,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -40,9 +40,11 @@ public class View implements Observer {
     private Stage mapStage;
     private boolean pause;
     private Model model;
+//    private Arrow arrow;
 
     private HashMap<Integer, CountryView> countryViews;
     private Country fromToCountries[];
+    private HashSet<Line> lines;
 
 
 
@@ -71,6 +73,9 @@ public class View implements Observer {
             pause = false;
             fromToCountriesCounter = 0;
             fromToCountries = new Country[2];
+
+//            arrow = new Arrow();
+//            drawArrow(); // TODO: draw it in attack and fortification phase
         } catch (Exception e) {
             System.out.println("View.ctor(): " + e.getMessage());
         }
@@ -149,7 +154,7 @@ public class View implements Observer {
         menuStage.show();
         menuController.resetStartUpMenu();
         menuController.switchToStartGameMenu();
-        clearCountryViews();
+        clearMapComponents();
     }
 
 
@@ -176,6 +181,15 @@ public class View implements Observer {
 
 
     /**
+     * Display map editor, user than can create a RISK map
+     */
+    public void openMapEditor() {
+        // TODO: start map editor
+    }
+
+
+
+    /**
      * Select a RISK map file, then ask Model to validate
      * Called by 'Select Map' Button when user clicks it
      */
@@ -196,8 +210,7 @@ public class View implements Observer {
 
 
     /**
-     * Editing map currentPhase / Loading existing RISK map file currentPhase
-     * Called by mapRootPane // TODO: may change later
+     * Loading existing RISK map file phase
      * Called by update() for CREATE_OBSERVERS state
      * Create a Default CountryView Observer object
      * @param layoutX countryPane left-top corner position X
@@ -214,14 +227,22 @@ public class View implements Observer {
     /**
      * Clear all CountryViews that generated before, and remove all countryPane from mapRootPane
      */
-    public void clearCountryViews() {
-        if (null == countryViews) return;
-        for (int key : countryViews.keySet()) {
-            AnchorPane countryPane = countryViews.get(key).getCountryPane();
-            countryPane.getChildren().clear();
-            mapRootPane.getChildren().remove(countryPane);
+    public void clearMapComponents() {
+        if (null != countryViews) {
+            for (int key : countryViews.keySet()) {
+                AnchorPane countryPane = countryViews.get(key).getCountryPane();
+                countryPane.getChildren().clear();
+                mapRootPane.getChildren().remove(countryPane);
+            }
+            countryViews.clear();
         }
-        countryViews.clear();
+        if (null != lines) {
+            for (Line line : lines) {
+                mapRootPane.getChildren().remove(line);
+            }
+            lines.clear();
+        }
+
     }
 
 
@@ -252,24 +273,41 @@ public class View implements Observer {
     /**
      * During fortification phase, tell model user just moved valid number of armies between
      * two of his/her owned country with valid armies number
-     * @param numArmiesMove valid number of armies moved by user
+     * @param enteredNumArmiesMoved number of armies that user tried to move
      */
-    public void fortification(int numArmiesMove) {
+    public void fortification(String enteredNumArmiesMoved) {
+        int numArmiesMoved = 0;
+        boolean enteredAnInteger = true;
+        try {
+            numArmiesMoved = Integer.parseInt(enteredNumArmiesMoved);
+        } catch (Exception e) {
+            enteredAnInteger = false;
+        }
         if (null == fromToCountries[0] || null == fromToCountries[1]) {
             mapController.showInvalidMoveLabelInfo(true, "At least one country is not selected properly");
-        } else if (fromToCountries[0].getArmies() < numArmiesMove) {
-            mapController.showInvalidMoveLabelInfo(true, "Not enough armies to move");
+        } else if (fromToCountries[0].getName().equals(fromToCountries[1].getName())) {
+            mapController.showInvalidMoveLabelInfo(true, "Select two different countries");
+        } else if(!enteredAnInteger) {
+            mapController.showInvalidMoveLabelInfo(true, "Enter an positive integer");
         } else {
-            // Since View does not check if there is a path between these two countries
-            // that is composed of countries that he owns, so assume it's a invalid move
-            mapController.showInvalidMoveLabelInfo(true, "There is no path between these two countries that is composed of countries that you owns");
-            model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMove);
+            if (numArmiesMoved < 1) {
+                mapController.showInvalidMoveLabelInfo(true, "Enter an positive integer");
+            } else if (fromToCountries[0].getArmies() < numArmiesMoved) {
+                mapController.showInvalidMoveLabelInfo(true, "Not enough armies to move");
+            }  else {
+                // TODO: need to be fixed
+                // Since View does not check if there is a path between these two countries
+                // that is composed of countries that he owns, so assume it's a invalid move
+                mapController.showInvalidMoveLabelInfo(true, "There is no path between these two countries that is composed of countries that you owns");
+                model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMoved);
+            }
         }
     }
 
     public void skipFortificationPhase() {
         showNextPhaseButton("Enter Reinforcement Phase");
         mapController.showFromToCountriesInfoPane(false);
+        mapController.showInvalidMoveLabelInfo(false, "");
         model.nextPlayer();
     }
 
@@ -296,9 +334,7 @@ public class View implements Observer {
         }
     }
 
-    public void showNextPhaseButton(String nextPhase) {
-        mapController.showNextPhaseButton(nextPhase);
-    }
+    public void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
 
     public void prepareNextPhase() {
 //        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
@@ -324,6 +360,9 @@ public class View implements Observer {
 
     public void drawMap() {
         for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
+
+        // TODO: use efficient way to draw lines, avoid duplicate
+        lines = new HashSet<>();
         for (int key : countryViews.keySet()) {
             Country countryA = countryViews.get(key).getCountry();
             for (Country countryB : countryA.getAdjCountries()) {
@@ -334,6 +373,7 @@ public class View implements Observer {
                 line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
                 line.setStroke(Color.BLACK);
                 line.setStrokeWidth(2);
+                lines.add(line);
                 mapRootPane.getChildren().add(line);
             }
         }
@@ -347,26 +387,28 @@ public class View implements Observer {
                 mapController.showInvalidMoveLabelInfo(true, "Select your own country");
                 return;
             }
-            mapController.showInvalidMoveLabelInfo(false, "");
             switch (fromToCountriesCounter++) {
                 case 0:
                     fromToCountries[0] = country;
                     mapController.setFromCountryInfo(country);
                     break;
                 case 1:
+//                    if (fromToCountries[0].getName().equals(country.getName())) {
+//                        mapController.showInvalidMoveLabelInfo(true, "Select two different countries");
+//                    }
                     fromToCountries[1] = country;
                     mapController.setToCountryInfo(country);
                     break;
                 case 2:
                     resetFromToCountries();
+//                    arrow = null;
                     break;
             }
+//            ++fromToCountriesCounter;
         }
     }
 
-    public void clickedMap() {
-        if (PHASE.FORTIFICATION == currentPhase) resetFromToCountries();
-    }
+    public void clickedMap() { if (PHASE.FORTIFICATION == currentPhase) resetFromToCountries(); }
 
     public void resetFromToCountries() {
         fromToCountries[0] = null;
@@ -379,4 +421,48 @@ public class View implements Observer {
     public double getCountryViewWidth() { return COUNTRY_VIEW_WIDTH; }
 
     public double getCountryViewHeight() { return COUNTRY_VIEW_HEIGHT; }
+
+
+
+
+    // TODO: for self test purpose need to be removed later
+
+    //    public void pressedCountry(Country country) {
+//        removeArrow();
+//        System.out.println("pressed country " + country.getName());
+//        arrow.setStart(country.getX() + COUNTRY_VIEW_WIDTH/2, country.getY() + COUNTRY_VIEW_HEIGHT/2);
+//        drawArrow();
+//    }
+
+//    public void enteredCountry(Country country) {
+////        System.out.println("entered country " + country.getName());
+////        arrow.setEnd(country.getX() + COUNTRY_VIEW_WIDTH/2, country.getY() + COUNTRY_VIEW_HEIGHT/2);
+////        arrow.update();
+//    }
+
+//    public void releasedCountry(Country country) {
+//        arrow.setEnd(country.getX() + COUNTRY_VIEW_WIDTH/2, country.getY() + COUNTRY_VIEW_HEIGHT/2);
+//    }
+
+//    public void pressedMap(double cursorX, double cursorY) {
+////        System.out.println("pressed " + cursorX + " " + cursorY);
+//        arrow.setStart(cursorX, cursorY);
+//        arrow.setEnd(cursorX, cursorY);
+//    }
+//
+//    public void draggedMap(double cursorX, double cursorY) {
+////        System.out.println("dragging " + cursorX + " " + cursorY);
+//        arrow.setEnd(cursorX, cursorY);
+//        arrow.update();
+//    }
+//
+//    public void releasedMap(double cursorX, double cursorY) {
+////        System.out.println("released " + cursorX + " " + cursorY);
+//        arrow.setEnd(cursorX, cursorY);
+//        arrow.update();
+//    }
+//
+//    public void drawArrow() { mapRootPane.getChildren().add(arrow); }
+//
+//    public void removeArrow() { mapRootPane.getChildren().remove(arrow); }
 }
