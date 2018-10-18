@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -154,7 +155,15 @@ public class ViewController {
     }
 
     public void save(){
+        for (Node node:draw_pane.getChildren()){
+            if (node instanceof Country){
+                Country country=(Country) node;
+                ChoiceBox cb=(ChoiceBox) node.lookup("#listContinent");
+                if (cb.getSelectionModel().isEmpty())
+                    System.out.println(country.getName()+" has no continent");
+            }
 
+        }
     }
 
 }

@@ -1,5 +1,8 @@
 package mapeditor;
 
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -32,7 +35,8 @@ public class CountryController {
         lblCountry.setText(country.getName());
 
         listContinent.setItems(View.continents);
-        listContinent.setValue(View.continents.get(0));
+        listContinent.getSelectionModel().selectFirst();
+//        listContinent.setValue(View.continents.get(0));
 
         //avoid create new countries over existing country
         country.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -43,13 +47,20 @@ public class CountryController {
             }
         });
 
-
 //        country.setEventDispatcher(new EventDispatcher() {
 //            @Override
 //            public Event dispatchEvent(Event event, EventDispatchChain tail) {
 ////                boolean valid = myValidationLogicForEvents(event);
 ////                return valid ? tail.dispatchEvent(event) : null;
 //                return null;
+//            }
+//        });
+
+//        listContinent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue observable, String oldValue, String newValue) {
+//                if (newValue.equals(""))
+//                    System.out.println(country.getName()+" has no continent");
 //            }
 //        });
 
