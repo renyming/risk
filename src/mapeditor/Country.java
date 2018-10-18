@@ -24,6 +24,7 @@ public class Country extends AnchorPane {
     private ArrayList<Edge> edgeList;
     private CountryController countryController;
 
+    //getId() is conflict with super class, has to write as "getID"
     public int getID() {
         return ID;
     }
@@ -54,6 +55,7 @@ public class Country extends AnchorPane {
 
     public void setX(int x) {
         this.x = x;
+        this.relocate(x,y);
     }
 
     public int getY() {
@@ -62,6 +64,7 @@ public class Country extends AnchorPane {
 
     public void setY(int y) {
         this.y = y;
+        this.relocate(x,y);
     }
 
     public ArrayList<Country> getAdjList() {
@@ -88,10 +91,18 @@ public class Country extends AnchorPane {
         return edgeList;
     }
 
+    public boolean isAdjacent(Country country){
+        return adjList.contains(country);
+    }
+
     public Country(double x, double y){
-        ID=++cID;
-        name="Country "+ID;
-        continent="Continent";
+        this("Country "+(cID+1),x,y,View.continents.get(0));
+    }
+
+    public Country(String name, double x, double y, String continent){
+        this.ID=++cID;
+        this.name=name;
+        this.continent=continent;
         this.x=(int) x;
         this.y=(int) y;
         adjList=new ArrayList<>();
@@ -106,6 +117,7 @@ public class Country extends AnchorPane {
         }
         countryController = fxmlLoader.getController();
         countryController.initialize(this);
+        this.relocate(x,y);
         setVisible(true);
     }
 

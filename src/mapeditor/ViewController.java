@@ -1,12 +1,11 @@
 package mapeditor;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -17,52 +16,85 @@ import java.util.ArrayList;
 
 public class ViewController {
 
+    View view;
     private static enum VALIDITY {OK,CONTINENT_NOT_SET,ISOLATED_COUNTRY};
 
     @FXML
     AnchorPane view_pane;
     @FXML
-    Button btnAdd;
-    @FXML
     AnchorPane draw_pane;
     @FXML
-    Button btnReduce;
+    ListView lstContinent;
     @FXML
-    Label lblNContinents;
+    TextField txtContinent;
+    @FXML
+    Button btnDelContinent;
 
     @FXML
-    public void initialize() {
+    public void initialize(View view) {
+        this.view=view;
+        btnDelContinent.setDisable(true);
 
-        btnReduce.setDisable(true);
+
+        lstContinent.setItems(View.continents);
+        lstContinent.getSelectionModel().selectFirst();
 
         draw_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton()== MouseButton.PRIMARY){
                     Country country=new Country(event.getSceneX(),event.getSceneY());
-                    country.relocate(event.getSceneX(),event.getSceneY());
-                    setCountryListener(country);
-                    draw_pane.getChildren().add(country);
+                    drawCountry(country);
                     event.consume();
                 }
             }
         });
 
+        //List view listener
+        lstContinent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue observable, String oldValue, String newValue) {
+                if (!lstContinent.getSelectionModel().isEmpty() && lstContinent.getItems().size()>1)
+                    btnDelContinent.setDisable(false);
+            }
+        });
+
+
     }
 
-    public void addContinent(){
-        btnReduce.setDisable(false);
-        View.continents.add("Continent "+(View.continents.size()+1));
-        lblNContinents.setText(Integer.toString(View.continents.size()));
+    public void delContinent() {
+        if (lstContinent.getItems().size()<=1){
+            Alert alert=new Alert(Alert.AlertType.WARNING,"Must have at least one continent");
+            alert.show();
+            return;
+        }
+        View.continents.remove(lstContinent.getSelectionModel().getSelectedItem());
+        if (lstContinent.getItems().size()<=1){
+            btnDelContinent.setDisable(true);
+        }
     }
 
-    public void reduceContinent(){
-        if (View.continents.size()>1) {
-            View.continents.remove(View.continents.size() - 1);
-            if (View.continents.size()==1) btnReduce.setDisable(true);
+    public void addNewContinent(){
+        if (txtContinent.getText().equals("")){
+            Alert alert=new Alert(Alert.AlertType.WARNING,"Name of new continent cannot be empty");
+            alert.show();
+            return;
         }
 
-        lblNContinents.setText(Integer.toString(View.continents.size()));
+        if (lstContinent.getItems().contains(txtContinent.getText())){
+            Alert alert=new Alert(Alert.AlertType.WARNING,"Name of continent \""+txtContinent.getText()+" \" already exists.");
+            alert.show();
+            return;
+        }
+
+        View.continents.add(txtContinent.getText());
+    }
+
+
+    public void drawCountry(Country country){
+//        country.relocate(event.getSceneX(),event.getSceneY());
+        setCountryListener(country);
+        draw_pane.getChildren().add(country);
     }
 
     private void setCountryListener(Country country){
@@ -111,7 +143,7 @@ public class ViewController {
         });
     }
 
-    private void drawLine(Country p1, Country p2){
+    public void drawLine(Country p1, Country p2){
         Edge line=new Edge(p1,p2);
         p1.addAdjCountry(p2);
         p1.addEdge(line);
@@ -172,14 +204,18 @@ public class ViewController {
         });
     }
 
+    public void openFile(){
+        view.openMap();
+    }
+
     public void save(){
 
         ArrayList<Country> countryList=buildCountryList();
         if (countryList.isEmpty()){
             Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Save to file failed");
-            alert.setHeaderText("Oops, you haven't created any country yet");
-            alert.setContentText("Please create some countries and connect them by drag-drop a line");
+            alert.setTitle("Save to File");
+            alert.setHeaderText("Save to file failed");
+            alert.setContentText("Oops, you haven't created any country yet. Please create some countries and connect them by drag-drop a line");
             alert.show();
             return;
         }
@@ -188,8 +224,8 @@ public class ViewController {
         if (validity==VALIDITY.CONTINENT_NOT_SET){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Save to File");
-            alert.setHeaderText("Save to File failed");
-            alert.setContentText("Some country(s) doesn't belong to any continentPlease select continent for every countries before save.");
+            alert.setHeaderText("Save to file failed");
+            alert.setContentText("Some country(s) doesn't belong to any continent. Please select continent for every countries before save.");
             alert.show();
             return;
         } else if (validity==VALIDITY.ISOLATED_COUNTRY){
@@ -200,6 +236,7 @@ public class ViewController {
             alert.show();
             return;
         }
+
 
         //basic country check passed
 
@@ -216,15 +253,21 @@ public class ViewController {
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file successfully");
                     alert.show();
+                    return;
                 }else{
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file failed");
                     alert.setContentText("Oops, your map configuration is invalid. Please adjust your map configuration.");
                     alert.show();
+                    return;
                 }
             } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Save to File");
+                alert.setHeaderText("Save to file failed");
+                alert.setContentText("IO Error: \n"+ex.getMessage());
+                alert.show();
             }
         }
 

@@ -1,5 +1,7 @@
 package mapeditor;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,7 +36,7 @@ public class CountryController {
         lblCountry.setText(country.getName());
 
         listContinent.setItems(View.continents);
-        listContinent.getSelectionModel().selectFirst();
+        listContinent.getSelectionModel().select(country.getContinent());
 
         //avoid create new countries over existing country
         country.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -44,7 +46,7 @@ public class CountryController {
             }
         });
 
-        // remove button
+        // remove button listener
         btnRemove.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -62,6 +64,15 @@ public class CountryController {
                 AnchorPane draw_pane=(AnchorPane) country.getParent();
                 draw_pane.getChildren().remove(country);
                 event.consume();
+            }
+        });
+
+        //Choice box listener
+        listContinent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue observable, String oldValue, String newValue) {
+                country.setContinent(newValue);
+                System.out.println(newValue);
             }
         });
 
