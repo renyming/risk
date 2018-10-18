@@ -8,27 +8,31 @@
 
 <AnchorPane fx:id="mapPane" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapController">
    <children>
-      <AnchorPane fx:id="currentPlayerPane" layoutX="1080.0" layoutY="10.0" prefHeight="640.0" prefWidth="110.0" style="-fx-border-color: black;">
+      <Button fx:id="quitToMenuButton" layoutX="570.0" layoutY="10.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="60.0" prefWidth="60.0" text="Quit" />
+      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="555.0" style="-fx-border-color: black;" text="Reinforcement Phase">
+         <font>
+            <Font size="30.0" />
+         </font></Label>
+      <Button fx:id="nextPhaseButton" layoutX="635.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextPhase" prefHeight="60.0" prefWidth="555.0" text="Entering Reinforcement Phase">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <AnchorPane fx:id="currentPlayerPane" layoutX="1080.0" layoutY="80.0" prefHeight="610.0" prefWidth="110.0" style="-fx-border-color: black;">
          <children>
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="110.0" text="Current Player" />
             <Label fx:id="currentPlayerLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99" />
             <Label alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="110.0" text="Arimes in hand" />
-            <Label fx:id="armiesInHandLabel" alignment="CENTER" layoutX="2.0" layoutY="120.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: black;" text="99" />
+            <Label fx:id="armiesInHandLabel" alignment="CENTER" layoutX="2.0" layoutY="120.0" prefHeight="30.0" prefWidth="108.0" text="99" />
             <Label fx:id="countryALabel" alignment="CENTER" layoutY="180.0" prefHeight="30.0" prefWidth="110.0" text="Fortification From" />
-            <Label fx:id="countryAName" alignment="CENTER" layoutX="2.0" layoutY="210.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: black;" text="NONE" />
+            <Label fx:id="countryAName" alignment="CENTER" layoutX="2.0" layoutY="210.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
             <Label fx:id="countryBLabel" alignment="CENTER" layoutY="270.0" prefHeight="30.0" prefWidth="110.0" text="Fortification To" />
-            <Label fx:id="countryBName" alignment="CENTER" layoutX="2.0" layoutY="300.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: black;" text="NONE" />
-            <TextField fx:id="numArmiesMoveTextField" layoutX="30.0" layoutY="390.0" prefHeight="30.0" prefWidth="50.0" />
+            <Label fx:id="countryBName" alignment="CENTER" layoutX="2.0" layoutY="300.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
+            <TextField fx:id="numArmiesMoveTextField" layoutX="30.0" layoutY="390.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
             <Label fx:id="numArmiesMoveLabel" alignment="CENTER" layoutX="2.0" layoutY="360.0" prefHeight="30.0" prefWidth="108.0" text="Num Armies" />
+            <Button fx:id="skipReinforcementPhaseButton" layoutX="25.0" layoutY="560.0" mnemonicParsing="false" onAction="#skipReinforcementPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
+            <Label fx:id="invalidMoveLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="450.0" prefHeight="90.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="Number of armies you tried to moved is invalid" textAlignment="CENTER" wrapText="true" />
          </children>
       </AnchorPane>
-      <Button fx:id="saveEditedMapButton" layoutX="280.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" text="Save" />
-      <Button fx:id="backToMenuButton" layoutX="220.0" layoutY="10.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="30.0" prefWidth="50.0" text="Quit" />
-      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: black; -fx-background-color: #00ff00;" text="Current Phase" />
-      <Button fx:id="nextPhaseButton" layoutX="870.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextPhase" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Reinforcement">
-         <font>
-            <Font size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
