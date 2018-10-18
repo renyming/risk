@@ -15,8 +15,8 @@ public class CountryView implements Observer {
     private static int IdCounter = 0;
 
     private int Id;
-    private int armies;        // used for additional display
-    private String name;       // used for additional display
+    private int armies;
+    private String name;
     private Player owner;
     private String ownerColor = "red";
     private String continentColor = "blue";
@@ -47,7 +47,6 @@ public class CountryView implements Observer {
             System.out.println("CountryView ctor: " + e);
         }
         countryController.initiate(this);
-        countryController.setDefaultInfo("Country_"+Id, 0, ownerColor, continentColor);
         countryPane.setLayoutX(layoutX + view.getCountryViewWidth()/2);
         countryPane.setLayoutY(layoutY + view.getCountryViewHeight()/2);
         // TODO: edd drag event
@@ -70,7 +69,6 @@ public class CountryView implements Observer {
         armies = country.getArmies();
         owner = country.getOwner();
         ownerColor = owner.getColor();
-        System.out.println("CountryView.update(): " + country.getContinent().getColor());
         continentColor = country.getContinent().getColor();
         locationX = country.getX();
         locationY = country.getY();
@@ -88,8 +86,6 @@ public class CountryView implements Observer {
      * @return the countryPane object
      */
     public AnchorPane getCountryPane() { return countryPane; }
-
-    public void removeCountryView() { view.removeCountryView(this); }
 
     public void clicked() { view.clickedCountry(country); }
 
