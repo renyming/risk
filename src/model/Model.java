@@ -27,8 +27,8 @@ public class Model extends Observable {
     private int playerCounter;
     private boolean validFile = true;
 
-    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
-    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
+//    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
+//    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
 
     /**
      * ctor for Model
@@ -168,7 +168,7 @@ public class Model extends Observable {
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.setArmies(initialArmies);
             //assign each player a different color
-            newPlayer.setColor(userColors[i]);
+            newPlayer.setColor();
             //add observer(playerView)
             newPlayer.addObserver(playerView);
             //newPlayer.callObservers();
@@ -259,7 +259,7 @@ public class Model extends Observable {
             String continentName = s.substring(0,indexOfCol);
             int controlVal = Integer.parseInt(s.substring(indexOfCol + 1));
             Continent newContinent = new Continent(continentName,controlVal);
-            newContinent.setColor(continentColors[i % continentColors.length]);
+            newContinent.setColor();
             this.continents.add(newContinent);
             i ++;
         }

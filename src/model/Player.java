@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.util.*;
 
 /**
@@ -38,10 +39,19 @@ public class Player extends Observable {
 
     /**
      * Setter for color of player
-     * @param color Color of the player
      */
-    public void setColor(String color) {
-        this.color=color;
+    public void setColor() {
+        Random rand = new Random(Id*Id*Id);
+
+        // Will produce only bright / light colours:
+        float r = (float) (rand.nextFloat() / 2f + 0.4);
+        float g = (float) (rand.nextFloat() / 2f + 0.4);
+        float b = (float) (rand.nextFloat() / 2f + 0.4);
+
+        Color randomColor = new Color(r, g, b);
+        String hex = "#"+Integer.toHexString(randomColor.getRGB()).substring(2);
+
+        this.color=hex;
     }
 
     /**
