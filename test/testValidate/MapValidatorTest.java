@@ -136,7 +136,7 @@ public class MapValidatorTest {
     @Test
     public void validateLinkCountry() throws InvalidMapException {
         exception.expect(InvalidMapException.class);
-        exception.expectMessage("Country: " + country.getName().toUpperCase()
+        exception.expectMessage("Country: " + country.getName()
                 + " is not linked by all its adjacent Country: " + country2.getName());
         continent.addCountry(country);
         continent.addCountry(country2);

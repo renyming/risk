@@ -221,7 +221,7 @@ public class Model extends Observable {
             }
         } catch (Exception ex){
             validFile = false;
-            System.out.println(ex.getMessage());
+//            System.out.println("adasafa");
         }
         Message message;
         if(validFile){
