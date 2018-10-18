@@ -11,9 +11,9 @@ public class Edge extends Line {
     public final static int deleteWidth=3;
 
     public Edge(Country p1, Country p2){
-        this.setStartX(p1.getLayoutX()+40);
+        this.setStartX(p1.getLayoutX()+60);
         this.setStartY(p1.getLayoutY()+40);
-        this.setEndX(p2.getLayoutX()+40);
+        this.setEndX(p2.getLayoutX()+60);
         this.setEndY(p2.getLayoutY()+40);
         this.p1=p1;
         this.p2=p2;
