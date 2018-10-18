@@ -280,7 +280,7 @@ public class Player extends Observable {
 
                     if (each.equals(end))  return true;
 
-                    if (!each.isProcessed()) {
+                    if (countriesOwned.contains(each) && !each.isProcessed()) {
                         each.setProcessed(true);
                         queue.add(each);
                     }
