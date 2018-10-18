@@ -136,12 +136,14 @@ public class MapValidatorTest {
     @Test
     public void validateLinkCountry() throws InvalidMapException {
         exception.expect(InvalidMapException.class);
-        exception.expectMessage("Country: " + country.getName()
-                + " is not forming a connected sub graph.");
+        exception.expectMessage("Country: " + country.getName().toUpperCase()
+                + " is not linked by all its adjacent Country: " + country2.getName());
         continent.addCountry(country);
         continent.addCountry(country2);
         continent.addCountry(country3);
         country.addEdge(country2);
+        country2.addEdge(country3);
+        country3.addEdge(country2);
         model.setContinents(listOfContinents);
         MapValidator.validateCountry(country, model);
     }

@@ -104,8 +104,8 @@ public class MapValidator {
         } else {
             for (Country adjCountry : adjCountryList) {
                 if (!adjCountry.getAdjCountries().contains(country)) {
-                    throw new InvalidMapException("Country " + country.getName().toUpperCase()
-                            + " is not  linked by all its adjacent country " + adjCountry.getName());
+                    throw new InvalidMapException("Country: " + country.getName().toUpperCase()
+                            + " is not linked by all its adjacent Country: " + adjCountry.getName());
                 }
             }
         }
