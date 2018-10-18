@@ -64,7 +64,7 @@ public class View implements Observer {
         menuController.initialize(this);
         menuStage = new Stage();
         menuStage.setTitle("Risk Game");
-        menuStage.setScene(new Scene(mainMenuPane));
+        menuStage.setScene(new Scene(mainMenuPane,500,300));
 
         FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRootPane = mapFxmlLoader.load();
