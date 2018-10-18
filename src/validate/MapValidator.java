@@ -49,7 +49,7 @@ public class MapValidator {
                     "Continent: " + continent.getName() + " should contain at least one country");
         }
         if (!continentIsASubGraph(continent, model)) {
-            throw new InvalidMapException("Continent: " + continent.getName().toUpperCase()
+            throw new InvalidMapException("Continent: " + continent.getName()
                     + " is not a subgraph. The continent should be connected to another continent via country.");
         }
         for (Country country : continent.getCountry()) {
@@ -104,7 +104,7 @@ public class MapValidator {
         } else {
             for (Country adjCountry : adjCountryList) {
                 if (!adjCountry.getAdjCountries().contains(country)) {
-                    throw new InvalidMapException("Country: " + country.getName().toUpperCase()
+                    throw new InvalidMapException("Country: " + country.getName()
                             + " is not linked by all its adjacent Country: " + adjCountry.getName());
                 }
             }
