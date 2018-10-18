@@ -72,7 +72,7 @@ public class View implements Observer {
         mapController.initialize(this, COUNTRY_VIEW_WIDTH, COUNTRY_VIEW_HEIGHT);
         mapStage = new Stage();
         mapStage.setTitle("Risk Game");
-        mapStage.setScene(new Scene(mapRootPane));
+        mapStage.setScene(new Scene(mapRootPane,1000,700));
 
         pause = false;
         fromToCountries = new Country[2];
