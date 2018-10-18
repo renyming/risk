@@ -23,5 +23,4 @@ public class View extends AnchorPane{
         System.out.println(continents);
     }
 
-
 }

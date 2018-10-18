@@ -68,6 +68,22 @@ public class Country extends AnchorPane {
         return adjList;
     }
 
+    public void addAdjCountry(Country country){
+        adjList.add(country);
+    }
+
+    public void removeAdjCountry(Country country){
+        adjList.remove(country);
+    }
+
+    public void addEdge(Edge e){
+        edgeList.add(e);
+    }
+
+    public void removeEdge(Edge e){
+        edgeList.remove(e);
+    }
+
     public ArrayList<Edge> getEdgeList() {
         return edgeList;
     }
@@ -81,16 +97,16 @@ public class Country extends AnchorPane {
         adjList=new ArrayList<>();
         edgeList=new ArrayList<>();
 
-//        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("Country.fxml"));
-//        fxmlLoader.setRoot(this);
-//        try {
-//            fxmlLoader.load();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        countryController = fxmlLoader.getController();
-//        countryController.initialize(this);
-//        setVisible(true);
+        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("Country.fxml"));
+        fxmlLoader.setRoot(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        countryController = fxmlLoader.getController();
+        countryController.initialize(this);
+        setVisible(true);
     }
 
     public int getCountryId(){
