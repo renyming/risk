@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mapPane" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapController">
+<AnchorPane fx:id="mapPane" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapController">
    <children>
       <Button fx:id="quitToMenuButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="40.0" prefWidth="60.0" text="Quit" />
       <Label fx:id="phaseLabel" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0" style="-fx-border-color: black;" text="Reinforcement Phase">
@@ -15,7 +15,7 @@
          </font></Label>
       <Button fx:id="nextPhaseButton" layoutX="235.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextPhase" prefHeight="40.0" prefWidth="500.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Entering Reinforcement Phase">
          <font>
-            <Font size="30.0" />
+            <Font size="19.0" />
          </font>
       </Button>
       <AnchorPane fx:id="currentPlayerPane" layoutX="880.0" layoutY="10.0" prefHeight="640.0" prefWidth="110.0" style="-fx-border-color: black;">

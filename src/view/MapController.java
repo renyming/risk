@@ -58,7 +58,6 @@ public class MapController {
             System.out.println("MapController.initialize(): input value not integer " + numArmiesMoveTextField.getText());
         }
         if (numArmiesMoved > 0) {
-            numArmiesMoveTextField.clear();
             showInvalidMoveLabelInfo(false, "");
             view.fortification(numArmiesMoved);
         } else {
@@ -68,6 +67,7 @@ public class MapController {
     }
 
     public void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
+        numArmiesMoveTextField.clear(); // TODO: could be removed?
         invalidMoveLabel.setVisible(show);
         invalidMoveLabel.setText(invalidInfo);
     }
@@ -105,8 +105,7 @@ public class MapController {
     }
 
     public void skipReinforcementPhase() {
-        showReinforcementPhaseButton(false);
-        numArmiesMoveTextField.clear();
+        showPlayerViewPane(false);
         view.skipFortificationPhase();
     }
 
@@ -116,12 +115,19 @@ public class MapController {
 
     public void hidePhaseLabel() { phaseLabel.setVisible(false); }
 
-
     public void showPhaseLabel() { phaseLabel.setVisible(true); }
 
     public void hideNextPhaseButton() { nextPhaseButton.setVisible(false); }
 
-    public void showPlayerViewPane(boolean show) { currentPlayerPane.setVisible(show); }
+    public void showPlayerViewPane(boolean show) {
+        if (show) {
+            currentPlayerPane.setVisible(true);
+        } else {
+            skipReinforcementPhaseButton.setVisible(false);
+            numArmiesMoveTextField.clear();
+            numArmiesMoveTextField.setVisible(false);
+        }
+    }
 
     public void startNextPhase() { view.startNextPhase(); }
 

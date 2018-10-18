@@ -6,13 +6,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuController">
+<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuController">
    <children>
-      <AnchorPane fx:id="startGamePane" prefHeight="300.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="startGamePane" prefHeight="300.0" prefWidth="500.0">
          <children>
             <!--<Label alignment="CENTER" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: white;" text="Risk Game">-->
                <!--<font>-->
@@ -38,20 +36,20 @@
             <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchToMapEditorMenu" prefHeight="30.0" prefWidth="120.0" text="Map Editor" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="mapEditorPane" prefHeight="300.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="mapEditorPane" prefHeight="300.0" prefWidth="500.0" visible="false">
          <children>
             <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#createNewMap" prefHeight="30.0" prefWidth="120.0" text="Create New Map" />
             <Button layoutX="190.0" layoutY="220.0" mnemonicParsing="false" onAction="#editExistingFile" prefHeight="30.0" prefWidth="120.0" text="Edit Existing File" />
             <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="Back" />
          </children></AnchorPane>
-      <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="200.0">
+      <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="500.0" visible="false">
          <children>
             <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="120.0" text="Select Map" />
             <TextField fx:id="playerNumTextField" layoutX="225.0" layoutY="256.0" prefHeight="30.0" prefWidth="50.0" />
             <Button fx:id="startGameButton" layoutX="386.0" layoutY="256.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="100.0" text="Start Game" />
             <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="Back" />
             <Label fx:id="selectedMapLabel" alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="30.0" prefWidth="490.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" />
-            <Label fx:id="mapInfoPane" alignment="CENTER" layoutY="35.0" prefHeight="30.0" prefWidth="500.0" text="Map info, max player, ext." />
+            <Label fx:id="mapInfoPane" alignment="CENTER" layoutY="35.0" prefHeight="30.0" prefWidth="500.0" text="Map info, max player, ext." wrapText="true" />
             <Label fx:id="playerNumInstructionLabel" alignment="CENTER" layoutX="150.0" layoutY="200.0" prefHeight="30.0" prefWidth="200.0" text="Enter number of players, max 10">
                <font>
                   <Font size="12.0" />
@@ -64,7 +62,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="quitPane" prefHeight="300.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="quitPane" prefHeight="300.0" prefWidth="500.0" visible="false">
          <children>
             <Button layoutX="200.0" layoutY="220.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="No" />
             <Button layoutX="200.0" layoutY="180.0" mnemonicParsing="false" onAction="#quit" prefHeight="30.0" prefWidth="100.0" text="Yes" />

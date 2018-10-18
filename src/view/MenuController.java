@@ -49,7 +49,7 @@ public class MenuController {
                     userEnteredPlayNumLabel.setText("Must greater than 1");
                     startGameButton.setVisible(false);
                 } else {
-                    playerNumInstructionLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
+                    playerNumInstructionLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
                     view.initializePlayer(userEnteredPlayerNum);
                 }
             } catch (Exception e) {
@@ -84,9 +84,9 @@ public class MenuController {
 
     public void resetStartUpMenu() {
         selectedMapLabel.setText("Selected map: NONE");
-        selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
+        selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
         playerNumInstructionLabel.setVisible(false);
-        playerNumInstructionLabel.setStyle("-fx-border-color: yellow; -fx-border-width: 2");
+        playerNumInstructionLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
         playerNumTextField.setVisible(false);
         playerNumTextField.clear();
         userEnteredPlayNumLabel.setVisible(false);
@@ -104,14 +104,15 @@ public class MenuController {
             playerNumTextField.setVisible(true);
             userEnteredPlayNumLabel.setVisible(true);
             selectedMapLabel.setText("Valid map: " + filename);
-            selectedMapLabel.setStyle("-fx-border-color: green; -fx-border-width: 2");
+            selectedMapLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             mapInfoPane.setText(mapInfo);
         } else {
             selectedMapLabel.setText("Invalid map: " + filename);
             playerNumInstructionLabel.setVisible(false);
             playerNumTextField.setVisible(false);
+            playerNumTextField.clear();
             userEnteredPlayNumLabel.setVisible(false);
-            selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
+            selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
             mapInfoPane.setText(mapInfo);
         }
     }
@@ -120,7 +121,7 @@ public class MenuController {
         this.maxPlayerNum = maxPlayerNum;
         playerNumInstructionLabel.setVisible(true);
         playerNumTextField.setVisible(true);
-        playerNumInstructionLabel.setStyle("-fx-border-color: yellow; -fx-border-width: 2");
+        playerNumInstructionLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
         playerNumInstructionLabel.setText("Max number of players: " + this.maxPlayerNum);
         userEnteredPlayNumLabel.setText("Total Player: ");
     }
