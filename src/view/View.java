@@ -26,6 +26,10 @@ import java.util.Observer;
  */
 public class View implements Observer {
 
+
+    /**
+     * Determine the current or next phase
+     */
     public enum PHASE {ENTER_NUM_PLAYER, START_UP, REINFORCEMENT, ATTACK, FORTIFICATION}
 
     private final double COUNTRY_VIEW_HEIGHT = 60;
