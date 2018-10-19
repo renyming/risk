@@ -164,7 +164,7 @@ public class ViewController {
     /**
      * Set on event listener when drag over
      * Set transfer mode of receiver to accept drag
-     * @param country
+     * @param country Country object
      */
     private void addDragOver(Country country) {
         country.setOnDragOver(new EventHandler<DragEvent>() {
