@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
@@ -14,10 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controller class for View object
+ */
 public class ViewController {
-
-    View view;
-    private static enum VALIDITY {OK,CONTINENT_NOT_SET,ISOLATED_COUNTRY};
 
     @FXML
     AnchorPane view_pane;
@@ -29,12 +30,17 @@ public class ViewController {
     TextField txtContinent;
     @FXML
     Button btnDelContinent;
+    private View view;
 
+    /**
+     * Initialize the base pane
+     * Fills continent list, set mouse listener to add new country, set listener for continent list view
+     * @param view View object to be initialized
+     */
     @FXML
     public void initialize(View view) {
-        this.view=view;
+        this.view = view;
         btnDelContinent.setDisable(true);
-
 
         lstContinent.setItems(View.continents);
         lstContinent.getSelectionModel().selectFirst();
@@ -42,9 +48,9 @@ public class ViewController {
         draw_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (event.getButton()== MouseButton.PRIMARY){
-                    if (event.getClickCount()==2){
-                        Country country=new Country(event.getSceneX(),event.getSceneY());
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    if (event.getClickCount() == 2) {
+                        Country country = new Country(event.getSceneX(), event.getSceneY());
                         drawCountry(country);
                         event.consume();
                     }
@@ -56,35 +62,41 @@ public class ViewController {
         lstContinent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue observable, String oldValue, String newValue) {
-                if (!lstContinent.getSelectionModel().isEmpty() && lstContinent.getItems().size()>1)
+                if (!lstContinent.getSelectionModel().isEmpty() && lstContinent.getItems().size() > 1)
                     btnDelContinent.setDisable(false);
             }
         });
-
-
     }
 
+    /**
+     * Handler to delete a continent in continent list view
+     * Bounded to: btnDelContinent
+     */
     public void delContinent() {
-        if (lstContinent.getItems().size()<=1){
-            Alert alert=new Alert(Alert.AlertType.WARNING,"Must have at least one continent");
+        if (lstContinent.getItems().size() <= 1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Must have at least one continent");
             alert.show();
             return;
         }
         View.continents.remove(lstContinent.getSelectionModel().getSelectedItem());
-        if (lstContinent.getItems().size()<=1){
+        if (lstContinent.getItems().size() <= 1) {
             btnDelContinent.setDisable(true);
         }
     }
 
-    public void addNewContinent(){
-        if (txtContinent.getText().equals("")){
-            Alert alert=new Alert(Alert.AlertType.WARNING,"Name of new continent cannot be empty");
+    /**
+     * Handler to add a continent from text box to list view
+     * Bounded to: btnAddContinent
+     */
+    public void addContinent() {
+        if (txtContinent.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Name of new continent cannot be empty");
             alert.show();
             return;
         }
 
-        if (lstContinent.getItems().contains(txtContinent.getText())){
-            Alert alert=new Alert(Alert.AlertType.WARNING,"Name of continent \""+txtContinent.getText()+" \" already exists.");
+        if (lstContinent.getItems().contains(txtContinent.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Name of continent \"" + txtContinent.getText() + " \" already exists.");
             alert.show();
             return;
         }
@@ -92,19 +104,30 @@ public class ViewController {
         View.continents.add(txtContinent.getText());
     }
 
-
-    public void drawCountry(Country country){
-//        country.relocate(event.getSceneX(),event.getSceneY());
+    /**
+     * Draw a country on canvas
+     * A wrapper method
+     * @param country Country object
+     */
+    public void drawCountry(Country country) {
         setCountryListener(country);
         draw_pane.getChildren().add(country);
     }
 
-    private void setCountryListener(Country country){
+    /**
+     * Set on event listeners for Country object
+     * @param country Country object
+     */
+    private void setCountryListener(Country country) {
         addDragDetection(country);
         addDragOver(country);
         addDragDropped(country);
     }
 
+    /**
+     * Set on event listener when drag action starts
+     * @param country Country object
+     */
     private void addDragDetection(Country country) {
         country.setOnDragDetected(new EventHandler<MouseEvent>() {
             @Override
@@ -117,16 +140,20 @@ public class ViewController {
         });
     }
 
+    /**
+     * Set on event listener when drag action drops
+     * @param country Country object
+     */
     private void addDragDropped(Country country) {
         country.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
 
-                Country source=(Country) event.getGestureSource();
+                Country source = (Country) event.getGestureSource();
 
-                if (source!=country){
-                    System.out.println("Country "+source.getCountryId()+" and Country "+country.getCountryId()+" are connected");
-                    drawLine(source,country);
+                if (source != country) {
+                    System.out.println("Country " + source.getCountryId() + " and Country " + country.getCountryId() + " are connected");
+                    drawLine(source, country);
                 }
 
                 event.consume();
@@ -135,6 +162,11 @@ public class ViewController {
         });
     }
 
+    /**
+     * Set on event listener when drag over
+     * Set transfer mode of receiver to accept drag
+     * @param country
+     */
     private void addDragOver(Country country) {
         country.setOnDragOver(new EventHandler<DragEvent>() {
             @Override
@@ -145,8 +177,15 @@ public class ViewController {
         });
     }
 
-    public void drawLine(Country p1, Country p2){
-        Edge line=new Edge(p1,p2);
+    /**
+     * Draw line between two counties and set linkage in each adjacent list, add edge to edge list
+     * @param p1 Country 1 to be connected
+     * @param p2 Country 2 to be connected
+     */
+    public void drawLine(Country p1, Country p2) {
+        if (p1.isAdjacent(p2)) return;
+
+        Edge line = new Edge(p1, p2);
         p1.addAdjCountry(p2);
         p1.addEdge(line);
         p2.addAdjCountry(p1);
@@ -155,13 +194,22 @@ public class ViewController {
         draw_pane.getChildren().add(line);
     }
 
-    private void setLineListener(Edge line){
+    /**
+     * Set on event listeners for lines
+     * @param line Line object
+     */
+    private void setLineListener(Edge line) {
         addMouseOver(line);
         addMouseExit(line);
         addDelLine(line);
     }
 
-    private void addMouseOver(Edge line){
+    /**
+     * Event listener when mouse moves over a line
+     * Highlight current line
+     * @param line Line object
+     */
+    private void addMouseOver(Edge line) {
         line.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -172,13 +220,18 @@ public class ViewController {
         });
     }
 
-    private void addDelLine(Edge line){
+    /**
+     * Event listener when mouse right clicks
+     * Delete current line
+     * @param line Line object
+     */
+    private void addDelLine(Edge line) {
         line.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (event.getButton()== MouseButton.SECONDARY){
-                    Country p1=line.getP1();
-                    Country p2=line.getP2();
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    Country p1 = line.getP1();
+                    Country p2 = line.getP2();
 
                     //disconnect in data structure
                     p1.removeAdjCountry(p2);
@@ -187,7 +240,7 @@ public class ViewController {
                     p2.removeEdge(line);
 
                     draw_pane.getChildren().remove(line);
-                    System.out.println("Country "+p1.getCountryId()+" and Country "+p2.getCountryId()+" are disconnected");
+                    System.out.println("Country " + p1.getCountryId() + " and Country " + p2.getCountryId() + " are disconnected");
                 }
 
                 event.consume();
@@ -195,7 +248,11 @@ public class ViewController {
         });
     }
 
-    private void addMouseExit(Edge line){
+    /**
+     * Set line back to normal style when mouse moves away
+     * @param line Line object
+     */
+    private void addMouseExit(Edge line) {
         line.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -206,21 +263,43 @@ public class ViewController {
         });
     }
 
-    public void clearCanvas(){
+    /**
+     * Clear all nodes on draw_pane
+     */
+    public void clearCanvas() {
         draw_pane.getChildren().clear();
     }
 
-    public void openFile(){
+    /**
+     * Handler for btnOpen
+     */
+    public void openFile() {
         view.openMap();
     }
 
-    public void exit(){view.exit();}
+    /**
+     * Handler for btnExit
+     */
+    public void exit() {
+        view.exit();
+    }
 
-    public void save(){
+    /**
+     * Save current map to file
+     *
+     * Tests:
+     * 1. Isolated country;
+     * 2. Continent not set for any country;
+     * 3. Empty map
+     *
+     * Then:
+     * 4. Open file chooser, passes file to Writer class to further validate map configuration, outputs to file if passed
+     */
+    public void save() {
 
-        ArrayList<Country> countryList=buildCountryList();
-        if (countryList.isEmpty()){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+        ArrayList<Country> countryList = buildCountryList();
+        if (countryList.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Save to File");
             alert.setHeaderText("Save to file failed");
             alert.setContentText("Oops, you haven't created any country yet. Please create some countries and connect them by drag-drop a line");
@@ -228,16 +307,16 @@ public class ViewController {
             return;
         }
 
-        VALIDITY validity=validateCountry(countryList);
-        if (validity==VALIDITY.CONTINENT_NOT_SET){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+        VALIDITY validity = validateCountry(countryList);
+        if (validity == VALIDITY.CONTINENT_NOT_SET) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Save to File");
             alert.setHeaderText("Save to file failed");
             alert.setContentText("Some country(s) doesn't belong to any continent. Please select continent for every countries before save.");
             alert.show();
             return;
-        } else if (validity==VALIDITY.ISOLATED_COUNTRY){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+        } else if (validity == VALIDITY.ISOLATED_COUNTRY) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Save to File");
             alert.setHeaderText("Save to file failed");
             alert.setContentText("Some country(s) is isolated. Please create at lease one connection for those isolated country(s).");
@@ -255,15 +334,15 @@ public class ViewController {
 
         if (file != null) {
             try {
-                Writer writer=new Writer(countryList,file.getPath());
-                if (writer.write()){
-                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                Writer writer = new Writer(countryList, file.getPath());
+                if (writer.write()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file successfully");
                     alert.show();
                     return;
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file failed");
                     alert.setContentText(writer.invalidReason);
@@ -271,36 +350,47 @@ public class ViewController {
                     return;
                 }
             } catch (IOException ex) {
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Save to File");
                 alert.setHeaderText("Save to file failed");
-                alert.setContentText("IO Error: \n"+ex.getMessage());
+                alert.setContentText("IO Error: \n" + ex.getMessage());
                 alert.show();
             }
         }
 
     }
 
-    private ArrayList<Country> buildCountryList(){
-        ArrayList<Country> countryList=new ArrayList<>();
-        for (Node node:draw_pane.getChildren()){
-            if (node instanceof Country){
-                Country country=(Country) node;
+    /**
+     * Iterates and build a list for all the countries currently on canvas
+     * @return Country objects in ArrayList
+     */
+    private ArrayList<Country> buildCountryList() {
+        ArrayList<Country> countryList = new ArrayList<>();
+        for (Node node : draw_pane.getChildren()) {
+            if (node instanceof Country) {
+                Country country = (Country) node;
                 countryList.add(country);
             }
         }
         return countryList;
     }
 
-    private VALIDITY validateCountry(ArrayList<Country> countryList){
-        for (Country country:countryList){
+    /**
+     * Validates if a map has isolates country or any country that has no continent selected
+     * @param countryList List of Country objects
+     * @return ViewController VALIDITY enum: OK, CONTINENT_NOT_SET, ISOLATED_COUNTRY
+     */
+    private VALIDITY validateCountry(ArrayList<Country> countryList) {
+        for (Country country : countryList) {
             if (country.getEdgeList().isEmpty())
                 return VALIDITY.ISOLATED_COUNTRY;
-            ChoiceBox cb=(ChoiceBox) country.lookup("#listContinent");
+            ChoiceBox cb = (ChoiceBox) country.lookup("#listContinent");
             if (cb.getSelectionModel().isEmpty())
                 return VALIDITY.CONTINENT_NOT_SET;
         }
         return VALIDITY.OK;
     }
+
+    private static enum VALIDITY {OK, CONTINENT_NOT_SET, ISOLATED_COUNTRY}
 
 }

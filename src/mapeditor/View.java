@@ -14,31 +14,55 @@ import model.Model;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Observer;
+import java.util.Observable;
 
+/**
+ * Model class for View (root_pane) in map editor
+ * In order to unify model.Model notify mechanism, implements Observer to receive file validation info
+ */
 public class View extends AnchorPane implements Observer {
 
     private ViewController viewController;
     private view.View menuView;
     public static ObservableList<String> continents= FXCollections.observableArrayList();
 
+    /**
+     * Constructor
+     * Loads View.fxml file for layout, initialize View object, and global continents list
+     * @throws IOException
+     */
     public View() throws IOException {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("View.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.load();
         viewController = fxmlLoader.getController();
         viewController.initialize(this);
+        continents.clear();
         continents.add("Default Continent");
     }
 
+    /**
+     * Setter to obtain view.View reference in order to exit back to main menu
+     * @param view
+     */
     public void setMenuView(view.View view){
         menuView=view;
     }
 
+    /**
+     * Exit map editor, show main menu
+     */
     public void exit(){
         menuView.closeMapStage();
     }
 
+    /**
+     * Open an existing map
+     * Add current View object as observer to model.Model, to receive file validation info
+     */
     public void openMap() {
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Open a new file will discard all the unsaved changes, are you sure to continue?", ButtonType.NO,ButtonType.YES);
         alert.showAndWait();
@@ -57,7 +81,7 @@ public class View extends AnchorPane implements Observer {
         model.addObserver(this);
 
         try{
-            readFile(model,file);
+            model.readFile(file.toString());
         }catch(IOException e) {
             Alert err=new Alert(Alert.AlertType.ERROR,"File IO error: \n"+e.getMessage());
             err.show();
@@ -66,10 +90,12 @@ public class View extends AnchorPane implements Observer {
 
     }
 
-    private void readFile(Model model, File file) throws IOException {
-        model.readFile(file.toString());
-    }
-
+    /**
+     * Overrides update method of Observer
+     * Determines if the map file is valid, and reconstruct map if valid
+     * @param obj Observable object
+     * @param arg Argument passed by Observable object
+     */
     @Override
     public void update(Observable obj, Object arg){
         Model model=(Model) obj;
