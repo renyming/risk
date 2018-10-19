@@ -34,7 +34,7 @@ public class MenuController {
     public void addEventListener() {
         playerNumTextField.setOnAction((event) -> {
             playerNumInstructionLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
-            try {
+            try { // TODO: refactor, only catch enteredNum
                 int userEnteredPlayerNum = Integer.parseInt(playerNumTextField.getText());
                 userEnteredPlayNumLabel.setVisible(true);
                 userEnteredPlayNumLabel.setText("Total Player: " + userEnteredPlayerNum);
