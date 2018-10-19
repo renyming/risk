@@ -95,6 +95,16 @@ public class PlayerTest {
         int num = 17;
         player.addRoundArmies();
         assertEquals(num, player.getArmies());
+
+        num = 20;
+        player.delCountry(usa);
+        player.addRoundArmies();
+        assertEquals(num, player.getArmies());
+
+        num = 3;
+        newPlayer.addRoundArmies();
+        assertEquals(num, newPlayer.getArmies());
+
     }
 
     /**
