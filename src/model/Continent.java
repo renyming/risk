@@ -35,7 +35,7 @@ public class Continent {
 
     /**
      * getter for continent color
-     * @return
+     * @return  color of the continent
      */
     public String getColor(){
         return color;
@@ -43,7 +43,6 @@ public class Continent {
 
     /**
      * setter for continent color
-     * @return
      */
     public void setColor() {
 
@@ -129,7 +128,7 @@ public class Continent {
 
     /**
     * verify if two continent is same continent
-    * @Param  c continent need to be compare
+    * @param c continent need to be compare
     * @return  true same continent, false  different continent
     */
     public boolean equals(Continent c) {
