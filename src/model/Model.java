@@ -174,13 +174,18 @@ public class Model extends Observable {
             //newPlayer.callObservers();
             players.add(newPlayer);
         }
-        int i = 0;
+
+        ArrayList<String> shuffle = new ArrayList<>();
+
         //assign countries to all the players justly
         for (String key:countries.keySet()) {
-            countries.get(key).setPlayer(players.get(i % players.size()));
-            players.get(i % players.size()).addCountry(countries.get(key));
-            i ++;
+            shuffle.add(key);
         }
+        for(int i = 0; i < shuffle.size(); i ++){
+            countries.get(shuffle.get(i)).setPlayer(players.get(i % players.size()));
+            players.get(i % players.size()).addCountry(countries.get(shuffle.get(i)));
+        }
+
         //notify view to unpdate information
         for (String key:countries.keySet()) {
             countries.get(key).callObservers();
