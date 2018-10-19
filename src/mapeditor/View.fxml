@@ -50,7 +50,7 @@
                      <children>
                         <Label layoutX="4.0" layoutY="213.0" text="Enter a New Continent        " />
                         <TextField fx:id="txtContinent" layoutX="2.0" layoutY="231.0" />
-                        <Button fx:id="btnAddContinentToList" graphicTextGap="2.0" layoutX="46.0" layoutY="258.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addNewContinent" prefHeight="30.0" prefWidth="30.0" text="+" textAlignment="CENTER">
+                        <Button fx:id="btnAddContinent" graphicTextGap="2.0" layoutX="46.0" layoutY="258.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addContinent" prefHeight="30.0" prefWidth="30.0" text="+" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

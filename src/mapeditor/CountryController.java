@@ -8,14 +8,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.StringConverter;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * Controller class for Country class in map editor
+ * Bounded with Country.fxml
+ */
 public class CountryController {
 
     @FXML
@@ -31,6 +32,11 @@ public class CountryController {
     @FXML
     Button btnRemove;
 
+    /**
+     * Initialization
+     * Fill continents list, add remove button listener, add choice box listenr
+     * @param country Country object to be initialized
+     */
     @FXML
     public void initialize(Country country){
         lblCountry.setText(country.getName());

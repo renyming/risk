@@ -19,6 +19,11 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * View, support user interaction, do partial user input validation
+ * Corresponding Observable subject is Model
+ */
 public class View implements Observer {
 
     public enum PHASE {ENTER_NUM_PLAYER, START_UP, REINFORCEMENT, ATTACK, FORTIFICATION}
@@ -48,7 +53,6 @@ public class View implements Observer {
     private HashSet<Line> lines;
 
 
-
     /**
      * Initiate menu/map stages with corresponding .fxml file, set some default variables
      */
@@ -62,6 +66,7 @@ public class View implements Observer {
             menuStage.setTitle("Risk Game");
             menuStage.setScene(new Scene(mainMenuPane,500,300));
             menuStage.setResizable(false);
+            menuStage.sizeToScene();
 
 
             FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
@@ -72,6 +77,7 @@ public class View implements Observer {
             mapStage.setTitle("Risk Game");
             mapStage.setScene(new Scene(mapRootPane,1000,700));
             mapStage.setResizable(false);
+            mapStage.sizeToScene();
 
             pause = false;
             fromToCountriesCounter = 0;
@@ -85,14 +91,12 @@ public class View implements Observer {
     }
 
 
-
     /**
      * Allow View to pass the selected file path back to the Model
      * Called by Model Observable subject
      * @param model Model Observable subject
      */
     public void initialize(Model model) { this.model = model; }
-
 
 
     /**
@@ -148,7 +152,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * Display the beginning of page of the menu, user then can interact with i.e. click buttons
      * Called when 'quit' button is clicked from the on-going game, then clear all previous work
@@ -160,7 +163,6 @@ public class View implements Observer {
         menuController.switchToStartGameMenu();
         clearMapComponents();
     }
-
 
 
     /**
@@ -183,7 +185,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * Quit the game
      * Called when 'Quit' button is clicked on the menu, and then user click 'Yes' button to confirm
@@ -192,7 +193,6 @@ public class View implements Observer {
         mapStage.close();
         menuStage.close();
     }
-
 
 
     /**
@@ -216,7 +216,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * Select a RISK map file, then ask Model to validate
      * Called when user click 'Select Map' button on menu
@@ -236,17 +235,13 @@ public class View implements Observer {
     }
 
 
-
     /**
      * After loading a valid file, create a default CountryView Observer object, and then return it
      * Called by View.update() at state CREATE_OBSERVERS
      * Allow Model to bind it with Country Observable object later
      * @return CountryView Observer object
      */
-    private CountryView createDefaultCountryView() {
-        return new CountryView(this);
-    }
-
+    private CountryView createDefaultCountryView() { return new CountryView(this); }
 
 
     /**
@@ -261,7 +256,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * During start up and reinforcement phase, tell model that user clicked a valid country to allocate army
      * Called by View.clickedCountry() after the click event is verified and distributed
@@ -272,7 +266,6 @@ public class View implements Observer {
             model.allocateArmy(country);
         }
     }
-
 
 
     /**
@@ -312,7 +305,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * During fortification phase, skip this phase if current user is not able to move armies
      * i.e. only has one country left or the user does not want to
@@ -324,7 +316,6 @@ public class View implements Observer {
         mapController.showInvalidMoveLabelInfo(false, "");
         model.nextPlayer();
     }
-
 
 
     /**
@@ -353,7 +344,6 @@ public class View implements Observer {
                 break;
         }
     }
-
 
 
     /**
@@ -385,14 +375,12 @@ public class View implements Observer {
     }
 
 
-
     /**
      * Reset the 'Enter xxx Phase' button name and display it
      * Called by View.*()
      * @param nextPhase represents the display text of the 'Enter xxx Phase' button
      */
     private void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
-
 
 
     /**
@@ -420,7 +408,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * Clear all CountryViews and Lines that generated before
      * Called by View.showMenuStage()
@@ -444,7 +431,6 @@ public class View implements Observer {
     }
 
 
-
     /**
      * For the fortification usage, reset selected countries
      * Called by View.*() if user trying to reset the selected countries by clicking the map or another country
@@ -456,7 +442,6 @@ public class View implements Observer {
         mapController.resetFromToCountriesInfo();
         mapController.showInvalidMoveLabelInfo(false, "");
     }
-
 
 
     /**
@@ -489,7 +474,6 @@ public class View implements Observer {
             }
         }
     }
-
 
 
     /**
