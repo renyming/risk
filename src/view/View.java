@@ -2,6 +2,7 @@ package view;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import mapeditor.MapEditor;
 import model.Country;
 import model.Model;
 import common.Message;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Observable;
@@ -35,6 +37,7 @@ public class View implements Observer {
     private String selectedFileName;
     private AnchorPane mapRootPane;
     private PlayerView playerView;
+    private Stage mapEditorStage;
     private PHASE currentPhase;
     private Stage menuStage;
     private Stage mapStage;
@@ -169,6 +172,15 @@ public class View implements Observer {
     }
 
 
+    /**
+     * Close the map editor, show beginning of the menu page
+     */
+    public void closeMapStage() {
+        mapStage.hide();
+        menuStage.show();
+    }
+
+
 
     /**
      * Quit the game
@@ -184,7 +196,17 @@ public class View implements Observer {
      * Display map editor, user than can create a RISK map
      */
     public void openMapEditor() {
-        // TODO: start map editor
+        try {
+            mapEditorStage = new Stage();
+            mapeditor.View mapView = new mapeditor.View();
+            // TODO: mapView.setView(this);
+            // TODO: call view.View.closeMapStage() to quit
+            mapEditorStage.setScene(new Scene(mapView,1080,746));
+            mapEditorStage.setTitle("Map Editor");
+            mapEditorStage.show();
+        } catch (Exception e) {
+            System.out.println("View.openMapEditor(): " + e.getMessage());
+        }
     }
 
 
@@ -220,29 +242,6 @@ public class View implements Observer {
     public CountryView createDefaultCountryView(double layoutX, double layoutY, String playerColor, String continentColor) {
         CountryView countryView = new CountryView(this, layoutX, layoutY, playerColor, continentColor);
         return countryView;
-    }
-
-
-
-    /**
-     * Clear all CountryViews that generated before, and remove all countryPane from mapRootPane
-     */
-    public void clearMapComponents() {
-        if (null != countryViews) {
-            for (int key : countryViews.keySet()) {
-                AnchorPane countryPane = countryViews.get(key).getCountryPane();
-                countryPane.getChildren().clear();
-                mapRootPane.getChildren().remove(countryPane);
-            }
-            countryViews.clear();
-        }
-        if (null != lines) {
-            for (Line line : lines) {
-                mapRootPane.getChildren().remove(line);
-            }
-            lines.clear();
-        }
-
     }
 
 
@@ -304,6 +303,11 @@ public class View implements Observer {
         }
     }
 
+
+
+    /**
+     * Skip fortification phase
+     */
     public void skipFortificationPhase() {
         showNextPhaseButton("Enter Reinforcement Phase");
         mapController.showFromToCountriesInfoPane(false);
@@ -311,6 +315,38 @@ public class View implements Observer {
         model.nextPlayer();
     }
 
+
+    /**
+     * Triggered when current player has 0 army in hand, call
+     * TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
+     */
+    public void prepareNextPhase() {
+//        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
+        switch (currentPhase) {
+            case START_UP:
+                model.nextPlayer();
+                break;
+            case REINFORCEMENT:
+                showNextPhaseButton("Enter Fortification Phase");
+                break;
+            case ATTACK:
+                break;
+            case FORTIFICATION:
+                showNextPhaseButton("Enter Reinforcement Phase");
+                model.reinforcement();
+                mapController.resetFromToCountriesInfo();
+                mapController.showPlayerViewPane(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
+    /**
+     *
+     */
     public void startNextPhase() {
         pause = false;
         mapController.showPhaseLabel();
@@ -336,27 +372,7 @@ public class View implements Observer {
 
     public void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
 
-    public void prepareNextPhase() {
-//        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
-        switch (currentPhase) {
-            case START_UP:
-                model.nextPlayer();
-                break;
-            case REINFORCEMENT:
-                showNextPhaseButton("Enter Fortification Phase");
-                break;
-            case ATTACK:
-                break;
-            case FORTIFICATION:
-                showNextPhaseButton("Enter Reinforcement Phase");
-                model.reinforcement();
-                mapController.resetFromToCountriesInfo();
-                mapController.showPlayerViewPane(false);
-                break;
-            default:
-                break;
-        }
-    }
+
 
     public void drawMap() {
         for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
@@ -379,6 +395,39 @@ public class View implements Observer {
         }
     }
 
+
+
+    /**
+     * Clear all CountryViews that generated before, and remove all countryPane from mapRootPane
+     */
+    public void clearMapComponents() {
+        if (null != countryViews) {
+            for (int key : countryViews.keySet()) {
+                AnchorPane countryPane = countryViews.get(key).getCountryPane();
+                countryPane.getChildren().clear();
+                mapRootPane.getChildren().remove(countryPane);
+            }
+            countryViews.clear();
+        }
+        if (null != lines) {
+            for (Line line : lines) {
+                mapRootPane.getChildren().remove(line);
+            }
+            lines.clear();
+        }
+
+    }
+
+
+    public void resetFromToCountries() {
+        fromToCountries[0] = null;
+        fromToCountries[1] = null;
+        fromToCountriesCounter = 0;
+        mapController.resetFromToCountriesInfo();
+        mapController.showInvalidMoveLabelInfo(false, "");
+    }
+
+
     public void clickedCountry(Country country) {
         if (PHASE.START_UP == currentPhase || PHASE.REINFORCEMENT == currentPhase) {
             allocateArmy(country);
@@ -393,9 +442,6 @@ public class View implements Observer {
                     mapController.setFromCountryInfo(country);
                     break;
                 case 1:
-//                    if (fromToCountries[0].getName().equals(country.getName())) {
-//                        mapController.showInvalidMoveLabelInfo(true, "Select two different countries");
-//                    }
                     fromToCountries[1] = country;
                     mapController.setToCountryInfo(country);
                     break;
@@ -404,19 +450,12 @@ public class View implements Observer {
 //                    arrow = null;
                     break;
             }
-//            ++fromToCountriesCounter;
         }
     }
 
     public void clickedMap() { if (PHASE.FORTIFICATION == currentPhase) resetFromToCountries(); }
 
-    public void resetFromToCountries() {
-        fromToCountries[0] = null;
-        fromToCountries[1] = null;
-        fromToCountriesCounter = 0;
-         mapController.resetFromToCountriesInfo();
-        mapController.showInvalidMoveLabelInfo(false, "");
-    }
+
 
     public double getCountryViewWidth() { return COUNTRY_VIEW_WIDTH; }
 
