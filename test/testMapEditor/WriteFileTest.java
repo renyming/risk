@@ -18,7 +18,7 @@ public class WriteFileTest {
     private static String filePath;
 
     /**
-     *
+     * initiation before testing
      */
     @BeforeClass
     public static void beforeClass(){
@@ -52,6 +52,11 @@ public class WriteFileTest {
 
         filePath = "writeTest1.map";
     }
+
+    /**
+     * test for validation of player designed map
+     * @throws IOException IOException
+     */
     @Ignore
     @Test
     public void testWriteFile() throws IOException {
