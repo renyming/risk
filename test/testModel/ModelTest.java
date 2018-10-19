@@ -62,6 +62,7 @@ public class ModelTest {
 
     /**
      * Test map file validation
+     * @throws IOException io exceptions
      */
     @Test
     public void validateFile() throws IOException{
@@ -78,6 +79,7 @@ public class ModelTest {
 
     /**
      * Test readFile() method
+     * @throws IOException io exceptions
      */
     @Test
     public void testReadFile() throws IOException {

@@ -205,6 +205,7 @@ public class Model extends Observable {
      * initiate continents,countries and players
      * notify View
      * @param filePath The path of the map file
+     * @throws IOException io exceptions
      */
     public void readFile(String filePath) throws IOException {
         rest();

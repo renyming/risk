@@ -21,6 +21,7 @@ public class Player extends Observable {
 
     /**
      * Constructor of player
+     * @param name player name
      */
     public Player(String name){
         this.Id=++cId;
@@ -183,8 +184,9 @@ public class Player extends Observable {
 
 
     /**
-    * Substract one for armies when allocated army in the initArmy() or the reinforcements phase
-    */
+     * Substract one for armies when allocated army in the initArmy() or the reinforcements phase
+     * @param num remove army from player
+     */
     public void subArmies(int num){
 
         int newArmies = armies - num;
@@ -292,6 +294,7 @@ public class Player extends Observable {
     /**
      * verify if two users is equal
      * @param p Player need to be compare
+     * @return true when comparing the same player false otherwise
      */
     public boolean equals(Player p) {
         if (this.getId() == p.getId()) {
