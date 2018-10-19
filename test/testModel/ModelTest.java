@@ -68,11 +68,11 @@ public class ModelTest {
         Model testedModel1 = new Model();
         Model testedModel2 = new Model();
         Model testedModel3 = new Model();
-        testedModel1.readFile("Invalid1.map");
+        testedModel1.readFile("./resource/Invalid1.map");
         assertFalse(testedModel1.isValidFile());
-        testedModel2.readFile("Invalid3.map");
+        testedModel2.readFile("./resource/Invalid3.map");
         assertFalse(testedModel2.isValidFile());
-        testedModel3.readFile("Invalid4.map");
+        testedModel3.readFile("./resource/Invalid4.map");
         assertFalse(testedModel3.isValidFile());
     }
 
@@ -83,7 +83,7 @@ public class ModelTest {
     public void testReadFile() throws IOException {
 
         Model testedModel = new Model();
-        testedModel.readFile("Aden.map");
+        testedModel.readFile("./resource/Aden.map");
         assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
         assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
         assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
