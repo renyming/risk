@@ -1,0 +1,14 @@
+[Map2]
+author=Dustwhirl
+warn=yes
+image=Aden.bmp
+wrap=no
+scroll=none
+
+[Continents]
+Asia=4
+
+SSSyg6tgb
+
+[Territories]
+China,629,173,Asia
