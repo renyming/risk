@@ -194,7 +194,7 @@ public class MapController {
      * Called by map controller
      * @param show decides whether the player view pane need to be shown
      */
-    private void showPlayerViewPane(boolean show) {
+    public void showPlayerViewPane(boolean show) {
         if (show) {
             currentPlayerPane.setVisible(true);
         } else {

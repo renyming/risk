@@ -113,7 +113,7 @@ public class MenuController {
      * Reset start up menu, reset previous loading file info
      * Called by switchToStartGameMenu()
      */
-    private void resetStartUpMenu() {
+    public void resetStartUpMenu() {
         selectedMapLabel.setText("Selected map: NONE");
         selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
         playerNumInstructionLabel.setVisible(false);
