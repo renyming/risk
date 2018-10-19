@@ -89,7 +89,6 @@ public class Player extends Observable {
     /**
     * set the number of armies
     * @param  armies the number of armies
-    * @return  void
     */
     public void setArmies(int armies) {
         this.armies = armies;
