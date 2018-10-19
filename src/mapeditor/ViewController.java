@@ -191,6 +191,7 @@ public class ViewController {
         p2.addEdge(line);
         setLineListener(line);
         draw_pane.getChildren().add(line);
+        line.toBack();
     }
 
     /**
