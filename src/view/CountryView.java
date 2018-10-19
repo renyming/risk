@@ -27,6 +27,7 @@ public class CountryView implements Observer {
 
     /**
      * Create a default CountryView, add View reference, load the countryPane from Country.xml
+     * @param view Default country view
      */
     public CountryView(View view) {
         Id = ++IdCounter;

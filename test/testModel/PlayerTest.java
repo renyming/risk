@@ -34,6 +34,7 @@ public class PlayerTest {
 
     /**
      * Preparation before all this method
+     * @throws Exception exceptions
      */
     @BeforeClass
     public static void before() throws Exception{
@@ -70,6 +71,7 @@ public class PlayerTest {
 
     /**
      * Each time invoke method, do this preparation
+     * @throws Exception exceptions
      */
     @Before
     public void setUp() throws Exception {
