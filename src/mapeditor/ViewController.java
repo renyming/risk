@@ -151,7 +151,7 @@ public class ViewController {
                 Country source = (Country) event.getGestureSource();
 
                 if (source != country) {
-                    System.out.println("Country " + source.getCountryId() + " and Country " + country.getCountryId() + " are connected");
+                    System.out.println(source.getName() + " and " + country.getName() + " are connected");
                     drawLine(source, country);
                 }
 
@@ -240,7 +240,7 @@ public class ViewController {
                     p2.removeEdge(line);
 
                     draw_pane.getChildren().remove(line);
-                    System.out.println("Country " + p1.getCountryId() + " and Country " + p2.getCountryId() + " are disconnected");
+                    System.out.println(p1.getName() + " and " + p2.getName() + " are disconnected");
                 }
 
                 event.consume();
