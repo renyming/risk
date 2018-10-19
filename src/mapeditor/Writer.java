@@ -18,6 +18,7 @@ public class Writer {
     private ArrayList<Country> countries;
     private HashMap<String,Integer> continents;
     private String filePath;
+    public String invalidReason;
 
     public Writer(ArrayList<Country> countries, String filePath) {
         this.countries = countries;
@@ -30,7 +31,7 @@ public class Writer {
      * @throws IOException IOException
      * @return true if the map to be written is valid; otherwise return false
      */
-    public boolean write() throws IOException {
+    public boolean  write() throws IOException {
 
         String headContent = "[Map]\nauthor=SOEN6441Team11\nwarn=yes\nimage=unavailable.bmp\nwrap=no\nscroll=none\n\n";
 
@@ -92,6 +93,7 @@ public class Writer {
         try {
             mapValidator.validateMap(model);
         } catch (InvalidMapException ex){
+            invalidReason = ex.getMessage();
             return false;
         }
         return true;
