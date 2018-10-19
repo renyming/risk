@@ -6,6 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+
+/**
+ * Handle event when user interact with the menu, pass it to View
+ */
 public class MenuController {
 
     @FXML private AnchorPane mainMenuPane;
@@ -22,6 +26,11 @@ public class MenuController {
     private View view;
     private int maxPlayerNum;
 
+
+    /**
+     * Get View reference, add event listener
+     * @param view the View reverence
+     */
     public void initialize(View view) {
         this.view = view;
         startGamePane.setVisible(true);
@@ -31,7 +40,11 @@ public class MenuController {
         switchToStartGameMenu();
     }
 
-    public void addEventListener() {
+
+    /**
+     * Add event listener to the playerNumTextField
+     */
+    private void addEventListener() {
         playerNumTextField.setOnAction((event) -> {
             playerNumInstructionLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
             try { // TODO: refactor, only catch enteredNum
@@ -56,28 +69,51 @@ public class MenuController {
         });
     }
 
-    public void switchToMapEditor() {
-        view.openMapEditor();
-    }
 
+    /**
+     * Switch to Map Editor
+     * Called when user click the map editor button
+     */
+    public void switchToMapEditor() { view.openMapEditor(); }
+
+
+    /**
+     * Switch to start game menu
+     * Called when user quit to the menu page
+     */
     public void switchToStartGameMenu() {
         resetStartUpMenu();
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(startGamePane);
     }
 
+
+    /**
+     * Switch to new game menu, hide irrelevant panes
+     * Called when user click the new game button
+     */
     public void switchToNewGameMenu() {
         mapInfoPane.setVisible(false);
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(newGamePane);
     }
 
+
+    /**
+     * Switch to quit menu
+     * Called when user click quit button on menu
+     */
     public void switchToQuitMenu() {
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(quitPane);
     }
 
-    public void resetStartUpMenu() {
+
+    /**
+     * Reset start up menu, reset previous loading file info
+     * Called by switchToStartGameMenu()
+     */
+    private void resetStartUpMenu() {
         selectedMapLabel.setText("Selected map: NONE");
         selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
         playerNumInstructionLabel.setVisible(false);
@@ -88,10 +124,29 @@ public class MenuController {
         startGameButton.setVisible(false);
     }
 
+
+    /**
+     * Called when user confirm the quit process by clicking yes button
+     * Pass the event to View
+     */
     public void quit() { view.closeMenuStage(); }
 
+
+    /**
+     * Select map for starting the new game
+     * Called when user clicked the select map button
+     * Pass event to View
+     */
     public void selectMap() {view.selectMap(); }
 
+
+    /**
+     * Display selected file name and invalid message if necessary
+     * Called by View.update()
+     * @param filename is the selected file name
+     * @param validFile decides whether the selected file is valid
+     * @param mapInfo gives additional info if the selected is invalid
+     */
     public void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
         mapInfoPane.setVisible(true);
         if (validFile) {
@@ -112,6 +167,12 @@ public class MenuController {
         }
     }
 
+
+    /**
+     * Set then show the number of player text field
+     * Called by View.update()
+     * @param maxPlayerNum is the max number of player allowed for the selected file
+     */
     public void showNumPlayerTextField(int maxPlayerNum) {
         this.maxPlayerNum = maxPlayerNum;
         playerNumInstructionLabel.setVisible(true);
@@ -121,7 +182,17 @@ public class MenuController {
         userEnteredPlayNumLabel.setText("Total Player: ");
     }
 
+
+    /**
+     * Show start game button, game is fully loaded and ready to start
+     * Called by View.update()
+     */
     public void showStartGameButton() { startGameButton.setVisible(true); }
 
+
+    /**
+     * Called when user click the start game button
+     * Pass event to the View
+     */
     public void startGame() { view.showMapStage(); }
 }
