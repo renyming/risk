@@ -6,6 +6,7 @@ import model.Player;
 import org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -84,17 +85,6 @@ public class PlayerTest {
 
         player.setArmies(10);
         player.setCountriesOwned(countries);
-    }
-
-    /**
-     * Test addInitArmies() method
-     */
-    @Test
-    public void addInitArmies() {
-
-        int num = 2;
-        newPlayer.setArmies(2);
-        assertEquals(num, newPlayer.getArmies());
     }
 
     /**
