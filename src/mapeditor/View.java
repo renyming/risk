@@ -32,7 +32,7 @@ public class View extends AnchorPane implements Observer {
     /**
      * Constructor
      * Loads View.fxml file for layout, initialize View object, and global continents list
-     * @throws IOException
+     * @throws IOException Exception for IO error
      */
     public View() throws IOException {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("View.fxml"));
@@ -46,7 +46,7 @@ public class View extends AnchorPane implements Observer {
 
     /**
      * Setter to obtain view.View reference in order to exit back to main menu
-     * @param view
+     * @param view View reference from main menu
      */
     public void setMenuView(view.View view){
         menuView=view;

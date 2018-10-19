@@ -25,6 +25,7 @@ public class CountryTest {
 
     /**
      * Each time invoke a method, set this info
+     * @throws Exception exceptions
      */
     @Before
     public void setUp() throws Exception {

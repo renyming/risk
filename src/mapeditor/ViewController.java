@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
@@ -192,6 +191,7 @@ public class ViewController {
         p2.addEdge(line);
         setLineListener(line);
         draw_pane.getChildren().add(line);
+        line.toBack();
     }
 
     /**

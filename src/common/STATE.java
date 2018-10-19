@@ -1,5 +1,8 @@
 package common;
 
+/**
+ * all the state in the RISK game
+ */
 public enum STATE {
     LOAD_FILE,
     CREATE_OBSERVERS,
