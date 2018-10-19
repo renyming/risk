@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Observable;
@@ -197,12 +196,14 @@ public class View implements Observer {
      */
     public void openMapEditor() {
         try {
+            if (null != mapEditorStage) mapEditorStage.close();
             mapEditorStage = new Stage();
             mapeditor.View mapView = new mapeditor.View();
             // TODO: mapView.setView(this);
             // TODO: call view.View.closeMapStage() to quit
             mapEditorStage.setScene(new Scene(mapView,1080,746));
             mapEditorStage.setTitle("Map Editor");
+            menuStage.hide();
             mapEditorStage.show();
         } catch (Exception e) {
             System.out.println("View.openMapEditor(): " + e.getMessage());
@@ -316,6 +317,7 @@ public class View implements Observer {
     }
 
 
+
     /**
      * Triggered when current player has 0 army in hand, call
      * TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
@@ -345,7 +347,8 @@ public class View implements Observer {
 
 
     /**
-     *
+     * Called when user click the 'enter next phase button'
+     * Display or hide the relative info pane/button
      */
     public void startNextPhase() {
         pause = false;
@@ -358,7 +361,7 @@ public class View implements Observer {
                 currentPhase = PHASE.REINFORCEMENT;
                 mapController.showFromToCountriesInfoPane(false);
                 break;
-            case REINFORCEMENT: // current state is reinforcement,
+            case REINFORCEMENT:
                 currentPhase = PHASE.FORTIFICATION;
                 mapController.showFromToCountriesInfoPane(true);
                 mapController.showReinforcementPhaseButton(true);
@@ -370,13 +373,20 @@ public class View implements Observer {
         }
     }
 
+
+
+    /**
+     * Reset the 'next phase' button name and display it
+     * @param nextPhase represents the 'next phase' button
+     */
     public void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
 
 
 
+    /**
+     * Add all ready component on the mapRootPane
+     */
     public void drawMap() {
-        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
-
         // TODO: use efficient way to draw lines, avoid duplicate
         lines = new HashSet<>();
         for (int key : countryViews.keySet()) {
@@ -393,12 +403,13 @@ public class View implements Observer {
                 mapRootPane.getChildren().add(line);
             }
         }
+        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
     }
 
 
 
     /**
-     * Clear all CountryViews that generated before, and remove all countryPane from mapRootPane
+     * Clear all CountryViews and Lines that generated before
      */
     public void clearMapComponents() {
         if (null != countryViews) {
@@ -419,6 +430,10 @@ public class View implements Observer {
     }
 
 
+
+    /**
+     * For the fortification usage, reset selected countries
+     */
     public void resetFromToCountries() {
         fromToCountries[0] = null;
         fromToCountries[1] = null;
@@ -428,11 +443,17 @@ public class View implements Observer {
     }
 
 
+
+    /**
+     * Called when user clicked a country
+     * For reinforcement phase: add clicked counter
+     * @param country the country which user clicked
+     */
     public void clickedCountry(Country country) {
         if (PHASE.START_UP == currentPhase || PHASE.REINFORCEMENT == currentPhase) {
             allocateArmy(country);
         } else if (PHASE.FORTIFICATION == currentPhase) {
-            if (2 != fromToCountriesCounter && country.getOwner().getName() != playerView.getName()) {
+            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
                 mapController.showInvalidMoveLabelInfo(true, "Select your own country");
                 return;
             }
