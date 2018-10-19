@@ -47,7 +47,7 @@ public class Continent {
      */
     public void setColor() {
 
-        Random randomGenerator = new Random();
+        Random randomGenerator = new Random(ID);
         int red = randomGenerator.nextInt(200);
         int green = randomGenerator.nextInt(200);
         int blue = randomGenerator.nextInt(200);
