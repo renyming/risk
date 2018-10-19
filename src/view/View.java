@@ -62,6 +62,7 @@ public class View implements Observer {
             menuStage.setTitle("Risk Game");
             menuStage.setScene(new Scene(mainMenuPane,500,300));
             menuStage.setResizable(false);
+            menuStage.sizeToScene();
 
 
             FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
@@ -72,6 +73,7 @@ public class View implements Observer {
             mapStage.setTitle("Risk Game");
             mapStage.setScene(new Scene(mapRootPane,1000,700));
             mapStage.setResizable(false);
+            mapStage.sizeToScene();
 
             pause = false;
             fromToCountriesCounter = 0;
