@@ -95,18 +95,4 @@ public class CountryTest {
         assertFalse(country1.attack(country3));
         assertTrue(country1.attack(country2));
     }
-
-    /**
-     * Ignored moveArmiesTo() method， because this method is remove
-     */
-    @Ignore
-    public void moveArmiesTo() {
-        Country country3 = new Country("country3",continent);
-        player1.setArmies(2); //add armies to player bounded to country1 first, or no armies can be added
-        country1.addArmies(5);
-
-        assertEquals(country1.getArmies(),2);
-        assertEquals(country2.getArmies(),3);
-    }
-
 }
