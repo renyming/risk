@@ -31,13 +31,10 @@ public class CountryView implements Observer {
 
     /**
      * Get necessary info for create a default countryPane, load the countryPane from Country.xml
-     * @param layoutX The x location of the countryPane center relative to the mapRootPane
-     * @param layoutY The y location of the countryPane center relative to the mapRootPane
      */
-    public CountryView(View view, double layoutX, double layoutY, String ownerColor, String continentColor) {
+    public CountryView(View view) {
         Id = ++IdCounter;
         this.view = view;
-        this.continentColor = continentColor;
         try {
             FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
@@ -46,9 +43,6 @@ public class CountryView implements Observer {
             System.out.println("CountryView ctor: " + e);
         }
         countryController.initiate(this);
-        countryPane.setLayoutX(layoutX + view.getCountryViewWidth()/2);
-        countryPane.setLayoutY(layoutY + view.getCountryViewHeight()/2);
-        // TODO: edd drag event
     }
 
 

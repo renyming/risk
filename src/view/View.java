@@ -1,13 +1,12 @@
 package view;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import mapeditor.MapEditor;
 import model.Country;
 import model.Model;
 import common.Message;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -24,10 +23,10 @@ public class View implements Observer {
 
     public enum PHASE {ENTER_NUM_PLAYER, START_UP, REINFORCEMENT, ATTACK, FORTIFICATION}
 
-    private final double COUNTRY_VIEW_WIDTH = 60;
     private final double COUNTRY_VIEW_HEIGHT = 60;
-    private final double GAME_BOARD_WIDTH = 1200;
+    private final double COUNTRY_VIEW_WIDTH = 60;
     private final double GAME_BOARD_HEIGHT = 700;
+    private final double GAME_BOARD_WIDTH = 1200;
 
     private MenuController menuController;
     private MapController mapController;
@@ -51,8 +50,7 @@ public class View implements Observer {
 
 
     /**
-     * Initiate menu/map stages, and some default variables' values
-     * @throws Exception Deal with the loading .fxml file issues
+     * Initiate menu/map stages with corresponding .fxml file, set some default variables
      */
     public View() {
         try {
@@ -63,6 +61,8 @@ public class View implements Observer {
             menuStage = new Stage();
             menuStage.setTitle("Risk Game");
             menuStage.setScene(new Scene(mainMenuPane,500,300));
+            menuStage.setResizable(false);
+
 
             FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
             mapRootPane = mapFxmlLoader.load();
@@ -71,6 +71,7 @@ public class View implements Observer {
             mapStage = new Stage();
             mapStage.setTitle("Risk Game");
             mapStage.setScene(new Scene(mapRootPane,1000,700));
+            mapStage.setResizable(false);
 
             pause = false;
             fromToCountriesCounter = 0;
@@ -96,14 +97,14 @@ public class View implements Observer {
 
     /**
      * Observer update method, allow View to know what to do next
-     * Called by corresponding Model Observable subject
+     * Notified by corresponding Model Observable subject when game state changes
      * @param obs Model Observable subject
      * @param x Message object, encapsulated STATE info
      */
     @Override
     public void update(Observable obs, Object x) {
         Message message = (Message) x;
-        System.out.println("View.update(): new state is " + message.state + ", ");
+//        System.out.println("View.update(): new state is " + message.state + ", ");
         switch (message.state) {
             case LOAD_FILE:
                 menuController.displaySelectedFileName(selectedFileName, false, (String) message.obj);
@@ -117,7 +118,7 @@ public class View implements Observer {
                 menuController.displaySelectedFileName(selectedFileName, true, "Useful info here");
                 int numOfCountries = (int) message.obj;
                 for (int i = 1; i <= numOfCountries; ++i) {
-                    countryViews.put(i, createDefaultCountryView(0, 0, "#ff0000", "#0000ff"));
+                    countryViews.put(i, createDefaultCountryView());
                 }
                 model.linkCountryObservers(countryViews);
                 break;
@@ -150,6 +151,7 @@ public class View implements Observer {
 
     /**
      * Display the beginning of page of the menu, user then can interact with i.e. click buttons
+     * Called when 'quit' button is clicked from the on-going game, then clear all previous work
      */
     public void showMenuStage() {
         mapStage.hide();
@@ -162,7 +164,7 @@ public class View implements Observer {
 
 
     /**
-     * Draw the loaded map components, then display it
+     * Hide the menu, draw every single map component, then display the map
      */
     public void showMapStage() {
         menuStage.hide();
@@ -173,9 +175,10 @@ public class View implements Observer {
 
     /**
      * Close the map editor, show beginning of the menu page
+     * Called when 'quit' is click through the map editor menu
      */
     public void closeMapStage() {
-        mapStage.hide();
+        mapEditorStage.hide();
         menuStage.show();
     }
 
@@ -183,6 +186,7 @@ public class View implements Observer {
 
     /**
      * Quit the game
+     * Called when 'Quit' button is clicked on the menu, and then user click 'Yes' button to confirm
      */
     public void closeMenuStage() {
         mapStage.close();
@@ -193,28 +197,29 @@ public class View implements Observer {
 
     /**
      * Display map editor, user than can create a RISK map
+     * Called when user click the 'Map Editor' on the main page
      */
     public void openMapEditor() {
+        if (null != mapEditorStage) mapEditorStage.close();
+        mapEditorStage = new Stage();
         try {
-            if (null != mapEditorStage) mapEditorStage.close();
-            mapEditorStage = new Stage();
             mapeditor.View mapView = new mapeditor.View();
-            // TODO: mapView.setView(this);
-            // TODO: call view.View.closeMapStage() to quit
+            mapView.setMenuView(this);
             mapEditorStage.setScene(new Scene(mapView,1080,746));
-            mapEditorStage.setTitle("Map Editor");
-            menuStage.hide();
-            mapEditorStage.show();
+            mapEditorStage.setResizable(false);
         } catch (Exception e) {
             System.out.println("View.openMapEditor(): " + e.getMessage());
         }
+        mapEditorStage.setTitle("Map Editor");
+        menuStage.hide();
+        mapEditorStage.show();
     }
 
 
 
     /**
      * Select a RISK map file, then ask Model to validate
-     * Called by 'Select Map' Button when user clicks it
+     * Called when user click 'Select Map' button on menu
      */
     public void selectMap() {
         final FileChooser fileChooser = new FileChooser();
@@ -233,23 +238,22 @@ public class View implements Observer {
 
 
     /**
-     * Loading existing RISK map file phase
-     * Called by update() for CREATE_OBSERVERS state
-     * Create a Default CountryView Observer object
-     * @param layoutX countryPane left-top corner position X
-     * @param layoutY countryPane left-top corner position Y
-     * @return CountryView object, only useful for 'loading existing Risk map file currentPhase'
+     * After loading a valid file, create a default CountryView Observer object, and then return it
+     * Called by View.update() at state CREATE_OBSERVERS
+     * Allow Model to bind it with Country Observable object later
+     * @return CountryView Observer object
      */
-    public CountryView createDefaultCountryView(double layoutX, double layoutY, String playerColor, String continentColor) {
-        CountryView countryView = new CountryView(this, layoutX, layoutY, playerColor, continentColor);
-        return countryView;
+    private CountryView createDefaultCountryView() {
+        return new CountryView(this);
     }
 
 
 
     /**
-     * Receive number of player which user entered correctly, create playerView, pass them to model
-     * @param playerNum
+     * After loading a valid file, receive number of player which user entered correctly
+     * create playerView, pass it to model
+     * Called when user entered a valid total number of players on the menu text field, then press enter
+     * @param playerNum valid total number of players for the game with specific loaded RISK map file
      */
     public void initializePlayer(int playerNum) {
         playerView = new PlayerView(this, mapController);
@@ -259,7 +263,8 @@ public class View implements Observer {
 
 
     /**
-     * During start up and reinforcement phase, tell model user clicked a country to allocate army
+     * During start up and reinforcement phase, tell model that user clicked a valid country to allocate army
+     * Called by View.clickedCountry() after the click event is verified and distributed
      * @param country the Country which current armies should be added by one
      */
     public void allocateArmy(Country country) {
@@ -271,9 +276,11 @@ public class View implements Observer {
 
 
     /**
-     * During fortification phase, tell model user just moved valid number of armies between
-     * two of his/her owned country with valid armies number
-     * @param enteredNumArmiesMoved number of armies that user tried to move
+     * During fortification phase, receive a user entered value, check whether the selected countries info is valid,
+     * then verify user entered value. However, condition "there is a path between these two countries that
+     * is composed of countries that the user owns" has to be checked by Model
+     * Called after user enter the number of armies moved value and press enter
+     * @param enteredNumArmiesMoved user entered number of armies value
      */
     public void fortification(String enteredNumArmiesMoved) {
         int numArmiesMoved = 0;
@@ -307,7 +314,9 @@ public class View implements Observer {
 
 
     /**
-     * Skip fortification phase
+     * During fortification phase, skip this phase if current user is not able to move armies
+     * i.e. only has one country left or the user does not want to
+     * Called by 'Skip' button on player view
      */
     public void skipFortificationPhase() {
         showNextPhaseButton("Enter Reinforcement Phase");
@@ -319,10 +328,11 @@ public class View implements Observer {
 
 
     /**
-     * Triggered when current player has 0 army in hand, call
-     * TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
+     * Called by PlayerView when current player has 0 army in hand, call
+     * Prefer next phase info, i.e. reset button, hide/show panes
      */
     public void prepareNextPhase() {
+        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
 //        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
         switch (currentPhase) {
             case START_UP:
@@ -347,8 +357,9 @@ public class View implements Observer {
 
 
     /**
-     * Called when user click the 'enter next phase button'
-     * Display or hide the relative info pane/button
+     * Resume the paused phase, active corresponding listeners
+     * Called when user click the 'Enter xxx phase' button
+     * Display or hide the relative info panes/buttons
      */
     public void startNextPhase() {
         pause = false;
@@ -376,17 +387,19 @@ public class View implements Observer {
 
 
     /**
-     * Reset the 'next phase' button name and display it
-     * @param nextPhase represents the 'next phase' button
+     * Reset the 'Enter xxx Phase' button name and display it
+     * Called by View.*()
+     * @param nextPhase represents the display text of the 'Enter xxx Phase' button
      */
-    public void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
+    private void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
 
 
 
     /**
-     * Add all ready component on the mapRootPane
+     * Draw each CountryView and Line into mapRootPane
+     * Called by View.showMapStage()
      */
-    public void drawMap() {
+    private void drawMap() {
         // TODO: use efficient way to draw lines, avoid duplicate
         lines = new HashSet<>();
         for (int key : countryViews.keySet()) {
@@ -410,8 +423,9 @@ public class View implements Observer {
 
     /**
      * Clear all CountryViews and Lines that generated before
+     * Called by View.showMenuStage()
      */
-    public void clearMapComponents() {
+    private void clearMapComponents() {
         if (null != countryViews) {
             for (int key : countryViews.keySet()) {
                 AnchorPane countryPane = countryViews.get(key).getCountryPane();
@@ -433,8 +447,9 @@ public class View implements Observer {
 
     /**
      * For the fortification usage, reset selected countries
+     * Called by View.*() if user trying to reset the selected countries by clicking the map or another country
      */
-    public void resetFromToCountries() {
+    private void resetFromToCountries() {
         fromToCountries[0] = null;
         fromToCountries[1] = null;
         fromToCountriesCounter = 0;
@@ -447,6 +462,7 @@ public class View implements Observer {
     /**
      * Called when user clicked a country
      * For reinforcement phase: add clicked counter
+     * For fortification phase: set selected countries
      * @param country the country which user clicked
      */
     public void clickedCountry(Country country) {
@@ -474,18 +490,14 @@ public class View implements Observer {
         }
     }
 
+
+
+    /**
+     * During fortification phase, reset selected countries
+     */
     public void clickedMap() { if (PHASE.FORTIFICATION == currentPhase) resetFromToCountries(); }
 
-
-
-    public double getCountryViewWidth() { return COUNTRY_VIEW_WIDTH; }
-
-    public double getCountryViewHeight() { return COUNTRY_VIEW_HEIGHT; }
-
-
-
-
-    // TODO: for self test purpose need to be removed later
+    // TODO: for self test purpose, dynamically drag and draw an arrow, need to be removed later
 
     //    public void pressedCountry(Country country) {
 //        removeArrow();
