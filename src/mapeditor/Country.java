@@ -117,7 +117,7 @@ public class Country extends AnchorPane {
         }
         countryController = fxmlLoader.getController();
         countryController.initialize(this);
-        this.relocate(x,y);
+        this.relocate(x-80,y-80);
         setVisible(true);
     }
 

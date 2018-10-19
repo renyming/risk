@@ -43,9 +43,11 @@ public class ViewController {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton()== MouseButton.PRIMARY){
-                    Country country=new Country(event.getSceneX(),event.getSceneY());
-                    drawCountry(country);
-                    event.consume();
+                    if (event.getClickCount()==2){
+                        Country country=new Country(event.getSceneX(),event.getSceneY());
+                        drawCountry(country);
+                        event.consume();
+                    }
                 }
             }
         });
