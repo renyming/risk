@@ -1,0 +1,17 @@
+[Map]
+author=SOEN6441Team11
+
+[Continents]
+aaa=1
+ccc=1
+bbb=2
+Default Continent=3
+
+[Territories]
+Country 1,37,66,ccc,Country 2,Country 10
+Country 2,196,52,aaa,Country 1,Country 5
+Country 3,461,56,Default Continent,Country 5
+Country 5,256,178,Default Continent,Country 2,Country 3,Country 8
+Country 8,362,307,Default Continent,Country 5
+Country 10,66,358,bbb,Country 11,Country 1
+Country 11,236,461,bbb,Country 10
