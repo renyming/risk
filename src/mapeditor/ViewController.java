@@ -260,7 +260,7 @@ public class ViewController {
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file failed");
-                    alert.setContentText("Oops, your map configuration is invalid. Please adjust your map configuration.");
+                    alert.setContentText(writer.invalidReason);
                     alert.show();
                     return;
                 }
