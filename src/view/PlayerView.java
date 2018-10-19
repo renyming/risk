@@ -26,6 +26,8 @@ public class PlayerView implements Observer {
 
     /**
      * Create a default PlayerView, add View reference and MapController reference
+     * @param view is the View
+     * @param mapController is the map controller which handle event when user interact with the map, pass it to View
      */
     public PlayerView(View view, MapController mapController) {
         this.view = view;
