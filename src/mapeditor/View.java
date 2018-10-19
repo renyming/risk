@@ -19,6 +19,7 @@ import java.util.*;
 public class View extends AnchorPane implements Observer {
 
     private ViewController viewController;
+    private view.View menuView;
     public static ObservableList<String> continents= FXCollections.observableArrayList();
 
     public View() throws IOException {
@@ -28,6 +29,14 @@ public class View extends AnchorPane implements Observer {
         viewController = fxmlLoader.getController();
         viewController.initialize(this);
         continents.add("Default Continent");
+    }
+
+    public void setMenuView(view.View view){
+        menuView=view;
+    }
+
+    public void exit(){
+        menuView.closeMapStage();
     }
 
     public void openMap() {
@@ -70,6 +79,10 @@ public class View extends AnchorPane implements Observer {
             err.show();
             return;
         }
+
+        //Clear draw_pane
+        viewController.clearCanvas();
+
         HashMap<String, model.Country> countryList=model.getCountries();
         ArrayList<Continent> continentList=model.getContinents();
 

@@ -206,9 +206,15 @@ public class ViewController {
         });
     }
 
+    public void clearCanvas(){
+        draw_pane.getChildren().clear();
+    }
+
     public void openFile(){
         view.openMap();
     }
+
+    public void exit(){view.exit();}
 
     public void save(){
 
