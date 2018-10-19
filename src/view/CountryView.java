@@ -9,28 +9,24 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * Responsible for visualizing the Country object, show useful info to user
+ * Corresponding Observable subject is Country
+ */
 public class CountryView implements Observer {
 
     private static int IdCounter = 0;
 
     private int Id;
-    private int armies;
-    private String name;
-    private Player owner;
-    private String ownerColor = "red";
-    private String continentColor = "blue";
-    private double locationX;
-    private double locationY;
-
     private Country country;
     private View view;
     private AnchorPane countryPane;
     private CountryController countryController;
 
 
-
     /**
-     * Get necessary info for create a default countryPane, load the countryPane from Country.xml
+     * Create a default CountryView, add View reference, load the countryPane from Country.xml
      */
     public CountryView(View view) {
         Id = ++IdCounter;
@@ -39,12 +35,11 @@ public class CountryView implements Observer {
             FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
             countryController = countryFxmlLoader.getController();
+            countryController.initiate(this);
         } catch (Exception e) {
             System.out.println("CountryView ctor: " + e);
         }
-        countryController.initiate(this);
     }
-
 
 
     /**
@@ -57,36 +52,33 @@ public class CountryView implements Observer {
     public void update(Observable obj, Object x) {
 //        System.out.println("CountryView.update(): ");
         country = (Country) obj;
-        Id = country.getId();
-        name = country.getName();
-        armies = country.getArmies();
-        owner = country.getOwner();
-        ownerColor = owner.getColor();
-        continentColor = country.getContinent().getColor();
-        locationX = country.getX();
-        locationY = country.getY();
-        countryPane.setLayoutX(locationX);
-        countryPane.setLayoutY(locationY);
-        countryController.updateCountryPaneInfo(name, ownerColor, continentColor, armies);
+        Id = country.getId(); // TODO: may not need, not sure
+        countryPane.setLayoutX(country.getX());
+        countryPane.setLayoutY(country.getY());
+        countryController.updateCountryPaneInfo(country.getName(), country.getOwner().getColor(), country.getContinent().getColor(), country.getArmies());
     }
-
 
 
     /**
      * View use this function to add/remove the countryPane to the mapRootPane
      * or clear the countryPane's component
-     * Called by View
-     * @return the countryPane object
+     * Called by View.*()
+     * @return the countryPane reference
      */
     public AnchorPane getCountryPane() { return countryPane; }
 
+
+    /**
+     * Called by countryController when countryPane is clicked by user
+     * Pass this event to view
+     */
     public void clicked() { view.clickedCountry(country); }
 
+    // TODO: for draw arrow purpose
 //    public void pressed() { view.pressedCountry(country); }
-//
 //    public void entered() { view.enteredCountry(country); }
-//
 //    public void released() { view.releasedCountry(country); }
+
 
     /**
      * Get the country id as key
@@ -95,11 +87,11 @@ public class CountryView implements Observer {
      */
     public int getId() { return Id; }
 
-    public double getLocationX() { return locationX; }
 
-    public double getLocationY() { return locationY; }
-
+    /**
+     * Used during fortification phase, View then get the relative country info and do the verification
+     * Called by View.drawMap()
+     * @return Country reference
+     */
     public Country getCountry() { return country; }
-
-    public ArrayList<Country> getAdjCountries() { return country.getAdjCountries(); }
 }

@@ -8,6 +8,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Country;
 
+
+/**
+ * Handle event when user interact with the map, pass it to View
+ */
 public class MapController {
 
     @FXML private Button skipReinforcementPhaseButton;
@@ -27,6 +31,11 @@ public class MapController {
 
     private View view;
 
+
+    /**
+     * Get View reference, add event listener
+     * @param view the View reverence
+     */
     public void initialize(View view) {
         skipReinforcementPhaseButton.setVisible(false);
         numArmiesMoveTextField.setVisible(false);
@@ -41,38 +50,42 @@ public class MapController {
         this.view = view;
     }
 
+
+    /**
+     * Add event listener to the countryPane
+     */
     public void addEventListener() {
         mapPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) { view.clickedMap(); } });
+        // TODO: for draw arrow purpose
 //        mapPane.setOnMousePressed((e) -> { if (e.getEventType() == MouseEvent.MOUSE_PRESSED) { view.pressedMap(e.getX(), e.getY()); } });
 //        mapPane.setOnMouseDragged((e) -> { if (e.getEventType() == MouseEvent.MOUSE_DRAGGED) { view.draggedMap(e.getX(), e.getY()); } });
 //        mapPane.setOnMouseReleased((e) -> { if (e.getEventType() == MouseEvent.MOUSE_RELEASED) { view.releasedMap(e.getX(), e.getY()); } });
     }
 
-    public void enteredNumArmiesMoved() {
-        view.fortification(numArmiesMoveTextField.getText());
 
-//        int numArmiesMoved = 0;
-//        try {
-//            numArmiesMoved = Integer.parseInt(numArmiesMoveTextField.getText());
-//        } catch (Exception e) {
-//            showInvalidMoveLabelInfo(true, "Enter an positive integer");
-//            System.out.println("MapController.initialize(): input value not integer " + numArmiesMoveTextField.getText());
-//        }
-//        if (numArmiesMoved > 0) {
-//            showInvalidMoveLabelInfo(false, "");
-//            view.fortification(numArmiesMoved);
-//        } else {
-//            showInvalidMoveLabelInfo(true, "Enter an positive integer");
-//            System.out.println("MapController.initialize(): input integer not positive, " + numArmiesMoveTextField.getText());
-//        }
-    }
+    /**
+     * Called when user entered number of armies moved value and press enter button, pass event to View
+     */
+    public void enteredNumArmiesMoved() { view.fortification(numArmiesMoveTextField.getText()); }
 
+
+    /**
+     * Display/Hide the invalid move label, update the invalid info
+     * Called by View.*()
+     * @param show decides whether the invalid move label need to be displayed
+     * @param invalidInfo is the invalid move info
+     */
     public void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
         numArmiesMoveTextField.clear(); // TODO: could be removed?
         invalidMoveLabel.setVisible(show);
         invalidMoveLabel.setText(invalidInfo);
     }
 
+
+    /**
+     * Display/Hide the from-to countries info pane between different phase
+     * @param show decides whether the from-to countries info need to be displayed
+     */
     public void showFromToCountriesInfoPane(boolean show) {
         countryALabel.setVisible(show);
         countryAName.setVisible(show);
