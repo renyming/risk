@@ -23,7 +23,7 @@ public class CountryController {
      * Get corresponding CountryView reference, add event listener
      * @param countryView the corresponding CountryView reference
      */
-    public void initiate(CountryView countryView) {
+    public void init(CountryView countryView) {
         this.countryView = countryView;
         addEventListener();
     }

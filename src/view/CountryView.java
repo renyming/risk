@@ -32,7 +32,7 @@ public class CountryView implements Observer {
             System.out.println("CountryView.ctor(): " + e);
         }
         countryController = countryFxmlLoader.getController();
-        countryController.initiate(this);
+        countryController.init(this);
     }
 
 

@@ -46,15 +46,11 @@ public class View implements Observer {
     private PlayerView playerView;
     private Stage mapEditorStage;
     private PHASE currentPhase;
+    private MenuView menuView;
     private Stage mapStage;
     private boolean pause;
     private Model model;
 //    private Arrow arrow;
-
-    // TODO: attribute for menu
-//    private MenuController menuController;
-//    private Stage menuStage;
-    private MenuView menuView;
 
 
     private HashMap<Integer, CountryView> countryViews;
@@ -98,7 +94,7 @@ public class View implements Observer {
      * Called by Model Observable subject
      * @param model Model Observable subject
      */
-    public void initialize(Model model) { this.model = model; }
+    public void init(Model model) { this.model = model; }
 
 
     /**
@@ -113,7 +109,7 @@ public class View implements Observer {
 //        System.out.println("View.update(): new state is " + message.state + ", ");
         switch (message.state) {
             case LOAD_FILE:
-                menuView.displaySelectedFileName(selectedFileName, false, (String) message.obj);
+                menuView.displaySelectedFileName(false, selectedFileName, (String) message.obj);
                 break;
             case CREATE_OBSERVERS:
                 if (null == countryViews) {
@@ -121,7 +117,7 @@ public class View implements Observer {
                 } else {
                     countryViews.clear();
                 }
-                menuView.displaySelectedFileName(selectedFileName, true, "Useful info here");
+                menuView.displaySelectedFileName(true, selectedFileName, "Useful info here");
                 int numOfCountries = (int) message.obj;
                 for (int i = 1; i <= numOfCountries; ++i) {
                     countryViews.put(i, createDefaultCountryView());
