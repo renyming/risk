@@ -1,13 +1,10 @@
 package view;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
-import model.Country;
-import model.Player;
-
-import java.util.ArrayList;
+import javafx.fxml.FXMLLoader;
 import java.util.Observable;
 import java.util.Observer;
+import model.Country;
 
 
 /**
@@ -16,13 +13,10 @@ import java.util.Observer;
  */
 public class CountryView implements Observer {
 
-    private static int IdCounter = 0;
-
-    private int Id;
+    private CountryController countryController;
+    private AnchorPane countryPane;
     private Country country;
     private View view;
-    private AnchorPane countryPane;
-    private CountryController countryController;
 
 
     /**
@@ -30,16 +24,15 @@ public class CountryView implements Observer {
      * @param view Default country view
      */
     public CountryView(View view) {
-        Id = ++IdCounter;
         this.view = view;
+        FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
         try {
-            FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
             countryPane = countryFxmlLoader.load();
-            countryController = countryFxmlLoader.getController();
-            countryController.initiate(this);
         } catch (Exception e) {
-            System.out.println("CountryView ctor: " + e);
+            System.out.println("CountryView.ctor(): " + e);
         }
+        countryController = countryFxmlLoader.getController();
+        countryController.initiate(this);
     }
 
 
@@ -53,10 +46,7 @@ public class CountryView implements Observer {
     public void update(Observable obj, Object x) {
 //        System.out.println("CountryView.update(): ");
         country = (Country) obj;
-        Id = country.getId(); // TODO: may not need, not sure
-        countryPane.setLayoutX(country.getX());
-        countryPane.setLayoutY(country.getY());
-        countryController.updateCountryPaneInfo(country.getName(), country.getOwner().getColor(), country.getContinent().getColor(), country.getArmies());
+        countryController.updateCountryPaneInfo(country);
     }
 
 
@@ -79,14 +69,6 @@ public class CountryView implements Observer {
 //    public void pressed() { view.pressedCountry(country); }
 //    public void entered() { view.enteredCountry(country); }
 //    public void released() { view.releasedCountry(country); }
-
-
-    /**
-     * Get the country id as key
-     * Called by View when store CountryView into CountryViews HashMap
-     * @return countryView Id
-     */
-    public int getId() { return Id; }
 
 
     /**

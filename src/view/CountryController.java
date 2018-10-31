@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import model.Country;
 
 
 /**
@@ -11,11 +12,11 @@ import javafx.scene.layout.AnchorPane;
  */
 public class CountryController {
 
-    private CountryView countryView;
-
+    @FXML private AnchorPane countryPane;
     @FXML private Label countryNameLabel;
     @FXML private Label numArmiesLabel;
-    @FXML private AnchorPane countryPane;
+
+    private CountryView countryView;
 
 
     /**
@@ -43,16 +44,14 @@ public class CountryController {
     /**
      * Receive new labels' info, update them
      * Called by CountryView for updating labels' info
-     * TODO: need to be refactor
-     * @param countryName new country name
-     * @param playerColor current owner color
-     * @param continentColor continent color
-     * @param armiesNumber current armies left on this country
+     * @param country is the Country object which info need to be updated
      */
-    public void updateCountryPaneInfo(String countryName, String playerColor, String continentColor, int armiesNumber) {
-        countryNameLabel.setText(countryName);
-        countryNameLabel.setStyle("-fx-background-color: " + continentColor + "; -fx-background-radius: 5");
-        numArmiesLabel.setText(Integer.toString(armiesNumber));
-        numArmiesLabel.setStyle("-fx-background-color: " + playerColor + "; -fx-background-radius: 5");
+    void updateCountryPaneInfo(Country country) {
+        countryPane.setLayoutX(country.getX());
+        countryPane.setLayoutY(country.getY());
+        countryNameLabel.setText(country.getName());
+        countryNameLabel.setStyle("-fx-background-color: " + country.getContinent().getColor() + "; -fx-background-radius: 5");
+        numArmiesLabel.setText(Integer.toString(country.getArmies()));
+        numArmiesLabel.setStyle("-fx-background-color: " + country.getOwner().getColor() + "; -fx-background-radius: 5");
     }
 }

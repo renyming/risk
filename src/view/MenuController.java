@@ -1,10 +1,10 @@
 package view;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.fxml.FXML;
 
 
 /**
@@ -12,19 +12,19 @@ import javafx.scene.layout.AnchorPane;
  */
 public class MenuController {
 
-    @FXML private AnchorPane mainMenuPane;
-    @FXML private AnchorPane startGamePane;
-    @FXML private AnchorPane newGamePane;
-    @FXML private AnchorPane quitPane;
-    @FXML private Label selectedMapLabel;
-    @FXML private Label mapInfoPane;
-    @FXML private Button startGameButton;
     @FXML private Label playerNumInstructionLabel;
-    @FXML private TextField playerNumTextField;
     @FXML private Label userEnteredPlayNumLabel;
+    @FXML private TextField playerNumTextField;
+    @FXML private AnchorPane startGamePane;
+    @FXML private AnchorPane mainMenuPane;
+    @FXML private AnchorPane newGamePane;
+    @FXML private Label selectedMapLabel;
+    @FXML private Button startGameButton;
+    @FXML private AnchorPane quitPane;
+    @FXML private Label mapInfoPane;
 
-    private View view;
     private int maxPlayerNum;
+    private View view;
 
 
     /**
@@ -37,7 +37,6 @@ public class MenuController {
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
         addEventListener();
-        switchToStartGameMenu();
     }
 
 
@@ -46,8 +45,7 @@ public class MenuController {
      */
     private void addEventListener() {
         playerNumTextField.setOnAction((event) -> {
-            playerNumInstructionLabel.setStyle("-fx-border-color: red; -fx-border-width: 2");
-            try { // TODO: refactor, only catch enteredNum
+            try { // TODO: refactor, only catch enteredNum, let view deal with it
                 int userEnteredPlayerNum = Integer.parseInt(playerNumTextField.getText());
                 userEnteredPlayNumLabel.setVisible(true);
                 userEnteredPlayNumLabel.setText("Total Player: " + userEnteredPlayerNum);
@@ -82,7 +80,6 @@ public class MenuController {
      * Called when user quit to the menu page
      */
     public void switchToStartGameMenu() {
-        resetStartUpMenu();
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(startGamePane);
     }
@@ -93,7 +90,7 @@ public class MenuController {
      * Called when user click the new game button
      */
     public void switchToNewGameMenu() {
-        mapInfoPane.setVisible(false);
+        resetNewGameMenu();
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(newGamePane);
     }
@@ -113,14 +110,15 @@ public class MenuController {
      * Reset start up menu, reset previous loading file info
      * Called by switchToStartGameMenu()
      */
-    public void resetStartUpMenu() {
+    private void resetNewGameMenu() {
         selectedMapLabel.setText("Selected map: NONE");
         selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        mapInfoPane.setVisible(false);
         playerNumInstructionLabel.setVisible(false);
         playerNumInstructionLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
+        userEnteredPlayNumLabel.setVisible(false);
         playerNumTextField.setVisible(false);
         playerNumTextField.clear();
-        userEnteredPlayNumLabel.setVisible(false);
         startGameButton.setVisible(false);
     }
 
@@ -137,7 +135,7 @@ public class MenuController {
      * Called when user clicked the select map button
      * Pass event to View
      */
-    public void selectMap() {view.selectMap(); }
+    public void selectMap() { view.selectMap(); }
 
 
     /**
@@ -147,7 +145,7 @@ public class MenuController {
      * @param validFile decides whether the selected file is valid
      * @param mapInfo gives additional info if the selected is invalid
      */
-    public void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
+    void displaySelectedFileName(String filename, boolean validFile, String mapInfo) {
         mapInfoPane.setVisible(true);
         if (validFile) {
             playerNumInstructionLabel.setVisible(true);
@@ -173,13 +171,14 @@ public class MenuController {
      * Called by View.update()
      * @param maxPlayerNum is the max number of player allowed for the selected file
      */
-    public void showNumPlayerTextField(int maxPlayerNum) {
+    void showNumPlayerTextField(int maxPlayerNum) {
         this.maxPlayerNum = maxPlayerNum;
         playerNumInstructionLabel.setVisible(true);
         playerNumTextField.setVisible(true);
         playerNumInstructionLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
         playerNumInstructionLabel.setText("Max number of players: " + this.maxPlayerNum);
         userEnteredPlayNumLabel.setText("Total Player: ");
+        playerNumTextField.clear();
     }
 
 
@@ -187,7 +186,7 @@ public class MenuController {
      * Show start game button, game is fully loaded and ready to start
      * Called by View.update()
      */
-    public void showStartGameButton() { startGameButton.setVisible(true); }
+    void showStartGameButton() { startGameButton.setVisible(true); }
 
 
     /**
