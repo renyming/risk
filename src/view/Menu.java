@@ -17,14 +17,7 @@ public class Menu {
     private AnchorPane mainMenuPane;
     private Stage menuStage;
 
-    private Menu() { }
-
-    static Menu getInstance(){
-        if (null == instance) instance = new Menu();
-        return instance;
-    }
-
-    void init(Model model, View view) {
+    private Menu() {
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
         try {
             mainMenuPane = menuFxmlLoader.load();
@@ -32,7 +25,6 @@ public class Menu {
             System.out.println("Menu.ctor(): " + exception.getMessage());
         }
         menuController = menuFxmlLoader.getController();
-        menuController.init(model, view, this);
         menuStage = new Stage();
         menuStage.setTitle("Risk Game");
         menuStage.setScene(new Scene(mainMenuPane,500,300));
@@ -40,6 +32,10 @@ public class Menu {
         menuStage.sizeToScene();
     }
 
+    static Menu getInstance(){
+        if (null == instance) instance = new Menu();
+        return instance;
+    }
 
     public void show() { menuStage.show(); }
 

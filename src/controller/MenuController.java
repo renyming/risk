@@ -7,8 +7,9 @@ import javafx.scene.control.Label;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import model.Model;
+import view.FileInfoMenuView;
 import view.Menu;
-import view.PlayerView;
+import view.NumPlayerMenuView;
 import view.View;
 
 import java.io.File;
@@ -20,52 +21,54 @@ import java.io.IOException;
  */
 public class MenuController {
 
-    @FXML public Label playerNumInstructionLabel;
-    @FXML public Label userEnteredPlayNumLabel;
-    @FXML public TextField playerNumTextField;
+    @FXML public Label selectedFilenameLabel;
+    @FXML public Label mapValidationInfoLabel;
+
+    @FXML public Label numPlayerInstructionLabel;
+    @FXML public Label validationOfUserEnteredLabel;
+    @FXML public TextField numPlayerTextField;
+    @FXML public Button startButton;
+
     @FXML public AnchorPane startGamePane;
     @FXML public AnchorPane mainMenuPane;
     @FXML public AnchorPane newGamePane;
-    @FXML public Label selectedMapLabel;
-    @FXML public Button startGameButton;
     @FXML public AnchorPane quitPane;
-    @FXML public Label mapInfoPane;
 
     private Model model;
-    private Menu menu;
     private View view;
+    private Menu menu;
+    private MapController mapController;
+
     private int maxPlayerNum;
     private String selectedFileName;
+    private FileInfoMenuView fileInfoMenuView;
+    private NumPlayerMenuView numPlayerMenuView;
+
 
 
     /**
-     * Get View reference, add event listener
-     * @param menu the Menu reverence
+     * Store reference of Model, View and MapController
+     * @param model is the reference of Model
+     * @param view is the reference of View
+     * @param mapController is the reference of the MapController
      */
-    public void init(Model model, View view, Menu menu) {
+    public void init(Model model, View view, Menu menu, MapController mapController) {
         this.model = model;
         this.view = view;
         this.menu = menu;
+        this.mapController = mapController;
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
         addEventListener();
     }
 
-
     /**
-     * Add event listener to the playerNumTextField
+     * Add event listener to the numPlayerTextField
      */
     private void addEventListener() {
-        playerNumTextField.setOnAction((event) -> validateEnteredPlayerNum(playerNumTextField.getText()));
+        numPlayerTextField.setOnAction((event) -> validateEnteredPlayerNum(numPlayerTextField.getText()));
     }
-
-
-    /**
-     * Switch to Map Editor
-     * Called when user click the map editor button
-     */
-    public void switchToMapEditor() { view.openMapEditor(); }
 
 
     /**
@@ -80,14 +83,10 @@ public class MenuController {
 
 
     /**
-     * Switch to new game menu, hide irrelevant panes
-     * Called when user click the new game button
+     * Switch to Map Editor
+     * Called when user click the map editor button
      */
-    public void switchToNewGameMenu() {
-        resetNewGameMenu();
-        mainMenuPane.getChildren().clear();
-        mainMenuPane.getChildren().add(newGamePane);
-    }
+    public void switchToMapEditor() { view.openMapEditor(); }
 
 
     /**
@@ -101,84 +100,24 @@ public class MenuController {
 
 
     /**
-     * Reset start up menu, reset previous loading file info
-     * Called by switchToStartGameMenu()
+     * Switch to select map menu, hide irrelevant panes
+     * Called when user click the new game button
      */
-    private void resetNewGameMenu() {
-        selectedMapLabel.setText("Selected map: NONE");
-        selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-        mapInfoPane.setVisible(false);
-        playerNumInstructionLabel.setVisible(false);
-        userEnteredPlayNumLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
-        userEnteredPlayNumLabel.setVisible(false);
-        playerNumTextField.setVisible(false);
-        playerNumTextField.clear();
-        startGameButton.setVisible(false);
-    }
-
-
-    /**
-     * Display selected file name and invalid message if necessary
-     * Called by View.update()
-     * @param validFile decides whether the selected file is valid
-     * @param mapInfo gives additional info if the selected is invalid
-     */
-    public void displaySelectedFileName(boolean validFile, String mapInfo) {
-        mapInfoPane.setVisible(true);
-        startGameButton.setVisible(false);
-        if (validFile) {
-            playerNumInstructionLabel.setVisible(true);
-            playerNumTextField.setVisible(true);
-            userEnteredPlayNumLabel.setVisible(true);
-            selectedMapLabel.setText("Valid map: " + selectedFileName);
-            selectedMapLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-            mapInfoPane.setText(mapInfo);
+    public void switchToNewGameMenu() {
+        resetNewGameMenu();
+        // TODO: pass two views to model
+        if (null == fileInfoMenuView && null == numPlayerMenuView) {
+            fileInfoMenuView = new FileInfoMenuView();
+            fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
+            numPlayerMenuView = new NumPlayerMenuView();
+            numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField, startButton, mapController);
+            model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         } else {
-            selectedMapLabel.setText("Invalid map: " + selectedFileName);
-            playerNumInstructionLabel.setVisible(false);
-            playerNumTextField.setVisible(false);
-            playerNumTextField.clear();
-            userEnteredPlayNumLabel.setVisible(false);
-            selectedMapLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-            mapInfoPane.setText(mapInfo);
+            numPlayerMenuView.reset();
+            fileInfoMenuView.reset();
         }
-    }
-
-
-    /**
-     * Set then show the number of player text field
-     * Called by View.update()
-     * @param maxPlayerNum is the max number of player allowed for the selected file
-     */
-    public void showNumPlayerTextField(int maxPlayerNum) {
-        this.maxPlayerNum = maxPlayerNum;
-        playerNumInstructionLabel.setVisible(true);
-        playerNumTextField.setVisible(true);
-        playerNumInstructionLabel.setText("Max number of players: " + maxPlayerNum);
-        userEnteredPlayNumLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
-        userEnteredPlayNumLabel.setText("Total Player: ");
-        playerNumTextField.clear();
-    }
-
-
-    private void displayValidationResult(boolean valid, String invalidInfo) {
-        userEnteredPlayNumLabel.setText(invalidInfo);
-        if (valid) {
-            userEnteredPlayNumLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-        } else {
-            userEnteredPlayNumLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
-            startGameButton.setVisible(false);
-        }
-    }
-
-
-    /**
-     * Called when user confirm the quitGame process by clicking yes button
-     * Pass the event to View
-     */
-    public void quitGame() {
-        menu.close();
-        view.quitGame();
+        mainMenuPane.getChildren().clear();
+        mainMenuPane.getChildren().add(newGamePane);
     }
 
 
@@ -193,6 +132,7 @@ public class MenuController {
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
             selectedFileName = riskMapFile.getName();
+            fileInfoMenuView.setSelectedFilename(selectedFileName);
             try {
                 model.readFile(riskMapFile.getPath());
             } catch (IOException exception) {
@@ -202,21 +142,14 @@ public class MenuController {
     }
 
 
-    /**
-     * Show start game button, game is fully loaded and ready to start
-     * Called by View.update()
-     */
-    public void showStartGameButton() { startGameButton.setVisible(true); }
+    private void validateEnteredPlayerNum(String enteredPlayerNum) {
+
+//        mapController.initCountryViews(maxPlayerNum);
+        numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
+//        model.initiatePlayers(enteredPlayerNum, mapController.createPlayerView());
 
 
-    /**
-     * Called when user click the start game button
-     * Pass event to the View
-     */
-    public void startGame() { showMapStage(); }
-
-
-    private void validateEnteredPlayerNum(String enteredPlayerNum) { // TODO: should be checked by model itself
+        // TODO: code below should be checked by model itself
         boolean valid = false;
         String validationInfo;
         int playerNum;
@@ -230,10 +163,7 @@ public class MenuController {
             } else {
                 valid = true;
                 validationInfo = "Total Player: " + playerNum;
-                // TODO: combined following lines
-                PlayerView playerView = new PlayerView(view, view.getMapController());
-                view.setPlayerView(playerView); // remove this line
-                model.initiatePlayers(playerNum, playerView);
+                model.initiatePlayers(playerNum, mapController.createPlayerView());
             }
         } catch (Exception e) {
             validationInfo = "Enter an integer";
@@ -243,8 +173,116 @@ public class MenuController {
         displayValidationResult(valid, validationInfo);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Reset start up menu, reset previous loading file info
+     * Called by switchToStartGameMenu()
+     */
+    private void resetNewGameMenu() {
+        selectedFilenameLabel.setText("Selected map: NONE");
+        selectedFilenameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        mapValidationInfoLabel.setVisible(false);
+        numPlayerInstructionLabel.setVisible(false);
+        validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
+        validationOfUserEnteredLabel.setVisible(false);
+        numPlayerTextField.setVisible(false);
+        numPlayerTextField.clear();
+        startButton.setVisible(false);
+    }
+
+
+    /**
+     * Display selected file name and invalid message if necessary
+     * Called by View.update()
+     * @param validFile decides whether the selected file is valid
+     * @param mapInfo gives additional info if the selected is invalid
+     */
+    public void displaySelectedFileName(boolean validFile, String mapInfo) {
+        mapValidationInfoLabel.setVisible(true);
+        startButton.setVisible(false);
+        if (validFile) {
+            numPlayerInstructionLabel.setVisible(true);
+            numPlayerTextField.setVisible(true);
+            validationOfUserEnteredLabel.setVisible(true);
+            selectedFilenameLabel.setText("Valid map: " + selectedFileName);
+            selectedFilenameLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+            mapValidationInfoLabel.setText(mapInfo);
+        } else {
+            selectedFilenameLabel.setText("Invalid map: " + selectedFileName);
+            numPlayerInstructionLabel.setVisible(false);
+            numPlayerTextField.setVisible(false);
+            numPlayerTextField.clear();
+            validationOfUserEnteredLabel.setVisible(false);
+            selectedFilenameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+            mapValidationInfoLabel.setText(mapInfo);
+        }
+    }
+
+
+    /**
+     * Set then show the number of player text field
+     * Called by View.update()
+     * @param maxPlayerNum is the max number of player allowed for the selected file
+     */
+    public void showNumPlayerTextField(int maxPlayerNum) {
+        this.maxPlayerNum = maxPlayerNum;
+        numPlayerInstructionLabel.setVisible(true);
+        numPlayerTextField.setVisible(true);
+        numPlayerInstructionLabel.setText("Max number of players: " + maxPlayerNum);
+        validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
+        validationOfUserEnteredLabel.setText("Total Player: ");
+        numPlayerTextField.clear();
+    }
+
+
+    private void displayValidationResult(boolean valid, String invalidInfo) {
+        validationOfUserEnteredLabel.setText(invalidInfo);
+        if (valid) {
+            validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+        } else {
+            validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
+            startButton.setVisible(false);
+        }
+    }
+
+
+    /**
+     * Called when user confirm the quitGame process by clicking yes button
+     * Pass the event to View
+     */
+    public void quitGame() {
+        menu.close();
+        mapController.quitGame();
+    }
+
+
+    /**
+     * Show start game button, game is fully loaded and ready to start
+     * Called by View.update()
+     */
+    public void showStartGameButton() { startButton.setVisible(true); }
+
+
+    /**
+     * Called when user click the start game button
+     * Pass event to the View
+     */
+    public void startGame() { showMapStage(); }
+
     private void showMapStage() {
         menu.hide();
-        view.showMapStage();
+        mapController.showMapStage();
     }
 }

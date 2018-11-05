@@ -14,21 +14,21 @@ import java.util.Observer;
  */
 public class PlayerView implements Observer {
 
-    private View view;
     private String name;
     private int armiesInHands;
 
     private Label currentPlayerLabel;
     private Label armiesInHandLabel;
 
+    private MapController mapController;
+
 
     /**
      * Create a default PlayerView, add View reference and MapController reference
-     * @param view is the View
      * @param mapController is the map controller which handle event when user interact with the map, pass it to View
      */
-    public PlayerView(View view, MapController mapController) {
-        this.view = view;
+    public PlayerView(MapController mapController) {
+        this.mapController = mapController;
         currentPlayerLabel = mapController.getCurrentPlayerLabel();
         armiesInHandLabel = mapController.getArmiesInHandLabel();
     }
@@ -53,7 +53,7 @@ public class PlayerView implements Observer {
         armiesInHandLabel.setText(Integer.toString(armiesInHands));
         currentPlayerLabel.setStyle("-fx-background-color: " + color);
         armiesInHandLabel.setStyle("-fx-background-color: " + color);
-        if (0 == armiesInHands) view.prepareNextPhase();
+        if (0 == armiesInHands) mapController.prepareNextPhase();
         //        System.out.println("");
     }
 
@@ -71,5 +71,5 @@ public class PlayerView implements Observer {
      * Called by View.allocateArmy()
      * @return number of armies that the current player has in hands
      */
-    int getArmiesInHands() { return armiesInHands; }
+    public int getArmiesInHands() { return armiesInHands; }
 }

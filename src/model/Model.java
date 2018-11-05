@@ -3,6 +3,8 @@ package model;
 import common.Message;
 import common.STATE;
 import validate.MapValidator;
+import view.FileInfoMenuView;
+import view.NumPlayerMenuView;
 import view.PlayerView;
 import view.CountryView;
 
@@ -26,6 +28,9 @@ public class Model extends Observable {
     private ArrayList<Continent> continents;
     private int playerCounter;
     private boolean validFile = true;
+
+    private FileInfoMenu fileInfoMenu;
+    private NumPlayerMenu numPlayerMenu;
 
 //    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
 //    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
@@ -372,5 +377,17 @@ public class Model extends Observable {
      */
     public boolean isValidFile() {
         return validFile;
+    }
+
+    /**
+     * Receive two menu observer references, bind them with corresponding observable subjects
+     * @param fileInfoMenuView displays the general selected file info
+     * @param numPlayerMenuView displays the num of players info
+     */
+    public void setMenuViews(FileInfoMenuView fileInfoMenuView, NumPlayerMenuView numPlayerMenuView) {
+        fileInfoMenu = new FileInfoMenu();
+        fileInfoMenu.addObserver(fileInfoMenuView);
+        numPlayerMenu = new NumPlayerMenu();
+        numPlayerMenu.addObserver(numPlayerMenuView);
     }
 }
