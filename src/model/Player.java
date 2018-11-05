@@ -18,6 +18,7 @@ public class Player extends Observable {
     private ArrayList<Country> countriesOwned;
     private String color = "#4B0082";
     private int totalStrength;
+    private int dices;
 
 
     /**
@@ -30,6 +31,7 @@ public class Player extends Observable {
         armies = 0;
         countriesOwned = new ArrayList<>();
         totalStrength = 0;
+        dices = 0;
     }
 
     /**
@@ -366,21 +368,37 @@ public class Player extends Observable {
     /**
      *
      * @param attacker The country who start the attack
-     * @param attackerDiceNum how many dise the attacker will use in this attack
+     * @param attackerNum how many dise the attacker will use in this attack
      * @param defender The country who defend the attack
-     * @param defenderDiceNum how many dise the defender will use in this attack
+     * @param defenderNum how many dise the defender will use in this attack
      * @return 1, if there attacker successfully occupied a country; 0, attack but not occupied; -1 Invalid attack.
      */
-    public int attack(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum){
+    public int attack(Country attacker, int attackerNum, Country defender, int defenderNum){
 
+        // if int valid
+        int attackerDiceNum = 0;
+        int defenderDiceNum = 0;
+        try{
+            attackerDiceNum = Integer.valueOf(attackerNum);
+            defenderDiceNum = Integer.valueOf(defenderNum);
+        } catch (Exception e){
+            return -1;
+        }
+
+        //if valid attack
         if (attacker.getOwner().equals(defender.getOwner())) return -1;
         if (!isValidAttack(attacker, attackerDiceNum, defender, defenderDiceNum)) return -1;
 
+        // reset the number of dices
+        dices = attackerDiceNum;
+
+        // if defender country doesn't has army
         if (defender.getArmies() == 0) {
             attacker.getOwner().occupy(defender);
             return 1;
         }
 
+        // roll the dices to battle
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
         System.out.println(dicesAttacker);
         ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
@@ -422,4 +440,29 @@ public class Player extends Observable {
         }
         return 0;
     }
+
+    /**
+     * Move the armies to the new conquered country
+     * @param c1 attcker country, which the armies move out
+     * @param c2 conquered country, whiche the armies move in
+     * @param num the number of armies need to be move
+     * @return 1 success, -1 somehow wrong
+     */
+    public int moveArmy(Country c1, Country c2, String num){
+
+        int numArmies = 0;
+        try{
+            numArmies = Integer.valueOf(num);
+        } catch (Exception e){
+            return -1;
+        }
+
+        if (this.isContain(c1) && this.isContain(c2) && c1.getArmies() >= numArmies && numArmies >= dices) {
+            c1.setArmies(c1.getArmies() - numArmies);
+            c2.setArmies(c2.getArmies() + numArmies);
+            return 1;
+        }
+        return -1;
+    }
+
 }
