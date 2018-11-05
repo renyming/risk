@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Country;
+import model.Model;
+import view.View;
 
 
 /**
@@ -14,7 +16,7 @@ import model.Country;
  */
 public class MapController {
 
-    @FXML private Button skipReinforcementPhaseButton;
+    @FXML private Button skipFortificationPhaseButton;
     @FXML private TextField numArmiesMoveTextField;
     @FXML private AnchorPane currentPlayerPane;
     @FXML private Label currentPlayerLabel;
@@ -29,6 +31,7 @@ public class MapController {
     @FXML private AnchorPane mapPane;
     @FXML private Label phaseLabel;
 
+    private Model model;
     private View view;
 
 
@@ -36,8 +39,8 @@ public class MapController {
      * Get View reference, add event listener
      * @param view the View reverence
      */
-    public void initialize(View view) {
-        skipReinforcementPhaseButton.setVisible(false);
+    public void initialize(View view, Model model) {
+        skipFortificationPhaseButton.setVisible(false);
         numArmiesMoveTextField.setVisible(false);
         numArmiesMoveLabel.setVisible(false);
         invalidMoveLabel.setVisible(false);
@@ -47,6 +50,7 @@ public class MapController {
         countryAName.setVisible(false);
         countryBName.setVisible(false);
         addEventListener();
+        this.model = model;
         this.view = view;
     }
 
@@ -55,7 +59,9 @@ public class MapController {
      * Add event listener to the countryPane
      */
     private void addEventListener() {
-        mapPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) { view.clickedMap(); } });
+        mapPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
+            view.clickedMap();
+        } });
         // TODO: for draw arrow purpose
 //        mapPane.setOnMousePressed((e) -> { if (e.getEventType() == MouseEvent.MOUSE_PRESSED) { view.pressedMap(e.getX(), e.getY()); } });
 //        mapPane.setOnMouseDragged((e) -> { if (e.getEventType() == MouseEvent.MOUSE_DRAGGED) { view.draggedMap(e.getX(), e.getY()); } });
@@ -63,10 +69,13 @@ public class MapController {
     }
 
 
+
+
+
     /**
      * Called when user entered number of armies moved value and press enter button, pass event to View
      */
-    public void enteredNumArmiesMoved() { view.fortification(numArmiesMoveTextField.getText()); }
+    public void enteredNumArmiesMoved() { view.fortification(numArmiesMoveTextField.getText()); } // TODO: refactor
 
 
     /**
@@ -87,7 +96,10 @@ public class MapController {
      * Called by View.*()
      * @param show decides whether the from-to countries info need to be displayed
      */
-    public void showFromToCountriesInfoPane(boolean show) {
+    public void displayFromToCountriesInfoPane(boolean show) {
+        if (show) {
+            resetFromToCountriesInfo();
+        }
         countryALabel.setVisible(show);
         countryAName.setVisible(show);
         countryBLabel.setVisible(show);
@@ -106,6 +118,7 @@ public class MapController {
         countryAName.setStyle("-fx-border-color: red; -fx-border-width: 3");
         countryBName.setText("NONE");
         countryBName.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        showInvalidMoveLabelInfo(false, "");
     }
 
 
@@ -118,6 +131,12 @@ public class MapController {
         nextPhaseButton.setText(nextPhase);
         nextPhaseButton.setVisible(true);
         hidePhaseLabel();
+    }
+
+
+    public void showPhaseLabel() {
+        phaseLabel.setVisible(true);
+        nextPhaseButton.setVisible(false);
     }
 
 
@@ -149,6 +168,8 @@ public class MapController {
      */
     public void skipReinforcementPhase() {
         showPlayerViewPane(false);
+        displayFromToCountriesInfoPane(false);
+        showInvalidMoveLabelInfo(false, "");
         view.skipFortificationPhase();
     }
 
@@ -156,7 +177,7 @@ public class MapController {
     /**
      * Called when user click the 'Quit' button during the game play
      */
-    public void backToMenu() { view.showMenuStage(); }
+    public void backToMenu() { view.showMenuStage(); } // TODO refactor
 
 
     /**
@@ -171,21 +192,7 @@ public class MapController {
      * Hide phase label
      * Called by View.startNextPhase()
      */
-    public void hidePhaseLabel() { phaseLabel.setVisible(false); }
-
-
-    /**
-     * Show phase label
-     * Called by View.startNextPhase()
-     */
-    public void showPhaseLabel() { phaseLabel.setVisible(true); }
-
-
-    /**
-     * Hide next phase button
-     * Called by View.startNextPhase()
-     */
-    public void hideNextPhaseButton() { nextPhaseButton.setVisible(false); }
+    private void hidePhaseLabel() { phaseLabel.setVisible(false); }
 
 
     /**
@@ -198,7 +205,7 @@ public class MapController {
         if (show) {
             currentPlayerPane.setVisible(true);
         } else {
-            skipReinforcementPhaseButton.setVisible(false);
+            skipFortificationPhaseButton.setVisible(false);
             numArmiesMoveTextField.clear();
             numArmiesMoveTextField.setVisible(false);
         }
@@ -209,7 +216,12 @@ public class MapController {
      * Start next phase
      * Called when user clicked the next phase button, pass the event to View
      */
-    public void startNextPhase() { view.startNextPhase(); }
+    public void startNextPhase() {
+        showPhaseLabel();
+        showPlayerViewPane(true);
+        setPhaseLabel(nextPhaseButton.getText().substring(6));
+        view.startNextPhase();
+    }
 
 
     /**
@@ -217,7 +229,7 @@ public class MapController {
      * Called by View.startNextPhase()
      * @param show decides whether the reinforcement phase button need to be shown
      */
-    public void showReinforcementPhaseButton(boolean show) { skipReinforcementPhaseButton.setVisible(show); }
+    public void showSkipFortificationPhaseButton(boolean show) { skipFortificationPhaseButton.setVisible(show); }
 
 
     /**
@@ -234,12 +246,4 @@ public class MapController {
      * @return the armies in hand label reference
      */
     public Label getArmiesInHandLabel() { return armiesInHandLabel; }
-
-
-    /**
-     * Allow player view to update the next phase button text
-     * Called by PlayerView
-     * @return the next phase button text
-     */
-    public String getNextPhaseButtonTest() { return nextPhaseButton.getText(); }
 }

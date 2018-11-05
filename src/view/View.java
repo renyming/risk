@@ -1,18 +1,16 @@
 package view;
 
+import controller.MapController;
 import model.Country;
 import model.Model;
 import common.Message;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,24 +30,22 @@ public class View implements Observer {
      */
     public enum PHASE {ENTER_NUM_PLAYER, START_UP, REINFORCEMENT, ATTACK, FORTIFICATION}
 
-    private final double COUNTRY_VIEW_HEIGHT = 60;
-    private final double COUNTRY_VIEW_WIDTH = 60;
+//    private final double COUNTRY_VIEW_HEIGHT = 60;
+//    private final double COUNTRY_VIEW_WIDTH = 60;
 //    private final double MENU_WIDTH = 500;
 //    private final double MENU_HEIGHT = 300;
 //    private final double GAME_BOARD_WIDTH = 1000;
 //    private final double GAME_BOARD_HEIGHT = 700;
 
-    private MapController mapController;
     private int fromToCountriesCounter;
-    private String selectedFileName;
-    private AnchorPane mapRootPane;
     private PlayerView playerView;
     private Stage mapEditorStage;
     private PHASE currentPhase;
-    private MenuView menuView;
-    private Stage mapStage;
     private boolean pause;
     private Model model;
+    private Menu menu;
+    private Map map;
+
 //    private Arrow arrow;
 
 
@@ -63,20 +59,23 @@ public class View implements Observer {
      */
     public View() {
 
-        menuView = MenuView.getInstance();
-        menuView.init(this);
+        menu = Menu.getInstance();
+        menu.init(this);
+
+        map = Map.getInstance();
+        map.init(this, model);
 
         // TODO: reactor, create mapView class?
         try {
-            FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
-            mapRootPane = mapFxmlLoader.load();
-            mapController = mapFxmlLoader.getController();
-            mapController.initialize(this);
-            mapStage = new Stage();
-            mapStage.setTitle("Risk Game");
-            mapStage.setScene(new Scene(mapRootPane,1000,700));
-            mapStage.setResizable(false);
-            mapStage.sizeToScene();
+//            FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
+//            mapRootPane = mapFxmlLoader.load();
+//            mapController = mapFxmlLoader.getController();
+//            mapController.initialize(this);
+//            mapStage = new Stage();
+//            mapStage.setTitle("Risk Game");
+//            mapStage.setScene(new Scene(mapRootPane,1000,700));
+//            mapStage.setResizable(false);
+//            mapStage.sizeToScene();
 
             pause = false;
             fromToCountriesCounter = 0;
@@ -109,7 +108,7 @@ public class View implements Observer {
 //        System.out.println("View.update(): new state is " + message.state + ", ");
         switch (message.state) {
             case LOAD_FILE:
-                menuView.displaySelectedFileName(false, selectedFileName, (String) message.obj);
+                menu.displaySelectedFileName(false, (String) message.obj);
                 break;
             case CREATE_OBSERVERS:
                 if (null == countryViews) {
@@ -117,7 +116,7 @@ public class View implements Observer {
                 } else {
                     countryViews.clear();
                 }
-                menuView.displaySelectedFileName(true, selectedFileName, "Useful info here");
+                menu.displaySelectedFileName(true, "Useful info here");
                 int numOfCountries = (int) message.obj;
                 for (int i = 1; i <= numOfCountries; ++i) {
                     countryViews.put(i, createDefaultCountryView());
@@ -126,24 +125,24 @@ public class View implements Observer {
                 break;
             case PLAYER_NUMBER:
                 currentPhase = PHASE.ENTER_NUM_PLAYER;
-                menuView.showNumPlayerTextField(countryViews.size());
+                menu.showNumPlayerTextField(countryViews.size());
                 break;
             case INIT_ARMIES:
                 currentPhase = PHASE.START_UP;
-                mapController.setPhaseLabel("Start Up Phase");
-                menuView.showStartGameButton();
+                map.setPhaseLabel("Start Up Phase");
+                menu.showStartGameButton();
                 break;
             case ROUND_ROBIN:
                 showNextPhaseButton("Enter Reinforcement Phase");
-                mapController.showPlayerViewPane(false);
+                map.displayPlayerViewPane(false);
                 pause = true;
                 model.reinforcement();
                 break;
             case NEXT_PLAYER:
                 showNextPhaseButton("Enter Reinforcement Phase");
-                mapController.showFromToCountriesInfoPane(false);
-                mapController.showPlayerViewPane(false);
-                mapController.showInvalidMoveLabelInfo(false, "");
+                map.displayFromToCountriesInfoPane(false);
+                map.displayPlayerViewPane(false);
+                map.showInvalidMoveLabelInfo(false, "");
                 model.nextPlayer();
                 break;
         }
@@ -152,48 +151,44 @@ public class View implements Observer {
 
     /**
      * Display the beginning of page of the menu, user then can interact with i.e. click buttons
-     * Called when 'quit' button is clicked from the on-going game, then clear all previous work
+     * Called when 'quitGame' button is clicked from the on-going game, then clear all previous work
      */
     public void showMenuStage() {
-        mapStage.hide();
-        menuView.switchToStartGameMenu();
-        clearMapComponents();
+        resetMapComponents();
+        map.displayFromToCountriesInfoPane(false);
+        map.hide();
+        menu.switchToStartGameMenu();
     }
 
 
     /**
-     * Hide the menu, draw every single map component, then display the map
+     * Clear all CountryViews and Lines that generated before
+     * Called by View.showMenuStage()
      */
-    void showMapStage() {
-        menuView.hide();
-        drawMap();
-        mapStage.show();
-    }
+    private void resetMapComponents() {
+        map.setPhaseLabel("Start Up Phase");
+        map.showPhaseLabel();
+        if (null != countryViews) {
+            for (int key : countryViews.keySet()) {
+                AnchorPane countryPane = countryViews.get(key).getCountryPane();
+                countryPane.getChildren().clear();
+                map.getMapRootPane().getChildren().remove(countryPane);
+            }
+            countryViews.clear();
+        }
+        if (null != lines) {
+            for (Line line : lines) {
+                map.getMapRootPane().getChildren().remove(line);
+            }
+            lines.clear();
+        }
 
-
-    /**
-     * Close the map editor, show beginning of the menu page
-     * Called when 'quit' is click through the map editor menu
-     */
-    public void closeMapStage() {
-        mapEditorStage.hide();
-        menuView.show();
-    }
-
-
-    /**
-     * Quit the game
-     * Called when 'Quit' button is clicked on the menu, and then user click 'Yes' button to confirm
-     */
-    void closeMenuStage() {
-        mapStage.close();
-        menuView.close();
     }
 
 
     /**
      * Display map editor, user than can create a RISK map
-     * Called when user click the 'Map Editor' on the main page
+     * Called by Menu
      */
     void openMapEditor() {
         if (null != mapEditorStage) mapEditorStage.close();
@@ -207,26 +202,27 @@ public class View implements Observer {
             System.out.println("View.openMapEditor(): " + e.getMessage());
         }
         mapEditorStage.setTitle("Map Editor");
-        menuView.hide();
+        menu.hide();
         mapEditorStage.show();
     }
 
 
     /**
-     * Select a RISK map file, then ask Model to validate
-     * Called when user click 'Select Map' button on menu
+     * Quit the game
+     * Called when 'Quit' button is clicked on the menu, and then user click 'Yes' button to confirm
      */
-    void selectMap() {
-        final FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Risk Map File");
-        File riskMapFile = fileChooser.showOpenDialog(menuView.getMenuStage());
-        if (null != riskMapFile && riskMapFile.exists()) {
-            try {
-                selectedFileName = riskMapFile.getName();
-                model.readFile(riskMapFile.getPath());
-            } catch (IOException e) {
-                System.out.println("View.selectMap(): " + e.getMessage());
-            }
+    void quitGame() { map.close(); }
+
+
+    /**
+     * Pass a selected Risk map file path to Model allow Model to validate it
+     * Called by Menu
+     */
+    void readFile(String mapFilePath) {
+        try {
+            model.readFile(mapFilePath);
+        } catch (IOException exception) {
+            System.out.println("View.readFile(): " + exception.getMessage());
         }
     }
 
@@ -247,9 +243,147 @@ public class View implements Observer {
      * @param playerNum valid total number of players for the game with specific loaded RISK map file
      */
     void initializePlayer(int playerNum) {
-        playerView = new PlayerView(this, mapController);
+        playerView = new PlayerView(this, map.getMapController());
         model.initiatePlayers(playerNum, playerView);
     }
+
+
+    /**
+     * Hide the menu, draw every single map component, then display the map
+     * Called by Menu
+     */
+    void showMapStage() {
+        menu.hide();
+        drawMap();
+        map.show();
+    }
+
+
+    /**
+     * Draw each CountryView and Line into mapRootPane
+     * Called by View.showMapStage()
+     */
+    private void drawMap() {
+        // TODO: use efficient way to draw lines, avoid duplicate
+        double COUNTRY_VIEW_WIDTH = 60; // TODO: refactor
+        double COUNTRY_VIEW_HEIGHT = 60; // TODO: refactor
+        AnchorPane mapRootPane = map.getMapRootPane();
+        lines = new HashSet<>();
+        for (int key : countryViews.keySet()) {
+            Country countryA = countryViews.get(key).getCountry();
+            for (Country countryB : countryA.getAdjCountries()) {
+                Line line = new Line();
+                line.setStartX(countryA.getX() + COUNTRY_VIEW_WIDTH/2);
+                line.setStartY(countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
+                line.setEndX(countryB.getX() + COUNTRY_VIEW_WIDTH/2);
+                line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
+                line.setStroke(Color.BLACK);
+                line.setStrokeWidth(2);
+                lines.add(line);
+                mapRootPane.getChildren().add(line);
+            }
+        }
+        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
+    }
+
+
+    /**
+     * Called when user clicked a country
+     * For reinforcement phase: add clicked counter
+     * For fortification phase: set selected countries
+     * @param country the country which user clicked
+     */
+    void clickedCountry(Country country) {
+        if (PHASE.START_UP == currentPhase || PHASE.REINFORCEMENT == currentPhase) {
+            allocateArmy(country);
+        } else if (PHASE.FORTIFICATION == currentPhase) {
+            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
+                map.showInvalidMoveLabelInfo(true, "Select your own country");
+                return;
+            }
+            switch (fromToCountriesCounter++) {
+                case 0:
+                    fromToCountries[0] = country;
+                    map.setFromCountryInfo(country);
+                    break;
+                case 1:
+                    fromToCountries[1] = country;
+                    map.setToCountryInfo(country);
+                    break;
+                case 2:
+                    resetFromToCountries();
+//                    arrow = null;
+                    break;
+            }
+        }
+    }
+
+
+    /**
+     * During fortification phase, reset selected countries
+     */
+    public void clickedMap() { if (PHASE.FORTIFICATION == currentPhase) resetFromToCountries(); }
+
+
+    /**
+     * Called by PlayerView when current player has 0 army in hand, call
+     * Prefer next phase info, i.e. reset button, hide/show panes
+     */
+    void prepareNextPhase() {
+        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
+//        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
+        switch (currentPhase) {
+            case START_UP:
+                model.nextPlayer();
+                break;
+            case REINFORCEMENT:
+                showNextPhaseButton("Enter Fortification Phase");
+                break;
+            case ATTACK:
+                break;
+            case FORTIFICATION:
+                showNextPhaseButton("Enter Reinforcement Phase");
+                model.reinforcement();
+                map.showPlayerViewPane(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    /**
+     * Resume the paused phase, active corresponding listeners
+     * Called when user click the 'Enter xxx phase' button
+     * Display or hide the relative info panes/buttons
+     */
+    public void startNextPhase() {
+        pause = false;
+        switch (currentPhase) {
+            case START_UP:
+                currentPhase = PHASE.REINFORCEMENT;
+                map.displayFromToCountriesInfoPane(false);
+                break;
+            case REINFORCEMENT:
+                currentPhase = PHASE.FORTIFICATION;
+                resetFromToCountries();
+                map.displayFromToCountriesInfoPane(true);
+                map.showSkipFortificationPhaseButton(true); //TODO: refactor
+                break;
+            case FORTIFICATION:
+                currentPhase = PHASE.REINFORCEMENT;
+                map.displayFromToCountriesInfoPane(false);
+                break;
+        }
+    }
+
+
+    /**
+     * Reset the 'Enter xxx Phase' button name and display it
+     * Called by View.*()
+     * @param nextPhase represents the display text of the 'Enter xxx Phase' button
+     */
+    private void showNextPhaseButton(String nextPhase) { map.getMapController().showNextPhaseButton(nextPhase); }
 
 
     /**
@@ -279,6 +413,7 @@ public class View implements Observer {
         } catch (Exception e) {
             enteredAnInteger = false;
         }
+        MapController mapController = map.getMapController();
         if (null == fromToCountries[0] || null == fromToCountries[1]) {
             mapController.showInvalidMoveLabelInfo(true, "At least one country is not selected properly");
         } else if (fromToCountries[0].getName().equals(fromToCountries[1].getName())) {
@@ -302,132 +437,6 @@ public class View implements Observer {
 
 
     /**
-     * During fortification phase, skip this phase if current user is not able to move armies
-     * i.e. only has one country left or the user does not want to
-     * Called by 'Skip' button on player view
-     */
-    void skipFortificationPhase() {
-        showNextPhaseButton("Enter Reinforcement Phase");
-        mapController.showFromToCountriesInfoPane(false);
-        mapController.showInvalidMoveLabelInfo(false, "");
-        model.nextPlayer();
-    }
-
-
-    /**
-     * Called by PlayerView when current player has 0 army in hand, call
-     * Prefer next phase info, i.e. reset button, hide/show panes
-     */
-    void prepareNextPhase() {
-        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
-//        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
-        switch (currentPhase) {
-            case START_UP:
-                model.nextPlayer();
-                break;
-            case REINFORCEMENT:
-                showNextPhaseButton("Enter Fortification Phase");
-                break;
-            case ATTACK:
-                break;
-            case FORTIFICATION:
-                showNextPhaseButton("Enter Reinforcement Phase");
-                model.reinforcement();
-                mapController.resetFromToCountriesInfo();
-                mapController.showPlayerViewPane(false);
-                break;
-            default:
-                break;
-        }
-    }
-
-
-    /**
-     * Resume the paused phase, active corresponding listeners
-     * Called when user click the 'Enter xxx phase' button
-     * Display or hide the relative info panes/buttons
-     */
-    void startNextPhase() {
-        pause = false;
-        mapController.showPhaseLabel();
-        mapController.hideNextPhaseButton();
-        mapController.showPlayerViewPane(true);
-        mapController.setPhaseLabel(mapController.getNextPhaseButtonTest().substring(6));
-        switch (currentPhase) {
-            case START_UP:
-                currentPhase = PHASE.REINFORCEMENT;
-                mapController.showFromToCountriesInfoPane(false);
-                break;
-            case REINFORCEMENT:
-                currentPhase = PHASE.FORTIFICATION;
-                mapController.showFromToCountriesInfoPane(true);
-                mapController.showReinforcementPhaseButton(true);
-                break;
-            case FORTIFICATION:
-                currentPhase = PHASE.REINFORCEMENT;
-                mapController.showFromToCountriesInfoPane(false);
-                break;
-        }
-    }
-
-
-    /**
-     * Reset the 'Enter xxx Phase' button name and display it
-     * Called by View.*()
-     * @param nextPhase represents the display text of the 'Enter xxx Phase' button
-     */
-    private void showNextPhaseButton(String nextPhase) { mapController.showNextPhaseButton(nextPhase); }
-
-
-    /**
-     * Draw each CountryView and Line into mapRootPane
-     * Called by View.showMapStage()
-     */
-    private void drawMap() {
-        // TODO: use efficient way to draw lines, avoid duplicate
-        lines = new HashSet<>();
-        for (int key : countryViews.keySet()) {
-            Country countryA = countryViews.get(key).getCountry();
-            for (Country countryB : countryA.getAdjCountries()) {
-                Line line = new Line();
-                line.setStartX(countryA.getX() + COUNTRY_VIEW_WIDTH/2);
-                line.setStartY(countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
-                line.setEndX(countryB.getX() + COUNTRY_VIEW_WIDTH/2);
-                line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
-                line.setStroke(Color.BLACK);
-                line.setStrokeWidth(2);
-                lines.add(line);
-                mapRootPane.getChildren().add(line);
-            }
-        }
-        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
-    }
-
-
-    /**
-     * Clear all CountryViews and Lines that generated before
-     * Called by View.showMenuStage()
-     */
-    private void clearMapComponents() {
-        if (null != countryViews) {
-            for (int key : countryViews.keySet()) {
-                AnchorPane countryPane = countryViews.get(key).getCountryPane();
-                countryPane.getChildren().clear();
-                mapRootPane.getChildren().remove(countryPane);
-            }
-            countryViews.clear();
-        }
-        if (null != lines) {
-            for (Line line : lines) {
-                mapRootPane.getChildren().remove(line);
-            }
-            lines.clear();
-        }
-
-    }
-
-
-    /**
      * For the fortification usage, reset selected countries
      * Called by View.*() if user trying to reset the selected countries by clicking the map or another country
      */
@@ -435,47 +444,30 @@ public class View implements Observer {
         fromToCountries[0] = null;
         fromToCountries[1] = null;
         fromToCountriesCounter = 0;
-        mapController.resetFromToCountriesInfo();
-        mapController.showInvalidMoveLabelInfo(false, "");
+        map.getMapController().resetFromToCountriesInfo();
     }
 
 
     /**
-     * Called when user clicked a country
-     * For reinforcement phase: add clicked counter
-     * For fortification phase: set selected countries
-     * @param country the country which user clicked
+     * During fortification phase, skip this phase if current user is not able to move armies
+     * i.e. only has one country left or the user does not want to
+     * Called by 'Skip' button on player view
      */
-    void clickedCountry(Country country) {
-        if (PHASE.START_UP == currentPhase || PHASE.REINFORCEMENT == currentPhase) {
-            allocateArmy(country);
-        } else if (PHASE.FORTIFICATION == currentPhase) {
-            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
-                mapController.showInvalidMoveLabelInfo(true, "Select your own country");
-                return;
-            }
-            switch (fromToCountriesCounter++) {
-                case 0:
-                    fromToCountries[0] = country;
-                    mapController.setFromCountryInfo(country);
-                    break;
-                case 1:
-                    fromToCountries[1] = country;
-                    mapController.setToCountryInfo(country);
-                    break;
-                case 2:
-                    resetFromToCountries();
-//                    arrow = null;
-                    break;
-            }
-        }
+    public void skipFortificationPhase() {
+        showNextPhaseButton("Enter Reinforcement Phase");
+        model.nextPlayer();
     }
 
 
     /**
-     * During fortification phase, reset selected countries
+     * Close the map editor, show beginning of the menu page
+     * Called when 'quitGame' is click through the map editor menu
      */
-    void clickedMap() { if (PHASE.FORTIFICATION == currentPhase) resetFromToCountries(); }
+    public void closeMapStage() { // TODO: rename, quitToMenu
+        mapEditorStage.hide();
+        menu.show();
+    }
+
 
     // TODO: for self test purpose, dynamically drag and draw an arrow, need to be removed later
 

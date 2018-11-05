@@ -1,25 +1,30 @@
 package view;
 
+import controller.MenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
+
+import java.io.File;
 import java.io.IOException;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-class MenuView {
+public class Menu {
 
-    private static MenuView instance = new MenuView();
+    private static Menu instance;
 
     private MenuController menuController;
+    private String selectedFileName;
     private AnchorPane mainMenuPane;
     private int maxPlayerNum;
     private Stage menuStage;
     private View view;
 
-    private MenuView() { }
+    private Menu() { }
 
-    static MenuView getInstance(){
-        if (null == instance) instance = new MenuView();
+    static Menu getInstance(){
+        if (null == instance) instance = new Menu();
         return instance;
     }
 
@@ -29,7 +34,7 @@ class MenuView {
         try {
             mainMenuPane = menuFxmlLoader.load();
         } catch (IOException exception) {
-            System.out.println("MenuView.ctor(): " + exception.getMessage());
+            System.out.println("Menu.ctor(): " + exception.getMessage());
         }
         menuController = menuFxmlLoader.getController();
         menuController.init(this);
@@ -40,7 +45,7 @@ class MenuView {
         menuStage.sizeToScene();
     }
 
-    void validateEnteredPlayerNum(String enteredPlayerNum) {
+    public void validateEnteredPlayerNum(String enteredPlayerNum) {
 
         boolean valid = false;
         String validationInfo;
@@ -59,14 +64,14 @@ class MenuView {
             }
         } catch (Exception e) {
             validationInfo = "Enter an integer";
-            System.out.println("MenuView.validateEnteredPlayerNum(): " + e.getMessage());
+            System.out.println("Menu.validateEnteredPlayerNum(): " + e.getMessage());
         }
 
         menuController.displayValidationResult(valid, validationInfo);
     }
 
-    void displaySelectedFileName(boolean validFile, String filename, String mapInfo) {
-        menuController.displaySelectedFileName(validFile, filename, mapInfo);
+    void displaySelectedFileName(boolean validFile, String mapInfo) {
+        menuController.displaySelectedFileName(validFile, selectedFileName, mapInfo);
     }
 
     void showNumPlayerTextField(int maxPlayerNum) {
@@ -81,17 +86,34 @@ class MenuView {
 
     void showStartGameButton() { menuController.showStartGameButton(); }
 
-    void closeMenuStage() { view.closeMenuStage(); }
 
-    void openMapEditor() { view.openMapEditor(); }
+    /**
+     * Close menuStage, ask View to close mapStage
+     * Called by MenuController
+     */
+    public void quitGame() {
+        menuStage.close();
+        view.quitGame();
+    }
 
-    void showMapStage() { view.showMapStage(); }
+    public void openMapEditor() { view.openMapEditor(); }
 
-    Stage getMenuStage() { return menuStage; }
+    public void showMapStage() { view.showMapStage(); }
 
-    void selectMap() { view.selectMap(); }
 
-    void close() { menuStage.close(); }
+    /**
+     * Select a RISK map file, pass it to View
+     * Called when user click 'Select Map' button on menu
+     */
+    public void selectMap() {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Risk Map File");
+        File riskMapFile = fileChooser.showOpenDialog(menuStage);
+        if (null != riskMapFile && riskMapFile.exists()) {
+            selectedFileName = riskMapFile.getName();
+            view.readFile(riskMapFile.getPath());
+        }
+    }
 
     void show() { menuStage.show(); }
 

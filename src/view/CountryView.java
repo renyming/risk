@@ -1,5 +1,6 @@
 package view;
 
+import controller.CountryController;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import java.util.Observable;

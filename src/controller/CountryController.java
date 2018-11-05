@@ -1,10 +1,11 @@
-package view;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Country;
+import view.CountryView;
 
 
 /**
@@ -46,7 +47,7 @@ public class CountryController {
      * Called by CountryView for updating labels' info
      * @param country is the Country object which info need to be updated
      */
-    void updateCountryPaneInfo(Country country) {
+    public void updateCountryPaneInfo(Country country) {
         countryPane.setLayoutX(country.getX());
         countryPane.setLayoutY(country.getY());
         countryNameLabel.setText(country.getName());

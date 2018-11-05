@@ -1,5 +1,6 @@
 package view;
 
+import controller.MapController;
 import javafx.scene.control.Label;
 import model.Player;
 
@@ -13,11 +14,8 @@ import java.util.Observer;
  */
 public class PlayerView implements Observer {
 
-    // TODO: refactor
     private View view;
-    private Player currentPlayer;
     private String name;
-    private String color;
     private int armiesInHands;
 
     private Label currentPlayerLabel;
@@ -45,15 +43,14 @@ public class PlayerView implements Observer {
     @Override
     public void update(Observable obs, Object arg) {
 //        System.out.print("PlayerView.update: ");
-        Player nextPlayer = (Player) obs;
-//        if (nextPlayer != currentPlayer) System.out.print("newPlayer = " + nextPlayer.getName());
-        currentPlayer = nextPlayer;
+        Player currentPlayer = (Player) obs;
+        String color = currentPlayer.getColor();
+
         name = currentPlayer.getName();
         currentPlayerLabel.setText(name);
         armiesInHands = currentPlayer.getArmies();
 //        System.out.print(", armies = " + armiesInHands);
         armiesInHandLabel.setText(Integer.toString(armiesInHands));
-        color = currentPlayer.getColor();
         currentPlayerLabel.setStyle("-fx-background-color: " + color);
         armiesInHandLabel.setStyle("-fx-background-color: " + color);
         if (0 == armiesInHands) view.prepareNextPhase();
@@ -74,5 +71,5 @@ public class PlayerView implements Observer {
      * Called by View.allocateArmy()
      * @return number of armies that the current player has in hands
      */
-    public int getArmiesInHands() { return armiesInHands; }
+    int getArmiesInHands() { return armiesInHands; }
 }

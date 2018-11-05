@@ -1,10 +1,11 @@
-package view;
+package controller;
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.fxml.FXML;
+import view.Menu;
 
 
 /**
@@ -12,26 +13,26 @@ import javafx.fxml.FXML;
  */
 public class MenuController {
 
-    @FXML private Label playerNumInstructionLabel;
-    @FXML private Label userEnteredPlayNumLabel;
-    @FXML private TextField playerNumTextField;
-    @FXML private AnchorPane startGamePane;
-    @FXML private AnchorPane mainMenuPane;
-    @FXML private AnchorPane newGamePane;
-    @FXML private Label selectedMapLabel;
-    @FXML private Button startGameButton;
-    @FXML private AnchorPane quitPane;
-    @FXML private Label mapInfoPane;
+    @FXML public Label playerNumInstructionLabel;
+    @FXML public Label userEnteredPlayNumLabel;
+    @FXML public TextField playerNumTextField;
+    @FXML public AnchorPane startGamePane;
+    @FXML public AnchorPane mainMenuPane;
+    @FXML public AnchorPane newGamePane;
+    @FXML public Label selectedMapLabel;
+    @FXML public Button startGameButton;
+    @FXML public AnchorPane quitPane;
+    @FXML public Label mapInfoPane;
 
-    private MenuView menuView;
+    private Menu menu;
 
 
     /**
      * Get View reference, add event listener
-     * @param menuView the MenuView reverence
+     * @param menu the Menu reverence
      */
-    void init(MenuView menuView) {
-        this.menuView = menuView;
+    public void init(Menu menu) {
+        this.menu = menu;
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
@@ -43,7 +44,7 @@ public class MenuController {
      * Add event listener to the playerNumTextField
      */
     private void addEventListener() {
-        playerNumTextField.setOnAction((event) -> menuView.validateEnteredPlayerNum(playerNumTextField.getText()));
+        playerNumTextField.setOnAction((event) -> menu.validateEnteredPlayerNum(playerNumTextField.getText()));
     }
 
 
@@ -51,12 +52,12 @@ public class MenuController {
      * Switch to Map Editor
      * Called when user click the map editor button
      */
-    public void switchToMapEditor() { menuView.openMapEditor(); }
+    public void switchToMapEditor() { menu.openMapEditor(); }
 
 
     /**
      * Switch to start game menu
-     * Called when user quit to the menu page
+     * Called when user quitGame to the menu page
      */
     public void switchToStartGameMenu() {
         mainMenuPane.getChildren().clear();
@@ -76,8 +77,8 @@ public class MenuController {
 
 
     /**
-     * Switch to quit menu
-     * Called when user click quit button on menu
+     * Switch to quitGame menu
+     * Called when user click quitGame button on menu
      */
     public void switchToQuitMenu() {
         mainMenuPane.getChildren().clear();
@@ -109,7 +110,7 @@ public class MenuController {
      * @param filename is the selected file name
      * @param mapInfo gives additional info if the selected is invalid
      */
-    void displaySelectedFileName(boolean validFile, String filename, String mapInfo) {
+    public void displaySelectedFileName(boolean validFile, String filename, String mapInfo) {
         mapInfoPane.setVisible(true);
         startGameButton.setVisible(false);
         if (validFile) {
@@ -136,7 +137,7 @@ public class MenuController {
      * Called by View.update()
      * @param maxPlayerNum is the max number of player allowed for the selected file
      */
-    void showNumPlayerTextField(int maxPlayerNum) {
+    public void showNumPlayerTextField(int maxPlayerNum) {
         playerNumInstructionLabel.setVisible(true);
         playerNumTextField.setVisible(true);
         playerNumInstructionLabel.setText("Max number of players: " + maxPlayerNum);
@@ -146,7 +147,7 @@ public class MenuController {
     }
 
 
-    void displayValidationResult(boolean valid, String invalidInfo) {
+    public void displayValidationResult(boolean valid, String invalidInfo) {
         userEnteredPlayNumLabel.setText(invalidInfo);
         if (valid) {
             userEnteredPlayNumLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
@@ -158,10 +159,10 @@ public class MenuController {
 
 
     /**
-     * Called when user confirm the quit process by clicking yes button
+     * Called when user confirm the quitGame process by clicking yes button
      * Pass the event to View
      */
-    public void quit() { menuView.closeMenuStage(); }
+    public void quitGame() { menu.quitGame(); }
 
 
     /**
@@ -169,19 +170,19 @@ public class MenuController {
      * Called when user clicked the select map button
      * Pass event to View
      */
-    public void selectMap() { menuView.selectMap(); }
+    public void selectMap() { menu.selectMap(); }
 
 
     /**
      * Show start game button, game is fully loaded and ready to start
      * Called by View.update()
      */
-    void showStartGameButton() { startGameButton.setVisible(true); }
+    public void showStartGameButton() { startGameButton.setVisible(true); }
 
 
     /**
      * Called when user click the start game button
      * Pass event to the View
      */
-    public void startGame() { menuView.showMapStage(); }
+    public void startGame() { menu.showMapStage(); }
 }
