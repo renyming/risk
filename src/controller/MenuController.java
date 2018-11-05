@@ -111,7 +111,7 @@ public class MenuController {
             fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
             numPlayerMenuView = new NumPlayerMenuView();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField, startButton, mapController);
-//            model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
+            model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         } else {
             numPlayerMenuView.reset();
             fileInfoMenuView.reset();
