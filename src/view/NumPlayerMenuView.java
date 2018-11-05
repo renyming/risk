@@ -45,6 +45,7 @@ public class NumPlayerMenuView implements Observer {
             validationOfUserEnteredLabel.setText("Total Player: " + numPlayerMenu.getValidationInfo());
         } else {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
+            startButton.setVisible(true);
         }
     }
 

@@ -32,14 +32,14 @@ public class MapController {
     @FXML private TextField numArmiesMoveTextField;
     @FXML private AnchorPane currentPlayerPane;
     @FXML private Label currentPlayerLabel;
-    @FXML private Label numArmiesMoveLabel;
+    @FXML private Label numArmiesMovedLabel;
     @FXML private Label armiesInHandLabel;
     @FXML private Button nextPhaseButton;
-    @FXML private Label invalidMoveLabel;
+    @FXML private Label invalidMovedLabel;
     @FXML private Label countryALabel;
     @FXML private Label countryBLabel;
-    @FXML private Label countryAName;
-    @FXML private Label countryBName;
+    @FXML private Label countryANameLabel;
+    @FXML private Label countryBNameLabel;
     @FXML private AnchorPane mapPane;
     @FXML private Label phaseLabel;
 
@@ -63,13 +63,13 @@ public class MapController {
 
         skipFortificationPhaseButton.setVisible(false);
         numArmiesMoveTextField.setVisible(false);
-        numArmiesMoveLabel.setVisible(false);
-        invalidMoveLabel.setVisible(false);
+        numArmiesMovedLabel.setVisible(false);
+        invalidMovedLabel.setVisible(false);
         nextPhaseButton.setVisible(false);
         countryALabel.setVisible(false);
         countryBLabel.setVisible(false);
-        countryAName.setVisible(false);
-        countryBName.setVisible(false);
+        countryANameLabel.setVisible(false);
+        countryBNameLabel.setVisible(false);
         addEventListener();
 
 
@@ -102,8 +102,8 @@ public class MapController {
      */
     public void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
         numArmiesMoveTextField.clear(); // TODO: could be removed?
-        invalidMoveLabel.setVisible(show);
-        invalidMoveLabel.setText(invalidInfo);
+        invalidMovedLabel.setVisible(show);
+        invalidMovedLabel.setText(invalidInfo);
     }
 
 
@@ -117,10 +117,10 @@ public class MapController {
             resetFromToCountriesInfo();
         }
         countryALabel.setVisible(show);
-        countryAName.setVisible(show);
+        countryANameLabel.setVisible(show);
         countryBLabel.setVisible(show);
-        countryBName.setVisible(show);
-        numArmiesMoveLabel.setVisible(show);
+        countryBNameLabel.setVisible(show);
+        numArmiesMovedLabel.setVisible(show);
         numArmiesMoveTextField.setVisible(show);
     }
 
@@ -130,10 +130,10 @@ public class MapController {
      * Called by View.*()
      */
     private void resetFromToCountriesInfo() {
-        countryAName.setText("NONE");
-        countryAName.setStyle("-fx-border-color: red; -fx-border-width: 3");
-        countryBName.setText("NONE");
-        countryBName.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        countryANameLabel.setText("NONE");
+        countryANameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        countryBNameLabel.setText("NONE");
+        countryBNameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
         showInvalidMoveLabelInfo(false, "");
     }
 
@@ -162,8 +162,8 @@ public class MapController {
      * @param country is the from-country
      */
     private void setFromCountryInfo(Country country) {
-        countryAName.setText(country.getName());
-        countryAName.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+        countryANameLabel.setText(country.getName());
+        countryANameLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
     }
 
 
@@ -173,8 +173,8 @@ public class MapController {
      * @param country is the to-country
      */
     private void setToCountryInfo(Country country) {
-        countryBName.setText(country.getName());
-        countryBName.setStyle("-fx-border-color: #00ff00;  -fx-border-width: 3");
+        countryBNameLabel.setText(country.getName());
+        countryBNameLabel.setStyle("-fx-border-color: #00ff00;  -fx-border-width: 3");
     }
 
 
