@@ -14,8 +14,8 @@ public class Map {
 
     private static Map instance;
 
-    private View view;
-    private Model model;
+//    private View view;
+//    private Model model;
     private AnchorPane mapRootPane;
     private MapController mapController;
     private Stage mapStage;
@@ -29,9 +29,9 @@ public class Map {
         return instance;
     }
 
-    void init(View view, Model model) {
-        this.view = view;
-        this.model = model;
+    void init(Model model, View view) {
+//        this.model = model;
+//        this.view = view;
         FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
         try {
             mapRootPane = mapFxmlLoader.load();
@@ -47,31 +47,14 @@ public class Map {
         mapStage.sizeToScene();
     }
 
-    void setPhaseLabel(String phase) { mapController.setPhaseLabel(phase); }
-
-    void displayPlayerViewPane(boolean show) { mapController.showPlayerViewPane(show); }
-
-    void displayFromToCountriesInfoPane(boolean show) { mapController.displayFromToCountriesInfoPane(show); }
-
-    void showInvalidMoveLabelInfo(boolean show, String info) { mapController.showInvalidMoveLabelInfo(show, info); }
-
-    void showPhaseLabel() { mapController.showPhaseLabel(); }
-
     MapController getMapController() { return mapController; }
 
-    void setFromCountryInfo(Country country) { mapController.setFromCountryInfo(country); }
-
-    void setToCountryInfo(Country country) { mapController.setToCountryInfo(country); }
-
-    void showPlayerViewPane(boolean show) { mapController.showPlayerViewPane(show); }
-
-    void showSkipFortificationPhaseButton(boolean show) { mapController.showSkipFortificationPhaseButton(show); }
-
+    // for drawMap and resetMap usage
     AnchorPane getMapRootPane() { return mapRootPane; }
+
+    void show() { mapStage.show(); }
 
     void hide() { mapStage.hide(); }
 
     void close() { mapStage.close(); }
-
-    void show() { mapStage.show(); }
 }
