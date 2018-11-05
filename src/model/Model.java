@@ -29,8 +29,17 @@ public class Model extends Observable {
     private int playerCounter;
     private boolean validFile = true;
 
+    //decided whether country view should respond to the event
+    private boolean disable = false;
+
+    //indicate current phase; startUp0; rPhase1; aPhase2; fPhase3
+    //indicate current phase; startUp0; rPhase1; aPhase2; fPhase3
+    private int phase;
+
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
+
+
 
 //    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
 //    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
@@ -46,9 +55,9 @@ public class Model extends Observable {
     }
 
     /**
-     * rest model object before reload mapfile
+     * reset model object before reload mapfile
      */
-    private void rest(){
+    private void reset(){
         players = new ArrayList<>();
         countries = new HashMap<>();
         continents = new ArrayList<>();
@@ -146,10 +155,34 @@ public class Model extends Observable {
      */
     public void allocateArmy(Country country){
 
+        if(disable)
+            return;
+
         //country army + 1
         country.addArmies(1);
         //player army - 1
         country.getOwner().subArmies(1);
+
+        //startUpPhase
+        if(phase == 0){
+            //all the armies are allocated
+            if(country.getOwner().getArmies() == 0){
+                if(!currentPlayer.equals(players.get(players.size() - 1))){
+                    nextPlayer();
+                } else {
+                    disable = true;
+                    // TODO display "nextStep" button
+                }
+            }
+        }
+        //rPhase
+        else {
+            if(country.getOwner().getArmies() == 0){
+                disable = true;
+                // TODO display "nextPhase" button
+            }
+        }
+
     }
 
     /**
@@ -213,7 +246,7 @@ public class Model extends Observable {
      * @throws IOException io exceptions
      */
     public void readFile(String filePath) throws IOException {
-        rest();
+        reset();
         String content = "";
         String line = "";
         String bodies[];
