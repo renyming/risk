@@ -18,14 +18,16 @@ public class CountryController {
     @FXML private Label numArmiesLabel;
 
     private CountryView countryView;
+    private MapController mapController;
 
 
     /**
      * Get corresponding CountryView reference, add event listener
      * @param countryView the corresponding CountryView reference
      */
-    public void init(CountryView countryView) {
+    public void init(CountryView countryView, MapController mapController) {
         this.countryView = countryView;
+        this.mapController = mapController;
         addEventListener();
     }
 
@@ -34,12 +36,12 @@ public class CountryController {
      * Add event listener to the countryPane
      */
     private void addEventListener() {
-        countryPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) { countryView.clicked(); e.consume(); } });
-        // TODO: for draw arrow purpose, need to be update later
-//        countryPane.setOnMousePressed((e) -> { if (e.getEventType() == MouseEvent.MOUSE_PRESSED) { countryView.pressed(); } });
-//        countryPane.setOnMouseEntered((e) -> { if (e.getEventType() == MouseEvent.MOUSE_ENTERED) { countryView.entered(); } });
-//        countryPane.setOnMouseReleased((e) -> { if (e.getEventType() == MouseEvent.MOUSE_RELEASED) { countryView.released(); } });
+        countryPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
+            mapController.clickedCountry(countryView.getCountry());
+            e.consume();
+        } });
     }
+
 
 
     /**

@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import model.Model;
 import view.Menu;
-import view.PlayerView;
 import view.View;
 
 import java.io.File;
@@ -230,10 +229,7 @@ public class MenuController {
             } else {
                 valid = true;
                 validationInfo = "Total Player: " + playerNum;
-                // TODO: combined following lines
-                PlayerView playerView = new PlayerView(view, view.getMapController());
-                view.setPlayerView(playerView); // remove this line
-                model.initiatePlayers(playerNum, playerView);
+                model.initiatePlayers(playerNum, view.createPlayerView());
             }
         } catch (Exception e) {
             validationInfo = "Enter an integer";

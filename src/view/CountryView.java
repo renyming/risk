@@ -1,6 +1,7 @@
 package view;
 
 import controller.CountryController;
+import controller.MapController;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import java.util.Observable;
@@ -17,15 +18,13 @@ public class CountryView implements Observer {
     private CountryController countryController;
     private AnchorPane countryPane;
     private Country country;
-    private View view;
 
 
     /**
      * Create a default CountryView, add View reference, load the countryPane from Country.xml
-     * @param view Default country view
+     * @param mapController is the MapController
      */
-    public CountryView(View view) {
-        this.view = view;
+    public CountryView(MapController mapController) {
         FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
         try {
             countryPane = countryFxmlLoader.load();
@@ -33,7 +32,7 @@ public class CountryView implements Observer {
             System.out.println("CountryView.ctor(): " + e);
         }
         countryController = countryFxmlLoader.getController();
-        countryController.init(this);
+        countryController.init(this, mapController);
     }
 
 
@@ -58,18 +57,6 @@ public class CountryView implements Observer {
      * @return the countryPane reference
      */
     public AnchorPane getCountryPane() { return countryPane; }
-
-
-    /**
-     * Called by countryController when countryPane is clicked by user
-     * Pass this event to view
-     */
-    public void clicked() { view.clickedCountry(country); }
-
-    // TODO: for draw arrow purpose
-//    public void pressed() { view.pressedCountry(country); }
-//    public void entered() { view.enteredCountry(country); }
-//    public void released() { view.releasedCountry(country); }
 
 
     /**
