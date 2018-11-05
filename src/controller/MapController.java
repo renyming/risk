@@ -46,19 +46,21 @@ public class MapController {
     private Model model;
     private View view;
     private Map map;
+    private MenuController menuController;
 
     private Country fromToCountries[];
     private int fromToCountriesCounter;
     private HashMap<Integer, CountryView> countryViews;
     private HashSet<Line> lines;
     private PlayerView playerView;
+    private int numOfCountries;
 
+    public void init(Model model, View view, Map map, MenuController menuController) {
+        this.model = model;
+        this.view = view;
+        this.map = map;
+        this.menuController = menuController;
 
-    /**
-     * Get View reference, add event listener
-     * @param view the View reverence
-     */
-    public void initialize(View view, Model model, Map map) {
         skipFortificationPhaseButton.setVisible(false);
         numArmiesMoveTextField.setVisible(false);
         numArmiesMoveLabel.setVisible(false);
@@ -69,9 +71,7 @@ public class MapController {
         countryAName.setVisible(false);
         countryBName.setVisible(false);
         addEventListener();
-        this.model = model;
-        this.view = view;
-        this.map = map;
+
 
         fromToCountriesCounter = 0;
         fromToCountries = new Country[2];
@@ -197,7 +197,7 @@ public class MapController {
         resetMapComponents();
         displayFromToCountriesInfoPane(false);
         map.hide();
-        view.showMenuStage();
+        menuController.switchToStartGameMenu();
     }
 
 
@@ -489,8 +489,16 @@ public class MapController {
 
     public int getCountryViewsSize() { return countryViews.size(); }
 
-    public PlayerView createPlayerView() {
+    PlayerView createPlayerView() {
         playerView = new PlayerView(this);
         return playerView;
     }
+
+    public void setNumOfCountries(int numOfCountries) {
+        this.numOfCountries = numOfCountries;
+    }
+
+    void quitGame() { map.close(); }
+
+    void showMapStage() { map.show(); }
 }

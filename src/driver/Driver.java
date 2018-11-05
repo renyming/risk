@@ -23,8 +23,8 @@ public class Driver extends Application {
         // This is necessary because when the selecting map action happens,
         // View need to pass file path to the Model, but View don't have the
         // Model reference
-        view.init(model);
-        view.showMenuStage();
+        view.setModel(model);
+        view.display();
     }
 
 

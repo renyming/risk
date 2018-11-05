@@ -52,12 +52,13 @@ public class View implements Observer {
      * Called by Model Observable subject
      * @param model Model Observable subject
      */
-    public void init(Model model) {
+    public void setModel(Model model) {
         this.model = model;
-        menu.init(model, this);
         menuController = menu.getMenuController();
-        map.init(model, this);
         mapController = map.getMapController();
+
+        menuController.init(model, this, menu, mapController);
+        mapController.init(model, this, map, menuController);
     }
 
 
@@ -105,11 +106,7 @@ public class View implements Observer {
     }
 
 
-    /**
-     * Display the beginning of page of the menu, user then can interact with i.e. click buttons
-     * Called when 'quitGame' button is clicked from the on-going game, then clear all previous work
-     */
-    public void showMenuStage() { menuController.switchToStartGameMenu(); }
+    public void display() { menuController.switchToStartGameMenu(); }
 
 
     /**
@@ -134,20 +131,6 @@ public class View implements Observer {
 
 
     /**
-     * Quit the game
-     * Called when 'Quit' button is clicked on the menu, and then user click 'Yes' button to confirm
-     */
-    public void quitGame() { map.close(); }
-
-
-    /**
-     * Hide the menu, draw every single map component, then display the map
-     * Called by menuController
-     */
-    public void showMapStage() { map.show(); }
-
-
-    /**
      * Close the map editor, show beginning of the menu page
      * Called when 'quitGame' is click through the map editor menu
      */
@@ -156,8 +139,6 @@ public class View implements Observer {
         menu.show();
     }
 
-    public PlayerView createPlayerView() { return mapController.createPlayerView();}
-
     public PHASE getCurrentPhase() { return currentPhase; }
 
     public void setCurrentPhase(PHASE currentPhase) { this.currentPhase = currentPhase; }
@@ -165,4 +146,5 @@ public class View implements Observer {
     public void setPause(boolean pause) { this.pause = pause; }
 
     public boolean getPause() { return pause; }
+
 }
