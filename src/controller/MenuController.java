@@ -144,9 +144,12 @@ public class MenuController {
 
     private void validateEnteredPlayerNum(String enteredPlayerNum) {
 
-//        mapController.initCountryViews(maxPlayerNum);
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
-//        model.initiatePlayers(enteredPlayerNum, mapController.createPlayerView());
+
+        // TODO:
+//        mapController.initCountryViews(maxPlayerNum);
+//        model.setPlayerView(mapController.createPlayerView());
+//        model.initiatePlayers(enteredPlayerNum);
 
 
         // TODO: code below should be checked by model itself
@@ -174,6 +177,24 @@ public class MenuController {
     }
 
 
+    /**
+     * Called when user click the start game button
+     * Pass event to the View
+     */
+    public void startGame() {
+        menu.hide();
+        mapController.showMapStage();
+    }
+
+
+    /**
+     * Called when user confirm the quitGame process by clicking yes button
+     * Pass the event to View
+     */
+    public void quitGame() {
+        menu.close();
+        mapController.quitGame();
+    }
 
 
 
@@ -259,30 +280,8 @@ public class MenuController {
 
 
     /**
-     * Called when user confirm the quitGame process by clicking yes button
-     * Pass the event to View
-     */
-    public void quitGame() {
-        menu.close();
-        mapController.quitGame();
-    }
-
-
-    /**
      * Show start game button, game is fully loaded and ready to start
      * Called by View.update()
      */
     public void showStartGameButton() { startButton.setVisible(true); }
-
-
-    /**
-     * Called when user click the start game button
-     * Pass event to the View
-     */
-    public void startGame() { showMapStage(); }
-
-    private void showMapStage() {
-        menu.hide();
-        mapController.showMapStage();
-    }
 }
