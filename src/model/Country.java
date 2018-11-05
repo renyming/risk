@@ -207,22 +207,22 @@ public class Country extends Observable implements Comparable<Country> {
 
     /**
      * Attack another country
-     * @param attackedCountry Country being attacked
+     * @param defenderCountry Country being defender
      * @return Whether the attack is valid, in another word, whether those two countries are adjacent
      */
-    public boolean attack(Country attackedCountry){
-        if (!adjCountries.contains(attackedCountry))
+    public boolean attack(Country defenderCountry){
+        if (!adjCountries.contains(defenderCountry))
             return false;
         //TODO: implement attack phase
-        attackedCountry.beingAttacked(this);
+        defenderCountry.beingdefender(this);
         return true;
     }
 
     /**
-     * Country being attacked
+     * Country being defender
      * @param attackingCountry Country performs attacking operation
      */
-    private void beingAttacked(Country attackingCountry){
+    private void beingdefender(Country attackingCountry){
         return;
     }
 
@@ -257,6 +257,34 @@ public class Country extends Observable implements Comparable<Country> {
     @Override
     public int compareTo(Country c) {
         return (this.ID - c.ID);
+    }
+
+    /**
+     * Test if dice num is valid for a defender
+     * @return If the dice is less than armies owned in the country, return true else return false
+     */
+    public boolean isValidDefender(int defenderDiceNum){
+
+        if (this.armies > 0) {
+            return defenderDiceNum <= this.armies && defenderDiceNum > 0 &&defenderDiceNum <= 2;
+        } else if (this.armies == 0){
+            return defenderDiceNum == 0? true : false;
+        } else {
+            return false;
+        }
+
+
+
+    }
+
+    /**
+     * Test if dice num is valid for a attacker
+     * @return If the dice is less than armies owned in the country, and more than 0, less than 3, return true else return false
+     */
+    public boolean isValidAttacker(int attackerDiceNum) {
+
+        return this.armies >= 2 && attackerDiceNum <= this.armies && attackerDiceNum > 0 && attackerDiceNum <= 3;
+
     }
 
 

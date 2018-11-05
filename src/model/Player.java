@@ -17,6 +17,7 @@ public class Player extends Observable {
     private int armies;
     private ArrayList<Country> countriesOwned;
     private String color = "#4B0082";
+    private int totalStrength;
 
 
     /**
@@ -28,6 +29,7 @@ public class Player extends Observable {
         this.name= name;
         armies = 0;
         countriesOwned = new ArrayList<>();
+        totalStrength = 0;
     }
 
     /**
@@ -88,20 +90,9 @@ public class Player extends Observable {
     }
 
     /**
-    * set the number of armies
-    * @param  armies the number of armies
-    */
-    public void setArmies(int armies) {
-        this.armies = armies;
-
-        setChanged();
-        notifyObservers(this);
-    }
-
-    /**
-    * set the countries owned
-    * @param  countriesOwned the countries owned
-    */
+     * set the countries owned
+     * @param  countriesOwned the countries owned
+     */
     public void setCountriesOwned(ArrayList<Country> countriesOwned) {
         this.countriesOwned = countriesOwned;
 
@@ -110,13 +101,40 @@ public class Player extends Observable {
     }
 
     /**
+    * set the number of armies
+    * @param  armies the number of armies
+    */
+    public void setArmies(int armies) {
+        this.armies = armies;
+        callObservers();
+    }
+
+    /**
+     * Getter to get totalStrength
+     * @return  The num of totalStrength that the player has currently
+     */
+    public int getTotalStrength() {
+        return totalStrength;
+    }
+
+    /**
+     * set the number of totalStrength
+     * @param totalStrength the number of totalStrength
+     */
+    public void setTotalStrength(int totalStrength) {
+        this.totalStrength = totalStrength;
+        callObservers();
+    }
+
+    /**
     * Add armies in the very first of the reinforcement phase
     * The number of armies added is computed based on the number of countries and cards it has
     */
     public void addRoundArmies(){
 
-        int newArmies = armies + getArmiesAdded();
+        int newArmies = getArmiesAdded();
         setArmies(newArmies);
+        setTotalStrength(totalStrength + newArmies);
     }
 
     /**
@@ -191,6 +209,16 @@ public class Player extends Observable {
 
         int newArmies = armies - num;
         setArmies(newArmies);
+    }
+
+    /**
+     * Substract one for armies when allocated army in the initArmy() or the reinforcements phase
+     * @param num remove army from player
+     */
+    public void subTotalStrength(int num){
+
+        int newStrength = totalStrength - num;
+        setTotalStrength(newStrength);
     }
 
     /**
@@ -296,10 +324,102 @@ public class Player extends Observable {
      * @param p Player need to be compare
      * @return true when comparing the same player false otherwise
      */
-    public boolean equals(Player p) {
-        if (this.getId() == p.getId()) {
-            return true;
+    public boolean equals(Player p) { return this.getId() == p.getId(); }
+
+    /**
+     * Test if attack is valid
+     * @param attacker The country who start the attack
+     * @param attackerDiceNum how many dise the attacker will use in this attack
+     * @param defender The country who defend the attack
+     * @param defenderDiceNum how many dise the defender will use in this attack
+     * @return if two country is adjacent, and their dice is less the armies they owned, return true, else false
+     */
+    private boolean isValidAttack(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum){
+
+        return attacker.isValidAttacker(attackerDiceNum) && defender.isValidDefender(defenderDiceNum) && attacker.isAdjacent(defender);
+
+    }
+
+    /**
+     * Get a sorted list of random dices
+     * @param num how many dices needed
+     */
+    public ArrayList<Integer> getRandomDice(int num){
+
+        ArrayList<Integer> dices = new ArrayList<Integer>();
+        Random random = new Random();
+
+        for (int i=0; i<num; i++){
+            dices.add(random.nextInt(6)+1);
         }
-        return false;
+        Collections.sort(dices, Collections.reverseOrder());
+        return dices;
+    }
+
+    private void occupy(Country defender){
+        // get country added or deleted form the players
+        this.addCountry(defender);
+        defender.getOwner().delCountry(defender);
+    }
+
+
+    /**
+     *
+     * @param attacker The country who start the attack
+     * @param attackerDiceNum how many dise the attacker will use in this attack
+     * @param defender The country who defend the attack
+     * @param defenderDiceNum how many dise the defender will use in this attack
+     * @return 1, if there attacker successfully occupied a country; 0, attack but not occupied; -1 Invalid attack.
+     */
+    public int attack(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum){
+
+        if (attacker.getOwner().equals(defender.getOwner())) return -1;
+        if (!isValidAttack(attacker, attackerDiceNum, defender, defenderDiceNum)) return -1;
+
+        if (defender.getArmies() == 0) {
+            attacker.getOwner().occupy(defender);
+            return 1;
+        }
+
+        ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
+        System.out.println(dicesAttacker);
+        ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
+        System.out.println(diceDefender);
+
+//        System.out.println("before roll:");
+//        System.out.println("attacker:");
+//        System.out.println("country " + attacker.getArmies());
+//        System.out.println("player " + attacker.getOwner().getTotalStrength());
+//        System.out.println("defender:");
+//        System.out.println("country " + defender.getArmies());
+//        System.out.println("player " + defender.getOwner().getTotalStrength());
+
+        for (int i=0; i<defenderDiceNum; i++){
+
+            if (diceDefender.get(i) >= dicesAttacker.get(i)) {
+                attacker.setArmies(attacker.getArmies()-1);
+                attacker.getOwner().subTotalStrength(1);
+
+            } else {
+                defender.setArmies(defender.getArmies()-1);
+                defender.getOwner().subTotalStrength(1);
+
+                //if defender's armies == 0, attacker victory
+                if (defender.getArmies() == 0) {
+                    attacker.getOwner().occupy(defender);
+                    //TODO: add card
+                    return 1;
+                }
+            }
+
+//            System.out.println("after roll:");
+//            System.out.println("attacker:");
+//            System.out.println("country " + attacker.getArmies());
+//            System.out.println("player " + attacker.getOwner().getTotalStrength());
+//            System.out.println("defender:");
+//            System.out.println("country " + defender.getArmies());
+//            System.out.println("player " + defender.getOwner().getTotalStrength());
+        }
+        return 0;
     }
 }

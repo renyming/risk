@@ -31,6 +31,7 @@ public class PlayerTest {
 
     private Player newPlayer;
     private Player player;
+    private Player defender;
 
     /**
      * Preparation before all this method
@@ -43,8 +44,10 @@ public class PlayerTest {
         asien = new Continent("Asian", 5);
 
         china = new Country("china", asien);
+        china.setArmies(1);
         thailand = new Country("thailand", asien);
         singapore = new Country("singapore", asien);
+        singapore.setArmies(3);
 
         china.addEdge(thailand);
         china.addEdge(singapore);
@@ -82,11 +85,20 @@ public class PlayerTest {
 
         ArrayList<Country> countries= new ArrayList<Country>();
         countries.add(singapore);
+        singapore.setPlayer(player);
         countries.add(canada);
+        canada.setPlayer(player);
         countries.add(usa);
+        usa.setPlayer(player);
 
         player.setArmies(10);
+        player.setTotalStrength(10);
         player.setCountriesOwned(countries);
+
+        defender = new Player("Mike");
+        defender.setTotalStrength(5);
+        defender.addCountry(china);
+        china.setPlayer(defender);
     }
 
     /**
@@ -178,5 +190,50 @@ public class PlayerTest {
         assertFalse(player.isConnected(canada, singapore));
         assertFalse(player.isConnected(china, singapore));
     }
+
+
+    /**
+     * Test isConnected() method
+     */
+    @Test
+    public void getRandomDice() {
+
+        System.out.println(player.getRandomDice(3));
+        System.out.println(player.getRandomDice(2));
+        System.out.println(player.getRandomDice(10));
+
+    }
+
+    /**
+     * Test attack() method
+     */
+    @Test
+    public void attack() {
+
+        int result = singapore.getOwner().attack(singapore, 5, china, 2);
+        assertEquals(-1, result);
+
+        result = singapore.getOwner().attack(singapore, 3, china, 3);
+        assertEquals(-1, result);
+
+        result = singapore.getOwner().attack(singapore, 3, china, -1);
+        assertEquals(-1, result);
+
+        result = singapore.getOwner().attack(singapore, 3, canada, 1);
+        assertEquals(-1, result);
+
+        result = singapore.getOwner().attack(singapore, 3, china, 0);
+        assertEquals(-1, result);
+
+        china.setArmies(0);
+        result = singapore.getOwner().attack(singapore, 3, china, 0);
+        assertTrue(player.isContain(china));
+        assertFalse(defender.isContain(china));
+        System.out.println(result);
+
+    }
+
+
+
 
 }

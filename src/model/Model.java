@@ -89,8 +89,8 @@ public class Model extends Observable {
     /**
      * attack phase method
      */
-    public void attack(){
-        //TODO: NEED TO IMPLEMENT IN NEXT BUILD
+    public void attack(Country attacker, int attackerDiceNum, Country attacked, int attackedDiceNum){
+       attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum);
     }
 
     /**
