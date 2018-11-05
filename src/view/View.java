@@ -46,9 +46,6 @@ public class View implements Observer {
     private Menu menu;
     private Map map;
 
-//    private Arrow arrow;
-
-
     private HashMap<Integer, CountryView> countryViews;
     private Country fromToCountries[];
     private HashSet<Line> lines;
@@ -60,31 +57,11 @@ public class View implements Observer {
     public View() {
 
         menu = Menu.getInstance();
-        menu.init(this);
-
         map = Map.getInstance();
-        map.init(this, model);
 
-        // TODO: reactor, create mapView class?
-        try {
-//            FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
-//            mapRootPane = mapFxmlLoader.load();
-//            mapController = mapFxmlLoader.getController();
-//            mapController.initialize(this);
-//            mapStage = new Stage();
-//            mapStage.setTitle("Risk Game");
-//            mapStage.setScene(new Scene(mapRootPane,1000,700));
-//            mapStage.setResizable(false);
-//            mapStage.sizeToScene();
-
-            pause = false;
-            fromToCountriesCounter = 0;
-            fromToCountries = new Country[2];
-        } catch (Exception e) {
-            System.out.println("View.ctor(): " + e.getMessage());
-        }
-//            arrow = new Arrow();
-//            drawArrow(); // TODO: draw it in attack and fortification phase
+        pause = false;
+        fromToCountriesCounter = 0;
+        fromToCountries = new Country[2];
     }
 
 
@@ -93,7 +70,11 @@ public class View implements Observer {
      * Called by Model Observable subject
      * @param model Model Observable subject
      */
-    public void init(Model model) { this.model = model; }
+    public void init(Model model) {
+        this.model = model;
+        menu.init(model, this);
+        map.init(this, model);
+    }
 
 
     /**
@@ -215,37 +196,12 @@ public class View implements Observer {
 
 
     /**
-     * Pass a selected Risk map file path to Model allow Model to validate it
-     * Called by Menu
-     */
-    void readFile(String mapFilePath) {
-        try {
-            model.readFile(mapFilePath);
-        } catch (IOException exception) {
-            System.out.println("View.readFile(): " + exception.getMessage());
-        }
-    }
-
-
-    /**
      * After loading a valid file, create a default CountryView Observer object, and then return it
      * Called by View.update() at state CREATE_OBSERVERS
      * Allow Model to bind it with Country Observable object later
      * @return CountryView Observer object
      */
     private CountryView createDefaultCountryView() { return new CountryView(this); }
-
-
-    /**
-     * After loading a valid file, receive number of player which user entered correctly
-     * create playerView, pass it to model
-     * Called when user entered a valid total number of players on the menu text field, then press enter
-     * @param playerNum valid total number of players for the game with specific loaded RISK map file
-     */
-    void initializePlayer(int playerNum) {
-        playerView = new PlayerView(this, map.getMapController());
-        model.initiatePlayers(playerNum, playerView);
-    }
 
 
     /**
@@ -463,50 +419,17 @@ public class View implements Observer {
      * Close the map editor, show beginning of the menu page
      * Called when 'quitGame' is click through the map editor menu
      */
-    public void closeMapStage() { // TODO: rename, quitToMenu
+    public void quitToMenu() { // TODO: rename, quitToMenu
         mapEditorStage.hide();
         menu.show();
     }
 
+    MapController getMapController() { return map.getMapController(); }
 
-    // TODO: for self test purpose, dynamically drag and draw an arrow, need to be removed later
 
-    //    public void pressedCountry(Country country) {
-//        removeArrow();
-//        System.out.println("pressed country " + country.getName());
-//        arrow.setStart(country.getX() + COUNTRY_VIEW_WIDTH/2, country.getY() + COUNTRY_VIEW_HEIGHT/2);
-//        drawArrow();
-//    }
+    // TODO: removed after refactor
 
-//    public void enteredCountry(Country country) {
-////        System.out.println("entered country " + country.getName());
-////        arrow.setEnd(country.getX() + COUNTRY_VIEW_WIDTH/2, country.getY() + COUNTRY_VIEW_HEIGHT/2);
-////        arrow.update();
-//    }
-
-//    public void releasedCountry(Country country) {
-//        arrow.setEnd(country.getX() + COUNTRY_VIEW_WIDTH/2, country.getY() + COUNTRY_VIEW_HEIGHT/2);
-//    }
-
-//    public void pressedMap(double cursorX, double cursorY) {
-////        System.out.println("pressed " + cursorX + " " + cursorY);
-//        arrow.setStart(cursorX, cursorY);
-//        arrow.setEnd(cursorX, cursorY);
-//    }
-//
-//    public void draggedMap(double cursorX, double cursorY) {
-////        System.out.println("dragging " + cursorX + " " + cursorY);
-//        arrow.setEnd(cursorX, cursorY);
-//        arrow.update();
-//    }
-//
-//    public void releasedMap(double cursorX, double cursorY) {
-////        System.out.println("released " + cursorX + " " + cursorY);
-//        arrow.setEnd(cursorX, cursorY);
-//        arrow.update();
-//    }
-//
-//    public void drawArrow() { mapRootPane.getChildren().add(arrow); }
-//
-//    public void removeArrow() { mapRootPane.getChildren().remove(arrow); }
+    void setPlayerView(PlayerView playerView) {
+        this.playerView = playerView;
+    }
 }

@@ -62,10 +62,6 @@ public class MapController {
         mapPane.setOnMouseClicked((e) -> { if (e.getEventType() == MouseEvent.MOUSE_CLICKED) {
             view.clickedMap();
         } });
-        // TODO: for draw arrow purpose
-//        mapPane.setOnMousePressed((e) -> { if (e.getEventType() == MouseEvent.MOUSE_PRESSED) { view.pressedMap(e.getX(), e.getY()); } });
-//        mapPane.setOnMouseDragged((e) -> { if (e.getEventType() == MouseEvent.MOUSE_DRAGGED) { view.draggedMap(e.getX(), e.getY()); } });
-//        mapPane.setOnMouseReleased((e) -> { if (e.getEventType() == MouseEvent.MOUSE_RELEASED) { view.releasedMap(e.getX(), e.getY()); } });
     }
 
 

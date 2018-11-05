@@ -56,7 +56,7 @@ public class View extends AnchorPane implements Observer {
      * Exit map editor, show main menu
      */
     public void exit(){
-        menuView.closeMapStage();
+        menuView.quitToMenu();
     }
 
     /**

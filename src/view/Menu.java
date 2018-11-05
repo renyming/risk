@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Model;
 
 public class Menu {
 
@@ -19,6 +20,7 @@ public class Menu {
     private AnchorPane mainMenuPane;
     private int maxPlayerNum;
     private Stage menuStage;
+    private Model model;
     private View view;
 
     private Menu() { }
@@ -28,7 +30,8 @@ public class Menu {
         return instance;
     }
 
-    void init(View view) {
+    void init( Model model, View view) {
+        this.model = model;
         this.view = view;
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
         try {
@@ -60,7 +63,10 @@ public class Menu {
             } else {
                 valid = true;
                 validationInfo = "Total Player: " + playerNum;
-                view.initializePlayer(playerNum);
+                // TODO: combined following lines
+                PlayerView playerView = new PlayerView(view, view.getMapController());
+                view.setPlayerView(playerView); // remove this line
+                model.initiatePlayers(playerNum, playerView);
             }
         } catch (Exception e) {
             validationInfo = "Enter an integer";
@@ -111,7 +117,11 @@ public class Menu {
         File riskMapFile = fileChooser.showOpenDialog(menuStage);
         if (null != riskMapFile && riskMapFile.exists()) {
             selectedFileName = riskMapFile.getName();
-            view.readFile(riskMapFile.getPath());
+            try {
+                model.readFile(riskMapFile.getPath());
+            } catch (IOException exception) {
+                System.out.println("Menu.readFile(): " + exception.getMessage());
+            }
         }
     }
 
