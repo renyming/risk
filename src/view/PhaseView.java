@@ -31,7 +31,7 @@ public class PhaseView implements Observer {
     private MapController mapController;
 
 
-    private PhaseView() {}
+    private PhaseView() { currentPhase = "Init"; }
 
     public static PhaseView getInstance() {
         if (null == instance) instance = new PhaseView();
@@ -111,6 +111,8 @@ public class PhaseView implements Observer {
             case Invalid_Move:
                 invalidMovedLabel.setText(phase.getInvalidInfo());
                 invalidMovedLabel.setVisible(true);
+                break;
+            default:
                 break;
         }
     }

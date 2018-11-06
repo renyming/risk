@@ -82,6 +82,7 @@ public class Model extends Observable {
         int id = 1;
         for (String key:countries.keySet()) {
             countries.get(key).addObserver(countryViewHashMap.get(id));
+            countries.get(key).callObservers();
             id ++;
         }
         //send next state message

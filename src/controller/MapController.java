@@ -345,7 +345,7 @@ public class MapController {
                 // Since View does not check if there is a path between these two countries
                 // that is composed of countries that he owns, so assume it's a invalid move
                 showInvalidMoveLabelInfo(true, "There is no path between these two countries that is composed of countries that you owns");
-                model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMoved);
+//                model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMoved);
             }
         }
     }
@@ -477,7 +477,7 @@ public class MapController {
                 break;
             case FORTIFICATION:
                 showNextPhaseButton("Enter Reinforcement Phase");
-                model.reinforcement();
+//                model.reinforcement();
                 showPlayerViewPane(false);
                 break;
             default:
@@ -497,7 +497,7 @@ public class MapController {
         resetFromToCountriesInfo();
     }
 
-    void initCountryViews() {
+    HashMap<Integer, CountryView> createCountryViews() {
         if (null == countryViews) {
             countryViews = new HashMap<>();
         } else {
@@ -506,7 +506,7 @@ public class MapController {
         for (int i = 1; i <= numOfCountries; ++i) {
             countryViews.put(i, createDefaultCountryView());
         }
-        model.linkCountryObservers(countryViews);
+        return countryViews;
     }
 
     public void setNumOfCountries(int numOfCountries) {
@@ -517,27 +517,17 @@ public class MapController {
 
     void showMapStage() { map.show(); }
 
-    void createPhaseView() {
+    PhaseView createPhaseView() {
         phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton,
                 this);
-        model.setPhaseView(phaseView);
+        return phaseView;
     }
 
     public void setNextPhase(String currentPhase) {
 //        this.currentPhase = currentPhase;
-    }
-
-    // TODO: to be removed
-
-    public int getCountryViewsSize() { return countryViews.size(); }
-
-
-    PlayerView createPlayerView() {
-        playerView = new PlayerView(this);
-        return playerView;
     }
 }
