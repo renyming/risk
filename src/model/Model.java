@@ -77,7 +77,7 @@ public class Model extends Observable {
         notifyObservers(message);
     }
 
-    public void startUp(HashMap<Integer,CountryView> countryViewHashMap, PhaseView phaseView){
+    public void startUp(HashMap<Integer,CountryView> countryViewHashMap){
 
         int id = 1;
         for (String key:countries.keySet()) {
@@ -88,7 +88,7 @@ public class Model extends Observable {
         Message message = new Message(STATE.PLAYER_NUMBER,null);
         notify(message);
 
-        Phase.getInstance().addObserver(phaseView);
+        Phase.getInstance().addObserver(PhaseView.getInstance());
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().setCurrentPhase("Start Up Phase");
         Phase.getInstance().update();
