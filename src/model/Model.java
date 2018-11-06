@@ -32,14 +32,11 @@ public class Model extends Observable {
     //decided whether country view should respond to the event
     private boolean disable = false;
 
-    //indicate current phase; startUp0; rPhase1; aPhase2; fPhase3
-    //indicate current phase; startUp0; rPhase1; aPhase2; fPhase3
-    private int phase;
+    //indicate current phaseNumber; startUp0; rPhase1; aPhase2; fPhase3
+    private int phaseNumber = 0;
 
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
-
-
 
 //    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
 //    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
@@ -101,22 +98,26 @@ public class Model extends Observable {
     }
 
     /**
-     * attack phase method
+     * attack phaseNumber method
      */
     public void attack(Country attacker, int attackerDiceNum, Country attacked, int attackedDiceNum){
        attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum);
     }
 
     /**
-     * Reinforcement phase
+     * Reinforcement phaseNumber
      * Set new current player
      * Add armies to the player
      */
     public void reinforcement(){
+
+        nextPlayer();
+        currentPlayer.reinforcement();
+
         //get armies for each round
-        currentPlayer.addRoundArmies();
+        //currentPlayer.addRoundArmies();
         //As the first step of each round, notify the change of current player to view
-        currentPlayer.notifyObservers();
+        //currentPlayer.notifyObservers();
 
         //View already in ROUND_ROBIN state, then it finds out there's allocatable armies of this player, it will
         //show the "Allocate Armies" button
@@ -126,9 +127,9 @@ public class Model extends Observable {
      * Set current player to the next one according in round robin fashion
      * If a new round starts from the next player, send ROUND_ROBIN STATE to view
      * Considerations:
-     * 1. When allocate armies at start up phase, when the last player finishes army allocation, this method tells view
+     * 1. When allocate armies at start up phaseNumber, when the last player finishes army allocation, this method tells view
      * round robin starts;
-     * 2. In round robin, when the last player finishes fortification phase, this method tells view round robin starts
+     * 2. In round robin, when the last player finishes fortification phaseNumber, this method tells view round robin starts
      * again, meanwhile change current player to the first player.
      */
     public void nextPlayer(){
@@ -164,14 +165,16 @@ public class Model extends Observable {
         country.getOwner().subArmies(1);
 
         //startUpPhase
-        if(phase == 0){
+        if(phaseNumber == 0){
             //all the armies are allocated
             if(country.getOwner().getArmies() == 0){
                 if(!currentPlayer.equals(players.get(players.size() - 1))){
                     nextPlayer();
                 } else {
                     disable = true;
-                    // TODO display "nextStep" button
+                    Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+                    Phase.getInstance().update();
+                    phaseNumber = 1;
                 }
             }
         }
@@ -179,7 +182,9 @@ public class Model extends Observable {
         else {
             if(country.getOwner().getArmies() == 0){
                 disable = true;
-                // TODO display "nextPhase" button
+                Phase.getInstance().setCurrentPhase("Attack Phase");
+                Phase.getInstance().update();
+                phaseNumber = 2;
             }
         }
 
@@ -197,8 +202,17 @@ public class Model extends Observable {
     public void initiatePlayers(int numOfPlayers, PlayerView playerView){
 
         players.clear();
-
         playerCounter = numOfPlayers;
+
+        if(numOfPlayers > countries.size() || numOfPlayers <= 0){
+            numPlayerMenu.setValidationResult(false, "invalid players number!");
+            numPlayerMenu.update();
+            return;
+        }
+
+        numPlayerMenu.setValidationResult(true,"");
+        numPlayerMenu.update();
+
         int initialArmies = 50/numOfPlayers;
 
         for (int i = 0; i < numOfPlayers; i++){
@@ -231,9 +245,11 @@ public class Model extends Observable {
         //current player notify
         currentPlayer = players.get(0);
         currentPlayer.callObservers();
+
+
         //give state to view
-        Message message = new Message(STATE.INIT_ARMIES,null);
-        notify(message);
+//        Message message = new Message(STATE.INIT_ARMIES,null);
+//        notify(message);
         
     }
 
@@ -265,14 +281,15 @@ public class Model extends Observable {
             }
         } catch (Exception ex){
             validFile = false;
-//            System.out.println("adasafa");
         }
         Message message;
-        if(validFile){
-            message = new Message(STATE.CREATE_OBSERVERS,countries.size());
-        } else {
-            message = new Message(STATE.LOAD_FILE,"invalid file format!");
-            notify(message);
+        if(!validFile){
+            fileInfoMenu.setValidationResult(false,"invalid file format!");
+            fileInfoMenu.update();
+            numPlayerMenu.setVisible(false);
+            numPlayerMenu.update();
+//            message = new Message(STATE.LOAD_FILE,"invalid file format!");
+//            notify(message);
             return;
         }
 
@@ -280,13 +297,26 @@ public class Model extends Observable {
             MapValidator.validateMap(this);
         }
         catch (Exception ex){
-            message = new Message(STATE.LOAD_FILE,ex.getMessage());
-            //ex.getMessage();
+
+            fileInfoMenu.setValidationResult(false,ex.getMessage());
+            fileInfoMenu.update();
+            numPlayerMenu.setVisible(false);
+            numPlayerMenu.update();
+
             System.out.println(ex.toString());
-            notify(message);
+
+//            message = new Message(STATE.LOAD_FILE,ex.getMessage());
+//            notify(message);
+
             return;
         }
-        notify(message);
+        fileInfoMenu.setValidationResult(true,"valid map");
+        fileInfoMenu.update();
+
+        numPlayerMenu.setVisible(true);
+        numPlayerMenu.setMaxNumPlayer(countries.size());
+        numPlayerMenu.setValidationResult(false,"Total Player: NONE");
+        numPlayerMenu.update();
     }
 
     /**
