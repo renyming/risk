@@ -61,6 +61,7 @@ public class PhaseView implements Observer {
     public void update(Observable obs, Object obj) {
         Phase phase = (Phase) obs;
         if (!currentPhase.equals(phase.getCurrentPhase())) {
+            currentPhase = phase.getCurrentPhase();
             phaseLabel.setText(phase.getCurrentPhase());
             reset();
         }

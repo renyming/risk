@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Model;
 
 public class Menu {
 
