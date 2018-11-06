@@ -3,10 +3,7 @@ package model;
 import common.Message;
 import common.STATE;
 import validate.MapValidator;
-import view.FileInfoMenuView;
-import view.NumPlayerMenuView;
-import view.PlayerView;
-import view.CountryView;
+import view.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -190,21 +187,25 @@ public class Model extends Observable {
 
     }
 
+
+    public void setPhaseView(PhaseView phaseView){
+        Phase.getInstance().addObserver(phaseView);
+    }
+
     /**
      * create Player object for every Player, and add the observer
      * Players are allocated a number of initial armies
      * notify CountryView (country info
      * notify PlayerView  (current player)
      * notify View (state and additional info)
-     * @param numOfPlayers number of players
-     * @param playerView  the observer
+     * @param enteredPlayerNum number of players
      */
-    public void initiatePlayers(int numOfPlayers, PlayerView playerView){
+    public void initiatePlayers(String enteredPlayerNum){
 
         players.clear();
-        playerCounter = numOfPlayers;
+        playerCounter = Integer.parseInt(enteredPlayerNum);
 
-        if(numOfPlayers > countries.size() || numOfPlayers <= 0){
+        if(playerCounter > countries.size() || playerCounter <= 0){
             numPlayerMenu.setValidationResult(false, "invalid players number!");
             numPlayerMenu.update();
             return;
@@ -213,17 +214,14 @@ public class Model extends Observable {
         numPlayerMenu.setValidationResult(true,"");
         numPlayerMenu.update();
 
-        int initialArmies = 50/numOfPlayers;
+        int initialArmies = 50/playerCounter;
 
-        for (int i = 0; i < numOfPlayers; i++){
+        for (int i = 0; i < playerCounter; i++){
 
             Player newPlayer = new Player("Player" + String.valueOf(i));
             newPlayer.setArmies(initialArmies);
             //assign each player a different color
             newPlayer.setColor();
-            //add observer(playerView)
-            newPlayer.addObserver(playerView);
-            //newPlayer.callObservers();
             players.add(newPlayer);
         }
 
@@ -245,7 +243,6 @@ public class Model extends Observable {
         //current player notify
         currentPlayer = players.get(0);
         currentPlayer.callObservers();
-
 
         //give state to view
 //        Message message = new Message(STATE.INIT_ARMIES,null);
