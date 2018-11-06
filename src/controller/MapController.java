@@ -430,31 +430,32 @@ public class MapController {
      * @param country the country which user clicked
      */
     void clickedCountry(Country country) {
-        View.PHASE currentPhase = view.getCurrentPhase();
-        if (View.PHASE.START_UP == currentPhase || View.PHASE.REINFORCEMENT == currentPhase) {
-            if (!view.getPause() && 0 != playerView.getArmiesInHands() && playerView.getName().equals(country.getOwner().getName()))  {
-                model.allocateArmy(country);
-            }
-        } else if (View.PHASE.FORTIFICATION == currentPhase) {
-            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
-                showInvalidMoveLabelInfo(true, "Select your own country");
-                return;
-            }
-            switch (fromToCountriesCounter++) {
-                case 0:
-                    fromToCountries[0] = country;
-                    setFromCountryInfo(country);
-                    break;
-                case 1:
-                    fromToCountries[1] = country;
-                    setToCountryInfo(country);
-                    break;
-                case 2:
-                    resetFromToCountries();
-//                    arrow = null;
-                    break;
-            }
-        }
+        model.allocateArmy(country);
+//        View.PHASE currentPhase = view.getCurrentPhase();
+//        if (View.PHASE.START_UP == currentPhase || View.PHASE.REINFORCEMENT == currentPhase) {
+//            if (!view.getPause() && 0 != playerView.getArmiesInHands() && playerView.getName().equals(country.getOwner().getName()))  {
+//                model.allocateArmy(country);
+//            }
+//        } else if (View.PHASE.FORTIFICATION == currentPhase) {
+//            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
+//                showInvalidMoveLabelInfo(true, "Select your own country");
+//                return;
+//            }
+//            switch (fromToCountriesCounter++) {
+//                case 0:
+//                    fromToCountries[0] = country;
+//                    setFromCountryInfo(country);
+//                    break;
+//                case 1:
+//                    fromToCountries[1] = country;
+//                    setToCountryInfo(country);
+//                    break;
+//                case 2:
+//                    resetFromToCountries();
+////                    arrow = null;
+//                    break;
+//            }
+//        }
     }
 
 
@@ -462,28 +463,28 @@ public class MapController {
      * Called by PlayerView when current player has 0 army in hand, call
      * Prefer next phase info, i.e. reset button, hide/show panes
      */
-    public void prepareNextPhase() {
-        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
-//        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
-        View.PHASE currentPhase = view.getCurrentPhase();
-        switch (currentPhase) {
-            case START_UP:
-                model.nextPlayer();
-                break;
-            case REINFORCEMENT:
-                showNextPhaseButton("Enter Fortification Phase");
-                break;
-            case ATTACK:
-                break;
-            case FORTIFICATION:
-                showNextPhaseButton("Enter Reinforcement Phase");
-//                model.reinforcement();
-                showPlayerViewPane(false);
-                break;
-            default:
-                break;
-        }
-    }
+//    public void prepareNextPhase() {
+//        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
+////        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
+//        View.PHASE currentPhase = view.getCurrentPhase();
+//        switch (currentPhase) {
+//            case START_UP:
+//                model.nextPlayer();
+//                break;
+//            case REINFORCEMENT:
+//                showNextPhaseButton("Enter Fortification Phase");
+//                break;
+//            case ATTACK:
+//                break;
+//            case FORTIFICATION:
+//                showNextPhaseButton("Enter Reinforcement Phase");
+////                model.reinforcement();
+//                showPlayerViewPane(false);
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
 
     /**
@@ -517,17 +518,16 @@ public class MapController {
 
     void showMapStage() { map.show(); }
 
-    PhaseView createPhaseView() {
+    void createPhaseView() {
         phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton,
                 this);
-        return phaseView;
     }
 
     public void setNextPhase(String currentPhase) {
-//        this.currentPhase = currentPhase;
+        this.currentPhase = currentPhase;
     }
 }
