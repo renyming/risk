@@ -522,7 +522,7 @@ public class MapController {
     void showMapStage() { map.show(); }
 
     PhaseView createPhaseView() {
-        phaseView = new PhaseView();
+        phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,

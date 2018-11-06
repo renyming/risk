@@ -12,6 +12,8 @@ import java.util.Observer;
 
 public class PhaseView implements Observer {
 
+    private static PhaseView instance;
+
     private Label phaseLabel;
     private Label currentPlayerLabel;
     private Label armiesInHandLabel;
@@ -29,7 +31,12 @@ public class PhaseView implements Observer {
     private MapController mapController;
 
 
-    public PhaseView() {}
+    private PhaseView() {}
+
+    public static PhaseView getInstance() {
+        if (null == instance) instance = new PhaseView();
+        return instance;
+    }
 
     public void init(Label phaseLabel, Label currentPlayerLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
