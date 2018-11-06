@@ -16,7 +16,6 @@ public class FileInfoMenuView implements Observer {
     public void init(Label selectedFilenameLabel, Label mapValidationInfoLabel) {
         this.selectedFilenameLabel = selectedFilenameLabel;
         this.mapValidationInfoLabel = mapValidationInfoLabel;
-        selectedFilenameLabel.setVisible(true);
     }
 
     public void update(Observable obs, Object obj) {
