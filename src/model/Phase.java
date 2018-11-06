@@ -6,7 +6,7 @@ import common.Action;
 
 public class Phase extends Observable {
 
-
+    private static Phase instance;
 
     private String currentPhase;
     private Player currentPlayer;
@@ -14,7 +14,12 @@ public class Phase extends Observable {
 
     private String invalidInfo;
 
-    public Phase() {}
+    private Phase() {}
+
+    public static Phase getInstance() {
+        if (null == instance) instance = new Phase();
+        return instance;
+    }
 
 
     /**
