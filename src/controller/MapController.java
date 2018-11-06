@@ -497,7 +497,7 @@ public class MapController {
         resetFromToCountriesInfo();
     }
 
-    public void initCountryViews(int numOfCountries) {
+    void initCountryViews() {
         if (null == countryViews) {
             countryViews = new HashMap<>();
         } else {
@@ -508,10 +508,6 @@ public class MapController {
         }
         model.linkCountryObservers(countryViews);
     }
-
-    public int getCountryViewsSize() { return countryViews.size(); }
-
-
 
     public void setNumOfCountries(int numOfCountries) {
         this.numOfCountries = numOfCountries;
@@ -536,6 +532,9 @@ public class MapController {
     }
 
     // TODO: to be removed
+
+    public int getCountryViewsSize() { return countryViews.size(); }
+
 
     PlayerView createPlayerView() {
         playerView = new PlayerView(this);

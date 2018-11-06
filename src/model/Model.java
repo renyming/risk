@@ -3,10 +3,7 @@ package model;
 import common.Message;
 import common.STATE;
 import validate.MapValidator;
-import view.FileInfoMenuView;
-import view.NumPlayerMenuView;
-import view.PlayerView;
-import view.CountryView;
+import view.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,6 +26,12 @@ public class Model extends Observable {
     private int playerCounter;
     private boolean validFile = true;
 
+    //decided whether country view should respond to the event
+    private boolean disable = false;
+
+    //indicate current phaseNumber; startUp0; rPhase1; aPhase2; fPhase3
+    private int phaseNumber = 0;
+
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
 
@@ -46,9 +49,9 @@ public class Model extends Observable {
     }
 
     /**
-     * rest model object before reload mapfile
+     * reset model object before reload mapfile
      */
-    private void rest(){
+    private void reset(){
         players = new ArrayList<>();
         countries = new HashMap<>();
         continents = new ArrayList<>();
@@ -93,22 +96,26 @@ public class Model extends Observable {
     }
 
     /**
-     * attack phase method
+     * attack phaseNumber method
      */
     public void attack(Country attacker, String attackerDiceNum, Country attacked, String attackedDiceNum, boolean isAllOut){
        attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
     }
 
     /**
-     * Reinforcement phase
+     * Reinforcement phaseNumber
      * Set new current player
      * Add armies to the player
      */
     public void reinforcement(){
+
+        nextPlayer();
+//        currentPlayer.reinforcement();
+
         //get armies for each round
-        currentPlayer.addRoundArmies();
+        //currentPlayer.addRoundArmies();
         //As the first step of each round, notify the change of current player to view
-        currentPlayer.notifyObservers();
+        //currentPlayer.notifyObservers();
 
         //View already in ROUND_ROBIN state, then it finds out there's allocatable armies of this player, it will
         //show the "Allocate Armies" button
@@ -118,9 +125,9 @@ public class Model extends Observable {
      * Set current player to the next one according in round robin fashion
      * If a new round starts from the next player, send ROUND_ROBIN STATE to view
      * Considerations:
-     * 1. When allocate armies at start up phase, when the last player finishes army allocation, this method tells view
+     * 1. When allocate armies at start up phaseNumber, when the last player finishes army allocation, this method tells view
      * round robin starts;
-     * 2. In round robin, when the last player finishes fortification phase, this method tells view round robin starts
+     * 2. In round robin, when the last player finishes fortification phaseNumber, this method tells view round robin starts
      * again, meanwhile change current player to the first player.
      */
     public void nextPlayer(){
@@ -147,10 +154,43 @@ public class Model extends Observable {
      */
     public void allocateArmy(Country country){
 
+        if(disable)
+            return;
+
         //country army + 1
         country.addArmies(1);
         //player army - 1
         country.getOwner().subArmies(1);
+
+        //startUpPhase
+        if(phaseNumber == 0){
+            //all the armies are allocated
+            if(country.getOwner().getArmies() == 0){
+                if(!currentPlayer.equals(players.get(players.size() - 1))){
+                    nextPlayer();
+                } else {
+                    disable = true;
+                    Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+                    Phase.getInstance().update();
+                    phaseNumber = 1;
+                }
+            }
+        }
+        //rPhase
+        else {
+            if(country.getOwner().getArmies() == 0){
+                disable = true;
+                Phase.getInstance().setCurrentPhase("Attack Phase");
+                Phase.getInstance().update();
+                phaseNumber = 2;
+            }
+        }
+
+    }
+
+
+    public void setPhaseView(PhaseView phaseView){
+        Phase.getInstance().addObserver(phaseView);
     }
 
     /**
@@ -159,25 +199,30 @@ public class Model extends Observable {
      * notify CountryView (country info
      * notify PlayerView  (current player)
      * notify View (state and additional info)
-     * @param numOfPlayers number of players
-     * @param playerView  the observer
+     * @param enteredPlayerNum number of players
      */
-    public void initiatePlayers(int numOfPlayers, PlayerView playerView){
+    public void initiatePlayers(String enteredPlayerNum){
 
         players.clear();
+        playerCounter = Integer.parseInt(enteredPlayerNum);
 
-        playerCounter = numOfPlayers;
-        int initialArmies = 50/numOfPlayers;
+        if(playerCounter > countries.size() || playerCounter <= 0){
+            numPlayerMenu.setValidationResult(false, "invalid players number!");
+            numPlayerMenu.update();
+            return;
+        }
 
-        for (int i = 0; i < numOfPlayers; i++){
+        numPlayerMenu.setValidationResult(true,"");
+        numPlayerMenu.update();
+
+        int initialArmies = 50/playerCounter;
+
+        for (int i = 0; i < playerCounter; i++){
 
             Player newPlayer = new Player("Player" + String.valueOf(i), countries.size());
             newPlayer.setArmies(initialArmies);
             //assign each player a different color
             newPlayer.setColor();
-            //add observer(playerView)
-            newPlayer.addObserver(playerView);
-            //newPlayer.callObservers();
             players.add(newPlayer);
         }
 
@@ -199,9 +244,10 @@ public class Model extends Observable {
         //current player notify
         currentPlayer = players.get(0);
         currentPlayer.callObservers();
+
         //give state to view
-        Message message = new Message(STATE.INIT_ARMIES,null);
-        notify(message);
+//        Message message = new Message(STATE.INIT_ARMIES,null);
+//        notify(message);
         
     }
 
@@ -214,7 +260,7 @@ public class Model extends Observable {
      * @throws IOException io exceptions
      */
     public void readFile(String filePath) throws IOException {
-        rest();
+        reset();
         String content = "";
         String line = "";
         String bodies[];
@@ -233,14 +279,15 @@ public class Model extends Observable {
             }
         } catch (Exception ex){
             validFile = false;
-//            System.out.println("adasafa");
         }
         Message message;
-        if(validFile){
-            message = new Message(STATE.CREATE_OBSERVERS,countries.size());
-        } else {
-            message = new Message(STATE.LOAD_FILE,"invalid file format!");
-            notify(message);
+        if(!validFile){
+            fileInfoMenu.setValidationResult(false,"invalid file format!");
+            fileInfoMenu.update();
+            numPlayerMenu.setVisible(false);
+            numPlayerMenu.update();
+//            message = new Message(STATE.LOAD_FILE,"invalid file format!");
+//            notify(message);
             return;
         }
 
@@ -248,13 +295,26 @@ public class Model extends Observable {
             MapValidator.validateMap(this);
         }
         catch (Exception ex){
-            message = new Message(STATE.LOAD_FILE,ex.getMessage());
-            //ex.getMessage();
+
+            fileInfoMenu.setValidationResult(false,ex.getMessage());
+            fileInfoMenu.update();
+            numPlayerMenu.setVisible(false);
+            numPlayerMenu.update();
+
             System.out.println(ex.toString());
-            notify(message);
+
+//            message = new Message(STATE.LOAD_FILE,ex.getMessage());
+//            notify(message);
+
             return;
         }
-        notify(message);
+        fileInfoMenu.setValidationResult(true,"valid map");
+        fileInfoMenu.update();
+
+        numPlayerMenu.setVisible(true);
+        numPlayerMenu.setMaxNumPlayer(countries.size());
+        numPlayerMenu.setValidationResult(false,"Total Player: NONE");
+        numPlayerMenu.update();
     }
 
     /**

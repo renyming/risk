@@ -103,19 +103,16 @@ public class MenuController {
      * Switch to select map menu, hide irrelevant panes
      * Called when user click the new game button
      */
-    public void switchToNewGameMenu() {
-        resetNewGameMenu();
-        // TODO: pass two views to model
+    public void switchToSelectMapMenu() {
         if (null == fileInfoMenuView && null == numPlayerMenuView) {
             fileInfoMenuView = new FileInfoMenuView();
             fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
             numPlayerMenuView = new NumPlayerMenuView();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField, startButton, mapController);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
-        } else {
-            numPlayerMenuView.reset();
-            fileInfoMenuView.reset();
         }
+        numPlayerMenuView.reset();
+        fileInfoMenuView.reset();
         mainMenuPane.getChildren().clear();
         mainMenuPane.getChildren().add(newGamePane);
     }
@@ -147,9 +144,9 @@ public class MenuController {
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
 
         // TODO:
-//        mapController.initCountryViews(maxPlayerNum);
-//        model.setPhaseView(mapController.createPhaseView());
-//        model.initiatePlayers(enteredPlayerNum);
+        mapController.initCountryViews();
+        model.setPhaseView(mapController.createPhaseView());
+        model.initiatePlayers(enteredPlayerNum);
 
 
         // TODO: code below should be checked by model itself
@@ -157,23 +154,23 @@ public class MenuController {
         String validationInfo;
         int playerNum;
 
-        try {
-            playerNum = Integer.parseInt(enteredPlayerNum);
-            if (playerNum > maxPlayerNum) {
-                validationInfo = "Greater than " + maxPlayerNum;
-            } else if (playerNum <= 1) {
-                validationInfo = "Must greater than 1";
-            } else {
-                valid = true;
-                validationInfo = "Total Player: " + playerNum;
-                model.initiatePlayers(playerNum, mapController.createPlayerView());
-            }
-        } catch (Exception e) {
-            validationInfo = "Enter an integer";
-            System.out.println("Menu.validateEnteredPlayerNum(): " + e.getMessage());
-        }
-
-        displayValidationResult(valid, validationInfo);
+//        try {
+//            playerNum = Integer.parseInt(enteredPlayerNum);
+//            if (playerNum > maxPlayerNum) {
+//                validationInfo = "Greater than " + maxPlayerNum;
+//            } else if (playerNum <= 1) {
+//                validationInfo = "Must greater than 1";
+//            } else {
+//                valid = true;
+//                validationInfo = "Total Player: " + playerNum;
+//                model.initiatePlayers(playerNum, mapController.createPlayerView());
+//            }
+//        } catch (Exception e) {
+//            validationInfo = "Enter an integer";
+//            System.out.println("Menu.validateEnteredPlayerNum(): " + e.getMessage());
+//        }
+//
+//        displayValidationResult(valid, validationInfo);
     }
 
 
@@ -207,21 +204,6 @@ public class MenuController {
 
 
 
-    /**
-     * Reset start up menu, reset previous loading file info
-     * Called by switchToStartGameMenu()
-     */
-    private void resetNewGameMenu() {
-        selectedFilenameLabel.setText("Selected map: NONE");
-        selectedFilenameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-        mapValidationInfoLabel.setVisible(false);
-        numPlayerInstructionLabel.setVisible(false);
-        validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
-        validationOfUserEnteredLabel.setVisible(false);
-        numPlayerTextField.setVisible(false);
-        numPlayerTextField.clear();
-        startButton.setVisible(false);
-    }
 
 
     /**

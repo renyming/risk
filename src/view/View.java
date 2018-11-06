@@ -70,39 +70,39 @@ public class View implements Observer {
      */
     @Override
     public void update(Observable obs, Object x) {
-        Message message = (Message) x;
-//        System.out.println("View.update(): new state is " + message.state + ", ");
-        switch (message.state) {
-            case LOAD_FILE:
-                menuController.displaySelectedFileName(false, (String) message.obj);
-                break;
-            case CREATE_OBSERVERS:
-                menuController.displaySelectedFileName(true, "Useful info here");
-                mapController.initCountryViews((int) message.obj);
-                break;
-            case PLAYER_NUMBER:
-                currentPhase = PHASE.ENTER_NUM_PLAYER;
-                menuController.showNumPlayerTextField(mapController.getCountryViewsSize());
-                break;
-            case INIT_ARMIES:
-                currentPhase = PHASE.START_UP;
-                mapController.setPhaseLabel("Start Up Phase");
-                menuController.showStartGameButton();
-                break;
-            case ROUND_ROBIN:
-                mapController.showNextPhaseButton("Enter Reinforcement Phase");
-                mapController.showPlayerViewPane(false);
-                pause = true;
-                model.reinforcement();
-                break;
-            case NEXT_PLAYER:
-                mapController.showNextPhaseButton("Enter Reinforcement Phase");
-                mapController.displayFromToCountriesInfoPane(false);
-                mapController.showPlayerViewPane(false);
-                mapController.showInvalidMoveLabelInfo(false, "");
-                model.nextPlayer();
-                break;
-        }
+//        Message message = (Message) x;
+////        System.out.println("View.update(): new state is " + message.state + ", ");
+//        switch (message.state) {
+//            case LOAD_FILE:
+//                menuController.displaySelectedFileName(false, (String) message.obj);
+//                break;
+//            case CREATE_OBSERVERS:
+//                menuController.displaySelectedFileName(true, "Useful info here");
+//                mapController.initCountryViews((int) message.obj);
+//                break;
+//            case PLAYER_NUMBER:
+//                currentPhase = PHASE.ENTER_NUM_PLAYER;
+//                menuController.showNumPlayerTextField(mapController.getCountryViewsSize());
+//                break;
+//            case INIT_ARMIES:
+//                currentPhase = PHASE.START_UP;
+//                mapController.setPhaseLabel("Start Up Phase");
+//                menuController.showStartGameButton();
+//                break;
+//            case ROUND_ROBIN:
+//                mapController.showNextPhaseButton("Enter Reinforcement Phase");
+//                mapController.showPlayerViewPane(false);
+//                pause = true;
+//                model.reinforcement();
+//                break;
+//            case NEXT_PLAYER:
+//                mapController.showNextPhaseButton("Enter Reinforcement Phase");
+//                mapController.displayFromToCountriesInfoPane(false);
+//                mapController.showPlayerViewPane(false);
+//                mapController.showInvalidMoveLabelInfo(false, "");
+//                model.nextPlayer();
+//                break;
+//        }
     }
 
 

@@ -31,7 +31,7 @@
                   <Image url="@risk.jpeg" />
                </image>
             </ImageView>
-            <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#switchToNewGameMenu" prefHeight="30.0" prefWidth="120.0" text="Start Game" />
+            <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="120.0" text="Start Game" />
             <Button layoutX="190.0" layoutY="220.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="120.0" text="Quit" />
             <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="120.0" text="Map Editor" />
          </children>
