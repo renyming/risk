@@ -39,8 +39,6 @@ public class MenuController {
     private Menu menu;
     private MapController mapController;
 
-    private int maxPlayerNum;
-    private String selectedFileName;
     private FileInfoMenuView fileInfoMenuView;
     private NumPlayerMenuView numPlayerMenuView;
 
@@ -128,8 +126,7 @@ public class MenuController {
         fileChooser.setTitle("Select Risk Map File");
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
-            selectedFileName = riskMapFile.getName();
-            fileInfoMenuView.setSelectedFilename(selectedFileName);
+            fileInfoMenuView.setSelectedFilename(riskMapFile.getName());
             try {
                 model.readFile(riskMapFile.getPath());
             } catch (IOException exception) {
@@ -139,38 +136,18 @@ public class MenuController {
     }
 
 
+    /**
+     * Pass user entered string into NumPlayerMenuView
+     * Ask MapController create CountryViews and pass it to Model
+     * Ask MapController create PhaseView and pass it to Model
+     * Ask Model to initiate Player relative info
+     * @param enteredPlayerNum is what user entered in the text field
+     */
     private void validateEnteredPlayerNum(String enteredPlayerNum) {
-
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
-
-        // TODO:
         mapController.initCountryViews();
-        model.setPhaseView(mapController.createPhaseView());
+        mapController.createPhaseView();
         model.initiatePlayers(enteredPlayerNum);
-
-
-        // TODO: code below should be checked by model itself
-        boolean valid = false;
-        String validationInfo;
-        int playerNum;
-
-//        try {
-//            playerNum = Integer.parseInt(enteredPlayerNum);
-//            if (playerNum > maxPlayerNum) {
-//                validationInfo = "Greater than " + maxPlayerNum;
-//            } else if (playerNum <= 1) {
-//                validationInfo = "Must greater than 1";
-//            } else {
-//                valid = true;
-//                validationInfo = "Total Player: " + playerNum;
-//                model.initiatePlayers(playerNum, mapController.createPlayerView());
-//            }
-//        } catch (Exception e) {
-//            validationInfo = "Enter an integer";
-//            System.out.println("Menu.validateEnteredPlayerNum(): " + e.getMessage());
-//        }
-//
-//        displayValidationResult(valid, validationInfo);
     }
 
 
@@ -179,6 +156,7 @@ public class MenuController {
      * Pass event to the View
      */
     public void startGame() {
+//        model.startUp(); // TODO:
         menu.hide();
         mapController.showMapStage();
     }
@@ -186,84 +164,9 @@ public class MenuController {
 
     /**
      * Called when user confirm the quitGame process by clicking yes button
-     * Pass the event to View
      */
     public void quitGame() {
         menu.close();
         mapController.quitGame();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Display selected file name and invalid message if necessary
-     * Called by View.update()
-     * @param validFile decides whether the selected file is valid
-     * @param mapInfo gives additional info if the selected is invalid
-     */
-    public void displaySelectedFileName(boolean validFile, String mapInfo) {
-        mapValidationInfoLabel.setVisible(true);
-        startButton.setVisible(false);
-        if (validFile) {
-            numPlayerInstructionLabel.setVisible(true);
-            numPlayerTextField.setVisible(true);
-            validationOfUserEnteredLabel.setVisible(true);
-            selectedFilenameLabel.setText("Valid map: " + selectedFileName);
-            selectedFilenameLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-            mapValidationInfoLabel.setText(mapInfo);
-        } else {
-            selectedFilenameLabel.setText("Invalid map: " + selectedFileName);
-            numPlayerInstructionLabel.setVisible(false);
-            numPlayerTextField.setVisible(false);
-            numPlayerTextField.clear();
-            validationOfUserEnteredLabel.setVisible(false);
-            selectedFilenameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-            mapValidationInfoLabel.setText(mapInfo);
-        }
-    }
-
-
-    /**
-     * Set then show the number of player text field
-     * Called by View.update()
-     * @param maxPlayerNum is the max number of player allowed for the selected file
-     */
-    public void showNumPlayerTextField(int maxPlayerNum) {
-        this.maxPlayerNum = maxPlayerNum;
-        numPlayerInstructionLabel.setVisible(true);
-        numPlayerTextField.setVisible(true);
-        numPlayerInstructionLabel.setText("Max number of players: " + maxPlayerNum);
-        validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
-        validationOfUserEnteredLabel.setText("Total Player: ");
-        numPlayerTextField.clear();
-    }
-
-
-    private void displayValidationResult(boolean valid, String invalidInfo) {
-        validationOfUserEnteredLabel.setText(invalidInfo);
-        if (valid) {
-            validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-        } else {
-            validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff7f00; -fx-border-width: 3");
-            startButton.setVisible(false);
-        }
-    }
-
-
-    /**
-     * Show start game button, game is fully loaded and ready to start
-     * Called by View.update()
-     */
-    public void showStartGameButton() { startButton.setVisible(true); }
 }

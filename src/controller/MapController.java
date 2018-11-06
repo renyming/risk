@@ -205,7 +205,7 @@ public class MapController {
      * Called by View.*()
      * @param phase is the phase name
      */
-    public void setPhaseLabel(String phase) { phaseLabel.setText(phase); }
+    private void setPhaseLabel(String phase) { phaseLabel.setText(phase); }
 
 
     /**
@@ -517,14 +517,14 @@ public class MapController {
 
     void showMapStage() { map.show(); }
 
-    PhaseView createPhaseView() {
+    void createPhaseView() {
         phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton,
                 this);
-        return phaseView;
+        model.setPhaseView(phaseView);
     }
 
     public void setNextPhase(String currentPhase) {

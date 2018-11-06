@@ -16,7 +16,7 @@ public class Phase extends Observable {
 
     private Phase() {}
 
-    public static Phase getInstance() {
+    static Phase getInstance() {
         if (null == instance) instance = new Phase();
         return instance;
     }
@@ -37,7 +37,7 @@ public class Phase extends Observable {
      * i.e. currentPhase = "Start Up Phase", "Reinforcement Phase", "Attack Phase", "Fortification Phase"
      * @param currentPhase represent the current phase label name
      */
-    public void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
+    void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
 
     public String getCurrentPhase() { return currentPhase; }
 
@@ -46,7 +46,7 @@ public class Phase extends Observable {
      * Called when the Model change the current player to the next one
      * @param currentPlayer is the next Player reference
      */
-    public void setCurrentPlayer(Player currentPlayer) { this.currentPlayer = currentPlayer; }
+    public void setCurrentPlayer(Player currentPlayer) {this.currentPlayer = currentPlayer; }
 
     public Player getCurrentPlayer() { return currentPlayer; }
 

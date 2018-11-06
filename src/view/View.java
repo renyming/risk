@@ -70,9 +70,9 @@ public class View implements Observer {
      */
     @Override
     public void update(Observable obs, Object x) {
-//        Message message = (Message) x;
-////        System.out.println("View.update(): new state is " + message.state + ", ");
-//        switch (message.state) {
+        Message message = (Message) x;
+//        System.out.println("View.update(): new state is " + message.state + ", ");
+        switch (message.state) {
 //            case LOAD_FILE:
 //                menuController.displaySelectedFileName(false, (String) message.obj);
 //                break;
@@ -89,6 +89,7 @@ public class View implements Observer {
 //                mapController.setPhaseLabel("Start Up Phase");
 //                menuController.showStartGameButton();
 //                break;
+
 //            case ROUND_ROBIN:
 //                mapController.showNextPhaseButton("Enter Reinforcement Phase");
 //                mapController.showPlayerViewPane(false);
@@ -102,7 +103,7 @@ public class View implements Observer {
 //                mapController.showInvalidMoveLabelInfo(false, "");
 //                model.nextPlayer();
 //                break;
-//        }
+        }
     }
 
 

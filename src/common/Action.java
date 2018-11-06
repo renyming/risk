@@ -6,6 +6,7 @@ package common;
  */
 public enum Action {
     Finish_Current_Phase,
+    Show_Next_Phase_Button,
     Allocate_Army,
     Invalid_Card_Exchange,
     Invalid_Move
