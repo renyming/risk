@@ -9,5 +9,6 @@ public enum Action {
     Show_Next_Phase_Button,
     Allocate_Army,
     Invalid_Card_Exchange,
-    Invalid_Move
+    Invalid_Move,
+    Show_Next_Phase_Button
 }

@@ -1,7 +1,9 @@
 package testModel;
 
+import common.Action;
 import model.Continent;
 import model.Country;
+import model.Phase;
 import model.Player;
 import org.junit.Assert.*;
 import org.junit.Before;
@@ -44,7 +46,7 @@ public class PlayerTest {
         asien = new Continent("Asian", 5);
 
         china = new Country("china", asien);
-        china.setArmies(1);
+        china.setArmies(2);
         thailand = new Country("thailand", asien);
         singapore = new Country("singapore", asien);
         singapore.setArmies(3);
@@ -79,9 +81,9 @@ public class PlayerTest {
     @Before
     public void setUp() throws Exception {
 
-        newPlayer = new Player("Lee");
+        newPlayer = new Player("Lee",5);
 
-        player = new Player("Ann");
+        player = new Player("Ann",5);
 
         ArrayList<Country> countries= new ArrayList<Country>();
         countries.add(singapore);
@@ -95,7 +97,7 @@ public class PlayerTest {
         player.setTotalStrength(10);
         player.setCountriesOwned(countries);
 
-        defender = new Player("Mike");
+        defender = new Player("Mike", 5);
         defender.setTotalStrength(5);
         defender.addCountry(china);
         china.setPlayer(defender);
@@ -210,30 +212,28 @@ public class PlayerTest {
     @Test
     public void attack() {
 
-        int result = singapore.getOwner().attack(singapore, 5, china, 2);
-        assertEquals(-1, result);
+        singapore.getOwner().attack(singapore, "5", china, "2", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
-        result = singapore.getOwner().attack(singapore, 3, china, 3);
-        assertEquals(-1, result);
+        singapore.getOwner().attack(singapore, "3", china, "3", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
-        result = singapore.getOwner().attack(singapore, 3, china, -1);
-        assertEquals(-1, result);
+        singapore.getOwner().attack(singapore, "3", china, "-1", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
-        result = singapore.getOwner().attack(singapore, 3, canada, 1);
-        assertEquals(-1, result);
+        singapore.getOwner().attack(singapore, "3", canada, "1", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
-        result = singapore.getOwner().attack(singapore, 3, china, 0);
-        assertEquals(-1, result);
+        singapore.getOwner().attack(singapore, "3", china, "0", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
-        china.setArmies(0);
-        result = singapore.getOwner().attack(singapore, 3, china, 0);
-        assertTrue(player.isContain(china));
-        assertFalse(defender.isContain(china));
-        System.out.println(result);
+//        china.setArmies(2);
+//        singapore.getOwner().attack(singapore, "3", china, "2", false);
+
+        singapore.setArmies(10);
+        china.setArmies(2);
+        singapore.getOwner().attack(singapore, "1", china, "2", true);
 
     }
-
-
-
 
 }
