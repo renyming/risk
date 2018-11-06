@@ -1,5 +1,6 @@
 package model;
 
+import common.Action;
 import common.Message;
 import common.STATE;
 import validate.MapValidator;
@@ -76,30 +77,22 @@ public class Model extends Observable {
         notifyObservers(message);
     }
 
-    /**
-     * Method for fortification operation
-     * @param source The country moves out army
-     * @param target The country receives out army
-     * @param armyNumber Number of armies to move
-     */
-    public void fortification(Country source, Country target, int armyNumber){
-        //return no response to view if source country's army number is less than the number of armies on moving,
-        //or the source and target countries aren't connected through the same player's countries
-        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target))
-            return;
+    public void startUp(HashMap<Integer,CountryView> countryViewHashMap, PhaseView phaseView){
 
-        source.setArmies(source.getArmies()-armyNumber);
-        target.setArmies(target.getArmies()+armyNumber);
-
-        Message message = new Message(STATE.NEXT_PLAYER,null);
+        int id = 1;
+        for (String key:countries.keySet()) {
+            countries.get(key).addObserver(countryViewHashMap.get(id));
+            id ++;
+        }
+        //send next state message
+        Message message = new Message(STATE.PLAYER_NUMBER,null);
         notify(message);
-    }
 
-    /**
-     * attack phaseNumber method
-     */
-    public void attack(Country attacker, String attackerDiceNum, Country attacked, String attackedDiceNum, boolean isAllOut){
-       attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
+        Phase.getInstance().addObserver(phaseView);
+        Phase.getInstance().setCurrentPlayer(currentPlayer);
+        Phase.getInstance().setCurrentPhase("Start Up Phase");
+        Phase.getInstance().update();
+
     }
 
     /**
@@ -107,9 +100,9 @@ public class Model extends Observable {
      * Set new current player
      * Add armies to the player
      */
-    public void reinforcement(){
+   //public void reinforcement(){
 
-        nextPlayer();
+        //nextPlayer();
 //        currentPlayer.reinforcement();
 
         //get armies for each round
@@ -119,7 +112,36 @@ public class Model extends Observable {
 
         //View already in ROUND_ROBIN state, then it finds out there's allocatable armies of this player, it will
         //show the "Allocate Armies" button
+    //}
+
+    /**
+     * attack phaseNumber method
+     */
+    public void attack(Country attacker, String attackerDiceNum, Country attacked, String attackedDiceNum, boolean isAllOut){
+        attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
     }
+
+    /**
+     * Method for fortification operation
+     */
+    public void fortification(){
+        //return no response to view if source country's army number is less than the number of armies on moving,
+        //or the source and target countries aren't connected through the same player's countries
+//        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target))
+//            return;
+//
+//        source.setArmies(source.getArmies()-armyNumber);
+//        target.setArmies(target.getArmies()+armyNumber);
+//
+//        Message message = new Message(STATE.NEXT_PLAYER,null);
+//        notify(message);
+
+        Phase.getInstance().setCurrentPhase("Fortification Phase");
+        Phase.getInstance().update();
+    }
+
+
+
 
     /**
      * Set current player to the next one according in round robin fashion
@@ -138,13 +160,18 @@ public class Model extends Observable {
         int nextId = (currentId%numPlayer+numPlayer)%numPlayer+1;
         currentPlayer=players.get(nextId-1);
 
+        Phase.getInstance().setCurrentPlayer(currentPlayer);
+        Phase.getInstance().update();
+
         //The next player is the first player, current round ended, send STATE message
         if (nextId == 1) {
-            Message message = new Message(STATE.ROUND_ROBIN, null);
-            notify(message);
+            Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+            Phase.getInstance().update();
+//            Message message = new Message(STATE.ROUND_ROBIN, null);
+//            notify(message);
         } else {
             //CurrentPlayer notifies view to update
-            currentPlayer.callObservers();
+            //currentPlayer.callObservers();
         }
     }
 
@@ -162,6 +189,10 @@ public class Model extends Observable {
         //player army - 1
         country.getOwner().subArmies(1);
 
+
+        Phase.getInstance().setActionResult(Action.Allocate_Army);
+        Phase.getInstance().update();
+
         //startUpPhase
         if(phaseNumber == 0){
             //all the armies are allocated
@@ -170,8 +201,9 @@ public class Model extends Observable {
                     nextPlayer();
                 } else {
                     disable = true;
-                    Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-                    Phase.getInstance().update();
+//                    Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+//                    Phase.getInstance().update();
+                    Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                     phaseNumber = 1;
                 }
             }
@@ -186,11 +218,6 @@ public class Model extends Observable {
             }
         }
 
-    }
-
-
-    public void setPhaseView(PhaseView phaseView){
-        Phase.getInstance().addObserver(phaseView);
     }
 
     /**
