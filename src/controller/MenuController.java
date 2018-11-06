@@ -144,9 +144,9 @@ public class MenuController {
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
 
         // TODO:
-//        mapController.initCountryViews(maxPlayerNum);
-//        model.setPhaseView(mapController.createPhaseView());
-//        model.initiatePlayers(enteredPlayerNum);
+        mapController.initCountryViews();
+        model.setPhaseView(mapController.createPhaseView());
+        model.initiatePlayers(enteredPlayerNum);
 
 
         // TODO: code below should be checked by model itself
@@ -154,23 +154,23 @@ public class MenuController {
         String validationInfo;
         int playerNum;
 
-        try {
-            playerNum = Integer.parseInt(enteredPlayerNum);
-            if (playerNum > maxPlayerNum) {
-                validationInfo = "Greater than " + maxPlayerNum;
-            } else if (playerNum <= 1) {
-                validationInfo = "Must greater than 1";
-            } else {
-                valid = true;
-                validationInfo = "Total Player: " + playerNum;
-                model.initiatePlayers(playerNum, mapController.createPlayerView());
-            }
-        } catch (Exception e) {
-            validationInfo = "Enter an integer";
-            System.out.println("Menu.validateEnteredPlayerNum(): " + e.getMessage());
-        }
-
-        displayValidationResult(valid, validationInfo);
+//        try {
+//            playerNum = Integer.parseInt(enteredPlayerNum);
+//            if (playerNum > maxPlayerNum) {
+//                validationInfo = "Greater than " + maxPlayerNum;
+//            } else if (playerNum <= 1) {
+//                validationInfo = "Must greater than 1";
+//            } else {
+//                valid = true;
+//                validationInfo = "Total Player: " + playerNum;
+//                model.initiatePlayers(playerNum, mapController.createPlayerView());
+//            }
+//        } catch (Exception e) {
+//            validationInfo = "Enter an integer";
+//            System.out.println("Menu.validateEnteredPlayerNum(): " + e.getMessage());
+//        }
+//
+//        displayValidationResult(valid, validationInfo);
     }
 
 

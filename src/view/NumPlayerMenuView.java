@@ -38,13 +38,15 @@ public class NumPlayerMenuView implements Observer {
             mapController.setNumOfCountries(numPlayerMenu.getMaxNumPlayer());
             numPlayerInstructionLabel.setVisible(true);
             validationOfUserEnteredLabel.setVisible(true);
+            numPlayerTextField.clear();
             numPlayerTextField.setVisible(true);
         }
         if (!numPlayerMenu.getValid()) {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
-            validationOfUserEnteredLabel.setText("Total Player: " + numPlayerMenu.getValidationInfo());
+            validationOfUserEnteredLabel.setText(numPlayerMenu.getValidationInfo());
+            startButton.setVisible(false);
         } else {
-            validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
+            validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             startButton.setVisible(true);
         }
     }
@@ -61,5 +63,6 @@ public class NumPlayerMenuView implements Observer {
 
     public void setTotalNumPlayer(String totalNumPlayer) {
         validationOfUserEnteredLabel.setText("Total Player: " + totalNumPlayer);
+        validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
     }
 }

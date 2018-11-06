@@ -27,7 +27,7 @@ public class NumPlayerMenu extends Observable {
     private String validationInfo;
     private int maxNumPlayer;
 
-    public NumPlayerMenu() {}
+    NumPlayerMenu() {}
 
     public void update() {
         setChanged();
@@ -36,7 +36,7 @@ public class NumPlayerMenu extends Observable {
 
     void setVisible(boolean visible) { this.visible = visible; }
 
-    void setMaxNumPlayer(int maxNumPlayer) { this.maxNumPlayer = maxNumPlayer; }
+    void setMaxNumPlayer(int maxNumPlayer) {this.maxNumPlayer = maxNumPlayer; }
 
     void setValidationResult(boolean valid, String validationInfo) {
         this.valid = valid;

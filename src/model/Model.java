@@ -109,7 +109,7 @@ public class Model extends Observable {
     public void reinforcement(){
 
         nextPlayer();
-        currentPlayer.reinforcement();
+//        currentPlayer.reinforcement();
 
         //get armies for each round
         //currentPlayer.addRoundArmies();
