@@ -569,4 +569,33 @@ public class Player extends Observable {
         return -1;
     }
 
+    public void reinforcement(){
+        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+        addRoundArmies();
+        Phase.getInstance().update();
+    }
+
+    /**
+     * Method for fortification operation
+     * @param source The country moves out army
+     * @param target The country receives out army
+     * @param armyNumber Number of armies to move
+     */
+    public void fortification(Country source, Country target, int armyNumber){
+        //return no response to view if source country's army number is less than the number of armies on moving,
+        //or the source and target countries aren't connected through the same player's countries
+        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target)) {
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("invalid move");
+            Phase.getInstance().update();
+            return;
+        }
+
+        source.setArmies(source.getArmies()-armyNumber);
+        target.setArmies(target.getArmies()+armyNumber);
+
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
+    }
+
 }

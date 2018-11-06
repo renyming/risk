@@ -39,7 +39,7 @@
       <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="500.0">
          <children>
             <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="120.0" text="Select Map" />
-            <TextField fx:id="numPlayerTextField" layoutX="300.0" layoutY="256.0" prefHeight="30.0" prefWidth="50.0" />
+            <TextField fx:id="numPlayerTextField" layoutX="305.0" layoutY="256.0" prefHeight="30.0" prefWidth="50.0" />
             <Button fx:id="startButton" layoutX="386.0" layoutY="256.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="100.0" text="Start Game" />
             <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="Back" />
             <Label fx:id="selectedFilenameLabel" alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="30.0" prefWidth="490.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" />
@@ -49,7 +49,7 @@
                   <Font size="12.0" />
                </font>
             </Label>
-            <Label fx:id="validationOfUserEnteredLabel" alignment="CENTER" layoutX="150.0" layoutY="256.0" prefHeight="30.0" prefWidth="120.0" text="Total Player:">
+            <Label fx:id="validationOfUserEnteredLabel" alignment="CENTER" layoutX="140.0" layoutY="256.0" prefHeight="30.0" prefWidth="140.0" text="Invalid players number!">
                <font>
                   <Font size="12.0" />
                </font>
