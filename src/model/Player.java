@@ -363,7 +363,6 @@ public class Player extends Observable {
             attackerDiceNum = Integer.valueOf(attackerNum);
             defenderDiceNum = Integer.valueOf(defenderNum);
         } catch (Exception e){
-            phase.setCurrentPhase("Attack");
             phase.setActionResult(Action.Invalid_Move);
             phase.setInvalidInfo("Input error, invalid dice number.");
             return false;
@@ -371,7 +370,6 @@ public class Player extends Observable {
 
         //if valid attack
         if (attacker.getOwner().equals(defender.getOwner())) {
-            phase.setCurrentPhase("Attack");
             phase.setActionResult(Action.Invalid_Move);
             phase.setInvalidInfo("Invalid attack, cannot attack a country owned by player himself.");
             return false;
@@ -379,7 +377,6 @@ public class Player extends Observable {
 
         // if attacker's dice valid
         if (!attacker.isValidAttacker(attackerDiceNum)) {
-            phase.setCurrentPhase("Attack");
             phase.setActionResult(Action.Invalid_Move);
             phase.setInvalidInfo("Invalid attacker dice number, attacker rolling at most 3 dice");
             return false;
@@ -387,7 +384,6 @@ public class Player extends Observable {
 
         // if defender's dice valid
         if (!defender.isValidDefender(defenderDiceNum)) {
-            phase.setCurrentPhase("Attack");
             phase.setActionResult(Action.Invalid_Move);
             phase.setInvalidInfo("Invalid defender's dice number, attacker rolling at most 2 dice");
             return false;
@@ -395,7 +391,6 @@ public class Player extends Observable {
 
         // if two countries adjacent
         if (!attacker.isAdjacent(defender)){
-            phase.setCurrentPhase("Attack");
             phase.setActionResult(Action.Invalid_Move);
             phase.setInvalidInfo("Two countries is not adjacent");
             return false;
