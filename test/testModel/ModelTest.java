@@ -42,7 +42,7 @@ public class ModelTest {
         newModel1.getContinents().add(new Continent("Republic of Cranberra",4));
 
         asien = new Continent("Asian", 5);
-        p = new Player("Lee");
+        p = new Player("Lee", 5);
         p.setArmies(7);
 
         china = new Country("china", asien);

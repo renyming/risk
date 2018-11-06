@@ -63,6 +63,7 @@ public class Model extends Observable {
         return currentPlayer;
     }
 
+
     /**
      *  notify the view that model state has changed
      * @param message The message to send to the view, may include some important information
@@ -94,8 +95,8 @@ public class Model extends Observable {
     /**
      * attack phase method
      */
-    public void attack(Country attacker, int attackerDiceNum, Country attacked, int attackedDiceNum){
-       attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum);
+    public void attack(Country attacker, String attackerDiceNum, Country attacked, String attackedDiceNum, boolean isAllOut){
+       attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
     }
 
     /**
@@ -170,7 +171,7 @@ public class Model extends Observable {
 
         for (int i = 0; i < numOfPlayers; i++){
 
-            Player newPlayer = new Player("Player" + String.valueOf(i));
+            Player newPlayer = new Player("Player" + String.valueOf(i), countries.size());
             newPlayer.setArmies(initialArmies);
             //assign each player a different color
             newPlayer.setColor();

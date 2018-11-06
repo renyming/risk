@@ -35,8 +35,8 @@ public class CountryTest {
         country1.addEdge(country2);
         country2.addEdge(country1);
 
-        player1 = new Player("player1");
-        player2 = new Player("player2");
+        player1 = new Player("player1", 2);
+        player2 = new Player("player2", 2);
 
         country1.setPlayer(player1);
         country2.setPlayer(player2);

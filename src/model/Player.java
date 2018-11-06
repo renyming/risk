@@ -1,5 +1,8 @@
 package model;
 
+import common.Action;
+import javafx.util.Pair;
+
 import java.awt.*;
 import java.util.*;
 
@@ -18,19 +21,27 @@ public class Player extends Observable {
     private ArrayList<Country> countriesOwned;
     private String color = "#4B0082";
     private int totalStrength;
+
+    private Country attacker;
+    private int attackerDiceNum;
+    private Country defender;
+    private int defenderDiceNum;
     private int dices;
+    private int countriesSize;
 
 
     /**
      * Constructor of player
      * @param name player name
      */
-    public Player(String name){
+    public Player(String name, int countriesSize){
         this.Id=++cId;
         this.name= name;
+        this.countriesSize = countriesSize;
         armies = 0;
         countriesOwned = new ArrayList<>();
         totalStrength = 0;
+
         dices = 0;
     }
 
@@ -281,7 +292,12 @@ public class Player extends Observable {
         return false;
     }
 
-
+    /**
+     * Verify if two countries is connected
+     * @param start country 1
+     * @param end country 2
+     * @return true, connected; false unconnected
+     */
     public boolean isConnected(Country start, Country end) {
 
         // if doesn't contain both of countries
@@ -331,15 +347,66 @@ public class Player extends Observable {
     /**
      * Test if attack is valid
      * @param attacker The country who start the attack
-     * @param attackerDiceNum how many dise the attacker will use in this attack
+     * @param attackerNum how many dise the attacker will use in this attack
      * @param defender The country who defend the attack
-     * @param defenderDiceNum how many dise the defender will use in this attack
+     * @param defenderNum how many dise the defender will use in this attack
      * @return if two country is adjacent, and their dice is less the armies they owned, return true, else false
      */
-    private boolean isValidAttack(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum){
+    private boolean isValidAttack(Country attacker, String attackerNum, Country defender, String defenderNum){
 
-        return attacker.isValidAttacker(attackerDiceNum) && defender.isValidDefender(defenderDiceNum) && attacker.isAdjacent(defender);
+        Phase phase = Phase.getInstance();
 
+        // if int valid
+        int attackerDiceNum = 0;
+        int defenderDiceNum = 0;
+        try{
+            attackerDiceNum = Integer.valueOf(attackerNum);
+            defenderDiceNum = Integer.valueOf(defenderNum);
+        } catch (Exception e){
+            phase.setCurrentPhase("Attack");
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Input error, invalid dice number.");
+            return false;
+        }
+
+        //if valid attack
+        if (attacker.getOwner().equals(defender.getOwner())) {
+            phase.setCurrentPhase("Attack");
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Invalid attack, cannot attack a country owned by player himself.");
+            return false;
+        }
+
+        // if attacker's dice valid
+        if (!attacker.isValidAttacker(attackerDiceNum)) {
+            phase.setCurrentPhase("Attack");
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Invalid attacker dice number, attacker rolling at most 3 dice");
+            return false;
+        }
+
+        // if defender's dice valid
+        if (!defender.isValidDefender(defenderDiceNum)) {
+            phase.setCurrentPhase("Attack");
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Invalid defender's dice number, attacker rolling at most 2 dice");
+            return false;
+        }
+
+        // if two countries adjacent
+        if (!attacker.isAdjacent(defender)){
+            phase.setCurrentPhase("Attack");
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Two countries is not adjacent");
+            return false;
+        }
+
+        // update the attack info
+        this.attacker = attacker;
+        this.attackerDiceNum = attackerDiceNum;
+        this.defender = defender;
+        this.defenderDiceNum = defenderDiceNum;
+        return true;
     }
 
     /**
@@ -358,45 +425,38 @@ public class Player extends Observable {
         return dices;
     }
 
-    private void occupy(Country defender){
-        // get country added or deleted form the players
-        this.addCountry(defender);
-        defender.getOwner().delCountry(defender);
+    /**
+     * attack method
+     */
+    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
+
+        // logic valid
+        if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
+            return;
+        }
+
+        // reset the number of dices, it will be the minimun limitation of armies should move when the attacker occupied the defender
+        dices = attackerDiceNum;
+        // if defender country doesn't has army
+        if (isDefenderLoose()) return;
+
+        if (isAllOut) {
+            // dice number depend by computer
+            allOut();
+        } else {
+            // players choose how many dice need to put
+            attackOnce();
+        }
+        return;
     }
 
-
     /**
-     *
-     * @param attacker The country who start the attack
-     * @param attackerNum how many dise the attacker will use in this attack
-     * @param defender The country who defend the attack
-     * @param defenderNum how many dise the defender will use in this attack
-     * @return 1, if there attacker successfully occupied a country; 0, attack but not occupied; -1 Invalid attack.
+     * Battle only run once time
      */
-    public int attack(Country attacker, int attackerNum, Country defender, int defenderNum){
+    private void attackOnce() {
 
-        // if int valid
-        int attackerDiceNum = 0;
-        int defenderDiceNum = 0;
-        try{
-            attackerDiceNum = Integer.valueOf(attackerNum);
-            defenderDiceNum = Integer.valueOf(defenderNum);
-        } catch (Exception e){
-            return -1;
-        }
-
-        //if valid attack
-        if (attacker.getOwner().equals(defender.getOwner())) return -1;
-        if (!isValidAttack(attacker, attackerDiceNum, defender, defenderDiceNum)) return -1;
-
-        // reset the number of dices
+        // reset the number of dices, it will be the minimun limitation of armies should move when the attacker occupied the defender
         dices = attackerDiceNum;
-
-        // if defender country doesn't has army
-        if (defender.getArmies() == 0) {
-            attacker.getOwner().occupy(defender);
-            return 1;
-        }
 
         // roll the dices to battle
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
@@ -404,15 +464,17 @@ public class Player extends Observable {
         ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
         System.out.println(diceDefender);
 
-//        System.out.println("before roll:");
-//        System.out.println("attacker:");
-//        System.out.println("country " + attacker.getArmies());
-//        System.out.println("player " + attacker.getOwner().getTotalStrength());
-//        System.out.println("defender:");
-//        System.out.println("country " + defender.getArmies());
-//        System.out.println("player " + defender.getOwner().getTotalStrength());
+        System.out.println("before roll:");
+        System.out.println("attacker:");
+        System.out.println("country " + attacker.getArmies());
+        System.out.println("player " + attacker.getOwner().getTotalStrength());
+        System.out.println("defender:");
+        System.out.println("country " + defender.getArmies());
+        System.out.println("player " + defender.getOwner().getTotalStrength());
 
-        for (int i=0; i<defenderDiceNum; i++){
+        int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
+
+        for (int i=0; i<range; i++){
 
             if (diceDefender.get(i) >= dicesAttacker.get(i)) {
                 attacker.setArmies(attacker.getArmies()-1);
@@ -423,26 +485,73 @@ public class Player extends Observable {
                 defender.getOwner().subTotalStrength(1);
 
                 //if defender's armies == 0, attacker victory
-                if (defender.getArmies() == 0) {
-                    attacker.getOwner().occupy(defender);
-                    //TODO: add card
-                    return 1;
-                }
+                if (isDefenderLoose()) return;
             }
 
-//            System.out.println("after roll:");
-//            System.out.println("attacker:");
-//            System.out.println("country " + attacker.getArmies());
-//            System.out.println("player " + attacker.getOwner().getTotalStrength());
-//            System.out.println("defender:");
-//            System.out.println("country " + defender.getArmies());
-//            System.out.println("player " + defender.getOwner().getTotalStrength());
+            System.out.println("after roll:");
+            System.out.println("attacker:");
+            System.out.println("country " + attacker.getArmies());
+            System.out.println("player " + attacker.getOwner().getTotalStrength());
+            System.out.println("defender:");
+            System.out.println("country " + defender.getArmies());
+            System.out.println("player " + defender.getOwner().getTotalStrength());
+            System.out.println("_________________________________________________________");
         }
-        return 0;
+
+        return;
+
     }
 
     /**
-     * Move the armies to the new conquered country
+     * Battle until the defender be occupied or the attacker consume its armies
+     */
+    private void allOut() {
+
+
+        Phase phase = Phase.getInstance();
+
+        while (true) {
+
+            attackerDiceNum = attacker.getArmies() > 3? 3 : attacker.getArmies();
+            defenderDiceNum = defender.getArmies() > 2? 2 : defender.getArmies();
+
+            attackOnce();
+            // if defender is occupied by attacker
+            if(attacker.getOwner().equals(defender.getOwner())) break;
+            // if attacker exhaust all its armies
+            if(attacker.getArmies() == 0) break;
+        }
+
+        return;
+    }
+
+    /**
+     * Verify if defender loose the country
+     * @return
+     */
+    private boolean isDefenderLoose() {
+
+        Phase phase = Phase.getInstance();
+
+        if (defender.getArmies() == 0) {
+
+            attacker.getOwner().addCountry(defender);
+            defender.getOwner().delCountry(defender);
+            defender.setPlayer(attacker.getOwner());
+
+            //TODO: add card
+            if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
+                phase.setCurrentPhase("Game Over");
+                phase.setActionResult(Action.Invalid_Move);
+                phase.setInvalidInfo(attacker.getOwner().getName());
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Move number of armies to the new conquered country
      * @param c1 attcker country, which the armies move out
      * @param c2 conquered country, whiche the armies move in
      * @param num the number of armies need to be move
