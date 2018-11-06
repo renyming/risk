@@ -148,7 +148,7 @@ public class MenuController {
 
         // TODO:
 //        mapController.initCountryViews(maxPlayerNum);
-//        model.setPlayerView(mapController.createPlayerView());
+//        model.setPhaseView(mapController.createPhaseView());
 //        model.initiatePlayers(enteredPlayerNum);
 
 

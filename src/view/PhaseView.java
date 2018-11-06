@@ -1,5 +1,6 @@
 package view;
 
+import controller.MapController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,11 +21,12 @@ public class PhaseView implements Observer {
     private Label countryBNameLabel;
     private Label numArmiesMovedLabel;
     private TextField numArmiesMovedTextField;
-    private Label invalidMoveLabel;
+    private Label invalidMovedLabel;
     private Button skipFortificationPhaseButton;
 
     private String currentPhase;
     private Player currentPlayer;
+    private MapController mapController;
 
 
     public PhaseView() {}
@@ -32,7 +34,8 @@ public class PhaseView implements Observer {
     public void init(Label phaseLabel, Label currentPlayerLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
-                     Button skipFortificationPhaseButton) {
+                     Button skipFortificationPhaseButton,
+                     MapController mapController) {
         this.phaseLabel = phaseLabel;
         this.currentPlayerLabel = currentPlayerLabel;
         this.armiesInHandLabel = armiesInHandLabel;
@@ -42,8 +45,9 @@ public class PhaseView implements Observer {
         this.countryBNameLabel = countryBNameLabel;
         this.numArmiesMovedLabel = numArmiesMovedLabel;
         this.numArmiesMovedTextField = numArmiesMovedTextField;
-        this.invalidMoveLabel = invalidMoveLabel;
+        this.invalidMovedLabel = invalidMoveLabel;
         this.skipFortificationPhaseButton = skipFortificationPhaseButton;
+        this.mapController = mapController;
     }
 
     @Override
@@ -62,37 +66,23 @@ public class PhaseView implements Observer {
             armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
         }
 
-        switch (phase.getCurrentAction()) {
+        switch (phase.getActionResult()) {
+            case Finish_Current_Phase:
+                mapController.setNextPhase(currentPhase);
+                break;
+            case Invalid_Card_Exchange:
+                // TODO: display the invalid result in card exchange View, Model may tell cardView directly
             case Allocate_Army:
                 armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
                 break;
-            case Exchange_Card:
-                // TODO: update UI, allow user to exchange card
+            case Invalid_Move:
+                invalidMovedLabel.setText(phase.getInvalidInfo());
+                invalidMovedLabel.setVisible(true);
                 break;
-            case Select_Attack_Countries:
-                // TODO: update UI, allow attacker and defender to choose two dices
-                break;
-            case Invalid_Attack:
-                // TODO: display invalid info
-                break;
-            case Conquer_A_Country:
-                // TODO: update UI, allow user place some armies to the conquered country
-                // TODO: pass two Countries and user entered String
-                break;
-            case Select_Fortification_Countries:
-                countryALabel.setVisible(true);
-                countryANameLabel.setVisible(true);
-                countryBLabel.setVisible(true);
-                countryBNameLabel.setVisible(true);
-                skipFortificationPhaseButton.setVisible(true);
-                break;
-            case Invalid_Fortification:
-                invalidMoveLabel.setText(phase.getInvalidInfo());
-                invalidMoveLabel.setVisible(true);
         }
     }
 
-    private void reset() {
+    private void reset() { // TODO: may moved to Map Controller
         countryALabel.setVisible(false);
         countryANameLabel.setVisible(false);
         countryANameLabel.setText("NONE");
@@ -104,7 +94,7 @@ public class PhaseView implements Observer {
         numArmiesMovedLabel.setVisible(false);
         numArmiesMovedTextField.setVisible(false);
         numArmiesMovedTextField.clear();
-        invalidMoveLabel.setVisible(false);
+        invalidMovedLabel.setVisible(false);
         skipFortificationPhaseButton.setVisible(false);
     }
 }

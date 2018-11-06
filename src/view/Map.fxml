@@ -28,7 +28,7 @@
             <Label fx:id="countryANameLabel" alignment="CENTER" layoutX="2.0" layoutY="210.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
             <Label fx:id="countryBLabel" alignment="CENTER" layoutY="270.0" prefHeight="30.0" prefWidth="110.0" text="Fortification To" />
             <Label fx:id="countryBNameLabel" alignment="CENTER" layoutX="2.0" layoutY="300.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
-            <TextField fx:id="numArmiesMoveTextField" layoutX="30.0" layoutY="390.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
+            <TextField fx:id="numArmiesMovedTextField" layoutX="30.0" layoutY="390.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
             <Label fx:id="numArmiesMovedLabel" alignment="CENTER" layoutX="2.0" layoutY="360.0" prefHeight="30.0" prefWidth="108.0" text="Num Armies" />
             <Button fx:id="skipFortificationPhaseButton" layoutX="25.0" layoutY="620.0" mnemonicParsing="false" onAction="#skipReinforcementPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
             <Label fx:id="invalidMovedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="450.0" prefHeight="150.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="There is no path between these two countries that is composed of countries that you owns" textAlignment="CENTER" wrapText="true" />

@@ -10,10 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.Country;
 import model.Model;
-import view.CountryView;
-import view.Map;
-import view.PlayerView;
-import view.View;
+import view.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +26,7 @@ public class MapController {
      */
 
     @FXML private Button skipFortificationPhaseButton;
-    @FXML private TextField numArmiesMoveTextField;
+    @FXML private TextField numArmiesMovedTextField;
     @FXML private AnchorPane currentPlayerPane;
     @FXML private Label currentPlayerLabel;
     @FXML private Label numArmiesMovedLabel;
@@ -53,7 +50,9 @@ public class MapController {
     private HashMap<Integer, CountryView> countryViews;
     private HashSet<Line> lines;
     private PlayerView playerView;
+    private PhaseView phaseView;
     private int numOfCountries;
+    private String currentPhase;
 
     public void init(Model model, View view, Map map, MenuController menuController) {
         this.model = model;
@@ -62,7 +61,7 @@ public class MapController {
         this.menuController = menuController;
 
         skipFortificationPhaseButton.setVisible(false);
-        numArmiesMoveTextField.setVisible(false);
+        numArmiesMovedTextField.setVisible(false);
         numArmiesMovedLabel.setVisible(false);
         invalidMovedLabel.setVisible(false);
         nextPhaseButton.setVisible(false);
@@ -91,7 +90,7 @@ public class MapController {
     /**
      * Called when user entered number of armies moved value and press enter button, pass event to View
      */
-    public void enteredNumArmiesMoved() { fortification(numArmiesMoveTextField.getText()); } // TODO: refactor
+    public void enteredNumArmiesMoved() { fortification(numArmiesMovedTextField.getText()); } // TODO: refactor
 
 
     /**
@@ -101,7 +100,7 @@ public class MapController {
      * @param invalidInfo is the invalid move info
      */
     public void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
-        numArmiesMoveTextField.clear(); // TODO: could be removed?
+        numArmiesMovedTextField.clear(); // TODO: could be removed?
         invalidMovedLabel.setVisible(show);
         invalidMovedLabel.setText(invalidInfo);
     }
@@ -121,7 +120,7 @@ public class MapController {
         countryBLabel.setVisible(show);
         countryBNameLabel.setVisible(show);
         numArmiesMovedLabel.setVisible(show);
-        numArmiesMoveTextField.setVisible(show);
+        numArmiesMovedTextField.setVisible(show);
     }
 
 
@@ -227,8 +226,8 @@ public class MapController {
             currentPlayerPane.setVisible(true);
         } else {
             skipFortificationPhaseButton.setVisible(false);
-            numArmiesMoveTextField.clear();
-            numArmiesMoveTextField.setVisible(false);
+            numArmiesMovedTextField.clear();
+            numArmiesMovedTextField.setVisible(false);
         }
     }
 
@@ -238,6 +237,29 @@ public class MapController {
      * Called when user clicked the next phase button, pass the event to View
      */
     public void startNextPhase() {
+        // TODO:
+        switch (currentPhase) {
+            case "Start Up Phase":
+                // TODO: call model nextPlayer()
+                // TODO: call Player.reinforcement();
+                break;
+            case "Reinforcement Phase":
+                // TODO: update UI that allow player to do attack
+                // TODO: now enter fortification directly, change it later
+                countryALabel.setVisible(true);
+                countryANameLabel.setVisible(true);
+                countryBLabel.setVisible(true);
+                countryBNameLabel.setVisible(true);
+                skipFortificationPhaseButton.setVisible(true);
+                break;
+            case "Attack Phase":
+                // TODO: update UI that allow player to do fortification
+                break;
+            case "Fortification Phase":
+                // TODO: hide UI that allow player to do reinforcement
+                break;
+        }
+
         showPhaseLabel();
         showPlayerViewPane(true);
         setPhaseLabel(nextPhaseButton.getText().substring(6));
@@ -489,10 +511,7 @@ public class MapController {
 
     public int getCountryViewsSize() { return countryViews.size(); }
 
-    PlayerView createPlayerView() {
-        playerView = new PlayerView(this);
-        return playerView;
-    }
+
 
     public void setNumOfCountries(int numOfCountries) {
         this.numOfCountries = numOfCountries;
@@ -501,4 +520,25 @@ public class MapController {
     void quitGame() { map.close(); }
 
     void showMapStage() { map.show(); }
+
+    PhaseView createPhaseView() {
+        phaseView = new PhaseView();
+        phaseView.init(phaseLabel, currentPlayerLabel, armiesInHandLabel,
+                countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
+                numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
+                skipFortificationPhaseButton,
+                this);
+        return phaseView;
+    }
+
+    public void setNextPhase(String currentPhase) {
+//        this.currentPhase = currentPhase;
+    }
+
+    // TODO: to be removed
+
+    PlayerView createPlayerView() {
+        playerView = new PlayerView(this);
+        return playerView;
+    }
 }

@@ -10,7 +10,7 @@ public class Phase extends Observable {
 
     private String currentPhase;
     private Player currentPlayer;
-    private Action currentAction;
+    private Action actionResult;
 
     private String invalidInfo;
 
@@ -48,12 +48,12 @@ public class Phase extends Observable {
 
     /**
      * Model call this to help phase to update UI, show buttons, hide panes, etc
-     * i.e. currentAction = Allocate_Army, etc
-     * @param currentAction is the action that are taking place during a phase
+     * i.e. actionResult = Allocate_Army, etc
+     * @param actionResult is the action that are taking place during a phase
      */
-    public void setCurrentAction(Action currentAction) { this.currentAction = currentAction; }
+    public void setActionResult(Action actionResult) { this.actionResult = actionResult; }
 
-    public Action getCurrentAction() { return currentAction; }
+    public Action getActionResult() { return actionResult; }
 
 
     /**
