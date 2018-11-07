@@ -38,31 +38,29 @@ public class PlayersWorldDomination extends Observable {
      */
     public void setTotalNumCountries(int totalNumCountries) { this.totalNumCountries = totalNumCountries; }
 
-    public String getCountryPercentage() {
-        StringBuilder countryPercentage = new StringBuilder("Player    Percentage");
+    public ArrayList<String> getCountryPercentage() {
+        ArrayList<String> countryPercentage = new ArrayList<>();
         if (0 != totalNumCountries) {
             for (Player player : players) {
-                countryPercentage.append(player.getName()).append(": ").append(player.getCountriesOwned().size() * 1.0 / totalNumCountries).append("\n");
+                countryPercentage.add(player.getName() + ":  " + player.getCountriesOwned().size() * 1.0 / totalNumCountries + "%");
             }
         }
-        return countryPercentage.toString();
+        return countryPercentage;
     }
 
-    public String getContinentNames() {
-        StringBuilder continentNames = new StringBuilder("Player    Continents");
+    public ArrayList<String> getArmyDistribution() {
+        ArrayList<String> armyDistribution = new ArrayList<String>();
         for (Player player : players) {
-            // TODO:
-//            controlledContinents.append(player.getName()).append(": ").append(player.).append("\n");
+            armyDistribution.add(player.getName() + ": " + player.getTotalStrength());
         }
-        return continentNames.toString();
+        return armyDistribution;
     }
 
-    public String getArmyDistribution() {
-        StringBuilder armyDistribution = new StringBuilder("Player    Total Army");
+    public ArrayList<String> getContinentNames() {
+        ArrayList<String> continentNames = new ArrayList<String>();
         for (Player player : players) {
-            // TODO:
-            armyDistribution.append(player.getName()).append(": ").append(player.getTotalStrength()).append("\n");
+//            continentNames.add(player.getName() + player.get; // TODO: get all continents name
         }
-        return armyDistribution.toString();
+        return continentNames;
     }
 }

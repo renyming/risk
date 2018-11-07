@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -55,6 +56,11 @@ public class MapController {
     @FXML private TextField numArmiesMovedTextField;
     @FXML private Button skipFortificationPhaseButton;
 
+    // players world domination view
+    @FXML private ListView<String> countryPercentageListView;
+    @FXML private ListView<String> armyDistributionListView;
+    @FXML private ListView<String> continentNameListView;
+
 
 
     private Model model;
@@ -95,6 +101,8 @@ public class MapController {
         fromToCountries = new Country[2];
         attackerDefenderDices = new int[2];
         enableFortification = false;
+
+        PlayersWorldDominationView.getInstance().init(countryPercentageListView, armyDistributionListView, continentNameListView);
     }
 
 

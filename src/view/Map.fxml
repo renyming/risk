@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -45,13 +46,26 @@
             <Button fx:id="attackButton" ellipsisString="" layoutX="25.0" layoutY="465.0" mnemonicParsing="false" onAction="#attack" prefHeight="30.0" prefWidth="60.0" text="Attack" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="14.0" layoutY="626.0" prefHeight="128.0" prefWidth="851.0" style="-fx-border-color: black;">
+      <AnchorPane layoutX="13.0" layoutY="630.0" prefHeight="128.0" prefWidth="876.0" style="-fx-border-color: black;">
          <children>
-            <Label layoutX="61.0" layoutY="9.0" prefHeight="40.0" prefWidth="731.0" text="This area is reserved for CardExcahngeView?">
+            <ListView fx:id="countryPercentageListView" layoutX="15.0" layoutY="30.0" prefHeight="85.0" prefWidth="150.0" />
+            <Label layoutX="15.0" prefHeight="30.0" prefWidth="150.0" text="  Player  Country%">
                <font>
-                  <Font size="33.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
+            <Label layoutX="180.0" prefHeight="30.0" prefWidth="150.0" text="  Player  Armies">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ListView fx:id="armyDistributionListView" layoutX="180.0" layoutY="30.0" prefHeight="85.0" prefWidth="150.0" />
+            <Label layoutX="345.0" prefHeight="30.0" prefWidth="150.0" text="  Player  Continents">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ListView fx:id="continentNameListView" layoutX="345.0" layoutY="30.0" prefHeight="85.0" prefWidth="520.0" />
          </children>
       </AnchorPane>
    </children>
