@@ -441,8 +441,8 @@ public class Player extends Observable {
 //        System.out.println("country " + defender.getArmies());
 //        System.out.println("player " + defender.getOwner().getTotalStrength());
 
+        // compare the rolling result
         int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
-
         for (int i=0; i<range; i++){
 
             if (diceDefender.get(i) >= dicesAttacker.get(i)) {
@@ -499,24 +499,23 @@ public class Player extends Observable {
         Phase phase = Phase.getInstance();
         if (defender.getArmies() == 0) {
 
+            // change the ownership of the defender country
             attacker.getOwner().addCountry(defender);
             defender.getOwner().delCountry(defender);
             defender.setPlayer(attacker.getOwner());
 
             //TODO: add card
+            // if attacker win the game
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
                 phase.setCurrentPhase("Game Over");
                 // give the name of winner
                 phase.setInvalidInfo(attacker.getOwner().getName());
-                phase.update();
             }
 
+            // if attack possible
             if (!isAttackPossible()) {
-                phase.setActionResult(Action.Finish_Current_Phase);
-                phase.update();
+                phase.setInvalidInfo("Attack Impossible");
             }
-
-
             return true;
         }
         return false;
@@ -600,9 +599,11 @@ public class Player extends Observable {
             attackOnce();
         }
 
-        if (!phase.getCurrentPhase().equals("Game Over") && !phase.getActionResult().equals(Action.Finish_Current_Phase)){
+        //update phase info
+        if (!phase.getCurrentPhase().equals("Game Over")){
             phase.setActionResult(Action.Show_Next_Phase_Button);
         }
+        phase.update();
 
         return;
     }
