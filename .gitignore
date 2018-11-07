@@ -3,7 +3,7 @@
 ### Example user template
 
 # IntelliJ project files
-
+*.xml
 out
 gen
 *.class
