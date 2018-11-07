@@ -71,6 +71,7 @@ public class Writer {
         fileWriter.close();
 
         //delete the file if the map is invalid
+
         if(!isValidMap()){
             if(file.exists() && file.isFile()){
                 file.delete();

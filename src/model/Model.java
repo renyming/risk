@@ -18,6 +18,8 @@ import java.util.*;
 
 public class Model extends Observable {
 
+    public static int cardsValue = 5;
+    private static final String[] cards = {"infantry","cavalry","artillery"};
     private static Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
