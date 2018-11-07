@@ -105,9 +105,6 @@ public class Player extends Observable {
      */
     public void setCountriesOwned(ArrayList<Country> countriesOwned) {
         this.countriesOwned = countriesOwned;
-
-        setChanged();
-        notifyObservers(this);
     }
 
     /**
@@ -116,7 +113,6 @@ public class Player extends Observable {
     */
     public void setArmies(int armies) {
         this.armies = armies;
-        callObservers();
     }
 
     /**
@@ -133,7 +129,6 @@ public class Player extends Observable {
      */
     public void setTotalStrength(int totalStrength) {
         this.totalStrength = totalStrength;
-        callObservers();
     }
 
     /**
@@ -242,12 +237,8 @@ public class Player extends Observable {
     * @param  c country need to be added
     */
     public void addCountry(Country c){
-
         //verify if the country is exist in the countriesOwned??
         countriesOwned.add(c);
-
-        setChanged();
-        notifyObservers(this);
     }
 
     /**
@@ -262,21 +253,10 @@ public class Player extends Observable {
         {
             if (c.equals(it.next())){
                 it.remove();
-
-                setChanged();
-                notifyObservers(this);
                 return true;
             }
         }
         return false;
-    }
-
-    /**
-     * Helper method to set change state and notify observers
-     */
-    public void callObservers() {
-        setChanged();
-        notifyObservers();
     }
 
     public boolean isContain(Country c) {
@@ -363,6 +343,13 @@ public class Player extends Observable {
             phase.setActionResult(Action.Invalid_Move);
             phase.setInvalidInfo("Input error, invalid dice number.");
             phase.update();
+            return false;
+        }
+
+        if (!attacker.getOwner().equals(this)) {
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid attack, This is not your country.");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -618,6 +605,13 @@ public class Player extends Observable {
     public void fortification(Country source, Country target, int armyNumber){
         //return no response to view if source country's army number is less than the number of armies on moving,
         //or the source and target countries aren't connected through the same player's countries
+        if (!source.getOwner().equals(this)) {
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid move, This is not your country.");
+            Phase.getInstance().update();
+            return;
+        }
+
         if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target)) {
             Phase.getInstance().setActionResult(Action.Invalid_Move);
             Phase.getInstance().setInvalidInfo("invalid move");

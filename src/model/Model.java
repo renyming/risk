@@ -121,7 +121,8 @@ public class Model extends Observable {
      * attack phaseNumber method
      */
     public void attack(Country attacker, String attackerDiceNum, Country attacked, String attackedDiceNum, boolean isAllOut){
-        attacker.getOwner().attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
+
+        currentPlayer.attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
     }
 
     /**
@@ -284,6 +285,7 @@ public class Model extends Observable {
 
             Player newPlayer = new Player("Player" + String.valueOf(i), countries.size());
             newPlayer.setArmies(initialArmies);
+            newPlayer.setTotalStrength(initialArmies);
             //assign each player a different color
             newPlayer.setColor();
             players.add(newPlayer);
@@ -306,7 +308,8 @@ public class Model extends Observable {
         }
         //current player notify
         currentPlayer = players.get(0);
-        currentPlayer.callObservers();
+        Phase.getInstance().setCurrentPlayer(currentPlayer);
+        Phase.getInstance().update();
 
         //give state to view
 //        Message message = new Message(STATE.INIT_ARMIES,null);
