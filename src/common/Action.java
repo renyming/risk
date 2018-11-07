@@ -6,7 +6,7 @@ package common;
  */
 public enum Action {
     None,
-    Finish_Current_Phase,
+    Finish_Current_Phase, // TODO: remove later
     Allocate_Army,
     Invalid_Card_Exchange,
     Invalid_Move,

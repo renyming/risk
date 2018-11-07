@@ -9,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.Continent;
 import model.Country;
 import model.Model;
 import model.Phase;
@@ -24,27 +23,40 @@ import java.util.HashSet;
  */
 public class MapController {
 
-    /**
-     * Determine the current or next phase
-     */
-
-    @FXML private Button skipFortificationPhaseButton;
-    @FXML private TextField numArmiesMovedTextField;
-    @FXML private AnchorPane currentPlayerPane;
+    // general map components
     @FXML private Label currentPlayerLabel;
-    @FXML private Label numArmiesMovedLabel;
     @FXML private Label armiesInHandLabel;
     @FXML private Button nextPhaseButton;
     @FXML private Label invalidMovedLabel;
-    @FXML private Label countryALabel;
-    @FXML private Label countryBLabel;
-    @FXML private Label countryANameLabel;
-    @FXML private Label countryBNameLabel;
     @FXML private AnchorPane mapPane;
     @FXML private Label phaseLabel;
 
+    // From-To country relative components
+    @FXML private Label countryALabel;
+    @FXML private Label countryANameLabel;
+    @FXML private Label countryBLabel;
+    @FXML private Label countryBNameLabel;
+
+    // attack phase relative components
+    @FXML private Label attackerDiceLabel;
+    @FXML private Button attackerDiceOneButton;
+    @FXML private Button attackerDiceTwoButton;
+    @FXML private Button attackerDiceThreeButton;
+    @FXML private Label defenderDiceLabel;
+    @FXML private Button defenderDiceOneButton;
+    @FXML private Button defenderDiceTwoButton;
+    @FXML private Label allOutLabel;
+    @FXML private Button allOutEnableButton;
+    @FXML private Button allOutDisableButton;
+
+    // fortification relative components
+    @FXML private Label numArmiesMovedLabel;
+    @FXML private TextField numArmiesMovedTextField;
+    @FXML private Button skipFortificationPhaseButton;
+
+
+
     private Model model;
-    private View view;
     private Map map;
     private MenuController menuController;
 
@@ -52,14 +64,12 @@ public class MapController {
     private int fromToCountriesCounter;
     private HashMap<Integer, CountryView> countryViews;
     private HashSet<Line> lines;
-    private PlayerView playerView;
-    private PhaseView phaseView;
     private int numOfCountries;
     private String currentPhase;
+    private boolean enableFortification;
 
-    public void init(Model model, View view, Map map, MenuController menuController) {
+    public void init(Model model, Map map, MenuController menuController) {
         this.model = model;
-        this.view = view;
         this.map = map;
         this.menuController = menuController;
 
@@ -77,6 +87,7 @@ public class MapController {
 
         fromToCountriesCounter = 0;
         fromToCountries = new Country[2];
+        enableFortification = false;
     }
 
 
@@ -90,13 +101,28 @@ public class MapController {
     }
 
 
+    public void setNumOfCountries(int numOfCountries) { this.numOfCountries = numOfCountries; }
+
+
+    public void setCurrentPhase(String currentPhase) {
+        this.currentPhase = currentPhase;
+        switch (currentPhase) {
+            case "Fortification Phase":
+                enableFortification = true;
+                break;
+        }
+    }
+
     void createPhaseView() {
-        phaseView = PhaseView.getInstance();
+        PhaseView phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton,
                 this);
+        phaseView.initAttackComponents(attackerDiceLabel, attackerDiceOneButton, attackerDiceTwoButton, attackerDiceThreeButton,
+                defenderDiceLabel, defenderDiceOneButton, defenderDiceTwoButton,
+                allOutLabel, allOutEnableButton, allOutDisableButton);
     }
 
 
@@ -192,18 +218,20 @@ public class MapController {
                 // TODO: collect From-TO countries info and dices info
                 break;
             case "Fortification Phase":
-                switch (fromToCountriesCounter) {
-                    case 0:
-                        setFromCountryInfo(country);
-                        break;
-                    case 1:
-                        setToCountryInfo(country);
-                        break;
-                    case 2:
-                        resetFromToCountries();
-                        break;
+                if (enableFortification) {
+                    switch (fromToCountriesCounter) {
+                        case 0:
+                            setFromCountryInfo(country);
+                            break;
+                        case 1:
+                            setToCountryInfo(country);
+                            break;
+                        case 2:
+                            resetFromToCountries();
+                            break;
+                    }
+                    fromToCountriesCounter++;
                 }
-                fromToCountriesCounter++;
                 break;
         }
     }
@@ -236,7 +264,12 @@ public class MapController {
     /**
      * During fortification phase, reset selected countries
      */
-    private void clickedMap() { resetFromToCountries(); }
+    private void clickedMap() {
+        if (enableFortification) {
+            resetFromToCountries();
+            fromToCountriesCounter = 0;
+        }
+    }
 
 
     /**
@@ -264,9 +297,43 @@ public class MapController {
 
 
     /**
-     * Clear all CountryViews and Lines that generated before
-     * Called by View.showMenuStage()
+     * Called when user entered number of armies moved value and press enter button, pass event to View
      */
+    public void enteredNumArmiesMoved() {
+        invalidMovedLabel.setVisible(false);
+        if (enableFortification) model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText());
+    }
+
+
+    public void disableFortification() {
+        enableFortification = false;
+        skipFortificationPhaseButton.setVisible(false);
+    }
+
+
+    /**
+     * During fortification phase, skip this phase if current user is not able to move armies
+     * i.e. only has one country left or the user does not want to
+     * Called by 'Skip' button on player view
+     */
+    public void skipReinforcementPhase() {
+        model.nextPlayer();
+        model.reinforcement();
+    }
+
+
+
+
+
+    /**
+     * Called when user click the 'Quit' button during the game play
+     */
+    public void backToMenu() {
+        resetMapComponents();
+        map.hide();
+        menuController.switchToStartGameMenu();
+    }
+
     private void resetMapComponents() {
         if (null != countryViews) {
             for (int key : countryViews.keySet()) {
@@ -282,43 +349,6 @@ public class MapController {
             }
             lines.clear();
         }
-    }
-
-
-    /**
-     * Called when user entered number of armies moved value and press enter button, pass event to View
-     */
-    public void enteredNumArmiesMoved() { model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText()); }
-
-
-    /**
-     * During fortification phase, skip this phase if current user is not able to move armies
-     * i.e. only has one country left or the user does not want to
-     * Called by 'Skip' button on player view
-     */
-    public void skipReinforcementPhase() { model.nextPlayer(); }
-
-
-
-
-
-
-
-    public void setNumOfCountries(int numOfCountries) {
-        this.numOfCountries = numOfCountries;
-    }
-
-
-    public void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
-
-
-    /**
-     * Called when user click the 'Quit' button during the game play
-     */
-    public void backToMenu() {
-        resetMapComponents();
-        map.hide();
-        menuController.switchToStartGameMenu();
     }
 
     /**

@@ -17,6 +17,9 @@ public class Map {
     private Stage mapStage;
 
     private Map() {
+        final double GAME_BOARD_WIDTH = 1024;
+        final double GAME_BOARD_HEIGHT = 768;
+
         FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
         try {
             mapRootPane = mapFxmlLoader.load();
@@ -26,7 +29,7 @@ public class Map {
         mapController = mapFxmlLoader.getController();
         mapStage = new Stage();
         mapStage.setTitle("Risk Game");
-        mapStage.setScene(new Scene(mapRootPane,1000,700));
+        mapStage.setScene(new Scene(mapRootPane, GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT));
         mapStage.setResizable(false);
         mapStage.sizeToScene();
     }

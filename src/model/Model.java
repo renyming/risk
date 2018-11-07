@@ -138,15 +138,38 @@ public class Model extends Observable {
 //
 //        Message message = new Message(STATE.NEXT_PLAYER,null);
 //        notify(message);
+        //Phase.getInstance().
+        int moveNumber;
+        if(source == null || target == null){
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("must choose a valid country!");
+            Phase.getInstance().update();
+            return;
+        }
+
+        try{
+            moveNumber = Integer.parseInt(armyNumber);
+        } catch (Exception ex){
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("please enter an integer!!");
+            Phase.getInstance().update();
+            return;
+        }
+
+
+        if(moveNumber <= 0){
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("please enter an positive integer!");
+            Phase.getInstance().update();
+            return;
+        }
 
         Phase.getInstance().setCurrentPhase("Fortification Phase");
         Phase.getInstance().update();
         currentPlayer.fortification(source,target,Integer.parseInt(armyNumber));
     }
 
-
-
-
+    
     /**
      * Set current player to the next one according in round robin fashion
      * If a new round starts from the next player, send ROUND_ROBIN STATE to view
