@@ -4,6 +4,7 @@
 
 # IntelliJ project files
 *.xml
+.idea
 out
 gen
 *.class

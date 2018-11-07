@@ -49,7 +49,7 @@ public class PlayersWorldDomination extends Observable {
     }
 
     public ArrayList<String> getArmyDistribution() {
-        ArrayList<String> armyDistribution = new ArrayList<String>();
+        ArrayList<String> armyDistribution = new ArrayList<>();
         for (Player player : players) {
             armyDistribution.add(player.getName() + ": " + player.getTotalStrength());
         }
@@ -57,9 +57,13 @@ public class PlayersWorldDomination extends Observable {
     }
 
     public ArrayList<String> getContinentNames() {
-        ArrayList<String> continentNames = new ArrayList<String>();
+        ArrayList<String> continentNames = new ArrayList<>();
         for (Player player : players) {
-//            continentNames.add(player.getName() + player.get; // TODO: get all continents name
+            StringBuilder allContinentNamesPerPlayer = new StringBuilder();
+            for (Continent continent : player.getContinentsOwned()) {
+                allContinentNamesPerPlayer.append(continent.getName());
+            }
+            continentNames.add(player.getName() + ": " + allContinentNamesPerPlayer.toString());
         }
         return continentNames;
     }
