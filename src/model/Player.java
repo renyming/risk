@@ -619,13 +619,14 @@ public class Player extends Observable {
      *  Implementation of reinforcement
      */
     public void reinforcement(){
+
+        Cards.getInstance().setCurrentPlayer(this);
+        Cards.getInstance().display();
+        Cards.getInstance().update();
+
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         addRoundArmies();
         Phase.getInstance().update();
-
-        if(getTotalCards() >= 5){
-
-        }
     }
 
     public void handleCards(String card, int number){
@@ -634,8 +635,6 @@ public class Player extends Observable {
 
     public void exchangeForArmy(){
         setArmies(Model.cardsValue);
-        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-        Phase.getInstance().update();
     }
 
 
