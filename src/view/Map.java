@@ -41,10 +41,7 @@ public class Map {
     // for drawMap and resetMap usage
     public AnchorPane getMapRootPane() { return mapRootPane; }
 
-    public void show() {
-        mapController.drawMap();
-        mapStage.show();
-    }
+    public void show() { mapStage.show(); }
 
     public void hide() { mapStage.hide(); }
 

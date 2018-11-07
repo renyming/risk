@@ -90,142 +90,42 @@ public class MapController {
     }
 
 
-    /**
-     * Display/Hide the invalid move label, update the invalid info
-     * Called by View.*()
-     * @param show decides whether the invalid move label need to be displayed
-     * @param invalidInfo is the invalid move info
-     */
-    private void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
-        numArmiesMovedTextField.clear(); // TODO: could be removed?
-        invalidMovedLabel.setVisible(show);
-        invalidMovedLabel.setText(invalidInfo);
+    void createPhaseView() {
+        phaseView = PhaseView.getInstance();
+        phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
+                countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
+                numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
+                skipFortificationPhaseButton,
+                this);
     }
 
 
-    /**
-     * Display/Hide the from-to countries info pane between different phase
-     * Called by View.*()
-     * @param show decides whether the from-to countries info need to be displayed
-     */
-    private void displayFromToCountriesInfoPane(boolean show) {
-        if (show) {
-            resetFromToCountriesInfo();
-        }
-        countryALabel.setVisible(show);
-        countryANameLabel.setVisible(show);
-        countryBLabel.setVisible(show);
-        countryBNameLabel.setVisible(show);
-        numArmiesMovedLabel.setVisible(show);
-        numArmiesMovedTextField.setVisible(show);
-    }
-
-
-    /**
-     * Called when user click the 'Skip' button during reinforcement phase
-     * Pass the event to View
-     */
-    public void skipReinforcementPhase() {
-        showPlayerViewPane(false);
-        displayFromToCountriesInfoPane(false);
-        showInvalidMoveLabelInfo(false, "");
-        skipFortificationPhase();
-    }
-
-
-    /**
-     * Called when user click the 'Quit' button during the game play
-     */
-    public void backToMenu() {
-        resetMapComponents();
-        displayFromToCountriesInfoPane(false);
-        map.hide();
-        menuController.switchToStartGameMenu();
-    }
-
-
-    /**
-     * Show/Hide the player view pane based on the parameter
-     * Clear num armies moved text field before hide it
-     * Called by map controller
-     * @param show decides whether the player view pane need to be shown
-     */
-    private void showPlayerViewPane(boolean show) {
-        if (show) {
-            currentPlayerPane.setVisible(true);
+    HashMap<Integer, CountryView> createCountryViews() {
+        if (null == countryViews) {
+            countryViews = new HashMap<>();
         } else {
-            skipFortificationPhaseButton.setVisible(false);
-            numArmiesMovedTextField.clear();
-            numArmiesMovedTextField.setVisible(false);
-        }
-    }
-
-
-    /**
-     * Start next phase
-     * Called when user clicked the next phase button, pass the event to View
-     */
-    public void startNextPhase() {
-        nextPhaseButton.setVisible(false);
-        switch (currentPhase) {
-            case "Start Up Phase": case "Fortification Phase":
-                model.nextPlayer();
-                model.reinforcement();
-                break;
-            case "Reinforcement Phase":
-                Phase.getInstance().setCurrentPhase("Attack Phase");
-                Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button); // TODO: set fake attack, remove it later
-                Phase.getInstance().update();
-                break;
-            case "Attack Phase":
-                Phase.getInstance().setCurrentPhase("Fortification Phase");
-                Phase.getInstance().update();
-                break;
-        }
-    }
-
-
-    /**
-     * During fortification phase, reset selected countries
-     */
-    private void clickedMap() { if (View.PHASE.FORTIFICATION == view.getCurrentPhase()) resetFromToCountries(); }
-
-
-    /**
-     * During fortification phase, skip this phase if current user is not able to move armies
-     * i.e. only has one country left or the user does not want to
-     * Called by 'Skip' button on player view
-     */
-    private void skipFortificationPhase() { model.nextPlayer(); }
-
-
-    /**
-     * Clear all CountryViews and Lines that generated before
-     * Called by View.showMenuStage()
-     */
-    private void resetMapComponents() {
-        if (null != countryViews) {
-            for (int key : countryViews.keySet()) {
-                AnchorPane countryPane = countryViews.get(key).getCountryPane();
-                countryPane.getChildren().clear();
-                map.getMapRootPane().getChildren().remove(countryPane);
-            }
             countryViews.clear();
         }
-        if (null != lines) {
-            for (Line line : lines) {
-                map.getMapRootPane().getChildren().remove(line);
-            }
-            lines.clear();
+        for (int i = 1; i <= numOfCountries; ++i) {
+            countryViews.put(i, createDefaultCountryView());
         }
+        return countryViews;
     }
 
 
     /**
-     * Draw each CountryView and Line into mapRootPane
-     * Called by View.showMapStage()
+     * After loading a valid file, create a default CountryView Observer object, and then return it
+     * Called by View.update() at state CREATE_OBSERVERS
+     * Allow Model to bind it with Country Observable object later
+     * @return CountryView Observer object
      */
-    public void drawMap() {
+    private CountryView createDefaultCountryView() { return new CountryView(this); }
+
+
+    /**
+     * Called by MenuController when user click the start button
+     */
+    void showMapStage() {
         // TODO: use efficient way to draw lines, avoid duplicate
         double COUNTRY_VIEW_WIDTH = 60; // TODO: refactor
         double COUNTRY_VIEW_HEIGHT = 60; // TODO: refactor
@@ -246,16 +146,35 @@ public class MapController {
             }
         }
         for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
+
+        map.show();
     }
 
 
     /**
-     * After loading a valid file, create a default CountryView Observer object, and then return it
-     * Called by View.update() at state CREATE_OBSERVERS
-     * Allow Model to bind it with Country Observable object later
-     * @return CountryView Observer object
+     * Start next phase
+     * Called when user clicked the next phase button, pass the event to View
      */
-    private CountryView createDefaultCountryView() { return new CountryView(this); }
+    public void startNextPhase() {
+        nextPhaseButton.setVisible(false);
+        switch (currentPhase) {
+            case "Start Up Phase": case "Fortification Phase":
+                model.nextPlayer();
+                model.reinforcement();
+                break;
+            case "Reinforcement Phase":
+                Phase.getInstance().setCurrentPhase("Attack Phase");
+                Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button); // TODO: set fake attack, remove it later
+                Phase.getInstance().update();
+                fromToCountriesCounter = 0;
+                break;
+            case "Attack Phase":
+                Phase.getInstance().setCurrentPhase("Fortification Phase");
+                Phase.getInstance().update();
+                fromToCountriesCounter = 0;
+                break;
+        }
+    }
 
 
     /**
@@ -315,6 +234,12 @@ public class MapController {
 
 
     /**
+     * During fortification phase, reset selected countries
+     */
+    private void clickedMap() { resetFromToCountries(); }
+
+
+    /**
      * For the fortification usage, reset selected countries
      * Called by MapController if user trying to reset the selected countries by clicking the map or another country
      */
@@ -335,7 +260,28 @@ public class MapController {
         countryANameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
         countryBNameLabel.setText("NONE");
         countryBNameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-        showInvalidMoveLabelInfo(false, "");
+    }
+
+
+    /**
+     * Clear all CountryViews and Lines that generated before
+     * Called by View.showMenuStage()
+     */
+    private void resetMapComponents() {
+        if (null != countryViews) {
+            for (int key : countryViews.keySet()) {
+                AnchorPane countryPane = countryViews.get(key).getCountryPane();
+                countryPane.getChildren().clear();
+                map.getMapRootPane().getChildren().remove(countryPane);
+            }
+            countryViews.clear();
+        }
+        if (null != lines) {
+            for (Line line : lines) {
+                map.getMapRootPane().getChildren().remove(line);
+            }
+            lines.clear();
+        }
     }
 
 
@@ -345,38 +291,39 @@ public class MapController {
     public void enteredNumArmiesMoved() { model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText()); }
 
 
+    /**
+     * During fortification phase, skip this phase if current user is not able to move armies
+     * i.e. only has one country left or the user does not want to
+     * Called by 'Skip' button on player view
+     */
+    public void skipReinforcementPhase() { model.nextPlayer(); }
 
 
 
 
-    HashMap<Integer, CountryView> createCountryViews() {
-        if (null == countryViews) {
-            countryViews = new HashMap<>();
-        } else {
-            countryViews.clear();
-        }
-        for (int i = 1; i <= numOfCountries; ++i) {
-            countryViews.put(i, createDefaultCountryView());
-        }
-        return countryViews;
-    }
+
+
 
     public void setNumOfCountries(int numOfCountries) {
         this.numOfCountries = numOfCountries;
     }
 
-    void quitGame() { map.close(); }
-
-    void showMapStage() { map.show(); }
-
-    void createPhaseView() {
-        phaseView = PhaseView.getInstance();
-        phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
-                countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
-                numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
-                skipFortificationPhaseButton,
-                this);
-    }
 
     public void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
+
+
+    /**
+     * Called when user click the 'Quit' button during the game play
+     */
+    public void backToMenu() {
+        resetMapComponents();
+        map.hide();
+        menuController.switchToStartGameMenu();
+    }
+
+    /**
+     * Called by MenuController when user quit the game from menu
+     */
+    void quitGame() { map.close(); }
+
 }
