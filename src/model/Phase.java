@@ -37,7 +37,7 @@ public class Phase extends Observable {
      * i.e. currentPhase = "Start Up Phase", "Reinforcement Phase", "Attack Phase", "Fortification Phase"
      * @param currentPhase represent the current phase label name
      */
-    void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
+    public void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
 
     public String getCurrentPhase() { return currentPhase; }
 
