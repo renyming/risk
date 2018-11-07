@@ -515,6 +515,8 @@ public class Player extends Observable {
                 phase.setActionResult(Action.Finish_Current_Phase);
                 phase.update();
             }
+
+
             return true;
         }
         return false;
@@ -582,7 +584,7 @@ public class Player extends Observable {
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
 
         Phase phase = Phase.getInstance();
-        // logic valid
+
         if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
             return;
         }
@@ -593,12 +595,15 @@ public class Player extends Observable {
         if (isAllOut) {
             // dice number depend by computer
             allOut();
-            phase.setActionResult(Action.Show_Next_Phase_Button);
         } else {
             // players choose how many dice need to put
             attackOnce();
+        }
+
+        if (!phase.getCurrentPhase().equals("Game Over") && !phase.getActionResult().equals(Action.Finish_Current_Phase)){
             phase.setActionResult(Action.Show_Next_Phase_Button);
         }
+
         return;
     }
 
