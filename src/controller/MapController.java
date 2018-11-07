@@ -221,7 +221,7 @@ public class MapController {
      * Called by map controller
      * @param show decides whether the player view pane need to be shown
      */
-    public void showPlayerViewPane(boolean show) {
+    private void showPlayerViewPane(boolean show) {
         if (show) {
             currentPlayerPane.setVisible(true);
         } else {
@@ -237,11 +237,11 @@ public class MapController {
      * Called when user clicked the next phase button, pass the event to View
      */
     public void startNextPhase() {
-        // TODO:
+        nextPhaseButton.setVisible(false);
         switch (currentPhase) {
             case "Start Up Phase":
-                // TODO: call model nextPlayer()
-                // TODO: call Player.reinforcement();
+                model.nextPlayer();
+                model.reinforcement();
                 break;
             case "Reinforcement Phase":
                 // TODO: update UI that allow player to do attack
@@ -260,27 +260,27 @@ public class MapController {
                 break;
         }
 
-        showPhaseLabel();
-        showPlayerViewPane(true);
-        setPhaseLabel(nextPhaseButton.getText().substring(6));
-        view.setPause(false);
-        View.PHASE currentPhase = view.getCurrentPhase();
-        switch (currentPhase) {
-            case START_UP:
-                view.setCurrentPhase(View.PHASE.REINFORCEMENT);
-                displayFromToCountriesInfoPane(false);
-                break;
-            case REINFORCEMENT:
-                view.setCurrentPhase(View.PHASE.FORTIFICATION);
-                resetFromToCountries();
-                displayFromToCountriesInfoPane(true);
-                showSkipFortificationPhaseButton(true); //TODO: refactor
-                break;
-            case FORTIFICATION:
-                view.setCurrentPhase(View.PHASE.REINFORCEMENT);
-                displayFromToCountriesInfoPane(false);
-                break;
-        }
+//        showPhaseLabel();
+//        showPlayerViewPane(true);
+//        setPhaseLabel(nextPhaseButton.getText().substring(6));
+//        view.setPause(false);
+//        View.PHASE currentPhase = view.getCurrentPhase();
+//        switch (currentPhase) {
+//            case START_UP:
+//                view.setCurrentPhase(View.PHASE.REINFORCEMENT);
+//                displayFromToCountriesInfoPane(false);
+//                break;
+//            case REINFORCEMENT:
+//                view.setCurrentPhase(View.PHASE.FORTIFICATION);
+//                resetFromToCountries();
+//                displayFromToCountriesInfoPane(true);
+//                showSkipFortificationPhaseButton(true); //TODO: refactor
+//                break;
+//            case FORTIFICATION:
+//                view.setCurrentPhase(View.PHASE.REINFORCEMENT);
+//                displayFromToCountriesInfoPane(false);
+//                break;
+//        }
     }
 
 
@@ -520,14 +520,12 @@ public class MapController {
 
     void createPhaseView() {
         phaseView = PhaseView.getInstance();
-        phaseView.init(phaseLabel, currentPlayerLabel, armiesInHandLabel,
+        phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton,
                 this);
     }
 
-    public void setNextPhase(String currentPhase) {
-        this.currentPhase = currentPhase;
-    }
+    public void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
 }
