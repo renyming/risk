@@ -261,6 +261,7 @@ public class Country extends Observable implements Comparable<Country> {
 
     /**
      * Test if dice num is valid for a defender
+     * @param defenderDiceNum The number of dice that the defender choose
      * @return If the dice is less than armies owned in the country, return true else return false
      */
     public boolean isValidDefender(int defenderDiceNum){
@@ -272,13 +273,11 @@ public class Country extends Observable implements Comparable<Country> {
         } else {
             return false;
         }
-
-
-
     }
 
     /**
      * Test if dice num is valid for a attacker
+     * @param attackerDiceNum The number of dice that the attacker choose
      * @return If the dice is less than armies owned in the country, and more than 0, less than 3, return true else return false
      */
     public boolean isValidAttacker(int attackerDiceNum) {
