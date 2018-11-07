@@ -99,14 +99,40 @@ public class Model extends Observable {
     }
 
     /**
+     * button event for  trade button
+     * @param card1 name of the first card
+     * @param card2 name of the second card
+     * @param card3 name of the third card
+     */
+    public void trade(String card1, String card2, String card3){
+        currentPlayer.handleCards(card1, card2, card3);
+        currentPlayer.exchangeForArmy();
+    }
+
+    /**
+     * button event for cardView quit button
+     */
+    public void quitCards(){
+        Cards.getInstance().hide();
+    }
+
+    /**
      * Reinforcement phaseNumber
      * Set new current player
      * Add armies to the player
+     * Cards exchange for armies
      */
    public void reinforcement(){
         disable = false;
         //nextPlayer();
+
+       Cards.getInstance().setCurrentPlayer(currentPlayer);
+       Cards.getInstance().display();
+       Cards.getInstance().update();
+
         currentPlayer.reinforcement();
+
+
 //        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //        Phase.getInstance().update();
 

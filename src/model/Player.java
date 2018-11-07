@@ -29,6 +29,7 @@ public class Player extends Observable {
     private Country defender;
     private int defenderDiceNum;
     private int countriesSize;
+    private int cardsArmy;
 
     private HashMap<String,Integer> cards;
 
@@ -629,21 +630,22 @@ public class Player extends Observable {
      */
     public void reinforcement(){
 
-        Cards.getInstance().setCurrentPlayer(this);
-        Cards.getInstance().display();
-        Cards.getInstance().update();
-
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         addRoundArmies();
         Phase.getInstance().update();
     }
 
-    public void handleCards(String card, int number){
-        cards.put(card,cards.get(card) - number);
+    public void handleCards(String card1, String card2, String card3){
+        cards.put(card1,cards.get(card1) - 1);
+        cards.put(card2,cards.get(card2) - 1);
+        cards.put(card3,cards.get(card3) - 1);
+        Cards.getInstance().update();
     }
 
     public void exchangeForArmy(){
-        setArmies(Model.cardsValue);
+        cardsArmy = Model.cardsValue;
+        armies += cardsArmy;
+        Phase.getInstance().update();
     }
 
 
