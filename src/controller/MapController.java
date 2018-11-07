@@ -79,7 +79,6 @@ public class MapController {
     private int attackerDefenderDices[];
     private boolean allOut;
 
-
     public void init(Model model, Map map, MenuController menuController) {
         this.model = model;
         this.map = map;
@@ -115,41 +114,41 @@ public class MapController {
         phaseLabel.setOnMouseClicked(Event::consume);
         attackerDiceOneButton.setOnMouseClicked((e) -> {
             attackerDefenderDices[0] = 1;
-            resetAttackerDiceButtons();
+            clearAttackerDiceButtons();
             attackerDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         });
         attackerDiceTwoButton.setOnMouseClicked((e) -> {
             attackerDefenderDices[0] = 2;
-            resetAttackerDiceButtons();
+            clearAttackerDiceButtons();
             attackerDiceTwoButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         });
         attackerDiceThreeButton.setOnMouseClicked((e) -> {
             attackerDefenderDices[0] = 3;
-            resetAttackerDiceButtons();
+            clearAttackerDiceButtons();
             attackerDiceThreeButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         });
         defenderDiceOneButton.setOnMouseClicked((e) -> {
             attackerDefenderDices[1] = 1;
-            resetDefenderDiceButtons();
+            clearDefenderDiceButtons();
             defenderDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         });
         defenderDiceTwoButton.setOnMouseClicked((e) -> {
             attackerDefenderDices[1] = 2;
-            resetDefenderDiceButtons();
+            clearDefenderDiceButtons();
             defenderDiceTwoButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         });
         allOutEnableButton.setOnMouseClicked((e) -> {
             allOut = true;
             attackerDefenderDices[0] = 1;
             attackerDefenderDices[1] = 1;
-            resetAttackerDiceButtons();
-            resetDefenderDiceButtons();
+            clearAttackerDiceButtons();
+            clearDefenderDiceButtons();
             hideDices();
             allOutEnableButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             allOutDisableButton.setStyle("");
         });
         allOutDisableButton.setOnMouseClicked((e) -> {
-            resetAllOutButtons();
+            resetAllDices();
             showDices();
         });
     }
@@ -246,9 +245,13 @@ public class MapController {
                 Phase.getInstance().setCurrentPhase("Attack Phase");
                 Phase.getInstance().update();
                 fromToCountriesCounter = 0;
-                resetAttackerDiceButtons();
-                resetDefenderDiceButtons();
-                resetAllOutButtons();
+                clearAttackerDiceButtons();
+                attackerDefenderDices[0] = 1;
+                attackerDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+                clearDefenderDiceButtons();
+                attackerDefenderDices[1] = 1;
+                defenderDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+                resetAllDices();
                 break;
             case "Attack Phase":
                 Phase.getInstance().setCurrentPhase("Fortification Phase");
@@ -270,8 +273,27 @@ public class MapController {
             case "Start Up Phase": case "Reinforcement Phase":
                 model.allocateArmy(country);
                 break;
-            case "Attack Phase": case "Fortification Phase":
-                if (!currentPhase.equals("Fortification Phase") || enableFortification) {
+            case "Attack Phase":
+                switch (fromToCountriesCounter) {
+                    case 0:
+                        setFromCountryInfo(country);
+                        break;
+                    case 1:
+                        setToCountryInfo(country);
+                        if (0 == country.getArmies()) {
+                            attackerDefenderDices[1] = 0;
+                            hideDices();
+                        }
+                        break;
+                    case 2:
+                        resetFromToCountries();
+                        resetAllDices();
+                        break;
+                }
+                fromToCountriesCounter++;
+                break;
+            case "Fortification Phase":
+                if (enableFortification) {
                     switch (fromToCountriesCounter) {
                         case 0:
                             setFromCountryInfo(country);
@@ -318,10 +340,10 @@ public class MapController {
      * During fortification phase, reset selected countries
      */
     private void clickedMap() {
-        if (!currentPhase.equals("Fortification Phase") || enableFortification) {
-            resetFromToCountries();
-            fromToCountriesCounter = 0;
-        }
+//        if (!currentPhase.equals("Fortification Phase") || enableFortification) {
+//            resetFromToCountries();
+//            fromToCountriesCounter = 0;
+//        }
     }
 
 
@@ -334,27 +356,34 @@ public class MapController {
         fromToCountries[1] = null;
         fromToCountriesCounter = -1;
         countryANameLabel.setText("NONE");
-        countryANameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        countryANameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
         countryBNameLabel.setText("NONE");
-        countryBNameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        countryBNameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
+        showDices();
     }
 
 
-    private void resetAttackerDiceButtons() {
+    private void clearAttackerDiceButtons() {
         attackerDiceOneButton.setStyle("");
         attackerDiceTwoButton.setStyle("");
         attackerDiceThreeButton.setStyle("");
     }
 
 
-    private void resetDefenderDiceButtons() {
+    private void clearDefenderDiceButtons() {
         defenderDiceOneButton.setStyle("");
         defenderDiceTwoButton.setStyle("");
     }
 
 
-    private void resetAllOutButtons() {
+    private void resetAllDices() {
         allOut = false;
+        attackerDefenderDices[0] = 1;
+        clearAttackerDiceButtons();
+        attackerDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+        attackerDefenderDices[1] = 1;
+        clearDefenderDiceButtons();
+        defenderDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         allOutEnableButton.setStyle("");
         allOutDisableButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
     }
@@ -384,7 +413,11 @@ public class MapController {
      */
     public void enteredNumArmiesMoved() {
         invalidMovedLabel.setVisible(false);
-        if (enableFortification) model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText());
+        if (currentPhase.equals("Fortification Phase") && enableFortification) {
+            model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText());
+        } else if (currentPhase.equals("Attack Phase")) {
+//            model.moveArmy(numArmiesMovedTextField.getText()); // TODO
+        }
     }
 
 
@@ -439,4 +472,6 @@ public class MapController {
      */
     void quitGame() { map.close(); }
 
+
+    public void showNumArmiesMovedTextField() {numArmiesMovedTextField.setVisible(true); }
 }

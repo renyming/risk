@@ -171,9 +171,14 @@ public class PhaseView implements Observer {
                 invalidMovedLabel.setText(phase.getInvalidInfo());
                 invalidMovedLabel.setVisible(true);
                 break;
+            case Move_After_Conquer:
+                mapController.showNumArmiesMovedTextField();
+                nextPhaseButton.setVisible(false);
+                break;
             case Show_Next_Phase_Button:
                 phaseLabel.setVisible(false);
                 nextPhaseButton.setVisible(true);
+                invalidMovedLabel.setVisible(false);
                 if (currentPhase.equals("Fortification Phase")) {
                     mapController.disableFortification();
                 }

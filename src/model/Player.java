@@ -576,7 +576,11 @@ public class Player extends Observable {
         }
 
         // if defender country doesn't has army
-        if (isDefenderLoose()) return;
+        if (isDefenderLoose()) {
+            phase.setActionResult(Action.Move_After_Conquer);
+            phase.update();
+            return;
+        }
 
         if (isAllOut) {
             // dice number depend by computer
