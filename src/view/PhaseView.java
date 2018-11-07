@@ -38,6 +38,7 @@ public class PhaseView implements Observer {
     private Label allOutLabel;
     private Button allOutEnableButton;
     private Button allOutDisableButton;
+    private Button attackButton;
 
     // fortification relative components
     private Label numArmiesMovedLabel;
@@ -78,7 +79,7 @@ public class PhaseView implements Observer {
 
     public void initAttackComponents(Label attackerDiceLabel, Button attackerDiceOneButton, Button attackerDiceTwoButton, Button attackerDiceThreeButton,
                                      Label defenderDiceLabel, Button defenderDiceOneButton, Button defenderDiceTwoButton,
-                                     Label allOutLabel, Button allOutEnableButton, Button allOutDisableButton) {
+                                     Label allOutLabel, Button allOutEnableButton, Button allOutDisableButton, Button attackButton) {
         this.attackerDiceLabel = attackerDiceLabel;
         this.attackerDiceOneButton = attackerDiceOneButton;
         this.attackerDiceTwoButton = attackerDiceTwoButton;
@@ -89,6 +90,7 @@ public class PhaseView implements Observer {
         this.allOutLabel = allOutLabel;
         this.allOutEnableButton = allOutEnableButton;
         this.allOutDisableButton = allOutDisableButton;
+        this.attackButton = attackButton;
     }
 
     @Override
@@ -141,6 +143,7 @@ public class PhaseView implements Observer {
                     allOutLabel.setVisible(true);
                     allOutEnableButton.setVisible(true);
                     allOutDisableButton.setVisible(true);
+                    attackButton.setVisible(true);
                     nextPhaseButton.setText("Enter Fortification Phase");
                     break;
                 case "Fortification Phase":
@@ -196,6 +199,7 @@ public class PhaseView implements Observer {
         allOutLabel.setVisible(false);
         allOutEnableButton.setVisible(false);
         allOutDisableButton.setVisible(false);
+        attackButton.setVisible(false);
         numArmiesMovedLabel.setVisible(false);
         numArmiesMovedTextField.setVisible(false);
         numArmiesMovedTextField.clear();

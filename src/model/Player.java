@@ -602,6 +602,7 @@ public class Player extends Observable {
 
         if (!phase.getCurrentPhase().equals("Game Over") && !phase.getActionResult().equals(Action.Finish_Current_Phase)){
             phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.update();
         }
 
         return;

@@ -28,20 +28,21 @@
             <Label fx:id="countryANameLabel" alignment="CENTER" layoutX="2.0" layoutY="165.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
             <Label fx:id="countryBLabel" alignment="CENTER" layoutY="195.0" prefHeight="30.0" prefWidth="110.0" text="To Country" />
             <Label fx:id="countryBNameLabel" alignment="CENTER" layoutX="2.0" layoutY="225.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
-            <TextField fx:id="numArmiesMovedTextField" layoutX="30.0" layoutY="480.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
-            <Label fx:id="numArmiesMovedLabel" alignment="CENTER" layoutX="2.0" layoutY="450.0" prefHeight="30.0" prefWidth="108.0" text="Armies To Move" />
+            <TextField fx:id="numArmiesMovedTextField" layoutX="30.0" layoutY="390.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
+            <Label fx:id="numArmiesMovedLabel" alignment="CENTER" layoutX="2.0" layoutY="360.0" prefHeight="30.0" prefWidth="108.0" text="Armies To Move" />
             <Button fx:id="skipFortificationPhaseButton" layoutX="25.0" layoutY="695.0" mnemonicParsing="false" onAction="#skipReinforcementPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
             <Label fx:id="invalidMovedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="525.0" prefHeight="150.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="There is no path between these two countries that is composed of countries that you owns" textAlignment="CENTER" wrapText="true" />
             <Label fx:id="attackerDiceLabel" alignment="CENTER" layoutY="270.0" prefHeight="30.0" prefWidth="110.0" text="Attacker's Dices" />
             <Label fx:id="defenderDiceLabel" alignment="CENTER" layoutY="330.0" prefHeight="30.0" prefWidth="110.0" text="Defend's Dices" />
             <Button fx:id="attackerDiceOneButton" ellipsisString="" layoutX="5.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
-            <Button fx:id="attackerDiceTwoButton" ellipsisString="" layoutX="40.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
-            <Button fx:id="attackerDiceThreeButton" ellipsisString="" layoutX="75.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="3" />
-            <Button fx:id="defenderDiceOneButton" ellipsisString="" layoutX="17.0" layoutY="360.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
-            <Button fx:id="defenderDiceTwoButton" ellipsisString="" layoutX="63.0" layoutY="360.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
-            <Label fx:id="allOutLabel" alignment="CENTER" layoutY="390.0" prefHeight="30.0" prefWidth="110.0" text="All Out Model" />
-            <Button fx:id="allOutEnableButton" ellipsisString="" layoutX="17.0" layoutY="420.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="✓" />
-            <Button fx:id="allOutDisableButton" ellipsisString="" layoutX="63.0" layoutY="420.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="x" />
+            <Button fx:id="attackerDiceTwoButton" ellipsisString="" layoutX="40.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
+            <Button fx:id="attackerDiceThreeButton" ellipsisString="" layoutX="75.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="3" />
+            <Button fx:id="defenderDiceOneButton" ellipsisString="" layoutX="17.0" layoutY="360.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
+            <Button fx:id="defenderDiceTwoButton" ellipsisString="" layoutX="63.0" layoutY="360.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
+            <Label fx:id="allOutLabel" alignment="CENTER" layoutY="390.0" prefHeight="30.0" prefWidth="110.0" text="All Out Mode" />
+            <Button fx:id="allOutEnableButton" ellipsisString="" layoutX="17.0" layoutY="420.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="✓" />
+            <Button fx:id="allOutDisableButton" ellipsisString="" layoutX="63.0" layoutY="420.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="x" />
+            <Button fx:id="attackButton" ellipsisString="" layoutX="25.0" layoutY="465.0" mnemonicParsing="false" onAction="#attack" prefHeight="30.0" prefWidth="60.0" text="Attack" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="14.0" layoutY="626.0" prefHeight="128.0" prefWidth="851.0" style="-fx-border-color: black;">
