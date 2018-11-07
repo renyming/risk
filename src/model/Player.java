@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import common.Action;
 import javafx.util.Pair;
 
@@ -29,6 +30,8 @@ public class Player extends Observable {
     private int defenderDiceNum;
     private int countriesSize;
 
+    private HashMap<String,Integer> cards;
+
 
     /**
      * Constructor of player
@@ -42,6 +45,22 @@ public class Player extends Observable {
         countriesOwned = new ArrayList<Country>();
         continentsOwned = new ArrayList<Continent>();
         totalStrength = 0;
+        cards = new HashMap<>();
+        cards.put("infantry",0);
+        cards.put("cavalry",0);
+        cards.put("artillery",0);
+    }
+
+    /**
+     * return total number of cards owned by the player
+     * @return n the total number of cards owned by the player
+     */
+    public int getTotalCards(){
+        int n = 0;
+        for (String key : cards.keySet()){
+            n += cards.get(key);
+        }
+        return n;
     }
 
     /**
@@ -602,6 +621,20 @@ public class Player extends Observable {
     public void reinforcement(){
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         addRoundArmies();
+        Phase.getInstance().update();
+
+        if(getTotalCards() >= 5){
+
+        }
+    }
+
+    public void handleCards(String card, int number){
+        cards.put(card,cards.get(card) - number);
+    }
+
+    public void exchangeForArmy(){
+        setArmies(Model.cardsValue);
+        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         Phase.getInstance().update();
     }
 
