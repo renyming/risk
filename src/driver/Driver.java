@@ -18,7 +18,6 @@ public class Driver extends Application {
     public void start(javafx.stage.Stage primaryStage) {
         model = new Model();
         view = new View();
-        model.addObserver(view);
 
         // This is necessary because when the selecting map action happens,
         // View need to pass file path to the Model, but View don't have the

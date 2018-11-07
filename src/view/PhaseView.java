@@ -14,17 +14,34 @@ public class PhaseView implements Observer {
 
     private static PhaseView instance;
 
+    // general map components
     private Label phaseLabel;
     private Button nextPhaseButton;
     private Label currentPlayerLabel;
     private Label armiesInHandLabel;
+    private Label invalidMovedLabel;
+
+    // From-To country relative components
     private Label countryALabel;
     private Label countryANameLabel;
     private Label countryBLabel;
     private Label countryBNameLabel;
+
+    // attack phase relative components
+    private Label attackerDiceLabel;
+    private Button attackerDiceOneButton;
+    private Button attackerDiceTwoButton;
+    private Button attackerDiceThreeButton;
+    private Label defenderDiceLabel;
+    private Button defenderDiceOneButton;
+    private Button defenderDiceTwoButton;
+    private Label allOutLabel;
+    private Button allOutEnableButton;
+    private Button allOutDisableButton;
+
+    // fortification relative components
     private Label numArmiesMovedLabel;
     private TextField numArmiesMovedTextField;
-    private Label invalidMovedLabel;
     private Button skipFortificationPhaseButton;
 
     private String currentPhase;
@@ -43,7 +60,7 @@ public class PhaseView implements Observer {
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
                      Button skipFortificationPhaseButton,
-                     MapController mapController) {
+                     MapController mapController) { // TODO: refactor
         this.phaseLabel = phaseLabel;
         this.nextPhaseButton = nextPhaseButton;
         this.currentPlayerLabel = currentPlayerLabel;
@@ -57,6 +74,21 @@ public class PhaseView implements Observer {
         this.invalidMovedLabel = invalidMoveLabel;
         this.skipFortificationPhaseButton = skipFortificationPhaseButton;
         this.mapController = mapController;
+    }
+
+    public void initAttackComponents(Label attackerDiceLabel, Button attackerDiceOneButton, Button attackerDiceTwoButton, Button attackerDiceThreeButton,
+                                     Label defenderDiceLabel, Button defenderDiceOneButton, Button defenderDiceTwoButton,
+                                     Label allOutLabel, Button allOutEnableButton, Button allOutDisableButton) {
+        this.attackerDiceLabel = attackerDiceLabel;
+        this.attackerDiceOneButton = attackerDiceOneButton;
+        this.attackerDiceTwoButton = attackerDiceTwoButton;
+        this.attackerDiceThreeButton = attackerDiceThreeButton;
+        this.defenderDiceLabel = defenderDiceLabel;
+        this.defenderDiceOneButton = defenderDiceOneButton;
+        this.defenderDiceTwoButton = defenderDiceTwoButton;
+        this.allOutLabel = allOutLabel;
+        this.allOutEnableButton = allOutEnableButton;
+        this.allOutDisableButton = allOutDisableButton;
     }
 
     @Override
@@ -93,17 +125,32 @@ public class PhaseView implements Observer {
                     break;
                 case "Attack Phase":
                     // set Attack Phase UI
+                    hide();
                     reset();
                     countryALabel.setVisible(true);
                     countryANameLabel.setVisible(true);
                     countryBLabel.setVisible(true);
                     countryBNameLabel.setVisible(true);
-                    // TODO: show dice relative map components
+                    attackerDiceLabel.setVisible(true);
+                    attackerDiceOneButton.setVisible(true);
+                    attackerDiceTwoButton.setVisible(true);
+                    attackerDiceThreeButton.setVisible(true);
+                    defenderDiceLabel.setVisible(true);
+                    defenderDiceOneButton.setVisible(true);
+                    defenderDiceTwoButton.setVisible(true);
+                    allOutLabel.setVisible(true);
+                    allOutEnableButton.setVisible(true);
+                    allOutDisableButton.setVisible(true);
                     nextPhaseButton.setText("Enter Fortification Phase");
                     break;
                 case "Fortification Phase":
-                    reset();
-                    // TODO: hide dice relative map components
+                    // set Fortification Phase UI
+                    hide();
+                    reset(); // TODO: may not needed
+                    countryALabel.setVisible(true);
+                    countryANameLabel.setVisible(true);
+                    countryBLabel.setVisible(true);
+                    countryBNameLabel.setVisible(true);
                     numArmiesMovedLabel.setVisible(true);
                     numArmiesMovedTextField.setVisible(true);
                     skipFortificationPhaseButton.setVisible(true);
@@ -126,6 +173,9 @@ public class PhaseView implements Observer {
             case Show_Next_Phase_Button:
                 phaseLabel.setVisible(false);
                 nextPhaseButton.setVisible(true);
+                if (currentPhase.equals("Fortification Phase")) {
+                    mapController.disableFortification();
+                }
             default:
                 break;
         }
@@ -136,6 +186,16 @@ public class PhaseView implements Observer {
         countryANameLabel.setVisible(false);
         countryBLabel.setVisible(false);
         countryBNameLabel.setVisible(false);
+        attackerDiceLabel.setVisible(false);
+        attackerDiceOneButton.setVisible(false);
+        attackerDiceTwoButton.setVisible(false);
+        attackerDiceThreeButton.setVisible(false);
+        defenderDiceLabel.setVisible(false);
+        defenderDiceOneButton.setVisible(false);
+        defenderDiceTwoButton.setVisible(false);
+        allOutLabel.setVisible(false);
+        allOutEnableButton.setVisible(false);
+        allOutDisableButton.setVisible(false);
         numArmiesMovedLabel.setVisible(false);
         numArmiesMovedTextField.setVisible(false);
         numArmiesMovedTextField.clear();
