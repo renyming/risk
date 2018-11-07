@@ -566,6 +566,9 @@ public class Player extends Observable {
                 phase.setInvalidInfo(attacker.getOwner().getName());
             }
 
+            // if nobody win, ask for move armies to new occupied country
+            phase.setActionResult(Action.Move_After_Conquer);
+
             // if attack possible
             if (!isAttackPossible()) {
                 phase.setInvalidInfo("Attack Impossible");
@@ -577,12 +580,10 @@ public class Player extends Observable {
 
     /**
      * Move number of armies to the new conquered country
-     * @param c1 attcker country, which the armies move out
-     * @param c2 conquered country, whiche the armies move in
      * @param num the number of armies need to be move
      * @return 1 success, -1 somehow wrong
      */
-    public int moveArmy(Country c1, Country c2, String num){
+    public int moveArmy(String num){
 
         int numArmies = 0;
         try{
@@ -591,9 +592,9 @@ public class Player extends Observable {
             return -1;
         }
 
-        if (this.isContain(c1) && this.isContain(c2) && c1.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
-            c1.setArmies(c1.getArmies() - numArmies);
-            c2.setArmies(c2.getArmies() + numArmies);
+        if (this.isContain(attacker) && this.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
+            attacker.setArmies(attacker.getArmies() - numArmies);
+            defender.setArmies(defender.getArmies() + numArmies);
             return 1;
         }
         return -1;
