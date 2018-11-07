@@ -584,18 +584,26 @@ public class Player extends Observable {
      */
     public int moveArmy(String num){
 
+        Phase phase = Phase.getInstance();
         int numArmies = 0;
         try{
             numArmies = Integer.valueOf(num);
         } catch (Exception e){
+            phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.update();
             return -1;
         }
 
         if (this.isContain(attacker) && this.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
             attacker.setArmies(attacker.getArmies() - numArmies);
             defender.setArmies(defender.getArmies() + numArmies);
+
+            phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.update();
             return 1;
         }
+        phase.setActionResult(Action.Show_Next_Phase_Button);
+        phase.update();
         return -1;
     }
 
@@ -671,7 +679,7 @@ public class Player extends Observable {
         }
 
         //update phase info
-        if (!phase.getCurrentPhase().equals("Game Over")){
+        if (!phase.getCurrentPhase().equals("Game Over") || phase.getActionResult() != Action.Move_After_Conquer) {
             phase.setActionResult(Action.Show_Next_Phase_Button);
             phase.update();
         }
