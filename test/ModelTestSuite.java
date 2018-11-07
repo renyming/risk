@@ -19,5 +19,5 @@ import testModel.PlayerTest;
         PlayerTest.class})
 
 public class ModelTestSuite {
-    
+
 }

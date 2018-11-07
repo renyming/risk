@@ -127,6 +127,10 @@ public class Model extends Observable {
         currentPlayer.attack(attacker, attackerDiceNum, attacked, attackedDiceNum, isAllOut);
     }
 
+    public void moveAfterConquer(String num) {
+        currentPlayer.moveArmy(num);
+    }
+
     /**
      * Method for fortification operation
      */
@@ -314,9 +318,9 @@ public class Model extends Observable {
         Phase.getInstance().update();
 
         //give state to view
-//        Message message = new Message(STATE.INIT_ARMIES,null);
-//        notify(message);
-        
+        PlayersWorldDomination.getInstance().setPlayers(players);
+        PlayersWorldDomination.getInstance().setTotalNumCountries(countries.size());
+        PlayersWorldDomination.getInstance().update();
     }
 
     /**
