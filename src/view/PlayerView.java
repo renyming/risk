@@ -28,9 +28,9 @@ public class PlayerView implements Observer {
      * @param mapController is the map controller which handle event when user interact with the map, pass it to View
      */
     public PlayerView(MapController mapController) {
-        this.mapController = mapController;
-        currentPlayerLabel = mapController.getCurrentPlayerLabel();
-        armiesInHandLabel = mapController.getArmiesInHandLabel();
+//        this.mapController = mapController;
+//        currentPlayerLabel = mapController.getCurrentPlayerLabel();
+//        armiesInHandLabel = mapController.getArmiesInHandLabel();
     }
 
 
@@ -43,18 +43,18 @@ public class PlayerView implements Observer {
     @Override
     public void update(Observable obs, Object arg) {
 //        System.out.print("PlayerView.update: ");
-        Player currentPlayer = (Player) obs;
-        String color = currentPlayer.getColor();
-
-        name = currentPlayer.getName();
-        currentPlayerLabel.setText(name);
-        armiesInHands = currentPlayer.getArmies();
-//        System.out.print(", armies = " + armiesInHands);
-        armiesInHandLabel.setText(Integer.toString(armiesInHands));
-        currentPlayerLabel.setStyle("-fx-background-color: " + color);
-        armiesInHandLabel.setStyle("-fx-background-color: " + color);
-        if (0 == armiesInHands) mapController.prepareNextPhase();
-        //        System.out.println("");
+//        Player currentPlayer = (Player) obs;
+//        String color = currentPlayer.getColor();
+//
+//        name = currentPlayer.getName();
+//        currentPlayerLabel.setText(name);
+//        armiesInHands = currentPlayer.getArmies();
+////        System.out.print(", armies = " + armiesInHands);
+//        armiesInHandLabel.setText(Integer.toString(armiesInHands));
+//        currentPlayerLabel.setStyle("-fx-background-color: " + color);
+//        armiesInHandLabel.setStyle("-fx-background-color: " + color);
+//        if (0 == armiesInHands) mapController.prepareNextPhase();
+//        //        System.out.println("");
     }
 
 
@@ -63,7 +63,7 @@ public class PlayerView implements Observer {
      * Called by View, to check clicked country's ownership
      * @return the current player name
      */
-    public String getName() { return name; }
+//    public String getName() { return name; }
 
 
     /**

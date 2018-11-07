@@ -14,9 +14,9 @@ public class Phase extends Observable {
 
     private String invalidInfo;
 
-    private Phase() {}
+    private Phase() { actionResult = Action.None; }
 
-    static Phase getInstance() {
+    public static Phase getInstance() {
         if (null == instance) instance = new Phase();
         return instance;
     }
@@ -46,7 +46,7 @@ public class Phase extends Observable {
      * Called when the Model change the current player to the next one
      * @param currentPlayer is the next Player reference
      */
-    public void setCurrentPlayer(Player currentPlayer) {this.currentPlayer = currentPlayer; }
+    void setCurrentPlayer(Player currentPlayer) {this.currentPlayer = currentPlayer; }
 
     public Player getCurrentPlayer() { return currentPlayer; }
 
@@ -56,7 +56,7 @@ public class Phase extends Observable {
      * i.e. actionResult = Allocate_Army, etc
      * @param actionResult is the action that are taking place during a phase
      */
-    public void setActionResult(Action actionResult) { this.actionResult = actionResult; }
+    void setActionResult(Action actionResult) { this.actionResult = actionResult; }
 
     public Action getActionResult() { return actionResult; }
 
@@ -66,7 +66,7 @@ public class Phase extends Observable {
      * i.e. invalidInfo = "Select one of your own countries", "There is no path between ...", etc
      * @param invalidInfo is the user invalid action info
      */
-    public void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
+    void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
 
     public String getInvalidInfo() { return invalidInfo; }
 

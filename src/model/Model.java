@@ -82,6 +82,7 @@ public class Model extends Observable {
         int id = 1;
         for (String key:countries.keySet()) {
             countries.get(key).addObserver(countryViewHashMap.get(id));
+            countries.get(key).callObservers();
             id ++;
         }
         //send next state message
@@ -181,8 +182,16 @@ public class Model extends Observable {
      */
     public void allocateArmy(Country country){
 
-        if(disable)
+        if(disable) {
+            Phase.getInstance().setInvalidInfo("Start Up Phase ended!");
+            Phase.getInstance().update();
             return;
+        }
+        if(!currentPlayer.getCountriesOwned().contains(country)){
+            Phase.getInstance().setInvalidInfo("Invalid country!");
+            Phase.getInstance().update();
+            return;
+        }
 
         //country army + 1
         country.addArmies(1);

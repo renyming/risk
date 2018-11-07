@@ -145,8 +145,6 @@ public class MenuController {
      */
     private void validateEnteredPlayerNum(String enteredPlayerNum) {
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
-        mapController.initCountryViews();
-        mapController.createPhaseView();
         model.initiatePlayers(enteredPlayerNum);
     }
 
@@ -156,7 +154,8 @@ public class MenuController {
      * Pass event to the View
      */
     public void startGame() {
-//        model.startUp(); // TODO:
+        mapController.createPhaseView();
+        model.startUp(mapController.createCountryViews());
         menu.hide();
         mapController.showMapStage();
     }

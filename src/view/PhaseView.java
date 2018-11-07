@@ -31,7 +31,7 @@ public class PhaseView implements Observer {
     private MapController mapController;
 
 
-    private PhaseView() {}
+    private PhaseView() { currentPhase = "Init"; }
 
     public static PhaseView getInstance() {
         if (null == instance) instance = new PhaseView();
@@ -60,43 +60,41 @@ public class PhaseView implements Observer {
     @Override
     public void update(Observable obs, Object obj) {
         Phase phase = (Phase) obs;
-        if (!currentPhase.equals(phase.getCurrentPhase())) {
-            currentPhase = phase.getCurrentPhase();
-            phaseLabel.setText(phase.getCurrentPhase());
-            switch (phase.getCurrentPhase()) {
-                case "Start Up Phase":
-                    // set Start Up Phase UI
-                    // useful when start another game within one application launch
-                    hide();
-                    reset();
-                    // update current Player UI
-                    currentPlayer = phase.getCurrentPlayer();
-                    currentPlayerLabel.setText(currentPlayer.getName());
-                    currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
-                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                    break;
-                case "Reinforcement Phase":
-                    // set Reinforcement Phase UI
-                    hide();
-                    // update current Player UI
-                    currentPlayer = phase.getCurrentPlayer();
-                    currentPlayerLabel.setText(currentPlayer.getName());
-                    currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
-                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                    break;
-                case "Attack Phase":
-                    // set Attack Phase UI
-                    reset();
-                    // TODO: show From-To relative components
-                    break;
-                case "Fortification Phase":
-                     reset();
-                    // TODO: hide dice relative components
-                    numArmiesMovedLabel.setVisible(true);
-                    numArmiesMovedTextField.setVisible(true);
-                    skipFortificationPhaseButton.setVisible(true);
-                    break;
-            }
+        currentPhase = phase.getCurrentPhase();
+        phaseLabel.setText(phase.getCurrentPhase());
+        switch (phase.getCurrentPhase()) {
+            case "Start Up Phase":
+                // set Start Up Phase UI
+                // useful when start another game within one application launch
+                hide();
+                reset();
+                // update current Player UI
+                currentPlayer = phase.getCurrentPlayer();
+                currentPlayerLabel.setText(currentPlayer.getName());
+                currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
+                armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                break;
+            case "Reinforcement Phase":
+                // set Reinforcement Phase UI
+                hide();
+                // update current Player UI
+                currentPlayer = phase.getCurrentPlayer();
+                currentPlayerLabel.setText(currentPlayer.getName());
+                currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
+                armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                break;
+            case "Attack Phase":
+                // set Attack Phase UI
+                reset();
+                // TODO: show From-To relative components
+                break;
+            case "Fortification Phase":
+                 reset();
+                // TODO: hide dice relative components
+                numArmiesMovedLabel.setVisible(true);
+                numArmiesMovedTextField.setVisible(true);
+                skipFortificationPhaseButton.setVisible(true);
+                break;
         }
 
         switch (phase.getActionResult()) {
@@ -111,6 +109,8 @@ public class PhaseView implements Observer {
             case Invalid_Move:
                 invalidMovedLabel.setText(phase.getInvalidInfo());
                 invalidMovedLabel.setVisible(true);
+                break;
+            default:
                 break;
         }
     }

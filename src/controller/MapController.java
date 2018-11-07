@@ -345,7 +345,7 @@ public class MapController {
                 // Since View does not check if there is a path between these two countries
                 // that is composed of countries that he owns, so assume it's a invalid move
                 showInvalidMoveLabelInfo(true, "There is no path between these two countries that is composed of countries that you owns");
-                model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMoved);
+//                model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMoved);
             }
         }
     }
@@ -430,31 +430,32 @@ public class MapController {
      * @param country the country which user clicked
      */
     void clickedCountry(Country country) {
-        View.PHASE currentPhase = view.getCurrentPhase();
-        if (View.PHASE.START_UP == currentPhase || View.PHASE.REINFORCEMENT == currentPhase) {
-            if (!view.getPause() && 0 != playerView.getArmiesInHands() && playerView.getName().equals(country.getOwner().getName()))  {
-                model.allocateArmy(country);
-            }
-        } else if (View.PHASE.FORTIFICATION == currentPhase) {
-            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
-                showInvalidMoveLabelInfo(true, "Select your own country");
-                return;
-            }
-            switch (fromToCountriesCounter++) {
-                case 0:
-                    fromToCountries[0] = country;
-                    setFromCountryInfo(country);
-                    break;
-                case 1:
-                    fromToCountries[1] = country;
-                    setToCountryInfo(country);
-                    break;
-                case 2:
-                    resetFromToCountries();
-//                    arrow = null;
-                    break;
-            }
-        }
+        model.allocateArmy(country);
+//        View.PHASE currentPhase = view.getCurrentPhase();
+//        if (View.PHASE.START_UP == currentPhase || View.PHASE.REINFORCEMENT == currentPhase) {
+//            if (!view.getPause() && 0 != playerView.getArmiesInHands() && playerView.getName().equals(country.getOwner().getName()))  {
+//                model.allocateArmy(country);
+//            }
+//        } else if (View.PHASE.FORTIFICATION == currentPhase) {
+//            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
+//                showInvalidMoveLabelInfo(true, "Select your own country");
+//                return;
+//            }
+//            switch (fromToCountriesCounter++) {
+//                case 0:
+//                    fromToCountries[0] = country;
+//                    setFromCountryInfo(country);
+//                    break;
+//                case 1:
+//                    fromToCountries[1] = country;
+//                    setToCountryInfo(country);
+//                    break;
+//                case 2:
+//                    resetFromToCountries();
+////                    arrow = null;
+//                    break;
+//            }
+//        }
     }
 
 
@@ -462,28 +463,28 @@ public class MapController {
      * Called by PlayerView when current player has 0 army in hand, call
      * Prefer next phase info, i.e. reset button, hide/show panes
      */
-    public void prepareNextPhase() {
-        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
-//        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
-        View.PHASE currentPhase = view.getCurrentPhase();
-        switch (currentPhase) {
-            case START_UP:
-                model.nextPlayer();
-                break;
-            case REINFORCEMENT:
-                showNextPhaseButton("Enter Fortification Phase");
-                break;
-            case ATTACK:
-                break;
-            case FORTIFICATION:
-                showNextPhaseButton("Enter Reinforcement Phase");
-                model.reinforcement();
-                showPlayerViewPane(false);
-                break;
-            default:
-                break;
-        }
-    }
+//    public void prepareNextPhase() {
+//        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
+////        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
+//        View.PHASE currentPhase = view.getCurrentPhase();
+//        switch (currentPhase) {
+//            case START_UP:
+//                model.nextPlayer();
+//                break;
+//            case REINFORCEMENT:
+//                showNextPhaseButton("Enter Fortification Phase");
+//                break;
+//            case ATTACK:
+//                break;
+//            case FORTIFICATION:
+//                showNextPhaseButton("Enter Reinforcement Phase");
+////                model.reinforcement();
+//                showPlayerViewPane(false);
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
 
     /**
@@ -497,7 +498,7 @@ public class MapController {
         resetFromToCountriesInfo();
     }
 
-    void initCountryViews() {
+    HashMap<Integer, CountryView> createCountryViews() {
         if (null == countryViews) {
             countryViews = new HashMap<>();
         } else {
@@ -506,7 +507,7 @@ public class MapController {
         for (int i = 1; i <= numOfCountries; ++i) {
             countryViews.put(i, createDefaultCountryView());
         }
-        model.linkCountryObservers(countryViews);
+        return countryViews;
     }
 
     public void setNumOfCountries(int numOfCountries) {
@@ -524,20 +525,9 @@ public class MapController {
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton,
                 this);
-        model.setPhaseView(phaseView);
     }
 
     public void setNextPhase(String currentPhase) {
-//        this.currentPhase = currentPhase;
-    }
-
-    // TODO: to be removed
-
-    public int getCountryViewsSize() { return countryViews.size(); }
-
-
-    PlayerView createPlayerView() {
-        playerView = new PlayerView(this);
-        return playerView;
+        this.currentPhase = currentPhase;
     }
 }
