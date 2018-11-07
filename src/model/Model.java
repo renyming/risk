@@ -101,10 +101,12 @@ public class Model extends Observable {
      * Set new current player
      * Add armies to the player
      */
-   //public void reinforcement(){
-
+   public void reinforcement(){
+        disable = false;
         //nextPlayer();
-//        currentPlayer.reinforcement();
+        currentPlayer.reinforcement();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
 
         //get armies for each round
         //currentPlayer.addRoundArmies();
@@ -113,7 +115,7 @@ public class Model extends Observable {
 
         //View already in ROUND_ROBIN state, then it finds out there's allocatable armies of this player, it will
         //show the "Allocate Armies" button
-    //}
+    }
 
     /**
      * attack phaseNumber method
@@ -125,7 +127,7 @@ public class Model extends Observable {
     /**
      * Method for fortification operation
      */
-    public void fortification(){
+    public void fortification(Country source, Country target, String armyNumber){
         //return no response to view if source country's army number is less than the number of armies on moving,
         //or the source and target countries aren't connected through the same player's countries
 //        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target))
@@ -139,6 +141,7 @@ public class Model extends Observable {
 
         Phase.getInstance().setCurrentPhase("Fortification Phase");
         Phase.getInstance().update();
+        currentPlayer.fortification(source,target,Integer.parseInt(armyNumber));
     }
 
 
@@ -166,8 +169,8 @@ public class Model extends Observable {
 
         //The next player is the first player, current round ended, send STATE message
         if (nextId == 1) {
-            Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-            Phase.getInstance().update();
+//            Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+//            Phase.getInstance().update();
 //            Message message = new Message(STATE.ROUND_ROBIN, null);
 //            notify(message);
         } else {
