@@ -241,7 +241,7 @@ public class MapController {
         switch (currentPhase) {
             case "Start Up Phase":
                 model.nextPlayer();
-                // TODO: call Player.reinforcement();
+                model.reinforcement();
                 break;
             case "Reinforcement Phase":
                 // TODO: update UI that allow player to do attack
