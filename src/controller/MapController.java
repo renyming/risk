@@ -1,5 +1,6 @@
 package controller;
 
+import common.Action;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,8 +9,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import model.Continent;
 import model.Country;
 import model.Model;
+import model.Phase;
 import view.*;
 
 import java.util.HashMap;
@@ -88,18 +91,12 @@ public class MapController {
 
 
     /**
-     * Called when user entered number of armies moved value and press enter button, pass event to View
-     */
-    public void enteredNumArmiesMoved() { fortification(numArmiesMovedTextField.getText()); } // TODO: refactor
-
-
-    /**
      * Display/Hide the invalid move label, update the invalid info
      * Called by View.*()
      * @param show decides whether the invalid move label need to be displayed
      * @param invalidInfo is the invalid move info
      */
-    public void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
+    private void showInvalidMoveLabelInfo(boolean show, String invalidInfo) {
         numArmiesMovedTextField.clear(); // TODO: could be removed?
         invalidMovedLabel.setVisible(show);
         invalidMovedLabel.setText(invalidInfo);
@@ -111,7 +108,7 @@ public class MapController {
      * Called by View.*()
      * @param show decides whether the from-to countries info need to be displayed
      */
-    public void displayFromToCountriesInfoPane(boolean show) {
+    private void displayFromToCountriesInfoPane(boolean show) {
         if (show) {
             resetFromToCountriesInfo();
         }
@@ -121,59 +118,6 @@ public class MapController {
         countryBNameLabel.setVisible(show);
         numArmiesMovedLabel.setVisible(show);
         numArmiesMovedTextField.setVisible(show);
-    }
-
-
-    /**
-     * Reset from-to countries instruction labels and color
-     * Called by View.*()
-     */
-    private void resetFromToCountriesInfo() {
-        countryANameLabel.setText("NONE");
-        countryANameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-        countryBNameLabel.setText("NONE");
-        countryBNameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
-        showInvalidMoveLabelInfo(false, "");
-    }
-
-
-    /**
-     * Display 'Entering xxx Phase' with new text based on the received parameter, hide phase label
-     * Called by View.showNextPhaseButton()
-     * @param nextPhase is the next phase name
-     */
-    public void showNextPhaseButton(String nextPhase) {
-        nextPhaseButton.setText(nextPhase);
-        nextPhaseButton.setVisible(true);
-        hidePhaseLabel();
-    }
-
-
-    private void showPhaseLabel() {
-        phaseLabel.setVisible(true);
-        nextPhaseButton.setVisible(false);
-    }
-
-
-    /**
-     * Update from-country info pane
-     * Called by View.clickedCountry()
-     * @param country is the from-country
-     */
-    private void setFromCountryInfo(Country country) {
-        countryANameLabel.setText(country.getName());
-        countryANameLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-    }
-
-
-    /**
-     * Update to-country info pane
-     * Called by View.clickedCountry()
-     * @param country is the to-country
-     */
-    private void setToCountryInfo(Country country) {
-        countryBNameLabel.setText(country.getName());
-        countryBNameLabel.setStyle("-fx-border-color: #00ff00;  -fx-border-width: 3");
     }
 
 
@@ -201,21 +145,6 @@ public class MapController {
 
 
     /**
-     * Set the phaseLabel name based on the parameter
-     * Called by View.*()
-     * @param phase is the phase name
-     */
-    private void setPhaseLabel(String phase) { phaseLabel.setText(phase); }
-
-
-    /**
-     * Hide phase label
-     * Called by View.startNextPhase()
-     */
-    private void hidePhaseLabel() { phaseLabel.setVisible(false); }
-
-
-    /**
      * Show/Hide the player view pane based on the parameter
      * Clear num armies moved text field before hide it
      * Called by map controller
@@ -239,73 +168,21 @@ public class MapController {
     public void startNextPhase() {
         nextPhaseButton.setVisible(false);
         switch (currentPhase) {
-            case "Start Up Phase":
+            case "Start Up Phase": case "Fortification Phase":
                 model.nextPlayer();
                 model.reinforcement();
                 break;
             case "Reinforcement Phase":
-                // TODO: update UI that allow player to do attack
-                // TODO: now enter fortification directly, change it later
-                countryALabel.setVisible(true);
-                countryANameLabel.setVisible(true);
-                countryBLabel.setVisible(true);
-                countryBNameLabel.setVisible(true);
-                skipFortificationPhaseButton.setVisible(true);
+                Phase.getInstance().setCurrentPhase("Attack Phase");
+                Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button); // TODO: set fake attack, remove it later
+                Phase.getInstance().update();
                 break;
             case "Attack Phase":
-                // TODO: update UI that allow player to do fortification
-                break;
-            case "Fortification Phase":
-                // TODO: hide UI that allow player to do reinforcement
+                Phase.getInstance().setCurrentPhase("Fortification Phase");
+                Phase.getInstance().update();
                 break;
         }
-
-//        showPhaseLabel();
-//        showPlayerViewPane(true);
-//        setPhaseLabel(nextPhaseButton.getText().substring(6));
-//        view.setPause(false);
-//        View.PHASE currentPhase = view.getCurrentPhase();
-//        switch (currentPhase) {
-//            case START_UP:
-//                view.setCurrentPhase(View.PHASE.REINFORCEMENT);
-//                displayFromToCountriesInfoPane(false);
-//                break;
-//            case REINFORCEMENT:
-//                view.setCurrentPhase(View.PHASE.FORTIFICATION);
-//                resetFromToCountries();
-//                displayFromToCountriesInfoPane(true);
-//                showSkipFortificationPhaseButton(true); //TODO: refactor
-//                break;
-//            case FORTIFICATION:
-//                view.setCurrentPhase(View.PHASE.REINFORCEMENT);
-//                displayFromToCountriesInfoPane(false);
-//                break;
-//        }
     }
-
-
-    /**
-     * Show/Hide reinforcement phase button based on parameter
-     * Called by View.startNextPhase()
-     * @param show decides whether the reinforcement phase button need to be shown
-     */
-    private void showSkipFortificationPhaseButton(boolean show) { skipFortificationPhaseButton.setVisible(show); }
-
-
-    /**
-     * Allow player view to update the current player label text
-     * Called by PlayerView
-     * @return the current player label reference
-     */
-    public Label getCurrentPlayerLabel() { return currentPlayerLabel; }
-
-
-    /**
-     * Allow player view to update the armies in hand label text
-     * Called by PlayerView
-     * @return the armies in hand label reference
-     */
-    public Label getArmiesInHandLabel() { return armiesInHandLabel; }
 
 
     /**
@@ -315,51 +192,11 @@ public class MapController {
 
 
     /**
-     * During fortification phase, receive a user entered value, check whether the selected countries info is valid,
-     * then verify user entered value. However, condition "there is a path between these two countries that
-     * is composed of countries that the user owns" has to be checked by Model
-     * Called after user enter the number of armies moved value and press enter
-     * @param enteredNumArmiesMoved user entered number of armies value
-     */
-    public void fortification(String enteredNumArmiesMoved) {
-        int numArmiesMoved = 0;
-        boolean enteredAnInteger = true;
-        try {
-            numArmiesMoved = Integer.parseInt(enteredNumArmiesMoved);
-        } catch (Exception e) {
-            enteredAnInteger = false;
-        }
-        if (null == fromToCountries[0] || null == fromToCountries[1]) {
-            showInvalidMoveLabelInfo(true, "At least one country is not selected properly");
-        } else if (fromToCountries[0].getName().equals(fromToCountries[1].getName())) {
-            showInvalidMoveLabelInfo(true, "Select two different countries");
-        } else if(!enteredAnInteger) {
-            showInvalidMoveLabelInfo(true, "Enter an positive integer");
-        } else {
-            if (numArmiesMoved < 1) {
-                showInvalidMoveLabelInfo(true, "Enter an positive integer");
-            } else if (fromToCountries[0].getArmies() < numArmiesMoved) {
-                showInvalidMoveLabelInfo(true, "Not enough armies to move");
-            }  else {
-                // TODO: need to be fixed
-                // Since View does not check if there is a path between these two countries
-                // that is composed of countries that he owns, so assume it's a invalid move
-                showInvalidMoveLabelInfo(true, "There is no path between these two countries that is composed of countries that you owns");
-//                model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMoved);
-            }
-        }
-    }
-
-
-    /**
      * During fortification phase, skip this phase if current user is not able to move armies
      * i.e. only has one country left or the user does not want to
      * Called by 'Skip' button on player view
      */
-    private void skipFortificationPhase() {
-        showNextPhaseButton("Enter Reinforcement Phase");
-        model.nextPlayer();
-    }
+    private void skipFortificationPhase() { model.nextPlayer(); }
 
 
     /**
@@ -367,8 +204,6 @@ public class MapController {
      * Called by View.showMenuStage()
      */
     private void resetMapComponents() {
-        setPhaseLabel("Start Up Phase"); // TODO: refactor
-        showPhaseLabel();
         if (null != countryViews) {
             for (int key : countryViews.keySet()) {
                 AnchorPane countryPane = countryViews.get(key).getCountryPane();
@@ -430,73 +265,89 @@ public class MapController {
      * @param country the country which user clicked
      */
     void clickedCountry(Country country) {
-        model.allocateArmy(country);
-//        View.PHASE currentPhase = view.getCurrentPhase();
-//        if (View.PHASE.START_UP == currentPhase || View.PHASE.REINFORCEMENT == currentPhase) {
-//            if (!view.getPause() && 0 != playerView.getArmiesInHands() && playerView.getName().equals(country.getOwner().getName()))  {
-//                model.allocateArmy(country);
-//            }
-//        } else if (View.PHASE.FORTIFICATION == currentPhase) {
-//            if (2 != fromToCountriesCounter && !country.getOwner().getName().equals(playerView.getName())) {
-//                showInvalidMoveLabelInfo(true, "Select your own country");
-//                return;
-//            }
-//            switch (fromToCountriesCounter++) {
-//                case 0:
-//                    fromToCountries[0] = country;
-//                    setFromCountryInfo(country);
-//                    break;
-//                case 1:
-//                    fromToCountries[1] = country;
-//                    setToCountryInfo(country);
-//                    break;
-//                case 2:
-//                    resetFromToCountries();
-////                    arrow = null;
-//                    break;
-//            }
-//        }
+        switch (currentPhase) {
+            case "Start Up Phase": case "Reinforcement Phase":
+                model.allocateArmy(country);
+                break;
+            case "Attack Phase":
+                // TODO: collect From-TO countries info and dices info
+                break;
+            case "Fortification Phase":
+                switch (fromToCountriesCounter) {
+                    case 0:
+                        setFromCountryInfo(country);
+                        break;
+                    case 1:
+                        setToCountryInfo(country);
+                        break;
+                    case 2:
+                        resetFromToCountries();
+                        break;
+                }
+                fromToCountriesCounter++;
+                break;
+        }
     }
 
 
     /**
-     * Called by PlayerView when current player has 0 army in hand, call
-     * Prefer next phase info, i.e. reset button, hide/show panes
+     * Update from-country info pane
+     * Called by clickedCountry()
+     * @param country is the from-country
      */
-//    public void prepareNextPhase() {
-//        // TODO: should be trigger by button, because when armies in hand is 0, user could re-done,
-////        System.out.println("Current phase is " + currentPhase + ", preparing next phase");
-//        View.PHASE currentPhase = view.getCurrentPhase();
-//        switch (currentPhase) {
-//            case START_UP:
-//                model.nextPlayer();
-//                break;
-//            case REINFORCEMENT:
-//                showNextPhaseButton("Enter Fortification Phase");
-//                break;
-//            case ATTACK:
-//                break;
-//            case FORTIFICATION:
-//                showNextPhaseButton("Enter Reinforcement Phase");
-////                model.reinforcement();
-//                showPlayerViewPane(false);
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+    private void setFromCountryInfo(Country country) {
+        fromToCountries[0] = country;
+        countryANameLabel.setText(country.getName());
+        countryANameLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+    }
+
+
+    /**
+     * Update to-country info pane
+     * Called by clickedCountry()
+     * @param country is the to-country
+     */
+    private void setToCountryInfo(Country country) {
+        fromToCountries[1] = country;
+        countryBNameLabel.setText(country.getName());
+        countryBNameLabel.setStyle("-fx-border-color: #00ff00;  -fx-border-width: 3");
+    }
 
 
     /**
      * For the fortification usage, reset selected countries
-     * Called by View.*() if user trying to reset the selected countries by clicking the map or another country
+     * Called by MapController if user trying to reset the selected countries by clicking the map or another country
      */
     private void resetFromToCountries() {
         fromToCountries[0] = null;
         fromToCountries[1] = null;
-        fromToCountriesCounter = 0;
+        fromToCountriesCounter = -1;
         resetFromToCountriesInfo();
     }
+
+
+    /**
+     * Reset from-to countries instruction labels and color
+     * Called by View.*()
+     */
+    private void resetFromToCountriesInfo() {
+        countryANameLabel.setText("NONE");
+        countryANameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        countryBNameLabel.setText("NONE");
+        countryBNameLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+        showInvalidMoveLabelInfo(false, "");
+    }
+
+
+    /**
+     * Called when user entered number of armies moved value and press enter button, pass event to View
+     */
+    public void enteredNumArmiesMoved() { model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText()); }
+
+
+
+
+
 
     HashMap<Integer, CountryView> createCountryViews() {
         if (null == countryViews) {

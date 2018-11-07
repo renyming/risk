@@ -58,7 +58,11 @@ public class Phase extends Observable {
      */
     public void setActionResult(Action actionResult) { this.actionResult = actionResult; }
 
-    public Action getActionResult() { return actionResult; }
+    public Action getActionResult() {
+        Action temp = actionResult;
+        actionResult = Action.None;
+        return temp;
+    }
 
 
     /**

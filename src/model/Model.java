@@ -105,8 +105,8 @@ public class Model extends Observable {
         disable = false;
         //nextPlayer();
         currentPlayer.reinforcement();
-        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-        Phase.getInstance().update();
+//        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+//        Phase.getInstance().update();
 
         //get armies for each round
         //currentPlayer.addRoundArmies();
@@ -225,7 +225,7 @@ public class Model extends Observable {
         else {
             if(country.getOwner().getArmies() == 0){
                 disable = true;
-                Phase.getInstance().setCurrentPhase("Attack Phase");
+                Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                 Phase.getInstance().update();
                 phaseNumber = 2;
             }

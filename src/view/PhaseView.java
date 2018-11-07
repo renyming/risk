@@ -94,12 +94,16 @@ public class PhaseView implements Observer {
                 case "Attack Phase":
                     // set Attack Phase UI
                     reset();
-                    // TODO: show From-To relative components
+                    countryALabel.setVisible(true);
+                    countryANameLabel.setVisible(true);
+                    countryBLabel.setVisible(true);
+                    countryBNameLabel.setVisible(true);
+                    // TODO: show dice relative map components
                     nextPhaseButton.setText("Enter Fortification Phase");
                     break;
                 case "Fortification Phase":
                     reset();
-                    // TODO: hide dice relative components
+                    // TODO: hide dice relative map components
                     numArmiesMovedLabel.setVisible(true);
                     numArmiesMovedTextField.setVisible(true);
                     skipFortificationPhaseButton.setVisible(true);
@@ -107,7 +111,6 @@ public class PhaseView implements Observer {
                     break;
             }
         }
-
         switch (phase.getActionResult()) {
             case Finish_Current_Phase: // TODO: useful?
                 break;
