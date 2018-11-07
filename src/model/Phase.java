@@ -37,7 +37,7 @@ public class Phase extends Observable {
      * i.e. currentPhase = "Start Up Phase", "Reinforcement Phase", "Attack Phase", "Fortification Phase"
      * @param currentPhase represent the current phase label name
      */
-    void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
+    public void setCurrentPhase(String currentPhase) { this.currentPhase = currentPhase; }
 
     public String getCurrentPhase() { return currentPhase; }
 
@@ -46,7 +46,7 @@ public class Phase extends Observable {
      * Called when the Model change the current player to the next one
      * @param currentPlayer is the next Player reference
      */
-    void setCurrentPlayer(Player currentPlayer) {this.currentPlayer = currentPlayer; }
+    public void setCurrentPlayer(Player currentPlayer) {this.currentPlayer = currentPlayer; }
 
     public Player getCurrentPlayer() { return currentPlayer; }
 
@@ -56,7 +56,7 @@ public class Phase extends Observable {
      * i.e. actionResult = Allocate_Army, etc
      * @param actionResult is the action that are taking place during a phase
      */
-    void setActionResult(Action actionResult) { this.actionResult = actionResult; }
+    public void setActionResult(Action actionResult) { this.actionResult = actionResult; }
 
     public Action getActionResult() { return actionResult; }
 
@@ -66,7 +66,7 @@ public class Phase extends Observable {
      * i.e. invalidInfo = "Select one of your own countries", "There is no path between ...", etc
      * @param invalidInfo is the user invalid action info
      */
-    void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
+    public void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
 
     public String getInvalidInfo() { return invalidInfo; }
 
