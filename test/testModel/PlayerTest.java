@@ -276,4 +276,24 @@ public class PlayerTest {
 
     }
 
+    @Test
+    public void fortification() {
+
+        // valid move
+        canada.setArmies(5);
+        usa.setArmies(0);
+        player.fortification(canada, usa, 5);
+        assertEquals(0, canada.getArmies());
+        assertEquals(5, usa.getArmies());
+
+        // move between countries not own by one player
+        player.fortification(usa, china, 5);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+
+        // armies want to move exceeded the country has
+        player.fortification(usa, canada, 10);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+
+    }
+
 }
