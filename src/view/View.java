@@ -28,7 +28,6 @@ public class View {
 
     // TODO: remove later?
     private MenuController menuController;
-    private MapController mapController;
     private PHASE currentPhase;
     private boolean pause;
 
@@ -50,7 +49,7 @@ public class View {
      */
     public void setModel(Model model) {
         menuController = menu.getMenuController();
-        mapController = map.getMapController();
+        MapController mapController = map.getMapController();
 
         menuController.init(model, this, menu, mapController);
         mapController.init(model, map, menuController);
