@@ -60,6 +60,10 @@ public class PlayerTest {
         asien.addCountry(thailand);
         asien.addCountry(singapore);
 
+        china.setContinent(asien);
+        thailand.setContinent(asien);
+        singapore.setContinent(asien);
+
         northAmerica = new Continent("NorthAmerica", 6);
 
         canada = new Country("canada", northAmerica);
@@ -70,6 +74,9 @@ public class PlayerTest {
 
         northAmerica.addCountry(canada);
         northAmerica.addCountry(usa);
+
+        canada.setContinent(northAmerica);
+        usa.setContinent(northAmerica);
 
     }
 
@@ -85,21 +92,31 @@ public class PlayerTest {
         player = new Player("Ann",5);
 
         ArrayList<Country> countries= new ArrayList<Country>();
-        countries.add(singapore);
         singapore.setPlayer(player);
-        countries.add(canada);
+        player.addCountry(singapore);
         canada.setPlayer(player);
-        countries.add(usa);
+        player.addCountry(canada);
         usa.setPlayer(player);
+        player.addCountry(usa);
 
-        player.setArmies(10);
-        player.setTotalStrength(10);
-        player.setCountriesOwned(countries);
+//        countries.add(singapore);
+//        countries.add(canada);
+//        countries.add(usa);
+
+//
+//        player.setTotalStrength(10);
+
 
         defender = new Player("Mike", 5);
         defender.setTotalStrength(5);
-        defender.addCountry(china);
+
         china.setPlayer(defender);
+        defender.addCountry(china);
+        thailand.setPlayer(defender);
+        defender.addCountry(thailand);
+
+
+
     }
 
     /**
@@ -127,6 +144,7 @@ public class PlayerTest {
      */
     @Test
     public void subArmies() {
+        player.setArmies(10);
         int num = 9;
         int subnum = 1;
         player.subArmies(1);
@@ -138,6 +156,7 @@ public class PlayerTest {
      */
     @Test
     public void isEmptyArmy() {
+        player.setArmies(10);
         assertTrue(newPlayer.isEmptyArmy());
         assertFalse(player.isEmptyArmy());
     }

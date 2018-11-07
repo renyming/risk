@@ -19,6 +19,7 @@ public class Player extends Observable {
     private String name;
     private int armies;
     private ArrayList<Country> countriesOwned;
+    private ArrayList<Continent> continentsOwned;
     private String color = "#4B0082";
     private int totalStrength;
 
@@ -38,7 +39,8 @@ public class Player extends Observable {
         this.name= name;
         this.countriesSize = countriesSize;
         armies = 0;
-        countriesOwned = new ArrayList<>();
+        countriesOwned = new ArrayList<Country>();
+        continentsOwned = new ArrayList<Continent>();
         totalStrength = 0;
     }
 
@@ -90,6 +92,12 @@ public class Player extends Observable {
     public int getArmies() {
         return armies;
     }
+
+    /**
+     * Getter to get the number of continents owned by this player
+     * @return The number of continents that the player has currently
+     */
+    public ArrayList<Continent> getContinentsOwned() { return continentsOwned; }
 
     /**
      * Getter to get CountriesOwned
@@ -158,7 +166,7 @@ public class Player extends Observable {
         //based on continent
         armiesAdded += getArmiesAddedFromContinent();
 
-        //based on card
+        //TODO:based on card
         //need to implement next phase
 
         // the minimal number of reinforcement armies is 3
@@ -176,31 +184,35 @@ public class Player extends Observable {
     */
     private int getArmiesAddedFromContinent() {
 
-        // record the number of countries in a continent
-        HashMap<Continent, Integer> continentStatics = new HashMap<Continent, Integer>();
-
-        for (Country country : countriesOwned) {
-
-            Continent continent = country.getContinent();
-
-            if (continentStatics.containsKey(continent)){
-
-                int newValue = continentStatics.get(continent) + 1;
-                continentStatics.put(continent, newValue);
-
-            } else {
-                continentStatics.put(continent, 1);
-            }
-        }
-
-        //
+//        // record the number of countries in a continent
+//        HashMap<Continent, Integer> continentStatics = new HashMap<Continent, Integer>();
+//
+//        for (Country country : countriesOwned) {
+//
+//            Continent continent = country.getContinent();
+//
+//            if (continentStatics.containsKey(continent)){
+//
+//                int newValue = continentStatics.get(continent) + 1;
+//                continentStatics.put(continent, newValue);
+//
+//            } else {
+//                continentStatics.put(continent, 1);
+//            }
+//        }
+//
+//        //
         int armiesAdded = 0;
-        for (Continent c : continentStatics.keySet()) {
-
-            if (c.getSize() == continentStatics.get(c)) {
-                armiesAdded += c.getControlVal();
-            }
+//        for (Continent c : continentStatics.keySet()) {
+//
+//            if (c.getSize() == continentStatics.get(c)) {
+//                armiesAdded += c.getControlVal();
+//            }
+//        }
+        for (Continent continent : continentsOwned) {
+            armiesAdded += continent.getControlVal();
         }
+
 
         return armiesAdded;
     }
@@ -239,6 +251,11 @@ public class Player extends Observable {
     public void addCountry(Country c){
         //verify if the country is exist in the countriesOwned??
         countriesOwned.add(c);
+        Continent continent = c.getContinent();
+        for (Country country : continent.getCountry()) {
+            if (country.getOwner() == null || !country.getOwner().equals(this)) return;
+        }
+        addContinent(continent);
     }
 
     /**
@@ -252,6 +269,36 @@ public class Player extends Observable {
         while(it.hasNext())
         {
             if (c.equals(it.next())){
+                it.remove();
+                if (continentsOwned.contains(c.getContinent())) {
+                    delContinent(c.getContinent());
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add a continent in the continentsOwned list
+     * @param  continent continent need to be added
+     */
+    public void addContinent(Continent continent){
+        //verify if the country is exist in the countriesOwned??
+        continentsOwned.add(continent);
+    }
+
+    /**
+     * Remove a continent from the continentsOwned list
+     * @param  continent continent need to be deleted
+     * @return true delete success, false delete failed
+     */
+    public boolean delContinent(Continent continent){
+
+        Iterator<Continent> it = continentsOwned.iterator();
+        while(it.hasNext())
+        {
+            if (continent.equals(it.next())){
                 it.remove();
                 return true;
             }
