@@ -162,8 +162,6 @@ public class PhaseView implements Observer {
             }
         }
         switch (phase.getActionResult()) {
-            case Finish_Current_Phase: // TODO: useful?
-                break;
             case Invalid_Card_Exchange:
                 // TODO: display the invalid result in card exchange View, Model may tell cardView directly
             case Allocate_Army:

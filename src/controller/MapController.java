@@ -238,7 +238,6 @@ public class MapController {
                 Phase.getInstance().setCurrentPhase("Attack Phase");
                 Phase.getInstance().update();
                 fromToCountriesCounter = 0;
-                allOut = false;
                 resetAttackerDiceButtons();
                 resetDefenderDiceButtons();
                 resetAllOutButtons();
