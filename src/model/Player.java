@@ -364,7 +364,7 @@ public class Player extends Observable {
         // if attacker's dice valid
         if (!attacker.isValidAttacker(attackerDiceNum)) {
             phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid attacker dice number, attacker rolling at most 3 dice");
+            phase.setInvalidInfo("Invalid attacker dice number, armies in attacker must more than two, and the dice must less than armies");
             phase.update();
             return false;
         }
@@ -372,7 +372,7 @@ public class Player extends Observable {
         // if defender's dice valid
         if (!defender.isValidDefender(defenderDiceNum)) {
             phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid defender's dice number, attacker rolling at most 2 dice");
+            phase.setInvalidInfo("Invalid defender's dice number, the dice must less than armies");
             phase.update();
             return false;
         }
@@ -605,7 +605,7 @@ public class Player extends Observable {
     public void fortification(Country source, Country target, int armyNumber){
         //return no response to view if source country's army number is less than the number of armies on moving,
         //or the source and target countries aren't connected through the same player's countries
-        if (!source.getOwner().equals(this)) {
+        if (!source.getOwner().equals(this) || !target.getOwner().equals(this)) {
             Phase.getInstance().setActionResult(Action.Invalid_Move);
             Phase.getInstance().setInvalidInfo("Invalid move, This is not your country.");
             Phase.getInstance().update();

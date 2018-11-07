@@ -267,7 +267,7 @@ public class Country extends Observable implements Comparable<Country> {
     public boolean isValidDefender(int defenderDiceNum){
 
         if (this.armies > 0) {
-            return defenderDiceNum <= this.armies && defenderDiceNum > 0 && defenderDiceNum <= 2;
+            return defenderDiceNum <= this.armies; //&& defenderDiceNum > 0 && defenderDiceNum <= 2;
         } else if (this.armies == 0){
             return defenderDiceNum == 0? true : false;
         } else {
@@ -282,7 +282,7 @@ public class Country extends Observable implements Comparable<Country> {
      */
     public boolean isValidAttacker(int attackerDiceNum) {
 
-        return this.armies >= 2 && attackerDiceNum <= this.armies && attackerDiceNum > 0 && attackerDiceNum <= 3;
+        return this.armies >= 2 && attackerDiceNum <= this.armies; //&& attackerDiceNum > 0 && attackerDiceNum <= 3;
 
     }
 
