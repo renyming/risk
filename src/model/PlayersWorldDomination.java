@@ -19,6 +19,14 @@ public class PlayersWorldDomination extends Observable {
 
 
     /**
+     * Model call this method after calling all of the following setter functions
+     */
+    public void update() {
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
      * Model sets the total Player reference, use them to get each player info
      * @param players is the total Player reference
      */
