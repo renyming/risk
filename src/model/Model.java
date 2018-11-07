@@ -190,15 +190,15 @@ public class Model extends Observable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
-        //The next player is the first player, current round ended, send STATE message
+        // The next player is the first player, current round ended, send STATE message
         if (nextId == 1) {
 //            Phase.getInstance().setCurrentPhase("Reinforcement Phase");
 //            Phase.getInstance().update();
 //            Message message = new Message(STATE.ROUND_ROBIN, null);
 //            notify(message);
         } else {
-            //CurrentPlayer notifies view to update
-            //currentPlayer.callObservers();
+//            CurrentPlayer notifies view to update
+//            currentPlayer.callObservers();
         }
     }
 
