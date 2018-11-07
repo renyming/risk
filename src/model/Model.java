@@ -213,6 +213,7 @@ public class Model extends Observable {
 //                    Phase.getInstance().setCurrentPhase("Reinforcement Phase");
 //                    Phase.getInstance().update();
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+                    Phase.getInstance().update();
                     phaseNumber = 1;
                 }
             }

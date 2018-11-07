@@ -15,6 +15,7 @@ public class PhaseView implements Observer {
     private static PhaseView instance;
 
     private Label phaseLabel;
+    private Button nextPhaseButton;
     private Label currentPlayerLabel;
     private Label armiesInHandLabel;
     private Label countryALabel;
@@ -38,12 +39,13 @@ public class PhaseView implements Observer {
         return instance;
     }
 
-    public void init(Label phaseLabel, Label currentPlayerLabel, Label armiesInHandLabel,
+    public void init(Label phaseLabel, Button nextPhaseButton, Label currentPlayerLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
                      Button skipFortificationPhaseButton,
                      MapController mapController) {
         this.phaseLabel = phaseLabel;
+        this.nextPhaseButton = nextPhaseButton;
         this.currentPlayerLabel = currentPlayerLabel;
         this.armiesInHandLabel = armiesInHandLabel;
         this.countryALabel = countryALabel;
@@ -60,46 +62,54 @@ public class PhaseView implements Observer {
     @Override
     public void update(Observable obs, Object obj) {
         Phase phase = (Phase) obs;
-        currentPhase = phase.getCurrentPhase();
-        phaseLabel.setText(phase.getCurrentPhase());
-        switch (phase.getCurrentPhase()) {
-            case "Start Up Phase":
-                // set Start Up Phase UI
-                // useful when start another game within one application launch
-                hide();
-                reset();
-                // update current Player UI
-                currentPlayer = phase.getCurrentPlayer();
-                currentPlayerLabel.setText(currentPlayer.getName());
-                currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
-                armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                break;
-            case "Reinforcement Phase":
-                // set Reinforcement Phase UI
-                hide();
-                // update current Player UI
-                currentPlayer = phase.getCurrentPlayer();
-                currentPlayerLabel.setText(currentPlayer.getName());
-                currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
-                armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                break;
-            case "Attack Phase":
-                // set Attack Phase UI
-                reset();
-                // TODO: show From-To relative components
-                break;
-            case "Fortification Phase":
-                 reset();
-                // TODO: hide dice relative components
-                numArmiesMovedLabel.setVisible(true);
-                numArmiesMovedTextField.setVisible(true);
-                skipFortificationPhaseButton.setVisible(true);
-                break;
+        Player nextPlayer = phase.getCurrentPlayer();
+        if (null == currentPlayer || currentPlayer.getId() != nextPlayer.getId()) {
+            currentPlayer = phase.getCurrentPlayer();
+            currentPlayerLabel.setText(currentPlayer.getName());
+            currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
+        }
+
+        if (!currentPhase.equals(phase.getCurrentPhase())) {
+            currentPhase = phase.getCurrentPhase();
+            mapController.setCurrentPhase(currentPhase);
+            phaseLabel.setText(phase.getCurrentPhase());
+            phaseLabel.setVisible(true);
+            switch (currentPhase) {
+                case "Start Up Phase":
+                    // set Start Up Phase UI
+                    // useful when start another game within one application launch
+                    hide();
+                    reset();
+                    // update current Player UI
+                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                    nextPhaseButton.setText("Enter Reinforcement Phase");
+                    break;
+                case "Reinforcement Phase":
+                    // set Reinforcement Phase UI
+                    hide();
+                    // update current Player UI
+                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                    nextPhaseButton.setText("Enter Attack Phase");
+                    break;
+                case "Attack Phase":
+                    // set Attack Phase UI
+                    reset();
+                    // TODO: show From-To relative components
+                    nextPhaseButton.setText("Enter Fortification Phase");
+                    break;
+                case "Fortification Phase":
+                    reset();
+                    // TODO: hide dice relative components
+                    numArmiesMovedLabel.setVisible(true);
+                    numArmiesMovedTextField.setVisible(true);
+                    skipFortificationPhaseButton.setVisible(true);
+                    nextPhaseButton.setText("Enter Reinforcement Phase");
+                    break;
+            }
         }
 
         switch (phase.getActionResult()) {
-            case Finish_Current_Phase:
-                mapController.setNextPhase(currentPhase);
+            case Finish_Current_Phase: // TODO: useful?
                 break;
             case Invalid_Card_Exchange:
                 // TODO: display the invalid result in card exchange View, Model may tell cardView directly
@@ -110,6 +120,9 @@ public class PhaseView implements Observer {
                 invalidMovedLabel.setText(phase.getInvalidInfo());
                 invalidMovedLabel.setVisible(true);
                 break;
+            case Show_Next_Phase_Button:
+                phaseLabel.setVisible(false);
+                nextPhaseButton.setVisible(true);
             default:
                 break;
         }
