@@ -154,12 +154,15 @@ public class PhaseView implements Observer {
         switch (phase.getActionResult()) {
             case Invalid_Card_Exchange:
                 // TODO: display the invalid result in card exchange View, Model may tell cardView directly
+                phase.clearActionResult();
             case Allocate_Army:
                 armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                phase.clearActionResult();
                 break;
             case Invalid_Move:
                 invalidMovedLabel.setText(phase.getInvalidInfo());
                 invalidMovedLabel.setVisible(true);
+                phase.clearActionResult();
                 break;
             case Move_After_Conquer:
                 numArmiesMovedLabel.setVisible(true);
@@ -167,6 +170,7 @@ public class PhaseView implements Observer {
                 nextPhaseButton.setVisible(false);
                 // TODO hide all other buttons
                 displayAttackPhaseButton(false);
+                phase.clearActionResult();
                 break;
             case Show_Next_Phase_Button:
                 if (currentPhase.equals("Attack Phase")) {
@@ -181,6 +185,7 @@ public class PhaseView implements Observer {
                 if (currentPhase.equals("Fortification Phase")) {
                     mapController.disableFortification();
                 }
+                phase.clearActionResult();
             default:
                 break;
         }
