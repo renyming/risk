@@ -722,10 +722,7 @@ public class Player extends Observable {
             attackOnce();
         }
 
-        if (!isAttackPossible()) {
-            phase.setInvalidInfo("Attack Impossible");
-            phase.setActionResult(Action.Show_Next_Phase_Button);
-        }
+
 
         //update phase info
         if (phase.getActionResult() == null) {
@@ -734,6 +731,11 @@ public class Player extends Observable {
         if (!phase.getCurrentPhase().equals("Game Over") && phase.getActionResult() != Action.Move_After_Conquer){
             phase.setActionResult(Action.Show_Next_Phase_Button);
         }
+
+        if (!isAttackPossible()) {
+            phase.setInvalidInfo("Attack Impossible");
+        }
+        
         phase.update();
 
         return;
