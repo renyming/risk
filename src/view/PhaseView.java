@@ -226,6 +226,7 @@ public class PhaseView implements Observer {
                     nextPhaseButton.setVisible(false);
                     displayAttackPhaseMapComponent(false);
                     phase.clearActionResult();
+                    mapController.setCountryClick(false);
                     break;
                 case Show_Next_Phase_Button:
                     if (currentPhase.equals("Attack Phase")) {
@@ -233,6 +234,7 @@ public class PhaseView implements Observer {
                         numArmiesMovedLabel.setVisible(false);
                         numArmiesMovedTextField.clear();
                         numArmiesMovedTextField.setVisible(false);
+                        mapController.setCountryClick(true);
                     }
                     phaseLabel.setVisible(false);
                     nextPhaseButton.setVisible(true);
