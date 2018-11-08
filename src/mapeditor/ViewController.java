@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -29,6 +31,9 @@ public class ViewController {
     TextField txtContinent;
     @FXML
     Button btnDelContinent;
+    @FXML
+    Button btnAddContinent;
+
     private View view;
 
     /**
@@ -38,6 +43,12 @@ public class ViewController {
      */
     @FXML
     public void initialize(View view) {
+        Image icon_down=new Image(getClass().getClassLoader().getResourceAsStream("down-icon.png"));
+        btnAddContinent.setGraphic(new ImageView(icon_down));
+
+        Image icon_delete=new Image(getClass().getClassLoader().getResourceAsStream("delete-icon.png"));
+        btnDelContinent.setGraphic(new ImageView(icon_delete));
+
         this.view = view;
         btnDelContinent.setDisable(true);
 
