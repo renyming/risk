@@ -297,9 +297,13 @@ public class Player extends Observable {
         countriesOwned.add(c);
         Continent continent = c.getContinent();
         for (Country country : continent.getCountry()) {
-            if (country.getOwner() == null || !country.getOwner().equals(this)) return;
+            if (country.getOwner() == null || !country.getOwner().equals(this)) {
+                worldDomination.update();
+                return;
+            }
         }
         addContinent(continent);
+        worldDomination.update();
     }
 
     /**
@@ -317,6 +321,7 @@ public class Player extends Observable {
                 if (continentsOwned.contains(c.getContinent())) {
                     delContinent(c.getContinent());
                 }
+                worldDomination.update();
                 return true;
             }
         }
@@ -330,7 +335,6 @@ public class Player extends Observable {
     public void addContinent(Continent continent){
         //verify if the country is exist in the countriesOwned??
         continentsOwned.add(continent);
-        worldDomination.update();
     }
 
     /**
@@ -345,7 +349,6 @@ public class Player extends Observable {
         {
             if (continent.equals(it.next())){
                 it.remove();
-                worldDomination.update();
                 return true;
             }
         }
@@ -582,9 +585,11 @@ public class Player extends Observable {
             }
 
             // change the ownership of the defender country
-            attacker.getOwner().addCountry(defender);
             defender.getOwner().delCountry(defender);
             defender.setPlayer(attacker.getOwner());
+            attacker.getOwner().addCountry(defender);
+
+
 
             // add
             numberOccupy++;
