@@ -11,10 +11,12 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import testModel.ContinentTest;
 import testModel.CountryTest;
+import testModel.ModelTest;
 import testModel.PlayerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ContinentTest.class,
+        ModelTest.class,
         CountryTest.class,
         PlayerTest.class})
 

@@ -140,21 +140,22 @@ public class ModelTest {
         assertEquals(armiesP, p.getArmies());
     }
 
-//    @Test
-//    /**
-//     * Test initiatePlayers() method
-//     */
-//    public void testInitiatePlayers() {
-//
-//        PlayerView playerView = new PlayerView();
-//
-//        int num = 4;
-//
-//        newModel1.initiatePlayers(4, playerView);
-//
-//        assertEquals(num, newModel1.getPlayers().size());
-//        assertEquals(newModel1.getPlayers().get(0), newModel1.getCurrentPlayer());
-//    }
+    /**
+     * Test startUp phase method
+     */
+    @Test
+    public void testStartUpPhase() throws IOException {
+
+        Model testedModel = new Model();
+        testedModel.setFileInfoMenu(new FileInfoMenu());
+        testedModel.setNumPlayerMenu(new NumPlayerMenu());
+
+        testedModel.readFile("./resource/Aden.map");
+        testedModel.initiatePlayers("10");
+        assertEquals(10, testedModel.getPlayers().size());
+        assertEquals(42, testedModel.getCountries().size());
+        assertEquals(8, testedModel.getContinents().size());
+    }
 
 
 }
