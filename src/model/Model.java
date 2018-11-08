@@ -140,11 +140,17 @@ public class Model extends Observable {
 
     /**
      * button event for  trade button
-     * @param card1 name of the first card
-     * @param card2 name of the second card
-     * @param card3 name of the third card
+     * @param cards list of cards
      */
-    public void trade(String card1, String card2, String card3){
+    public void trade(ArrayList<String> cards){
+
+        if(cards.size() != 3){
+            return;
+        }
+
+        String card1 = cards.get(0);
+        String card2 = cards.get(1);
+        String card3 = cards.get(2);
 
         if(validCardExchange(card1,card2,card3)){
             return;

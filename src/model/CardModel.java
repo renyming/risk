@@ -12,6 +12,7 @@ public class CardModel extends Observable {
     private Player currentPlayer;
     private Model model;
     private List<Card> cardsToBeExchange;
+    private String invalidInfo;
 
     public static CardModel getInstance() {
         if (null == instance) instance = new CardModel();
@@ -98,5 +99,19 @@ public class CardModel extends Observable {
         this.cardsToBeExchange = cardsToBeExchange;
     }
 
+
+    /**
+     * Model call this to help user to identify the invalid action which is performed during a phase
+     * i.e. invalidInfo = "Select one of your own countries", "There is no path between ...", etc
+     * @param invalidInfo is the user invalid action info
+     */
+    void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
+
+
+    /**
+     * Model call this to set invalid info during each phase
+     * @return the invalid info
+     */
+    public String getInvalidInfo() { return invalidInfo; }
 
 }
