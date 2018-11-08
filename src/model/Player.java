@@ -34,6 +34,8 @@ public class Player extends Observable {
     private int numberOccupy;
     private List<Card> playerCardList;
 
+    private Phase phase;
+
 
     /**
      * Constructor of player
@@ -53,6 +55,7 @@ public class Player extends Observable {
         cards.put("artillery",0);
         numberOccupy = 0;
         this.playerCardList = new ArrayList<>();
+        phase = Phase.getInstance();
     }
 
     /**
@@ -409,8 +412,6 @@ public class Player extends Observable {
      */
     private boolean isValidAttack(Country attacker, String attackerNum, Country defender, String defenderNum){
 
-        Phase phase = Phase.getInstance();
-
         // if any of countries is none
         if (attacker == null || defender == null) {
             phase.setActionResult(Action.Invalid_Move);
@@ -506,14 +507,6 @@ public class Player extends Observable {
         ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
 //        System.out.println(diceDefender);
 
-//        System.out.println("before roll:");
-//        System.out.println("attacker:");
-//        System.out.println("country " + attacker.getArmies());
-//        System.out.println("player " + attacker.getOwner().getTotalStrength());
-//        System.out.println("defender:");
-//        System.out.println("country " + defender.getArmies());
-//        System.out.println("player " + defender.getOwner().getTotalStrength());
-
         // compare the rolling result
         int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
         for (int i=0; i<range; i++){
@@ -527,19 +520,15 @@ public class Player extends Observable {
                 defender.getOwner().subTotalStrength(1);
 
                 //if defender's armies == 0, attacker victory
-                if (isDefenderLoose()) return;
+                if (isDefenderLoose()) {
+                    phase.setActionResult(Action.Move_After_Conquer);
+                    return;
+                }
             }
-
-//            System.out.println("after roll:");
-//            System.out.println("attacker:");
-//            System.out.println("country " + attacker.getArmies());
-//            System.out.println("player " + attacker.getOwner().getTotalStrength());
-//            System.out.println("defender:");
-//            System.out.println("country " + defender.getArmies());
-//            System.out.println("player " + defender.getOwner().getTotalStrength());
-//            System.out.println("_________________________________________________________");
         }
-
+        if (!isAttackPossible()) {
+            phase.setInvalidInfo("Attack Impossible");
+        }
         return;
 
     }
@@ -558,6 +547,7 @@ public class Player extends Observable {
             // if defender is occupied by attacker
             if(attacker.getOwner().equals(defender.getOwner())) break;
             // if attacker exhaust all its armies
+            // if attack possible
             if(attacker.getArmies() == 0) break;
         }
         return;
@@ -569,7 +559,6 @@ public class Player extends Observable {
      */
     private boolean isDefenderLoose() {
 
-        Phase phase = Phase.getInstance();
         if (defender.getArmies() == 0) {
 
             if (defender.getOwner().countriesOwned.size() == 1) {
@@ -594,13 +583,6 @@ public class Player extends Observable {
                 phase.setInvalidInfo(attacker.getOwner().getName());
             }
 
-            // if nobody win, ask for move armies to new occupied country
-            phase.setActionResult(Action.Move_After_Conquer);
-
-            // if attack possible
-            if (!isAttackPossible()) {
-                phase.setInvalidInfo("Attack Impossible");
-            }
             return true;
         }
         return false;
@@ -613,7 +595,6 @@ public class Player extends Observable {
      */
     public void moveArmy(String num){
 
-        Phase phase = Phase.getInstance();
         int numArmies = 0;
         try{
             numArmies = Integer.valueOf(num);
@@ -703,8 +684,6 @@ public class Player extends Observable {
      */
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
 
-        Phase phase = Phase.getInstance();
-
         if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
             return;
         }
@@ -725,9 +704,11 @@ public class Player extends Observable {
         }
 
         //update phase info
-        if (!phase.getCurrentPhase().equals("Game Over") || phase.getActionResult() != Action.Move_After_Conquer) {
+        if (phase.getActionResult() == null) {
             phase.setActionResult(Action.Show_Next_Phase_Button);
-            phase.update();
+        }
+        if (!phase.getCurrentPhase().equals("Game Over") && phase.getActionResult() != Action.Move_After_Conquer){
+            phase.setActionResult(Action.Show_Next_Phase_Button);
         }
         phase.update();
 
