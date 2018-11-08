@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bad706aa-2280-4d48-bd5b-67f261c62cd4" name="Default" comment="">
+    <list default="true" id="bad706aa-2280-4d48-bd5b-67f261c62cd4" name="Default" comment=" Fix bug in moveAfterConquer function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.java" afterDir="false" />
     </list>
@@ -15,14 +15,14 @@
     <session id="-152524906">
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1265" />
-          <entry key="txt" value="178" />
+          <entry key="java" value="1431" />
+          <entry key="txt" value="231" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1265" />
-          <entry key="PLAIN_TEXT" value="178" />
+          <entry key="JAVA" value="1431" />
+          <entry key="PLAIN_TEXT" value="231" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -56,7 +56,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/testModel/ModelTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-240">
+            <state relative-caret-position="487">
               <caret line="87" selection-start-line="87" selection-end-line="87" />
             </state>
           </provider>
@@ -78,34 +78,30 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/model/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="678" lean-forward="true" selection-start-line="678" selection-end-line="678" />
+            <state relative-caret-position="164">
+              <caret line="606" column="18" selection-start-line="606" selection-start-column="18" selection-end-line="606" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1781#1782#0" expanded="true" />
-                <element signature="e#1809#1810#0" expanded="true" />
-                <element signature="e#2415#2416#0" expanded="true" />
-                <element signature="e#2440#2441#0" expanded="true" />
-                <element signature="e#2543#2544#0" expanded="true" />
+                <element signature="e#1808#1809#0" expanded="true" />
+                <element signature="e#1836#1837#0" expanded="true" />
+                <element signature="e#2442#2443#0" expanded="true" />
+                <element signature="e#2467#2468#0" expanded="true" />
                 <element signature="e#2570#2571#0" expanded="true" />
-                <element signature="e#2724#2725#0" expanded="true" />
-                <element signature="e#2753#2754#0" expanded="true" />
-                <element signature="e#3168#3169#0" expanded="true" />
-                <element signature="e#3205#3206#0" expanded="true" />
-                <element signature="e#3374#3375#0" expanded="true" />
-                <element signature="e#3426#3427#0" expanded="true" />
-                <element signature="e#3555#3556#0" expanded="true" />
-                <element signature="e#3591#3592#0" expanded="true" />
-                <element signature="e#3750#3751#0" expanded="true" />
-                <element signature="e#3786#3787#0" expanded="true" />
-                <element signature="e#3952#3953#0" expanded="true" />
-                <element signature="e#4002#4003#0" expanded="true" />
-                <element signature="e#9575#9584#0" expanded="true" />
-                <element signature="e#13476#13485#0" expanded="true" />
-                <element signature="e#18989#18990#0" expanded="true" />
-                <element signature="e#19045#19046#0" expanded="true" />
-                <element signature="e#19081#19082#0" expanded="true" />
-                <element signature="e#19124#19125#0" expanded="true" />
+                <element signature="e#2597#2598#0" expanded="true" />
+                <element signature="e#2751#2752#0" expanded="true" />
+                <element signature="e#2780#2781#0" expanded="true" />
+                <element signature="e#3195#3196#0" expanded="true" />
+                <element signature="e#3232#3233#0" expanded="true" />
+                <element signature="e#3401#3402#0" expanded="true" />
+                <element signature="e#3453#3454#0" expanded="true" />
+                <element signature="e#3582#3583#0" expanded="true" />
+                <element signature="e#3618#3619#0" expanded="true" />
+                <element signature="e#3777#3778#0" expanded="true" />
+                <element signature="e#3813#3814#0" expanded="true" />
+                <element signature="e#3979#3980#0" expanded="true" />
+                <element signature="e#4029#4030#0" expanded="true" />
+                <element signature="e#9602#9611#0" expanded="true" />
+                <element signature="e#13503#13512#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,10 +137,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/Model.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="127" column="5" lean-forward="true" selection-start-line="127" selection-start-column="5" selection-end-line="127" selection-end-column="5" />
+            <state relative-caret-position="535">
+              <caret line="432" column="46" lean-forward="true" selection-start-line="432" selection-start-column="46" selection-end-line="432" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3244#3245#0" expanded="true" />
+                <element signature="e#3286#3287#0" expanded="true" />
                 <element signature="e#3849#3850#0" expanded="true" />
                 <element signature="e#3877#3878#0" expanded="true" />
               </folding>
@@ -182,8 +180,9 @@
       <find>addCoun</find>
       <find>PlayersWorldDomination</find>
       <find>numOfCountries</find>
-      <find>isDefenderLoose</find>
       <find>att</find>
+      <find>isDefenderLoose</find>
+      <find>fileInfoMenu</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -215,9 +214,9 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="248" />
+    <option name="x" value="60" />
     <option name="y" value="23" />
-    <option name="width" value="1585" />
+    <option name="width" value="1583" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
@@ -277,7 +276,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541634611984" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541635190745" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="project.structure.last.edited" value="Project" />
@@ -308,7 +307,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ModelTestSuite">
+  <component name="RunManager" selected="JUnit.ModelTest.validateFile">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -331,21 +330,6 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CountryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="risk" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="testModel.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="testModel" />
-      <option name="MAIN_CLASS_NAME" value="testModel.CountryTest" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -391,6 +375,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ModelTest.validateFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="risk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="testModel.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="testModel" />
+      <option name="MAIN_CLASS_NAME" value="testModel.ModelTest" />
+      <option name="METHOD_NAME" value="validateFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -415,19 +416,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CountryTest" />
       <item itemvalue="JUnit.ModelTest" />
       <item itemvalue="JUnit.ModelTestSuite" />
       <item itemvalue="JUnit.ModelTest.testAllocateArmy" />
       <item itemvalue="Application.Driver" />
+      <item itemvalue="JUnit.ModelTest.validateFile" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ModelTest.validateFile" />
         <item itemvalue="JUnit.ModelTestSuite" />
         <item itemvalue="Application.Driver" />
         <item itemvalue="JUnit.ModelTest.testAllocateArmy" />
         <item itemvalue="JUnit.ModelTest" />
-        <item itemvalue="JUnit.CountryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -465,7 +466,7 @@
       <workItem from="1541538298439" duration="1850000" />
       <workItem from="1541562002691" duration="6179000" />
       <workItem from="1541602778293" duration="3139000" />
-      <workItem from="1541610639653" duration="13918000" />
+      <workItem from="1541610639653" duration="14576000" />
     </task>
     <task id="LOCAL-00001" summary="Add getContinentOwned() function in player class">
       <created>1541630359326</created>
@@ -495,12 +496,12 @@
       <option name="project" value="LOCAL" />
       <updated>1541634297432</updated>
     </task>
-    <task id="LOCAL-00005" summary="1. Implement the Player class&#10;2. Implement and passed the PlayerTest class">
-      <created>1539575371099</created>
+    <task id="LOCAL-00005" summary=" Fix bug in moveAfterConquer function">
+      <created>1541634667746</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1539575371099</updated>
+      <updated>1541634667746</updated>
     </task>
     <task id="LOCAL-00006" summary="Modify subArmies(int num) method in the Player class">
       <created>1539575788036</created>
@@ -733,16 +734,10 @@
       <option name="project" value="LOCAL" />
       <updated>1541622187555</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="PlayerTest_addRoundArmies - 2018.11.07 at 17h 36m 51s.xml">
-      <configuration name="PlayerTest.addRoundArmies" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="PlayerTest - 2018.11.07 at 17h 37m 07s.xml">
-      <configuration name="PlayerTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="PlayerTest - 2018.11.07 at 17h 38m 09s.xml">
       <configuration name="PlayerTest" configurationId="JUnit" />
     </history-entry>
@@ -767,21 +762,27 @@
     <history-entry file="ModelTest_testAllocateArmy - 2018.11.07 at 18h 12m 07s.xml">
       <configuration name="ModelTest.testAllocateArmy" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="ModelTestSuite - 2018.11.07 at 18h 50m 14s.xml">
+      <configuration name="ModelTestSuite" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ModelTest_validateFile - 2018.11.07 at 18h 54m 30s.xml">
+      <configuration name="ModelTest.validateFile" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7737000" />
+    <option name="totallyTimeSpent" value="8395000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="248" y="23" width="1585" height="1047" extended-state="0" />
+    <frame x="61" y="23" width="1583" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7210366" visible="true" weight="0.21257292" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7210366" visible="true" weight="0.2128488" />
       <window_info id="Structure" order="1" sideWeight="0.27896342" weight="0.19385342" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.313089" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.313089" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -830,7 +831,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add isConnected() method in the Player class" />
     <MESSAGE value="Add test in new method in the Model class" />
     <MESSAGE value="Fix the bug in the ModelTest and CountryTest" />
     <MESSAGE value="Refactor the layout and fix several spelling problems." />
@@ -855,7 +855,8 @@
     <MESSAGE value="Add fortification test in playerTest class." />
     <MESSAGE value="Add ModelTestSuite class to test all the model class and function." />
     <MESSAGE value="Add MoveAfterConquer() function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add MoveAfterConquer() function" />
+    <MESSAGE value=" Fix bug in moveAfterConquer function" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Fix bug in moveAfterConquer function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -874,13 +875,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/model/Player.java</url>
-          <line>517</line>
+          <line>518</line>
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/model/Player.java</url>
-          <line>502</line>
+          <line>503</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
@@ -898,7 +899,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/model/Model.java</url>
-          <line>339</line>
+          <line>365</line>
           <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
@@ -1057,13 +1058,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/testModel/ModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-240">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/PlayersWorldDomination.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="29">
@@ -1085,12 +1079,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/testModel/ModelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/Model.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="127" column="5" lean-forward="true" selection-start-line="127" selection-start-column="5" selection-end-line="127" selection-end-column="5" />
+        <state relative-caret-position="535">
+          <caret line="432" column="46" lean-forward="true" selection-start-line="432" selection-start-column="46" selection-end-line="432" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3244#3245#0" expanded="true" />
+            <element signature="e#3286#3287#0" expanded="true" />
             <element signature="e#3849#3850#0" expanded="true" />
             <element signature="e#3877#3878#0" expanded="true" />
           </folding>
@@ -1099,34 +1102,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/model/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="678" lean-forward="true" selection-start-line="678" selection-end-line="678" />
+        <state relative-caret-position="164">
+          <caret line="606" column="18" selection-start-line="606" selection-start-column="18" selection-end-line="606" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1781#1782#0" expanded="true" />
-            <element signature="e#1809#1810#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
-            <element signature="e#2440#2441#0" expanded="true" />
-            <element signature="e#2543#2544#0" expanded="true" />
+            <element signature="e#1808#1809#0" expanded="true" />
+            <element signature="e#1836#1837#0" expanded="true" />
+            <element signature="e#2442#2443#0" expanded="true" />
+            <element signature="e#2467#2468#0" expanded="true" />
             <element signature="e#2570#2571#0" expanded="true" />
-            <element signature="e#2724#2725#0" expanded="true" />
-            <element signature="e#2753#2754#0" expanded="true" />
-            <element signature="e#3168#3169#0" expanded="true" />
-            <element signature="e#3205#3206#0" expanded="true" />
-            <element signature="e#3374#3375#0" expanded="true" />
-            <element signature="e#3426#3427#0" expanded="true" />
-            <element signature="e#3555#3556#0" expanded="true" />
-            <element signature="e#3591#3592#0" expanded="true" />
-            <element signature="e#3750#3751#0" expanded="true" />
-            <element signature="e#3786#3787#0" expanded="true" />
-            <element signature="e#3952#3953#0" expanded="true" />
-            <element signature="e#4002#4003#0" expanded="true" />
-            <element signature="e#9575#9584#0" expanded="true" />
-            <element signature="e#13476#13485#0" expanded="true" />
-            <element signature="e#18989#18990#0" expanded="true" />
-            <element signature="e#19045#19046#0" expanded="true" />
-            <element signature="e#19081#19082#0" expanded="true" />
-            <element signature="e#19124#19125#0" expanded="true" />
+            <element signature="e#2597#2598#0" expanded="true" />
+            <element signature="e#2751#2752#0" expanded="true" />
+            <element signature="e#2780#2781#0" expanded="true" />
+            <element signature="e#3195#3196#0" expanded="true" />
+            <element signature="e#3232#3233#0" expanded="true" />
+            <element signature="e#3401#3402#0" expanded="true" />
+            <element signature="e#3453#3454#0" expanded="true" />
+            <element signature="e#3582#3583#0" expanded="true" />
+            <element signature="e#3618#3619#0" expanded="true" />
+            <element signature="e#3777#3778#0" expanded="true" />
+            <element signature="e#3813#3814#0" expanded="true" />
+            <element signature="e#3979#3980#0" expanded="true" />
+            <element signature="e#4029#4030#0" expanded="true" />
+            <element signature="e#9602#9611#0" expanded="true" />
+            <element signature="e#13503#13512#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -583,16 +583,19 @@ public class Player extends Observable {
      * @param num the number of armies need to be move
      * @return 1 success, -1 somehow wrong
      */
-    public int moveArmy(String num){
+    public void moveArmy(String num){
+
+
 
         Phase phase = Phase.getInstance();
         int numArmies = 0;
         try{
             numArmies = Integer.valueOf(num);
         } catch (Exception e){
-            phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Please input a number");
             phase.update();
-            return -1;
+            return;
         }
 
         if (this.isContain(attacker) && this.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
@@ -601,11 +604,12 @@ public class Player extends Observable {
 
             phase.setActionResult(Action.Show_Next_Phase_Button);
             phase.update();
-            return 1;
+            return;
         }
-        phase.setActionResult(Action.Show_Next_Phase_Button);
+        phase.setActionResult(Action.Invalid_Move);
+        phase.setInvalidInfo("Number armies to move must more than the number of dice, and less than armies the country has");
         phase.update();
-        return -1;
+        return;
     }
 
     /**
