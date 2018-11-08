@@ -19,7 +19,7 @@ import java.util.*;
 public class Model extends Observable {
 
     public static int cardsValue = 5;
-    private static final String[] cards = {"infantry","cavalry","artillery"};
+    public static final String[] cards = {"infantry","cavalry","artillery"};
     private static Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
@@ -589,5 +589,13 @@ public class Model extends Observable {
         fileInfoMenu.addObserver(fileInfoMenuView);
         numPlayerMenu = new NumPlayerMenu();
         numPlayerMenu.addObserver(numPlayerMenuView);
+    }
+
+
+    public void addRandomCard() {
+        Random random = new Random();
+        int num = random.nextInt(3);
+        String newCard = cards[num];
+        currentPlayer.addRandomCard(newCard);
     }
 }

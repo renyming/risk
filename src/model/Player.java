@@ -2,6 +2,7 @@ package model;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import common.Action;
+import common.CardType;
 import javafx.util.Pair;
 
 import java.awt.*;
@@ -32,6 +33,7 @@ public class Player extends Observable {
     private int cardsArmy;
 
     private HashMap<String,Integer> cards;
+    private int numberOccupy;
 
 
     /**
@@ -50,6 +52,8 @@ public class Player extends Observable {
         cards.put("infantry",0);
         cards.put("cavalry",0);
         cards.put("artillery",0);
+        numberOccupy = 0;
+
     }
 
     /**
@@ -558,7 +562,9 @@ public class Player extends Observable {
             defender.getOwner().delCountry(defender);
             defender.setPlayer(attacker.getOwner());
 
-            //TODO: add card
+            // add
+            numberOccupy++;
+
             // if attacker win the game
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
                 phase.setCurrentPhase("Game Over");
@@ -584,8 +590,6 @@ public class Player extends Observable {
      * @return 1 success, -1 somehow wrong
      */
     public void moveArmy(String num){
-
-
 
         Phase phase = Phase.getInstance();
         int numArmies = 0;
@@ -650,6 +654,16 @@ public class Player extends Observable {
         cardsArmy = Model.cardsValue;
         armies += cardsArmy;
         Phase.getInstance().update();
+    }
+
+    public void addRandomCard(String newCard) {
+
+        if (numberOccupy > 0) {
+            int value = cards.get(newCard) + 1;
+            cards.put(newCard, value);
+        }
+        //reset the number of occupy
+        numberOccupy = 0;
     }
 
 
