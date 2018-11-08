@@ -1,27 +1,29 @@
 package view;
 
 import controller.CardController;
+import controller.MapController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Model;
 
 import java.io.IOException;
 
-class Card {
+public class CardView {
 
-    private static Card instance;
+    private static CardView instance;
 
     private AnchorPane mainCardPane;
     private CardController cardController;
     private Stage cardStage;
 
-    private Card() {
+    private CardView() {
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Card.fxml"));
         try {
             mainCardPane = menuFxmlLoader.load();
         } catch (IOException exception) {
-            System.out.println("Card.ctor(): " + exception.getMessage());
+            System.out.println("CardView.ctor(): " + exception.getMessage());
         }
         cardController = menuFxmlLoader.getController();
         cardStage = new Stage();
@@ -31,13 +33,18 @@ class Card {
         cardStage.sizeToScene();
     }
 
-    static Card getInstance() {
-        if (null == instance) instance = new Card();
+    static CardView getInstance() {
+        if (null == instance) instance = new CardView();
         return instance;
     }
 
+    CardController getCardController() { return cardController; }
+
     // TODO: get some controllers
-    void init () {}
+    void init (Model model, CardView card, MapController mapController) {
+
+
+    }
 
     public void show() { cardStage.show(); }
 

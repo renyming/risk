@@ -1,12 +1,10 @@
 package model;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import common.Action;
-import common.CardType;
-import javafx.util.Pair;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Define class of a player
@@ -34,6 +32,7 @@ public class Player extends Observable {
 
     private HashMap<String,Integer> cards;
     private int numberOccupy;
+    private List<Card> playerCardList;
 
 
     /**
@@ -53,7 +52,7 @@ public class Player extends Observable {
         cards.put("cavalry",0);
         cards.put("artillery",0);
         numberOccupy = 0;
-
+        this.playerCardList = new ArrayList<>();
     }
 
     /**
@@ -66,6 +65,14 @@ public class Player extends Observable {
             n += cards.get(key);
         }
         return n;
+    }
+
+    /**
+     * Get Player Card List
+     * @return playerCardList
+     */
+    public List<Card> getPlayerCardList() {
+        return playerCardList;
     }
 
     /**
@@ -666,7 +673,7 @@ public class Player extends Observable {
         cards.put(card1,cards.get(card1) - 1);
         cards.put(card2,cards.get(card2) - 1);
         cards.put(card3,cards.get(card3) - 1);
-        Cards.getInstance().update();
+        CardModel.getInstance().update();
     }
 
     public void exchangeForArmy(){

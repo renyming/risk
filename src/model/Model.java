@@ -153,22 +153,22 @@ public class Model extends Observable {
      * button event for cardView quit button
      */
     public void quitCards(){
-        Cards.getInstance().hide();
+        CardModel.getInstance().hide();
     }
 
     /**
      * Reinforcement phaseNumber
      * Set new current player
      * Add armies to the player
-     * Cards exchange for armies
+     * CardModel exchange for armies
      */
    public void reinforcement(){
         disable = false;
         //nextPlayer();
 
-       Cards.getInstance().setCurrentPlayer(currentPlayer);
-       Cards.getInstance().display();
-       Cards.getInstance().update();
+       CardModel.getInstance().setCurrentPlayer(currentPlayer);
+       CardModel.getInstance().display();
+       CardModel.getInstance().update();
 
         currentPlayer.reinforcement();
 

@@ -17,7 +17,7 @@ import java.io.IOException;
 
 
 /**
- * Handle event when user interact with the menu, pass it to View
+ * Handle event when user interact with the menu, pass it to Model
  */
 public class MenuController {
 
@@ -65,7 +65,7 @@ public class MenuController {
      * Add event listener to the numPlayerTextField
      */
     private void addEventListener() {
-        numPlayerTextField.setOnAction((event) -> validateEnteredPlayerNum(numPlayerTextField.getText()));
+        numPlayerTextField.setOnAction((event) -> validateEnteredNumPlayer(numPlayerTextField.getText()));
     }
 
 
@@ -119,7 +119,6 @@ public class MenuController {
     /**
      * Select map for starting the new game
      * Called when user clicked the select map button
-     * Pass event to View
      */
     public void selectMap() {
         final FileChooser fileChooser = new FileChooser();
@@ -138,20 +137,20 @@ public class MenuController {
 
     /**
      * Pass user entered string into NumPlayerMenuView
-     * Ask MapController create CountryViews and pass it to Model
-     * Ask MapController create PhaseView and pass it to Model
+     * Update menu view to display the map number
      * Ask Model to initiate Player relative info
      * @param enteredPlayerNum is what user entered in the text field
      */
-    private void validateEnteredPlayerNum(String enteredPlayerNum) {
+    private void validateEnteredNumPlayer(String enteredPlayerNum) {
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
         model.initiatePlayers(enteredPlayerNum);
     }
 
 
     /**
-     * Called when user click the start game button
-     * Pass event to the View
+     * Called when user click the start button
+     * Create PhaseView, CountryViews
+     * Pass info to the Menu, Model, and MapController
      */
     public void startGame() {
         mapController.createPhaseView();
