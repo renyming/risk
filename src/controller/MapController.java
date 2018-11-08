@@ -66,6 +66,8 @@ public class MapController {
     private Model model;
     private Map map;
     private MenuController menuController;
+    private Card card;
+    private CardController cardController;
 
     private Country fromToCountries[];
     private int fromToCountriesCounter;
@@ -86,10 +88,12 @@ public class MapController {
      * @param map is the Map reference
      * @param menuController is the MenuController reference
      */
-    public void init(Model model, Map map, MenuController menuController) {
+    public void init(Model model, Map map, MenuController menuController, Card card, CardController cardController) {
         this.model = model;
         this.map = map;
         this.menuController = menuController;
+        this.card = card;
+        this.cardController= cardController;
 
         skipFortificationPhaseButton.setVisible(false);
         numArmiesMovedTextField.setVisible(false);
@@ -261,6 +265,8 @@ public class MapController {
             case "Start Up Phase": case "Fortification Phase":
                 model.nextPlayer();
                 model.reinforcement();
+                cardController.autoInitializeController();
+                card.show();
                 break;
             case "Reinforcement Phase":
                 Phase.getInstance().setCurrentPhase("Attack Phase");
