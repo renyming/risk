@@ -257,6 +257,7 @@ public class MapController {
                 Phase.getInstance().setCurrentPhase("Fortification Phase");
                 Phase.getInstance().update();
                 fromToCountriesCounter = 0;
+                model.addRandomCard();
                 break;
         }
     }
