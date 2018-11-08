@@ -67,6 +67,10 @@ public class Player extends Observable {
         return n;
     }
 
+    public HashMap<String,Integer> getCards(){
+        return cards;
+    }
+
     /**
      * Get Player Card List
      * @return playerCardList
@@ -199,6 +203,9 @@ public class Player extends Observable {
 
         //TODO:based on card
         //need to implement next phase
+
+        armiesAdded += cardsArmy;
+        cardsArmy = 0;
 
         // the minimal number of reinforcement armies is 3
         if (armiesAdded < 3) {
@@ -577,6 +584,7 @@ public class Player extends Observable {
                 // TODO: add all cards form defender's owner
                 phase.setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
                 phase.update();
+                getDefenderCards(attacker.getOwner(),defender.getOwner());
             }
 
             // change the ownership of the defender country
@@ -678,8 +686,7 @@ public class Player extends Observable {
 
     public void exchangeForArmy(){
         cardsArmy = Model.cardsValue;
-        armies += cardsArmy;
-        Phase.getInstance().update();
+        Model.cardsValue += 5;
     }
 
     public void addRandomCard(String newCard) {
@@ -690,6 +697,13 @@ public class Player extends Observable {
         }
         //reset the number of occupy
         numberOccupy = 0;
+    }
+
+    public void getDefenderCards(Player attacker, Player defender){
+        for(String key : defender.cards.keySet()){
+            attacker.cards.put(key, defender.cards.get(key) + 1);
+            defender.cards.put(key,0);
+        }
     }
 
 
