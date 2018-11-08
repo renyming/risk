@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -37,14 +38,18 @@
               <items>
                   <BorderPane>
                      <center>
-                      <AnchorPane fx:id="draw_pane" style="-fx-background-color: #ffffff; -fx-border-color: #2077d4;" BorderPane.alignment="CENTER">
-                           <effect>
-                              <InnerShadow blurType="GAUSSIAN" color="#3bcaeba5" height="30.0" radius="14.5" width="30.0" />
-                           </effect>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <content>
+                            <AnchorPane fx:id="draw_pane" style="-fx-background-color: #ffffff; -fx-border-color: #2077d4;">
+                                 <effect>
+                                    <InnerShadow blurType="GAUSSIAN" color="#3bcaeba5" height="30.0" radius="14.5" width="30.0" />
+                                 </effect>
+                              </AnchorPane>
+                           </content>
                            <BorderPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </BorderPane.margin>
-                        </AnchorPane>
+                        </ScrollPane>
                      </center>
                   </BorderPane>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="165.0" SplitPane.resizableWithParent="false">
