@@ -303,6 +303,7 @@ public class MapController {
                 break;
             case "Attack Phase":
                 if (!countryClickable) break;
+                invalidMovedLabel.setVisible(false);
                 switch (fromToCountriesCounter) {
                     case 0:
                         setFromCountryInfo(country);
@@ -324,6 +325,7 @@ public class MapController {
                 break;
             case "Fortification Phase":
                 if (enableFortification) {
+//                    invalidMovedLabel.setVisible(false);
                     switch (fromToCountriesCounter) {
                         case 0:
                             setFromCountryInfo(country);

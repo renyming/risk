@@ -243,6 +243,12 @@ public class PhaseView implements Observer {
                         mapController.disableFortification();
                     }
                     phase.clearActionResult();
+                case Win:
+                    phaseLabel.setVisible(false);
+                    nextPhaseButton.setVisible(false);
+                    invalidMovedLabel.setText(phase.getInvalidInfo());
+                    invalidMovedLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+                    break;
                 default:
                     break;
             }
