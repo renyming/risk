@@ -83,10 +83,19 @@ public class Phase extends Observable {
      */
     void setActionResult(Action actionResult) { this.actionResult = actionResult; }
 
+
+    /**
+     * Observer uses it to get the current action within a phase
+     * @return the current action
+     */
     public Action getActionResult() {
         return actionResult;
     }
 
+
+    /**
+     * Clear current action
+     */
     public void clearActionResult() {
         actionResult = Action.None;
     }
