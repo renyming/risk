@@ -61,6 +61,20 @@ public class ModelTest {
         china.setArmies(5);
     }
 
+
+    /**
+     * Test allocateArmy() method
+     */
+    @Test
+    public void testAllocateArmy() {
+
+        newModel1.setCurrentPlayer(p);
+        newModel1.allocateArmy(china);
+
+        assertEquals(6, china.getArmies());
+        assertEquals(6, p.getArmies());
+    }
+
     /**
      * Test map file validation
      * @throws IOException io exceptions
@@ -125,20 +139,6 @@ public class ModelTest {
         }
     }
 
-    /**
-     * Test allocateArmy() method
-     */
-    @Test
-    public void testAllocateArmy() {
-
-        int armiesC = 6;
-        int armiesP = 6;
-
-        newModel1.allocateArmy(china);
-
-        assertEquals(armiesC, china.getArmies());
-        assertEquals(armiesP, p.getArmies());
-    }
 
     /**
      * Test startUp phase method
