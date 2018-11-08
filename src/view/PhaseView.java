@@ -243,6 +243,7 @@ public class PhaseView implements Observer {
                         mapController.disableFortification();
                     }
                     phase.clearActionResult();
+                    break;
                 case Win:
                     phaseLabel.setVisible(false);
                     nextPhaseButton.setVisible(false);

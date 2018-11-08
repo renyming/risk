@@ -325,7 +325,7 @@ public class MapController {
                 break;
             case "Fortification Phase":
                 if (enableFortification) {
-//                    invalidMovedLabel.setVisible(false);
+                    invalidMovedLabel.setVisible(false);
                     switch (fromToCountriesCounter) {
                         case 0:
                             setFromCountryInfo(country);
