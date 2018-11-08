@@ -212,6 +212,7 @@ public class Model extends Observable {
 //        Message message = new Message(STATE.NEXT_PLAYER,null);
 //        notify(message);
         //Phase.getInstance().
+
         int moveNumber;
         if(source == null || target == null){
             Phase.getInstance().setActionResult(Action.Invalid_Move);
@@ -253,12 +254,19 @@ public class Model extends Observable {
      * again, meanwhile change current player to the first player.
      */
     public void nextPlayer(){
-        int currentId = currentPlayer.getId();
-        //can be achieved by players rather than getNumOfPlayer()
-        int numPlayer = players.size();
-        //wraps around the bounds of ID
-        int nextId = (currentId%numPlayer+numPlayer)%numPlayer+1;
-        currentPlayer=players.get(nextId-1);
+
+        int nextId = 0;
+
+        while (true) {
+            int currentId = currentPlayer.getId();
+            //can be achieved by players rather than getNumOfPlayer()
+            int numPlayer = players.size();
+            //wraps around the bounds of ID
+            nextId = (currentId % numPlayer + numPlayer) % numPlayer + 1;
+            currentPlayer = players.get(nextId - 1);
+
+            if (!currentPlayer.isGg()) break;
+        }
 
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();

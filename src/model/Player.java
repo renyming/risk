@@ -557,6 +557,13 @@ public class Player extends Observable {
         Phase phase = Phase.getInstance();
         if (defender.getArmies() == 0) {
 
+            if (defender.getOwner().countriesOwned.size() == 1) {
+
+                // TODO: add all cards form defender's owner
+                phase.setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
+                phase.update();
+            }
+
             // change the ownership of the defender country
             attacker.getOwner().addCountry(defender);
             defender.getOwner().delCountry(defender);
@@ -631,6 +638,10 @@ public class Player extends Observable {
             }
         }
         return false;
+    }
+
+    public boolean isGg() {
+        return this.countriesOwned.size() == 0;
     }
 
     /**
