@@ -253,6 +253,7 @@ public class PlayerTest {
         china.setArmies(2);
         singapore.getOwner().attack(singapore, "3", china, "2", true);
         assertEquals(singapore.getOwner(), china.getOwner());
+        assertEquals(Action.Move_After_Conquer, Phase.getInstance().getActionResult());
 
         // test no attack possible after attack
         player.delCountry(china);

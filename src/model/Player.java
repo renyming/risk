@@ -411,6 +411,14 @@ public class Player extends Observable {
 
         Phase phase = Phase.getInstance();
 
+        // if any of countries is none
+        if (attacker == null || defender == null) {
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Countries can not be none");
+            phase.update();
+            return false;
+        }
+
         // if int valid
         int attackerDiceNum = 0;
         int defenderDiceNum = 0;
