@@ -80,6 +80,7 @@ public class MapController {
     // attack phase relative info
     private int attackerDefenderDices[];
     private boolean allOut;
+    private boolean countryClickable;
 
 
     /**
@@ -111,6 +112,7 @@ public class MapController {
         fromToCountries = new Country[2];
         attackerDefenderDices = new int[2];
         enableFortification = false;
+        countryClickable = true;
 
         PlayersWorldDominationView.getInstance().init(countryPercentageListView, armyDistributionListView, continentNameListView);
     }
@@ -300,6 +302,7 @@ public class MapController {
                 model.allocateArmy(country);
                 break;
             case "Attack Phase":
+                if (!countryClickable) break;
                 switch (fromToCountriesCounter) {
                     case 0:
                         setFromCountryInfo(country);
@@ -465,6 +468,12 @@ public class MapController {
         }
     }
 
+
+    /**
+     * Set country clickable after conquer a country
+     * @param countryClickable determine whether is clickable
+     */
+    public void setCountryClick(boolean countryClickable) { this.countryClickable = countryClickable; }
 
     /**
      * Since fortification can only be done once, so call it after one successful fortification
