@@ -1,14 +1,16 @@
 package view;
 
 import controller.CardController;
+import controller.MapController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Model;
 
 import java.io.IOException;
 
-class Card {
+public class Card {
 
     private static Card instance;
 
@@ -36,8 +38,13 @@ class Card {
         return instance;
     }
 
+    CardController getCardController() { return cardController; }
+
     // TODO: get some controllers
-    void init () {}
+    void init (Model model, Card card, MapController mapController) {
+
+
+    }
 
     public void show() { cardStage.show(); }
 
