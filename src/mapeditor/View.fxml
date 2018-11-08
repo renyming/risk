@@ -13,10 +13,11 @@
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root fx:id="view_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="746.0" prefWidth="1080.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapeditor.ViewController">
+<fx:root fx:id="view_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="500.0" prefHeight="746.0" prefWidth="1080.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapeditor.ViewController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -32,11 +33,11 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <SplitPane dividerPositions="0.8646616541353384" VBox.vgrow="NEVER">
+            <SplitPane dividerPositions="0.0" VBox.vgrow="ALWAYS">
               <items>
-                  <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="920.0" SplitPane.resizableWithParent="false">
+                  <BorderPane>
                      <center>
-                      <AnchorPane fx:id="draw_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #ffffff; -fx-border-color: #2077d4; -fx-border-width: 2;" BorderPane.alignment="CENTER">
+                      <AnchorPane fx:id="draw_pane" style="-fx-background-color: #ffffff; -fx-border-color: #2077d4;" BorderPane.alignment="CENTER">
                            <effect>
                               <InnerShadow blurType="GAUSSIAN" color="#3bcaeba5" height="30.0" radius="14.5" width="30.0" />
                            </effect>
@@ -46,26 +47,30 @@
                         </AnchorPane>
                      </center>
                   </BorderPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="165.0" SplitPane.resizableWithParent="false">
                      <children>
-                        <Label layoutX="4.0" layoutY="213.0" text="Enter a New Continent        " />
-                        <TextField fx:id="txtContinent" layoutX="2.0" layoutY="231.0" />
-                        <Button fx:id="btnAddContinent" graphicTextGap="2.0" layoutX="46.0" layoutY="258.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addContinent" prefHeight="30.0" prefWidth="30.0" text="+" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnDelContinent" graphicTextGap="2.0" layoutX="82.0" layoutY="258.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delContinent" prefHeight="30.0" prefWidth="30.0" text="‒">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Button>
-                        <ListView fx:id="lstContinent" layoutX="-8.0" layoutY="289.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="289.0" />
+                        <Label text="Enter a New Continent        " />
+                        <TextField fx:id="txtContinent" prefHeight="25.0" prefWidth="160.0" promptText="Name of continent" />
+                        <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="btnAddContinent" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addContinent" prefHeight="30.0" prefWidth="30.0" text="+" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnDelContinent" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delContinent" prefHeight="30.0" prefWidth="30.0" text="‒">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ListView fx:id="lstContinent" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                      <padding>
-                        <Insets left="5.0" right="5.0" />
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </padding>
-                  </AnchorPane>
+                  </VBox>
               </items>
             </SplitPane>
          </children>

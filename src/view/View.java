@@ -70,7 +70,7 @@ public class View {
             mapeditor.View mapView = new mapeditor.View();
             mapView.setMenuView(this);
             mapEditorStage.setScene(new Scene(mapView,1080,746));
-            mapEditorStage.setResizable(false);
+//            mapEditorStage.setResizable(false);
         } catch (Exception e) {
             System.out.println("View.openMapEditor(): " + e.getMessage());
         }
