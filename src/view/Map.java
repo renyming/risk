@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
+/**
+ * Load the map UI from fxml file, able to initialize, show, hide and close it
+ */
 public class Map {
 
     private static Map instance;
@@ -16,6 +20,10 @@ public class Map {
     private MapController mapController;
     private Stage mapStage;
 
+
+    /**
+     * Ctor, load UI, set default values
+     */
     private Map() {
         final double GAME_BOARD_WIDTH = 1024;
         final double GAME_BOARD_HEIGHT = 768;
@@ -34,21 +42,46 @@ public class Map {
         mapStage.sizeToScene();
     }
 
+
+    /**
+     * Singleton standard getter method, get the instance
+     * @return the instance
+     */
     static Map getInstance(){
         if (null == instance) instance = new Map();
         return instance;
     }
 
+
+    /**
+     * Get the MapController reference
+     * @return the MapController reference
+     */
     MapController getMapController() { return mapController; }
 
-    // for drawMap and resetMap usage
+
+    /**
+     * Get the map root pane
+     * For draw map and reset map usage
+     * @return the mao root pane
+     */
     public AnchorPane getMapRootPane() { return mapRootPane; }
 
+
+    /**
+     * Show map
+     */
     public void show() { mapStage.show(); }
 
+
+    /**
+     * Hide map
+     */
     public void hide() { mapStage.hide(); }
 
+
+    /**
+     * Close map
+     */
     public void close() { mapStage.close(); }
-
-
 }

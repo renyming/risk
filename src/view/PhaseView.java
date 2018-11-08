@@ -10,6 +10,13 @@ import model.Player;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * Observer Phase class, store
+ * 1) the name of the game phase currently being played
+ * 2) the current player's name
+ * 3) information about actions that are taking place during this phase
+ */
 public class PhaseView implements Observer {
 
     private static PhaseView instance;
@@ -50,13 +57,38 @@ public class PhaseView implements Observer {
     private MapController mapController;
 
 
+    /**
+     * Ctor
+     */
     private PhaseView() { currentPhase = "Init"; }
 
+
+    /**
+     * Singleton standard getter method, get the instance
+     * @return the instance
+     */
     public static PhaseView getInstance() {
         if (null == instance) instance = new PhaseView();
         return instance;
     }
 
+
+    /**
+     * Initialize the relative map component
+     * @param phaseLabel displays the current phase
+     * @param nextPhaseButton allows user the enter the next phase
+     * @param currentPlayerLabel displays the current player name
+     * @param armiesInHandLabel displays the number of armies in current player's hand
+     * @param countryALabel indicates the from-country
+     * @param countryANameLabel displays the from-country name
+     * @param countryBLabel indicates the to-country
+     * @param countryBNameLabel displays the to-country name
+     * @param numArmiesMovedLabel indicated the number of armies text field
+     * @param numArmiesMovedTextField displays the num of armies text field
+     * @param invalidMoveLabel displays the invalid move info
+     * @param skipFortificationPhaseButton allows user to skip the fortification phase
+     * @param mapController is the MapController reference
+     */
     public void init(Label phaseLabel, Button nextPhaseButton, Label currentPlayerLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
@@ -77,6 +109,21 @@ public class PhaseView implements Observer {
         this.mapController = mapController;
     }
 
+
+    /**
+     * Initialize the relative attack phase map component
+     * @param attackerDiceLabel indicates the attacker's dices
+     * @param attackerDiceOneButton displays the attacker's 1 dice
+     * @param attackerDiceTwoButton displays the attacker's 2 dices
+     * @param attackerDiceThreeButton displays the attacker's 3 dices
+     * @param defenderDiceLabel indicated the defender's dices
+     * @param defenderDiceOneButton displays the defender's 1 dice
+     * @param defenderDiceTwoButton displays the defender's 2 dice
+     * @param allOutLabel indicates the all out mode
+     * @param allOutEnableButton displays the all out mode is enable
+     * @param allOutDisableButton display the all out mode is disable
+     * @param attackButton allows user to perform attack action
+     */
     public void initAttackComponents(Label attackerDiceLabel, Button attackerDiceOneButton, Button attackerDiceTwoButton, Button attackerDiceThreeButton,
                                      Label defenderDiceLabel, Button defenderDiceOneButton, Button defenderDiceTwoButton,
                                      Label allOutLabel, Button allOutEnableButton, Button allOutDisableButton, Button attackButton) {
@@ -93,16 +140,25 @@ public class PhaseView implements Observer {
         this.attackButton = attackButton;
     }
 
+
+    /**
+     * Observer standard update method
+     * @param obs is the Observable subject, which ic the Phase
+     * @param obj is the additional update info
+     */
     @Override
     public void update(Observable obs, Object obj) {
         Phase phase = (Phase) obs;
         Player nextPlayer = phase.getCurrentPlayer();
+
+        // check current Player update
         if (null == currentPlayer || currentPlayer.getId() != nextPlayer.getId()) {
             currentPlayer = phase.getCurrentPlayer();
             currentPlayerLabel.setText(currentPlayer.getName());
             currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
         }
 
+        // check current Phase update, or current action update
         if (!currentPhase.equals(phase.getCurrentPhase())) {
             currentPhase = phase.getCurrentPhase();
             mapController.setCurrentPhase(currentPhase);
@@ -133,7 +189,7 @@ public class PhaseView implements Observer {
                     countryANameLabel.setVisible(true);
                     countryBLabel.setVisible(true);
                     countryBNameLabel.setVisible(true);
-                    displayAttackPhaseButton(true);
+                    displayAttackPhaseMapComponent(true);
                     nextPhaseButton.setText("Enter Fortification Phase");
                     break;
                 case "Fortification Phase":
@@ -150,47 +206,51 @@ public class PhaseView implements Observer {
                     nextPhaseButton.setText("Enter Reinforcement Phase");
                     break;
             }
-        }
-        switch (phase.getActionResult()) {
-            case Invalid_Card_Exchange:
-                // TODO: display the invalid result in card exchange View, Model may tell cardView directly
-                phase.clearActionResult();
-            case Allocate_Army:
-                armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                phase.clearActionResult();
-                break;
-            case Invalid_Move:
-                invalidMovedLabel.setText(phase.getInvalidInfo());
-                invalidMovedLabel.setVisible(true);
-                phase.clearActionResult();
-                break;
-            case Move_After_Conquer:
-                numArmiesMovedLabel.setVisible(true);
-                numArmiesMovedTextField.setVisible(true);
-                nextPhaseButton.setVisible(false);
-                // TODO hide all other buttons
-                displayAttackPhaseButton(false);
-                phase.clearActionResult();
-                break;
-            case Show_Next_Phase_Button:
-                if (currentPhase.equals("Attack Phase")) {
-                    displayAttackPhaseButton(true);
-                    numArmiesMovedLabel.setVisible(false);
-                    numArmiesMovedTextField.clear();
-                    numArmiesMovedTextField.setVisible(false);
-                }
-                phaseLabel.setVisible(false);
-                nextPhaseButton.setVisible(true);
-                invalidMovedLabel.setVisible(false);
-                if (currentPhase.equals("Fortification Phase")) {
-                    mapController.disableFortification();
-                }
-                phase.clearActionResult();
-            default:
-                break;
+        } else {
+            switch (phase.getActionResult()) {
+                case Invalid_Card_Exchange:
+                    // TODO: display the invalid result in card exchange View, Model may tell cardView directly
+                    phase.clearActionResult();
+                case Allocate_Army:
+                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                    phase.clearActionResult();
+                    break;
+                case Invalid_Move:
+                    invalidMovedLabel.setText(phase.getInvalidInfo());
+                    invalidMovedLabel.setVisible(true);
+                    phase.clearActionResult();
+                    break;
+                case Move_After_Conquer:
+                    numArmiesMovedLabel.setVisible(true);
+                    numArmiesMovedTextField.setVisible(true);
+                    nextPhaseButton.setVisible(false);
+                    displayAttackPhaseMapComponent(false);
+                    phase.clearActionResult();
+                    break;
+                case Show_Next_Phase_Button:
+                    if (currentPhase.equals("Attack Phase")) {
+                        displayAttackPhaseMapComponent(true);
+                        numArmiesMovedLabel.setVisible(false);
+                        numArmiesMovedTextField.clear();
+                        numArmiesMovedTextField.setVisible(false);
+                    }
+                    phaseLabel.setVisible(false);
+                    nextPhaseButton.setVisible(true);
+                    invalidMovedLabel.setVisible(false);
+                    if (currentPhase.equals("Fortification Phase")) {
+                        mapController.disableFortification();
+                    }
+                    phase.clearActionResult();
+                default:
+                    break;
+            }
         }
     }
 
+
+    /**
+     * Hide all map component for attack/fortification phase
+     */
     private void hide() {
         countryALabel.setVisible(false);
         countryANameLabel.setVisible(false);
@@ -214,7 +274,12 @@ public class PhaseView implements Observer {
         skipFortificationPhaseButton.setVisible(false);
     }
 
-    private void displayAttackPhaseButton(boolean display) {
+
+    /**
+     * Display attack phase relative map component
+     * @param display indicates whether the components should be show or hide
+     */
+    private void displayAttackPhaseMapComponent(boolean display) {
         // TODO: add a pane, just disable the pane
         attackerDiceLabel.setVisible(display);
         attackerDiceOneButton.setVisible(display);
@@ -229,6 +294,11 @@ public class PhaseView implements Observer {
         attackButton.setVisible(display);
     }
 
+
+    /**
+     * Reset from-to country Labels
+     * Called when phase changes
+     */
     private void reset() {
         countryANameLabel.setText("NONE");
         countryANameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");

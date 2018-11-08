@@ -8,6 +8,10 @@ import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+/**
+ * Load the map UI from fxml file, able to initialize, show, hide and close it
+ */
 public class Menu {
 
     private static Menu instance;
@@ -16,6 +20,10 @@ public class Menu {
     private AnchorPane mainMenuPane;
     private Stage menuStage;
 
+
+    /**
+     * Ctor, load UI, set default values
+     */
     private Menu() {
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
         try {
@@ -31,19 +39,46 @@ public class Menu {
         menuStage.sizeToScene();
     }
 
+
+    /**
+     * Singleton standard getter method, get the instance
+     * @return the instance
+     */
     static Menu getInstance(){
         if (null == instance) instance = new Menu();
         return instance;
     }
 
+
+    /**
+     * Show menu
+     */
     public void show() { menuStage.show(); }
 
+
+    /**
+     * Hide menu
+     */
     public void hide() { menuStage.hide(); }
 
+
+    /**
+     * Close menu
+     */
     public void close() { menuStage.close(); }
 
-    // for select file usage
+
+    /**
+     * Get the menu Stage
+     * For select file usage
+     * @return the menu Stage
+     */
     public Stage getMenuStage() { return menuStage; }
 
+
+    /**
+     * Get the MenuController
+     * @return the MenuController reference
+     */
     MenuController getMenuController() { return menuController; } // TODO: remove later
 }
