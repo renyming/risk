@@ -17,7 +17,7 @@ public class FileInfoMenu extends Observable {
     private boolean valid;
     private String validationInfo;
 
-    FileInfoMenu() {}
+    public FileInfoMenu() {}
 
     public void update() {
         setChanged();

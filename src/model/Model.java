@@ -52,6 +52,38 @@ public class Model extends Observable {
     }
 
     /**
+     * Get fileInfoMenu
+     * @return fileInfoMenu
+     */
+    public FileInfoMenu getFileInfoMenu() {
+        return fileInfoMenu;
+    }
+
+    /**
+     * Get numPlayerMenu
+     * @return numPlayerMenu
+     */
+    public NumPlayerMenu getNumPlayerMenu() {
+        return numPlayerMenu;
+    }
+
+    /**
+     * set fileInfoMenu, for the test
+     * @param fileInfoMenu
+     */
+    public void setFileInfoMenu(FileInfoMenu fileInfoMenu) {
+        this.fileInfoMenu = fileInfoMenu;
+    }
+
+    /**
+     * set numPlayerMenu, for the test
+     * @param numPlayerMenu
+     */
+    public void setNumPlayerMenu(NumPlayerMenu numPlayerMenu) {
+        this.numPlayerMenu = numPlayerMenu;
+    }
+
+    /**
      * reset model object before reload mapfile
      */
     private void reset(){
@@ -67,6 +99,14 @@ public class Model extends Observable {
      */
     public static Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * set current player
+     * @param  p player
+     */
+    public static void setCurrentPlayer(Player p) {
+        currentPlayer = p;
     }
 
 

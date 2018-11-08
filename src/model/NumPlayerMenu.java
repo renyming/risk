@@ -27,7 +27,7 @@ public class NumPlayerMenu extends Observable {
     private String validationInfo;
     private int maxNumPlayer;
 
-    NumPlayerMenu() {}
+    public NumPlayerMenu() {}
 
     public void update() {
         setChanged();

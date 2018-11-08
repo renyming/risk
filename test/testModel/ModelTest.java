@@ -1,13 +1,12 @@
 package testModel;
 
-import model.Continent;
-import model.Country;
-import model.Model;
+import model.*;
+
 import static org.junit.Assert.*;
 
-import model.Player;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import view.View;
 
 import java.io.IOException;
 
@@ -44,6 +43,7 @@ public class ModelTest {
         asien = new Continent("Asian", 5);
         p = new Player("Lee", 5);
         p.setArmies(7);
+        newModel1.setCurrentPlayer(p);
 
         china = new Country("china", asien);
         thailand = new Country("thailand", asien);
@@ -57,6 +57,7 @@ public class ModelTest {
         newModel1.getCountries().put(china.getName(), china);
 
         china.setPlayer(p);
+        p.addCountry(china);
         china.setArmies(5);
     }
 
@@ -65,16 +66,31 @@ public class ModelTest {
      * @throws IOException io exceptions
      */
     @Test
-    public void validateFile() throws IOException{
+    public void isValidFile() throws IOException{
+
         Model testedModel1 = new Model();
+        testedModel1.setFileInfoMenu(new FileInfoMenu());
+        testedModel1.setNumPlayerMenu(new NumPlayerMenu());
+
         Model testedModel2 = new Model();
+        testedModel2.setFileInfoMenu(new FileInfoMenu());
+        testedModel2.setNumPlayerMenu(new NumPlayerMenu());
+
         Model testedModel3 = new Model();
+        testedModel3.setFileInfoMenu(new FileInfoMenu());
+        testedModel3.setNumPlayerMenu(new NumPlayerMenu());
+
         testedModel1.readFile("./resource/Invalid1.map");
-        assertFalse(testedModel1.isValidFile());
+        assertEquals(false, testedModel1.getFileInfoMenu().getValid());
+        assertEquals(false, testedModel1.isValidFile());
+
         testedModel2.readFile("./resource/Invalid3.map");
-        assertFalse(testedModel2.isValidFile());
+        assertEquals(false, testedModel2.getFileInfoMenu().getValid());
+        assertEquals(false, testedModel2.isValidFile());
+
         testedModel3.readFile("./resource/Invalid4.map");
-        assertFalse(testedModel3.isValidFile());
+        assertEquals(false, testedModel3.getFileInfoMenu().getValid());
+        assertEquals(false, testedModel3.isValidFile());
     }
 
     /**
@@ -85,6 +101,9 @@ public class ModelTest {
     public void testReadFile() throws IOException {
 
         Model testedModel = new Model();
+        testedModel.setFileInfoMenu(new FileInfoMenu());
+        testedModel.setNumPlayerMenu(new NumPlayerMenu());
+
         testedModel.readFile("./resource/Aden.map");
         assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
         assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
