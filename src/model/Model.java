@@ -670,4 +670,15 @@ public class Model extends Observable {
         String newCard = cards[num];
         currentPlayer.addRandomCard(newCard);
     }
+
+    public void isAttackPossible() {
+       if (!currentPlayer.isAttackPossible()){
+           Phase.getInstance().setActionResult(Action.Invalid_Move);
+           Phase.getInstance().setInvalidInfo("Attack Impossible");
+           Phase.getInstance().update();
+
+           Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+           Phase.getInstance().update();
+       }
+    }
 }
