@@ -274,7 +274,7 @@ public class PlayerTest {
         china.setArmies(2);
         player.addCountry(thailand);
         singapore.getOwner().attack(singapore, "3", china, "2", true);
-        assertEquals("Game Over", Phase.getInstance().getCurrentPhase());
+        assertEquals(Action.Win, Phase.getInstance().getActionResult());
 
     }
 

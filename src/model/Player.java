@@ -535,10 +535,7 @@ public class Player extends Observable {
                 defender.getOwner().subTotalStrength(1);
 
                 //if defender's armies == 0, attacker victory
-                if (isDefenderLoose()) {
-                    phase.setActionResult(Action.Move_After_Conquer);
-                    return;
-                }
+                if (isDefenderLoose()) return;
             }
         }
         return;
@@ -588,6 +585,7 @@ public class Player extends Observable {
 
             // add numOfOccupy
             numberOccupy++;
+            phase.setActionResult(Action.Move_After_Conquer);
 
             // if attacker win the game
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
@@ -709,7 +707,6 @@ public class Player extends Observable {
 
         // if defender country doesn't has army
         if (isDefenderLoose()) {
-            phase.setActionResult(Action.Move_After_Conquer);
             phase.update();
             return;
         }
@@ -722,20 +719,18 @@ public class Player extends Observable {
             attackOnce();
         }
 
-
-
         //update phase info
         if (phase.getActionResult() == null) {
             phase.setActionResult(Action.Show_Next_Phase_Button);
         }
-        if (!phase.getCurrentPhase().equals("Game Over") && phase.getActionResult() != Action.Move_After_Conquer){
+        if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
             phase.setActionResult(Action.Show_Next_Phase_Button);
         }
 
         if (!isAttackPossible()) {
             phase.setInvalidInfo("Attack Impossible");
         }
-        
+
         phase.update();
 
         return;
