@@ -1,5 +1,6 @@
 package view;
 
+import controller.CardController;
 import controller.MapController;
 import controller.MenuController;
 import model.Model;
@@ -21,6 +22,7 @@ public class View {
     private Stage mapEditorStage;
     private Menu menu;
     private Map map;
+    private Card card;
 
     // TODO: remove later?
     private MenuController menuController;
@@ -32,6 +34,7 @@ public class View {
     public View() {
         menu = Menu.getInstance();
         map = Map.getInstance();
+        card = Card.getInstance();
     }
 
 
@@ -43,9 +46,12 @@ public class View {
     public void setModel(Model model) {
         menuController = menu.getMenuController();
         MapController mapController = map.getMapController();
+        CardController cardController = card.getCardController();
 
         menuController.init(model, this, menu, mapController);
-        mapController.init(model, map, menuController);
+        mapController.init(model, map, menuController, card, cardController);
+        cardController.init(model, card, mapController);
+
     }
 
 
