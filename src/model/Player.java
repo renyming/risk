@@ -682,7 +682,7 @@ public class Player extends Observable {
 
     public void getDefenderCards(Player attacker, Player defender){
         for(String key : defender.cards.keySet()){
-            attacker.cards.put(key, defender.cards.get(key) + 1);
+            attacker.cards.put(key, attacker.cards.get(key) + defender.cards.get(key));
             defender.cards.put(key,0);
         }
     }

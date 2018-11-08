@@ -209,10 +209,12 @@ public class Model extends Observable {
    public void reinforcement(){
 
         //nextPlayer();
+        disable = false;
+        currentPlayer.reinforcement();
 
-       CardModel.getInstance().setCurrentPlayer(currentPlayer);
-       CardModel.getInstance().display();
-       CardModel.getInstance().update();
+//       CardModel.getInstance().setCurrentPlayer(currentPlayer);
+//       CardModel.getInstance().display();
+//       CardModel.getInstance().update();
 
 //        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //        Phase.getInstance().update();
