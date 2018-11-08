@@ -66,7 +66,7 @@ public class MapController {
     private Model model;
     private Map map;
     private MenuController menuController;
-    private Card card;
+    private CardView card;
     private CardController cardController;
 
     private Country fromToCountries[];
@@ -88,7 +88,7 @@ public class MapController {
      * @param map is the Map reference
      * @param menuController is the MenuController reference
      */
-    public void init(Model model, Map map, MenuController menuController, Card card, CardController cardController) {
+    public void init(Model model, Map map, MenuController menuController, CardView card, CardController cardController) {
         this.model = model;
         this.map = map;
         this.menuController = menuController;

@@ -22,7 +22,7 @@ public class View {
     private Stage mapEditorStage;
     private Menu menu;
     private Map map;
-    private Card card;
+    private CardView card;
 
     // TODO: remove later?
     private MenuController menuController;
@@ -34,7 +34,7 @@ public class View {
     public View() {
         menu = Menu.getInstance();
         map = Map.getInstance();
-        card = Card.getInstance();
+        card = CardView.getInstance();
     }
 
 

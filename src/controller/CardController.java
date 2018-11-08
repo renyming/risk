@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.CardModel;
 import model.Model;
-import view.Card;
+import view.CardView;
 
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-
 
 
 public class CardController {
@@ -27,13 +26,13 @@ public class CardController {
     private List<model.Card> playerCards;
     private CheckBox[] cbs;
     private Model model;
-    private Card card;
+    private CardView card;
     private MapController mapController;
     private CardModel cardModel;
 
 
 
-    public void init(Model model, view.Card card, MapController mapController) {
+    public void init(Model model, CardView card, MapController mapController) {
         this.model = model;
         this.card = card;
         this.mapController = mapController;
@@ -50,7 +49,6 @@ public class CardController {
     private void checkTrade(ActionEvent event) {
         trade.setDisable(false);
         textToShow.setText(null);
-
         List<model.Card> selectedCards = cardModel.retrieveSelectedCardsFromCheckbox(model.getCurrentPlayer().getPlayerCardList(),cbs);
 
         if (selectedCards.size() == 3) {
