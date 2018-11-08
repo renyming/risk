@@ -346,6 +346,7 @@ public class Model extends Observable {
         //give state to view
         PlayersWorldDomination.getInstance().setPlayers(players);
         PlayersWorldDomination.getInstance().setTotalNumCountries(countries.size());
+        PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
     }
 

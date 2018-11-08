@@ -61,7 +61,7 @@ public class PlayersWorldDomination extends Observable {
         for (Player player : players) {
             StringBuilder allContinentNamesPerPlayer = new StringBuilder();
             for (Continent continent : player.getContinentsOwned()) {
-                allContinentNamesPerPlayer.append(continent.getName());
+                allContinentNamesPerPlayer.append(continent.getName()).append(", ");
             }
             continentNames.add(player.getName() + ": " + allContinentNamesPerPlayer.toString());
         }

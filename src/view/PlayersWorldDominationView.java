@@ -26,13 +26,10 @@ public class PlayersWorldDominationView implements Observer {
     }
 
     public void init(ListView<String> countryPercentageListView, ListView<String> armyDistributionListView, ListView<String> continentNameListView) {
-        allPlayerCountryPercentage.addAll("Player_1: 5%", "Player_2: 10%", "Player_3: 15%", "Player_4: 20%", "Player_5: 25%", "Player_6: 30%"); // TODO remove later
         countryPercentageListView.setItems(allPlayerCountryPercentage);
 
-        allPlayerArmyDistribution.addAll("Player_1: 5", "Player_2: 10", "Player_3: 15", "Player_4: 20", "Player_5: 25", "Player_6: 30"); // TODO remove later
         armyDistributionListView.setItems(allPlayerArmyDistribution);
 
-        allPlayerContinentName.add("Player_1: Continent_1, Continent_2, Continent_3, Continent_4, Continent_5, Continent_6, Continent_7, Continent_8"); // TODO remove later
         continentNameListView.setItems(allPlayerContinentName);
     }
 
