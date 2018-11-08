@@ -35,6 +35,7 @@ public class Player extends Observable {
     private List<Card> playerCardList;
 
     private Phase phase;
+    private PlayersWorldDomination worldDomination;
 
 
     /**
@@ -56,6 +57,7 @@ public class Player extends Observable {
         numberOccupy = 0;
         this.playerCardList = new ArrayList<>();
         phase = Phase.getInstance();
+        worldDomination = PlayersWorldDomination.getInstance();
     }
 
     /**
@@ -171,6 +173,7 @@ public class Player extends Observable {
      */
     public void setTotalStrength(int totalStrength) {
         this.totalStrength = totalStrength;
+        worldDomination.update();
     }
 
     /**
@@ -320,6 +323,7 @@ public class Player extends Observable {
     public void addContinent(Continent continent){
         //verify if the country is exist in the countriesOwned??
         continentsOwned.add(continent);
+        worldDomination.update();
     }
 
     /**
@@ -334,6 +338,7 @@ public class Player extends Observable {
         {
             if (continent.equals(it.next())){
                 it.remove();
+                worldDomination.update();
                 return true;
             }
         }

@@ -232,21 +232,21 @@ public class PlayerTest {
 
         Phase.getInstance().setCurrentPhase("Attack Phase");
 
-//        // test invalidation
-//        singapore.getOwner().attack(singapore, "5", china, "2", false);
-//        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
-//
-//        singapore.getOwner().attack(singapore, "3", china, "3", false);
-//        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
-//
-//        singapore.getOwner().attack(singapore, "3", china, "-1", false);
-//        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
-//
-//        singapore.getOwner().attack(singapore, "3", canada, "1", false);
-//        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
-//
-//        singapore.getOwner().attack(singapore, "3", china, "0", false);
-//        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+        // test invalidation
+        singapore.getOwner().attack(singapore, "5", china, "2", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+
+        singapore.getOwner().attack(singapore, "3", china, "3", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+
+        singapore.getOwner().attack(singapore, "3", china, "-1", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+
+        singapore.getOwner().attack(singapore, "3", canada, "1", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
+
+        singapore.getOwner().attack(singapore, "3", china, "0", false);
+        assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
         // test attacket occupied a country
         singapore.setArmies(20);
@@ -267,14 +267,14 @@ public class PlayerTest {
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
 
         // test attacker occupied all the countries, and win the game
-//        player.delCountry(china);
-//        singapore.setArmies(20);
-//        china.setPlayer(defender);
-//        defender.addCountry(china);
-//        china.setArmies(2);
-//        player.addCountry(thailand);
-//        singapore.getOwner().attack(singapore, "3", china, "2", true);
-//        assertEquals("Game Over", Phase.getInstance().getCurrentPhase());
+        player.delCountry(china);
+        singapore.setArmies(20);
+        china.setPlayer(defender);
+        defender.addCountry(china);
+        china.setArmies(2);
+        player.addCountry(thailand);
+        singapore.getOwner().attack(singapore, "3", china, "2", true);
+        assertEquals("Game Over", Phase.getInstance().getCurrentPhase());
 
     }
 
