@@ -441,15 +441,7 @@ public class Model extends Observable {
         PlayersWorldDomination.getInstance().update();
     }
 
-    /**
-     * load the map from a player chose map file
-     * validate map file
-     * initiate continents,countries and players
-     * notify View
-     * @param filePath The path of the map file
-     * @throws IOException io exceptions
-     */
-    public void readFile(String filePath) throws IOException {
+    public void loadFromMapFile(String filePath) throws IOException{
         reset();
         String content = "";
         String line = "";
@@ -470,6 +462,35 @@ public class Model extends Observable {
         } catch (Exception ex){
             validFile = false;
         }
+    }
+    public Model editorReadFile(String filePath) throws IOException{
+        loadFromMapFile(filePath);
+        try {
+            MapValidator.validateMap(this);
+        }
+        catch (Exception ex){
+            validFile = false;
+
+            System.out.println(ex.toString());
+            return this;
+
+//            message = new Message(STATE.LOAD_FILE,ex.getMessage());
+//            notify(message);
+        }
+        return this;
+    }
+
+    /**
+     * load the map from a player chose map file
+     * validate map file
+     * initiate continents,countries and players
+     * notify View
+     * @param filePath The path of the map file
+     * @throws IOException io exceptions
+     */
+    public void readFile(String filePath) throws IOException {
+
+        loadFromMapFile(filePath);
         Message message;
         if(!validFile){
             fileInfoMenu.setValidationResult(false,"invalid file format!");
