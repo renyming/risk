@@ -31,7 +31,7 @@
             <Label fx:id="countryBNameLabel" alignment="CENTER" layoutX="2.0" layoutY="225.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
             <TextField fx:id="numArmiesMovedTextField" layoutX="30.0" layoutY="390.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
             <Label fx:id="numArmiesMovedLabel" alignment="CENTER" layoutX="2.0" layoutY="360.0" prefHeight="30.0" prefWidth="108.0" text="Armies To Move" />
-            <Button fx:id="skipFortificationPhaseButton" layoutX="25.0" layoutY="695.0" mnemonicParsing="false" onAction="#skipReinforcementPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
+            <Button fx:id="skipFortificationPhaseButton" layoutX="25.0" layoutY="695.0" mnemonicParsing="false" onAction="#skipFortificationPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
             <Label fx:id="invalidMovedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="525.0" prefHeight="150.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="There is no path between these two countries that is composed of countries that you owns" textAlignment="CENTER" wrapText="true" />
             <Label fx:id="attackerDiceLabel" alignment="CENTER" layoutY="270.0" prefHeight="30.0" prefWidth="110.0" text="Attacker's Dices" />
             <Label fx:id="defenderDiceLabel" alignment="CENTER" layoutY="330.0" prefHeight="30.0" prefWidth="110.0" text="Defend's Dices" />

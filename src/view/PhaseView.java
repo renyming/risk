@@ -162,7 +162,8 @@ public class PhaseView implements Observer {
                 invalidMovedLabel.setVisible(true);
                 break;
             case Move_After_Conquer:
-                mapController.showNumArmiesMovedTextField();
+                numArmiesMovedLabel.setVisible(true);
+                numArmiesMovedTextField.setVisible(true);
                 nextPhaseButton.setVisible(false);
                 // TODO hide all other buttons
                 displayAttackPhaseButton(false);
@@ -170,6 +171,7 @@ public class PhaseView implements Observer {
             case Show_Next_Phase_Button:
                 if (currentPhase.equals("Attack Phase")) {
                     displayAttackPhaseButton(true);
+                    numArmiesMovedLabel.setVisible(false);
                     numArmiesMovedTextField.clear();
                     numArmiesMovedTextField.setVisible(false);
                 }

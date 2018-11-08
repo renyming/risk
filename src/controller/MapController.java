@@ -19,7 +19,7 @@ import java.util.HashSet;
 
 
 /**
- * Handle event when user interact with the map, pass it to View
+ * Handle event when user interacts UI during the map stage
  */
 public class MapController {
 
@@ -52,8 +52,8 @@ public class MapController {
     @FXML private Button attackButton;
 
     // fortification relative components
-    @FXML private Label numArmiesMovedLabel;
-    @FXML private TextField numArmiesMovedTextField;
+    @FXML private Label numArmiesMovedLabel;         // also used for attack when conquer occurs
+    @FXML private TextField numArmiesMovedTextField; // also used for attack when conquer occurs
     @FXML private Button skipFortificationPhaseButton;
 
     // players world domination view
@@ -79,6 +79,13 @@ public class MapController {
     private int attackerDefenderDices[];
     private boolean allOut;
 
+
+    /**
+     * Initialize Map Controller, set references, set default button visibility
+     * @param model is the Model reference
+     * @param map is the Map reference
+     * @param menuController is the MenuController reference
+     */
     public void init(Model model, Map map, MenuController menuController) {
         this.model = model;
         this.map = map;
@@ -143,20 +150,25 @@ public class MapController {
             attackerDefenderDices[1] = 1;
             clearAttackerDiceButtons();
             clearDefenderDiceButtons();
-            hideDices();
+            displayDices(false);
             allOutEnableButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             allOutDisableButton.setStyle("");
         });
-        allOutDisableButton.setOnMouseClicked((e) -> {
-            resetAllDices();
-            showDices();
-        });
+        allOutDisableButton.setOnMouseClicked((e) -> resetAllDices());
     }
 
 
+    /**
+     * Set total number of countries, help to create CountryViews later
+     * @param numOfCountries is the total number of countries for a given map
+     */
     public void setNumOfCountries(int numOfCountries) { this.numOfCountries = numOfCountries; }
 
 
+    /**
+     * Set the current phase, help to determine the next phase
+     * @param currentPhase is the current phase
+     */
     public void setCurrentPhase(String currentPhase) {
         this.currentPhase = currentPhase;
         switch (currentPhase) {
@@ -166,6 +178,10 @@ public class MapController {
         }
     }
 
+
+    /**
+     * Create the PhaseView, pass relative button/pane/.. reference to it
+     */
     void createPhaseView() {
         PhaseView phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
@@ -179,6 +195,10 @@ public class MapController {
     }
 
 
+    /**
+     * Create CountryViews for each Country
+     * @return the CountryViews
+     */
     HashMap<Integer, CountryView> createCountryViews() {
         if (null == countryViews) {
             countryViews = new HashMap<>();
@@ -193,21 +213,20 @@ public class MapController {
 
 
     /**
-     * After loading a valid file, create a default CountryView Observer object, and then return it
-     * Called by View.update() at state CREATE_OBSERVERS
-     * Allow Model to bind it with Country Observable object later
+     * Create a single default CountryView Observer object, and then return it
      * @return CountryView Observer object
      */
     private CountryView createDefaultCountryView() { return new CountryView(this); }
 
 
     /**
-     * Called by MenuController when user click the start button
+     * Called by MenuController when user click the start button in select-map menu
      */
     void showMapStage() {
         // TODO: use efficient way to draw lines, avoid duplicate
-        double COUNTRY_VIEW_WIDTH = 60; // TODO: refactor
-        double COUNTRY_VIEW_HEIGHT = 60; // TODO: refactor
+        // draw lines
+        final double COUNTRY_VIEW_WIDTH = 60;
+        final double COUNTRY_VIEW_HEIGHT = 60;
         AnchorPane mapRootPane = map.getMapRootPane();
         lines = new HashSet<>();
         for (int key : countryViews.keySet()) {
@@ -224,6 +243,8 @@ public class MapController {
                 mapRootPane.getChildren().add(line);
             }
         }
+
+        // draw countries
         for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
 
         map.show();
@@ -231,8 +252,8 @@ public class MapController {
 
 
     /**
-     * Start next phase
-     * Called when user clicked the next phase button, pass the event to View
+     * Prepare all necessary map component for the next phase, then enter the next phase
+     * Called when user clicked the next phase button
      */
     public void startNextPhase() {
         nextPhaseButton.setVisible(false);
@@ -265,8 +286,6 @@ public class MapController {
 
     /**
      * Called when user clicked a country
-     * For reinforcement phase: add clicked counter
-     * For fortification phase: set selected countries
      * @param country the country which user clicked
      */
     void clickedCountry(Country country) {
@@ -283,7 +302,8 @@ public class MapController {
                         setToCountryInfo(country);
                         if (0 == country.getArmies()) {
                             attackerDefenderDices[1] = 0;
-                            hideDices();
+                            displayDices(false);
+                            allOutEnableButton.setVisible(false);
                         }
                         break;
                     case 2:
@@ -338,18 +358,21 @@ public class MapController {
 
 
     /**
-     * During fortification phase, reset selected countries
+     * Called when user click the map, reset the from-to country relative info
      */
     private void clickedMap() {
-//        if (!currentPhase.equals("Fortification Phase") || enableFortification) {
-//            resetFromToCountries();
-//            fromToCountriesCounter = 0;
-//        }
+        if (currentPhase.equals("Attack Phase")) {
+            resetFromToCountries();
+            resetAllDices();
+        } else if (currentPhase.equals("Fortification Phase") && enableFortification) {
+            resetFromToCountries();
+        }
+        fromToCountriesCounter++;
     }
 
 
     /**
-     * For the fortification usage, reset selected countries
+     * Reset selected countries
      * Called by MapController if user trying to reset the selected countries by clicking the map or another country
      */
     private void resetFromToCountries() {
@@ -360,10 +383,13 @@ public class MapController {
         countryANameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
         countryBNameLabel.setText("NONE");
         countryBNameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
-        showDices();
+        invalidMovedLabel.setVisible(false);
     }
 
 
+    /**
+     * Clear attacker's dices selection
+     */
     private void clearAttackerDiceButtons() {
         attackerDiceOneButton.setStyle("");
         attackerDiceTwoButton.setStyle("");
@@ -371,13 +397,20 @@ public class MapController {
     }
 
 
+    /**
+     * Clear defender's dices selection
+     */
     private void clearDefenderDiceButtons() {
         defenderDiceOneButton.setStyle("");
         defenderDiceTwoButton.setStyle("");
     }
 
 
+    /**
+     * Reset all dice relative info
+     */
     private void resetAllDices() {
+        if (null != fromToCountries[1] && 0 == fromToCountries[1].getArmies()) return;
         allOut = false;
         attackerDefenderDices[0] = 1;
         clearAttackerDiceButtons();
@@ -387,27 +420,32 @@ public class MapController {
         defenderDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         allOutEnableButton.setStyle("");
         allOutDisableButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+        displayDices(true);
+        allOutEnableButton.setVisible(true);
     }
 
-    private void showDices() {
-        attackerDiceOneButton.setVisible(true);
-        attackerDiceTwoButton.setVisible(true);
-        attackerDiceThreeButton.setVisible(true);
-        defenderDiceOneButton.setVisible(true);
-        defenderDiceTwoButton.setVisible(true);
-    }
 
-    private void hideDices() {
-        attackerDiceOneButton.setVisible(false);
-        attackerDiceTwoButton.setVisible(false);
-        attackerDiceThreeButton.setVisible(false);
-        defenderDiceOneButton.setVisible(false);
-        defenderDiceTwoButton.setVisible(false);
-    }
-
+    /**
+     * After gather countries and dices info, pass them to model to execute the attack
+     */
     public void attack() {
+        invalidMovedLabel.setVisible(false);
         model.attack(fromToCountries[0], Integer.toString(attackerDefenderDices[0]), fromToCountries[1], Integer.toString(attackerDefenderDices[1]), allOut);
     }
+
+
+    /**
+     * Show or hide all dices button
+     * @param display determine either show or hide
+     */
+    private void displayDices(boolean display) {
+        attackerDiceOneButton.setVisible(display);
+        attackerDiceTwoButton.setVisible(display);
+        attackerDiceThreeButton.setVisible(display);
+        defenderDiceOneButton.setVisible(display);
+        defenderDiceTwoButton.setVisible(display);
+    }
+
 
     /**
      * Called when user entered number of armies moved value and press enter button, pass event to View
@@ -422,6 +460,9 @@ public class MapController {
     }
 
 
+    /**
+     * Since fortification can only be done once, so call it after one successful fortification
+     */
     public void disableFortification() {
         enableFortification = false;
         skipFortificationPhaseButton.setVisible(false);
@@ -431,19 +472,17 @@ public class MapController {
     /**
      * During fortification phase, skip this phase if current user is not able to move armies
      * i.e. only has one country left or the user does not want to
-     * Called by 'Skip' button on player view
+     * Called by 'Skip' button on PhaseView
      */
-    public void skipReinforcementPhase() {
-        model.nextPlayer();
-        model.reinforcement();
+    public void skipFortificationPhase() {
+        enableFortification = false;
+        phaseLabel.setVisible(false);
+        nextPhaseButton.setVisible(true);
     }
 
 
-
-
-
     /**
-     * Called when user click the 'Quit' button during the game play
+     * Called when user click the 'Quit' during the game play
      */
     public void backToMenu() {
         resetMapComponents();
@@ -451,6 +490,10 @@ public class MapController {
         menuController.switchToStartGameMenu();
     }
 
+
+    /**
+     * Clear all lines and countries on the map
+     */
     private void resetMapComponents() {
         if (null != countryViews) {
             for (int key : countryViews.keySet()) {
@@ -468,11 +511,9 @@ public class MapController {
         }
     }
 
+
     /**
      * Called by MenuController when user quit the game from menu
      */
     void quitGame() { map.close(); }
-
-
-    public void showNumArmiesMovedTextField() {numArmiesMovedTextField.setVisible(true); }
 }

@@ -3,10 +3,8 @@ package view;
 import controller.MapController;
 import controller.MenuController;
 import model.Model;
-import common.Message;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.util.Observable;
 
 
 /**
@@ -14,8 +12,6 @@ import java.util.Observable;
  * Corresponding Observable subject is Model
  */
 public class View {
-
-    public enum PHASE {ENTER_NUM_PLAYER, START_UP, REINFORCEMENT, ATTACK, FORTIFICATION}
 
 //    private final double COUNTRY_VIEW_HEIGHT = 60;
 //    private final double COUNTRY_VIEW_WIDTH = 60;
@@ -28,8 +24,6 @@ public class View {
 
     // TODO: remove later?
     private MenuController menuController;
-    private PHASE currentPhase;
-    private boolean pause;
 
 
     /**
@@ -38,7 +32,6 @@ public class View {
     public View() {
         menu = Menu.getInstance();
         map = Map.getInstance();
-        pause = false;
     }
 
 
@@ -88,13 +81,4 @@ public class View {
         mapEditorStage.hide();
         menu.show();
     }
-
-    public PHASE getCurrentPhase() { return currentPhase; }
-
-    public void setCurrentPhase(PHASE currentPhase) { this.currentPhase = currentPhase; }
-
-    public void setPause(boolean pause) { this.pause = pause; }
-
-    public boolean getPause() { return pause; }
-
 }

@@ -69,14 +69,29 @@ public class NumPlayerMenu extends Observable {
 
 
     /**
-     * Observer, which is NumPlayerMenuView, uses this method to update the UI
+     * Observer, which is NumPlayerMenuView, uses this method to update menu UI
      * @return true if menu should be displayed, false otherwise
      */
     public boolean getVisible() { return visible; }
 
+
+    /**
+     * Observer uses this method to show valid result
+     * @return true if user entered thing is valid, false otherwise
+     */
     public boolean getValid() { return valid; }
 
+
+    /**
+     * Observer uses this method display max number of player info
+     * @return the max player number
+     */
     public int getMaxNumPlayer() { return maxNumPlayer; }
 
+
+    /**
+     * Observer uses this method to display additional validation feedback
+     * @return the additional validation result
+     */
     public String getValidationInfo() { return validationInfo; }
 }
