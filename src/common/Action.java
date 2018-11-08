@@ -10,5 +10,6 @@ public enum Action {
     Invalid_Card_Exchange,
     Invalid_Move,
     Move_After_Conquer,
-    Show_Next_Phase_Button
+    Show_Next_Phase_Button,
+    Win
 }

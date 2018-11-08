@@ -541,9 +541,6 @@ public class Player extends Observable {
                 }
             }
         }
-        if (!isAttackPossible()) {
-            phase.setInvalidInfo("Attack Impossible");
-        }
         return;
 
     }
@@ -589,14 +586,12 @@ public class Player extends Observable {
             defender.setPlayer(attacker.getOwner());
             attacker.getOwner().addCountry(defender);
 
-
-
-            // add
+            // add numOfOccupy
             numberOccupy++;
 
             // if attacker win the game
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
-                phase.setCurrentPhase("Game Over");
+                phase.setActionResult(Action.Win);
                 // give the name of winner
                 phase.setInvalidInfo(attacker.getOwner().getName());
             }
@@ -725,6 +720,11 @@ public class Player extends Observable {
         } else {
             // players choose how many dice need to put
             attackOnce();
+        }
+
+        if (!isAttackPossible()) {
+            phase.setInvalidInfo("Attack Impossible");
+            phase.setActionResult(Action.Show_Next_Phase_Button);
         }
 
         //update phase info
