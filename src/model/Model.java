@@ -145,15 +145,59 @@ public class Model extends Observable {
      * @param card3 name of the third card
      */
     public void trade(String card1, String card2, String card3){
+
+        if(validCardExchange(card1,card2,card3)){
+            return;
+        }
         currentPlayer.handleCards(card1, card2, card3);
         currentPlayer.exchangeForArmy();
+
+        disable = false;
+        currentPlayer.reinforcement();
+    }
+
+    /**
+     * indicate whether the exchange operation is valid
+     * @param card1 name of the first card
+     * @param card2 name of the second card
+     * @param card3 name of the third card
+     * @return true if the operation is valid; otherwise return false
+     */
+    public boolean validCardExchange(String card1, String card2, String card3){
+        if(card1 == null || card2 == null || card3 == null){
+            return false;
+        }
+        if(card1.equals(card2) && card2.equals(card3)){
+            if(currentPlayer.getCards().get(card1) >= 1 && currentPlayer.getCards().get(card2) >= 1 &&
+                    currentPlayer.getCards().get(card3) >= 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if(!card1.equals(card2) && !card2.equals(card3) && !card1.equals(card3)){
+            if(currentPlayer.getCards().get(card1) >= 1 && currentPlayer.getCards().get(card2) >= 1 &&
+                    currentPlayer.getCards().get(card3) >= 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     /**
      * button event for cardView quit button
      */
     public void quitCards(){
+
+        if(currentPlayer.getTotalCards() >= 5){
+            return;
+        }
+
         CardModel.getInstance().hide();
+        disable = false;
+        currentPlayer.reinforcement();
     }
 
     /**
@@ -163,15 +207,14 @@ public class Model extends Observable {
      * CardModel exchange for armies
      */
    public void reinforcement(){
-        disable = false;
+
         //nextPlayer();
-
-       CardModel.getInstance().setCurrentPlayer(currentPlayer);
-       CardModel.getInstance().display();
-       CardModel.getInstance().update();
-
+        disable = false;
         currentPlayer.reinforcement();
 
+//       CardModel.getInstance().setCurrentPlayer(currentPlayer);
+//       CardModel.getInstance().display();
+//       CardModel.getInstance().update();
 
 //        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //        Phase.getInstance().update();
@@ -398,15 +441,7 @@ public class Model extends Observable {
         PlayersWorldDomination.getInstance().update();
     }
 
-    /**
-     * load the map from a player chose map file
-     * validate map file
-     * initiate continents,countries and players
-     * notify View
-     * @param filePath The path of the map file
-     * @throws IOException io exceptions
-     */
-    public void readFile(String filePath) throws IOException {
+    public void loadFromMapFile(String filePath) throws IOException{
         reset();
         String content = "";
         String line = "";
@@ -427,6 +462,35 @@ public class Model extends Observable {
         } catch (Exception ex){
             validFile = false;
         }
+    }
+    public Model editorReadFile(String filePath) throws IOException{
+        loadFromMapFile(filePath);
+        try {
+            MapValidator.validateMap(this);
+        }
+        catch (Exception ex){
+            validFile = false;
+
+            System.out.println(ex.toString());
+            return this;
+
+//            message = new Message(STATE.LOAD_FILE,ex.getMessage());
+//            notify(message);
+        }
+        return this;
+    }
+
+    /**
+     * load the map from a player chose map file
+     * validate map file
+     * initiate continents,countries and players
+     * notify View
+     * @param filePath The path of the map file
+     * @throws IOException io exceptions
+     */
+    public void readFile(String filePath) throws IOException {
+
+        loadFromMapFile(filePath);
         Message message;
         if(!validFile){
             fileInfoMenu.setValidationResult(false,"invalid file format!");

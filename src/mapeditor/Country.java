@@ -19,8 +19,10 @@ public class Country extends AnchorPane {
     private int ID;
     private String name;
     private String continent;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
+    private static double widthCountry=120;
+    private static double heightCountry=80;
     private ArrayList<Country> adjList;
     //****************************************
 
@@ -81,7 +83,7 @@ public class Country extends AnchorPane {
      * getter for the x position of the country
      * @return x The x position of the country
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -98,7 +100,7 @@ public class Country extends AnchorPane {
      * getter for the y position of the country
      * @return y The y position of the country
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -188,8 +190,8 @@ public class Country extends AnchorPane {
         this.ID=++cID;
         this.name=name;
         this.continent=continent;
-        this.x=(int) x;
-        this.y=(int) y;
+        this.x=x;
+        this.y=y;
         adjList=new ArrayList<>();
         edgeList=new ArrayList<>();
 
@@ -202,7 +204,6 @@ public class Country extends AnchorPane {
         }
         countryController = fxmlLoader.getController();
         countryController.initialize(this);
-        this.relocate(x-80,y-80);
         setVisible(true);
     }
 
@@ -214,11 +215,16 @@ public class Country extends AnchorPane {
         return ID;
     }
 
-    /**
-     * getter for 2D location of the country;
-     * @return The 2D location point of the country
-     */
-    public Point2D getLocation(){
-        return new Point2D(this.getLayoutX(),this.getLayoutY());
+    public void relocateToPoint(Point2D point){
+//        System.out.println("Scene x: "+point.getX()+", y: "+point.getY());
+//        System.out.println("Local x: "+getParent().sceneToLocal(point).getX()+", y: "+getParent().sceneToLocal(point).getY());
+//        System.out.println("Relocate x: "+(getParent().sceneToLocal(point).getX() - (getWidth() / 2))+", y: "+(getParent().sceneToLocal(point).getY() - (getHeight() / 2)));
+//        System.out.println(getBoundsInLocal().getWidth());
+//        System.out.println(widthProperty());
+
+        relocate(
+                (getParent().sceneToLocal(point).getX() - (widthCountry / 2)),
+                (getParent().sceneToLocal(point).getY() - (heightCountry / 2))
+        );
     }
 }

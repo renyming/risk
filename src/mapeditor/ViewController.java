@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -62,6 +63,7 @@ public class ViewController {
                     if (event.getClickCount() == 2) {
                         Country country = new Country(event.getSceneX(), event.getSceneY());
                         drawCountry(country);
+                        country.relocateToPoint(new Point2D(event.getSceneX(),event.getSceneY()));
                         event.consume();
                     }
                 }

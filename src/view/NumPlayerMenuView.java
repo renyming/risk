@@ -9,6 +9,10 @@ import model.NumPlayerMenu;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * Display the player number relative menu components
+ */
 public class NumPlayerMenuView implements Observer {
 
     private Label numPlayerInstructionLabel;
@@ -18,8 +22,21 @@ public class NumPlayerMenuView implements Observer {
 
     private MapController mapController;
 
+
+    /**
+     * Default ctor
+     */
     public NumPlayerMenuView() {}
 
+
+    /**
+     * Initialize the number of player relative menu components
+     * @param playerNumInstructionLabel displays the max allow number of player
+     * @param userEnteredPlayNumLabel displays the valid entered number, or invalid result
+     * @param playerNumTextField allows user to enter the number of playey
+     * @param startButton allows user to enter the game
+     * @param mapController allow map to be shown
+     */
     public void init(Label playerNumInstructionLabel, Label userEnteredPlayNumLabel,
                      TextField playerNumTextField, Button startButton, MapController mapController) {
         this.numPlayerInstructionLabel = playerNumInstructionLabel;
@@ -29,6 +46,13 @@ public class NumPlayerMenuView implements Observer {
         this.mapController = mapController;
     }
 
+
+    /**
+     * Standard Observer update
+     * @param obs is the Observable subject, which is NumPlayerMenu
+     * @param obj is the additional update info
+     */
+    @Override
     public void update(Observable obs, Object obj) {
         NumPlayerMenu numPlayerMenu = (NumPlayerMenu) obs;
         if (!numPlayerMenu.getVisible()) {
@@ -51,6 +75,10 @@ public class NumPlayerMenuView implements Observer {
         }
     }
 
+
+    /**
+     * Reset all relative number of player menu components
+     */
     public void reset() {
         numPlayerInstructionLabel.setVisible(false);
         validationOfUserEnteredLabel.setVisible(false);
@@ -61,6 +89,11 @@ public class NumPlayerMenuView implements Observer {
         startButton.setVisible(false);
     }
 
+
+    /**
+     * Set the user entered total player number
+     * @param totalNumPlayer is the total number of player
+     */
     public void setTotalNumPlayer(String totalNumPlayer) {
         validationOfUserEnteredLabel.setText("Total Player: " + totalNumPlayer);
         validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
