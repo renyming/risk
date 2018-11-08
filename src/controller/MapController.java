@@ -416,7 +416,7 @@ public class MapController {
         if (currentPhase.equals("Fortification Phase") && enableFortification) {
             model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText());
         } else if (currentPhase.equals("Attack Phase")) {
-//            model.moveArmy(numArmiesMovedTextField.getText()); // TODO
+            model.moveAfterConquer(numArmiesMovedTextField.getText());
         }
     }
 

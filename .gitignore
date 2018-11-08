@@ -4,7 +4,7 @@
 
 # IntelliJ project files
 *.xml
-.idea
+.idea/workspace.xml
 out
 gen
 *.class

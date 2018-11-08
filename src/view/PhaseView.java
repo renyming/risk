@@ -133,17 +133,7 @@ public class PhaseView implements Observer {
                     countryANameLabel.setVisible(true);
                     countryBLabel.setVisible(true);
                     countryBNameLabel.setVisible(true);
-                    attackerDiceLabel.setVisible(true);
-                    attackerDiceOneButton.setVisible(true);
-                    attackerDiceTwoButton.setVisible(true);
-                    attackerDiceThreeButton.setVisible(true);
-                    defenderDiceLabel.setVisible(true);
-                    defenderDiceOneButton.setVisible(true);
-                    defenderDiceTwoButton.setVisible(true);
-                    allOutLabel.setVisible(true);
-                    allOutEnableButton.setVisible(true);
-                    allOutDisableButton.setVisible(true);
-                    attackButton.setVisible(true);
+                    displayAttackPhaseButton(true);
                     nextPhaseButton.setText("Enter Fortification Phase");
                     break;
                 case "Fortification Phase":
@@ -174,8 +164,15 @@ public class PhaseView implements Observer {
             case Move_After_Conquer:
                 mapController.showNumArmiesMovedTextField();
                 nextPhaseButton.setVisible(false);
+                // TODO hide all other buttons
+                displayAttackPhaseButton(false);
                 break;
             case Show_Next_Phase_Button:
+                if (currentPhase.equals("Attack Phase")) {
+                    displayAttackPhaseButton(true);
+                    numArmiesMovedTextField.clear();
+                    numArmiesMovedTextField.setVisible(false);
+                }
                 phaseLabel.setVisible(false);
                 nextPhaseButton.setVisible(true);
                 invalidMovedLabel.setVisible(false);
@@ -208,6 +205,21 @@ public class PhaseView implements Observer {
         numArmiesMovedTextField.clear();
         invalidMovedLabel.setVisible(false);
         skipFortificationPhaseButton.setVisible(false);
+    }
+
+    private void displayAttackPhaseButton(boolean display) {
+        // TODO: add a pane, just disable the pane
+        attackerDiceLabel.setVisible(display);
+        attackerDiceOneButton.setVisible(display);
+        attackerDiceTwoButton.setVisible(display);
+        attackerDiceThreeButton.setVisible(display);
+        defenderDiceLabel.setVisible(display);
+        defenderDiceOneButton.setVisible(display);
+        defenderDiceTwoButton.setVisible(display);
+        allOutLabel.setVisible(display);
+        allOutEnableButton.setVisible(display);
+        allOutDisableButton.setVisible(display);
+        attackButton.setVisible(display);
     }
 
     private void reset() {
