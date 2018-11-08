@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import common.CardType;
+import model.Card;
 import model.CardModel;
 import model.Model;
 import view.CardView;
@@ -49,7 +51,8 @@ public class CardController {
     private void checkTrade(ActionEvent event) {
         trade.setDisable(false);
         textToShow.setText(null);
-        List<model.Card> selectedCards = cardModel.retrieveSelectedCardsFromCheckbox(model.getCurrentPlayer().getPlayerCardList(),cbs);
+        List<Card> selectedCards = cardModel.retrieveSelectedCardsFromCheckbox(
+                model.getCurrentPlayer().getPlayerCardList(),cbs);
 
         if (selectedCards.size() == 3) {
             boolean flag = cardModel.checkTradePossible(selectedCards);
@@ -73,8 +76,14 @@ public class CardController {
 
     public void autoInitializeController() {
 
-        currentPlayerName.setText("Cards of " + model.getCurrentPlayer().getName());
-        playerCards = model.getCurrentPlayer().getPlayerCardList();
+        currentPlayerName.setText("Cards of " + Model.getCurrentPlayer().getName());
+        for(int i=0;i<3;i++){
+            Model.getCurrentPlayer().getPlayerCardList().add(new Card(CardType.ARTILLERY));
+            Model.getCurrentPlayer().getPlayerCardList().add(new Card(CardType.CAVALRY));
+            Model.getCurrentPlayer().getPlayerCardList().add(new Card(CardType.INFANTRY));
+        }
+        playerCards = Model.getCurrentPlayer().getPlayerCardList();
+
         if (playerCards.size() < 3) {
             trade.setDisable(true);
         } else {
@@ -97,7 +106,7 @@ public class CardController {
     }
 
     public void tryCardTrade() {
-        playerCards = model.getCurrentPlayer().getPlayerCardList();
+        playerCards = Model.getCurrentPlayer().getPlayerCardList();
         //List<Card> cardModel = cardModel.getValidCardComibination(playerCards);
         List<model.Card> cardss = playerCards;
         if (cardss != null && cardss.size() == 3) {
