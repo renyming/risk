@@ -502,10 +502,12 @@ public class Player extends Observable {
     public ArrayList<Integer> getRandomDice(int num){
 
         ArrayList<Integer> dices = new ArrayList<Integer>();
-        Random random = new Random(System.currentTimeMillis());
+        Random random = new Random();
 
         for (int i=0; i<num; i++){
-            dices.add(random.nextInt(6)+1);
+            int temp = random.nextInt(6)+1;
+            System.out.println("Dice " + i + " : " + temp);
+            dices.add(temp);
         }
         Collections.sort(dices, Collections.reverseOrder());
         return dices;
