@@ -157,7 +157,7 @@ public class Model extends Observable {
         String card2 = cards.get(1).cardType.toString().toLowerCase();
         String card3 = cards.get(2).cardType.toString().toLowerCase();
 
-        if(validCardExchange(card1,card2,card3)){
+        if(!validCardExchange(card1,card2,card3)){
             CardModel.getInstance().setInvalidInfo("invalid cards!");
             CardModel.getInstance().update();
             return;
@@ -222,8 +222,8 @@ public class Model extends Observable {
    public void reinforcement(){
 
         //nextPlayer();
-        disable = false;
-        currentPlayer.reinforcement();
+//        disable = false;
+//        currentPlayer.reinforcement();
 
 //       CardModel.getInstance().setCurrentPlayer(currentPlayer);
 //       CardModel.getInstance().display();
