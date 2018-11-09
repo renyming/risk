@@ -13,6 +13,7 @@ public class Card  {
         this.cardType = cardType;
     }
 
+
     public CardType getCardType() {
         return cardType;
     }
@@ -20,6 +21,7 @@ public class Card  {
     public Country getTerritory() {
         return territory;
     }
+
 
 
     public void setTerritory(Country territory) {

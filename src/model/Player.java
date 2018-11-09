@@ -1,6 +1,7 @@
 package model;
 
 import common.Action;
+import common.CardType;
 
 import java.awt.*;
 import java.util.*;
@@ -57,7 +58,15 @@ public class Player extends Observable {
         cards.put("cavalry",3);
         cards.put("artillery",3);
         numberOccupy = 0;
+
         this.playerCardList = new ArrayList<>();
+
+        for(int i = 0; i < 3; i ++){
+            playerCardList.add(new Card(CardType.INFANTRY));
+            playerCardList.add(new Card(CardType.CAVALRY));
+            playerCardList.add(new Card(CardType.ARTILLERY));
+        }
+
         phase = Phase.getInstance();
         worldDomination = PlayersWorldDomination.getInstance();
     }

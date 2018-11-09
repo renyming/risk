@@ -31,7 +31,6 @@ public class CardController {
     private Model model;
     private CardView card;
     private MapController mapController;
-    private CardModel cardModel;
 
 
 
@@ -52,7 +51,7 @@ public class CardController {
     private void checkTrade(ActionEvent event) {
         trade.setDisable(false);
         textToShow.setText(null);
-        List<Card> selectedCards = cardModel.retrieveSelectedCardsFromCheckbox(
+        List<Card> selectedCards = CardModel.getInstance().retrieveSelectedCardsFromCheckbox(
                 model.getCurrentPlayer().getPlayerCardList(),cbs);
 
         if (selectedCards.size() == 3) {
@@ -107,7 +106,7 @@ public class CardController {
         //List<Card> cardModel = cardModel.getValidCardComibination(playerCards);
         List<model.Card> cardss = playerCards;
         if (cardss != null && cardss.size() == 3) {
-            cardModel.setCardsExchangeable(cardss);
+            CardModel.getInstance().setCardsExchangeable(cardss);
         }
     }
 }
