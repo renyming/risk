@@ -139,6 +139,7 @@ public class ModelTest {
 
     /**
      * Test startUp phase method
+     * @throws IOException io exceptions
      */
     @Test
     public void testStartUpPhase() throws IOException {

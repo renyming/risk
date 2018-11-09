@@ -226,6 +226,11 @@ public class Model extends Observable {
 
     /**
      * attack phaseNumber method
+     * @param attacker Country who start attack
+     * @param attackerDiceNum how many dice that attacker use
+     * @param attacked Country who defend himself
+     * @param attackedDiceNum how many dice that defender use
+     * @param isAllOut is all-out or not
      */
     public void attack(Country attacker, String attackerDiceNum, Country attacked, String attackedDiceNum, boolean isAllOut){
 
@@ -439,7 +444,7 @@ public class Model extends Observable {
     /**
      * load file and initiate model
      * @param filePath The path of the map file
-     * @throws IOException
+     * @throws IOException the exception that throw
      */
     public void loadFromMapFile(String filePath) throws IOException{
         reset();

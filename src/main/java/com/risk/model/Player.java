@@ -41,6 +41,7 @@ public class Player extends Observable {
     /**
      * Constructor of player
      * @param name player name
+     * @param countriesSize size of countries
      */
     public Player(String name, int countriesSize){
         this.Id=++cId;
@@ -128,7 +129,7 @@ public class Player extends Observable {
 
     /**
      * getter for cards
-     * @return
+     * @return the cards
      */
     public HashMap<String,Integer> getCards(){
         return cards;
@@ -498,6 +499,7 @@ public class Player extends Observable {
     /**
      * Get a sorted list of random dices
      * @param num how many dices needed
+     * @return list of random dice
      */
     public ArrayList<Integer> getRandomDice(int num){
 
@@ -605,7 +607,6 @@ public class Player extends Observable {
     /**
      * Move number of armies to the new conquered country
      * @param num the number of armies need to be move
-     * @return 1 success, -1 somehow wrong
      */
     public void moveArmy(String num){
 
