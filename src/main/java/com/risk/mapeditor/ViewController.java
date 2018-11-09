@@ -49,12 +49,10 @@ public class ViewController {
     private EventHandler drawPaneClicked=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            if (event.getButton()==MouseButton.PRIMARY) {
-                if (event.getClickCount()==2){
-                    Country country = new Country(event.getSceneX(), event.getSceneY());
-                    drawCountry(country);
-                    countryList.add(country);
-                }
+            if (event.isStillSincePress()){
+                Country country = new Country(event.getSceneX(), event.getSceneY());
+                drawCountry(country);
+                countryList.add(country);
             }
         }
     };
@@ -275,7 +273,7 @@ public class ViewController {
      */
     private void addMouseReleased(AnchorPane draw_pane) {
         draw_pane.setOnMouseReleased(event -> {
-            System.out.println("Country released");
+//            System.out.println("Country released");
 
             Optional<Country> country_tmp=findCountry(event.getSceneX(),event.getSceneY());
             if (country_tmp.isPresent()){
