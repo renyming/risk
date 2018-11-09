@@ -502,7 +502,9 @@ public class Player extends Observable {
     public ArrayList<Integer> getRandomDice(int num){
 
         ArrayList<Integer> dices = new ArrayList<Integer>();
-        Random random = new Random();
+        Calendar c = Calendar.getInstance();
+        int second = c.get(Calendar.SECOND);
+        Random random = new Random(second);
 
         for (int i=0; i<num; i++){
             dices.add(random.nextInt(6)+1);
