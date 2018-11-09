@@ -1,8 +1,12 @@
-package com.risk.model;
+package com.risk;
  /**
  * the test suite of all project
  */
 
+import com.risk.model.ContinentTest;
+import com.risk.model.CountryTest;
+import com.risk.model.ModelTest;
+import com.risk.model.PlayerTest;
 import com.risk.validate.MapValidatorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
