@@ -54,9 +54,9 @@ public class Player extends Observable {
 
         cards = new HashMap<>();
 
-        cards.put("infantry",3);
-        cards.put("cavalry",3);
-        cards.put("artillery",3);
+        cards.put("infantry",0);
+        cards.put("cavalry",0);
+        cards.put("artillery",0);
         numberOccupy = 0;
 
         phase = Phase.getInstance();
