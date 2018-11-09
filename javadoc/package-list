@@ -1,0 +1,9 @@
+com.risk
+com.risk.common
+com.risk.controller
+com.risk.driver
+com.risk.exception
+com.risk.mapeditor
+com.risk.model
+com.risk.validate
+com.risk.view
