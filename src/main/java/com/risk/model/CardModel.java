@@ -3,7 +3,10 @@ package com.risk.model;
 import javafx.scene.control.CheckBox;
 import java.util.*;
 
-
+/**
+ *  Observable of CardView
+ *  Save the info that CardView needed
+ */
 public class CardModel extends Observable {
 
     private static CardModel instance;
@@ -17,32 +20,57 @@ public class CardModel extends Observable {
     private final String invalidTypeThree = "Current Player Owning More Than 5 Cards";
     private final List<String> invalidTypes = Arrays.asList(validType,invalidTypeOne,invalidTypeTwo,invalidTypeThree);
 
+    /**
+     * Singleton patten, to get the only instance of card model
+     * @return cardModel
+     */
     public static CardModel getInstance() {
         if (null == instance) instance = new CardModel();
         return instance;
     }
 
+    /**
+     *  Method of notification
+     */
     public void update() {
         setChanged();
         notifyObservers();
     }
 
+    /**
+     * Method of display
+     */
     public void display(){
 
     }
 
+    /**
+     * Method of hide
+     */
     public void hide(){
 
     }
 
+    /**
+     * Set current player
+     * @param currentPlayer currentPlayer
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Get current Player
+     * @return currentPlayer
+     */
     public Player getCurrentPlayer() { return currentPlayer; }
 
-
-
+    /**
+     * Retrieve selected cards from checkbox
+     * @param cards cards
+     * @param checkboxes where to get cards
+     * @return list of card
+     */
     public List<Card> retrieveSelectedCardsFromCheckbox(List<Card> cards, CheckBox[] checkboxes) {
         int counter = 0;
         List<Card> selectedCards = new ArrayList<>();
@@ -69,7 +97,6 @@ public class CardModel extends Observable {
         invalidInfoNum = invalidInfoType;
         this.invalidInfo = invalidTypes.get(invalidInfoType);
     }
-
 
     /**
      * Model call this to set invalid info during each phase
