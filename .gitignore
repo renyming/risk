@@ -5,7 +5,7 @@
 # IntelliJ project files
 *.xml
 .idea
-out
+target
 gen
 *.class
 build
