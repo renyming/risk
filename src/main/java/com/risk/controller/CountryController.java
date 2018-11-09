@@ -25,6 +25,7 @@ public class CountryController {
     /**
      * Get corresponding CountryView reference, add event listener
      * @param countryView the corresponding CountryView reference
+     * @param mapController is the reference of the MapController
      */
     public void init(CountryView countryView, MapController mapController) {
         this.countryView = countryView;

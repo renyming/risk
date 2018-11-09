@@ -17,7 +17,9 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Handle event when user interact with CardView
+ */
 public class CardController {
 
     @FXML private Button trade;
@@ -34,13 +36,22 @@ public class CardController {
     private Player currentPlayer;
 
 
-
+    /**
+     * Get corresponding reference of Model, CardView and MapController
+     * @param model is the reference of Model
+     * @param card is the reference of CardView
+     * @param mapController is the reference of the MapController
+     */
     public void init(Model model, CardView card, MapController mapController) {
         this.model = model;
         this.card = card;
         this.mapController = mapController;
     }
 
+    /**
+     * Handle cancelling CardView event
+     * @param event the Action event
+     */
     @FXML
     private void cancelCardView(ActionEvent event) {
         model.quitCards();
@@ -50,7 +61,10 @@ public class CardController {
         }
     }
 
-
+    /**
+     * if the exchange operation is valid
+     * @param event the Action event
+     */
     @FXML
     private void checkTrade(ActionEvent event) {
         trade.setDisable(false);
@@ -63,6 +77,9 @@ public class CardController {
         }
     }
 
+    /**
+     * initiate CardView
+     */
     public void autoInitializeController() {
         cardVbox.getChildren().clear();
         currentPlayer = CardModel.getInstance().getCurrentPlayer();
@@ -82,7 +99,9 @@ public class CardController {
         loadAllCards();
     }
 
-
+    /**
+     * show all the cards on the CardView
+     */
     public void loadAllCards() {
         int numberOfCards = playerCards.size();
         cbs = new CheckBox[numberOfCards];
@@ -92,5 +111,4 @@ public class CardController {
         }
         cardVbox.getChildren().addAll(cbs);
     }
-
 }
