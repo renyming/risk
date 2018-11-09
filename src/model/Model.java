@@ -157,7 +157,7 @@ public class Model extends Observable {
         String card2 = cards.get(1).cardType.toString().toLowerCase();
         String card3 = cards.get(2).cardType.toString().toLowerCase();
 
-        if(validCardExchange(card1,card2,card3)){
+        if(!validCardExchange(card1,card2,card3)){
             CardModel.getInstance().setInvalidInfo("invalid cards!");
             CardModel.getInstance().update();
             return;
@@ -222,8 +222,8 @@ public class Model extends Observable {
    public void reinforcement(){
 
         //nextPlayer();
-        disable = false;
-        currentPlayer.reinforcement();
+//        disable = false;
+//        currentPlayer.reinforcement();
 
 //       CardModel.getInstance().setCurrentPlayer(currentPlayer);
 //       CardModel.getInstance().display();
@@ -406,7 +406,7 @@ public class Model extends Observable {
         players.clear();
         playerCounter = Integer.parseInt(enteredPlayerNum);
 
-        if(playerCounter > countries.size() || playerCounter <= 0){
+        if(playerCounter > countries.size() || playerCounter <= 1 || playerCounter > 6){
             numPlayerMenu.setValidationResult(false, "invalid players number!");
             numPlayerMenu.update();
             return;
@@ -415,7 +415,8 @@ public class Model extends Observable {
         numPlayerMenu.setValidationResult(true,"");
         numPlayerMenu.update();
 
-        int initialArmies = 50/playerCounter;
+        int initialArmies = getInitialArmies(playerCounter);
+
 
         for (int i = 0; i < playerCounter; i++){
 
@@ -452,6 +453,27 @@ public class Model extends Observable {
         PlayersWorldDomination.getInstance().setTotalNumCountries(countries.size());
         PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
+    }
+
+    /**
+     * calculate initial armies
+     * @return initial armies
+     */
+    private int getInitialArmies(int numOfPlayers) {
+
+        switch (numOfPlayers){
+            case 2:
+                return 40;
+            case 3:
+                return 35;
+            case 4:
+                return 30;
+            case 5:
+                return 25;
+            case 6:
+                return 20;
+        }
+        return 0;
     }
 
     public void loadFromMapFile(String filePath) throws IOException{
@@ -676,7 +698,9 @@ public class Model extends Observable {
         numPlayerMenu.addObserver(numPlayerMenuView);
     }
 
-
+    /**
+     * Add a random card
+     */
     public void addRandomCard() {
         Random random = new Random();
         int num = random.nextInt(3);
@@ -684,6 +708,9 @@ public class Model extends Observable {
         currentPlayer.addRandomCard(newCard);
     }
 
+    /**
+     * Verify if the Attack possible
+     */
     public void isAttackPossible() {
        if (!currentPlayer.isAttackPossible()){
            Phase.getInstance().setActionResult(Action.Invalid_Move);

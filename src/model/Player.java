@@ -218,9 +218,10 @@ public class Player extends Observable {
         //based on continent
         armiesAdded += getArmiesAddedFromContinent();
 
+        System.out.println("REINFORCEMENT ARMY NUMBER: " + armiesAdded);
+        System.out.println("CARD ARMY NUMBER: " + cardsArmy);
         //need to implement next phase
         armiesAdded += cardsArmy;
-        cardsArmy = 0;
 
         // the minimal number of reinforcement armies is 3
         if (armiesAdded < 3) {
@@ -511,9 +512,7 @@ public class Player extends Observable {
     public ArrayList<Integer> getRandomDice(int num){
 
         ArrayList<Integer> dices = new ArrayList<Integer>();
-        Calendar c = Calendar.getInstance();
-        int second = c.get(Calendar.SECOND);
-        Random random = new Random(second);
+        Random random = new Random(System.currentTimeMillis());
 
         for (int i=0; i<num; i++){
             dices.add(random.nextInt(6)+1);
