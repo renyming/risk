@@ -31,7 +31,7 @@ public class View extends AnchorPane {
      * @throws IOException Exception for IO error
      */
     public View() throws IOException {
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("ViewEditor.fxml"));
+        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/ViewEditor.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.load();
         viewController = fxmlLoader.getController();

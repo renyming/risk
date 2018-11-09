@@ -194,7 +194,7 @@ public class Country extends AnchorPane {
         adjList=new ArrayList<>();
         edgeList=new ArrayList<>();
 
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("CountryEditor.fxml"));
+        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/CountryEditor.fxml"));
         fxmlLoader.setRoot(this);
         try {
             fxmlLoader.load();

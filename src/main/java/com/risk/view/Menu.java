@@ -25,7 +25,7 @@ public class Menu {
      * Ctor, load UI, set default values
      */
     private Menu() {
-        FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
         try {
             mainMenuPane = menuFxmlLoader.load();
         } catch (IOException exception) {

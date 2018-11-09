@@ -19,7 +19,7 @@ public class CardView implements Observer{
     private Stage cardStage;
 
     private CardView() {
-        FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("Card.fxml"));
+        FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("/Card.fxml"));
         try {
             mainCardPane = menuFxmlLoader.load();
         } catch (IOException exception) {

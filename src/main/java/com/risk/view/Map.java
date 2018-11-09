@@ -28,7 +28,7 @@ public class Map {
         final double GAME_BOARD_WIDTH = 1024;
         final double GAME_BOARD_HEIGHT = 768;
 
-        FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("Map.fxml"));
+        FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("/Map.fxml"));
         try {
             mapRootPane = mapFxmlLoader.load();
         } catch (IOException exception) {

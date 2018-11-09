@@ -25,7 +25,7 @@ public class CountryView implements Observer {
      * @param mapController is the MapController
      */
     public CountryView(MapController mapController) {
-        FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("Country.fxml"));
+        FXMLLoader countryFxmlLoader = new FXMLLoader(getClass().getResource("/Country.fxml"));
         try {
             countryPane = countryFxmlLoader.load();
         } catch (Exception e) {
