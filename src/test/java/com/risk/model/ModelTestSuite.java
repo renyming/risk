@@ -1,14 +1,7 @@
-package com.risk.model; /**
- * @program: risk
- * @description: Model test suite class, combination all the test case in the model
- * @author: Zhijing Ling
- * @create: 2018-11-07 18:04
- **/
+package com.risk.model;
+
 /**
- * @program: risk
- * @description: The test suite of model
- * @author: Zhijing Ling
- * @create: 2018-11-08 20:39
+ * The test suite of model
  **/
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

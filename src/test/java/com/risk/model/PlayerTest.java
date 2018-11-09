@@ -242,7 +242,7 @@ public class PlayerTest {
         assertEquals(Action.Invalid_Move, Phase.getInstance().getActionResult());
 
         // test attacket occupied a country
-        singapore.setArmies(20);
+        singapore.setArmies(100);
         china.setArmies(2);
         singapore.getOwner().attack(singapore, "3", china, "2", true);
         assertEquals(player, china.getOwner());
@@ -254,7 +254,7 @@ public class PlayerTest {
         singapore.setArmies(2);
         china.setPlayer(defender);
         defender.addCountry(china);
-        china.setArmies(20);
+        china.setArmies(100);
         singapore.getOwner().attack(singapore, "2", china, "2", true);
         assertEquals("Attack Impossible", Phase.getInstance().getInvalidInfo());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
@@ -271,6 +271,9 @@ public class PlayerTest {
 
     }
 
+    /**
+     * Test of fortification method
+     */
     @Test
     public void fortification() {
 

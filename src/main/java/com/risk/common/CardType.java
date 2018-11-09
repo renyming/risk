@@ -20,7 +20,11 @@ public enum CardType {
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
 
-    public static CardType randomLetter()  {
+    /**
+     * get random card
+     * @return
+     */
+    public static CardType randomCard()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }

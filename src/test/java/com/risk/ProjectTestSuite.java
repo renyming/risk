@@ -1,10 +1,12 @@
-package com.risk.model; /**
- * @program: risk
- * @description: This is the project test suite.
- * @author: Zhijing Ling
- * @create: 2018-11-08 20:42
- **/
+package com.risk;
+ /**
+ * the test suite of all project
+ */
 
+import com.risk.model.ContinentTest;
+import com.risk.model.CountryTest;
+import com.risk.model.ModelTest;
+import com.risk.model.PlayerTest;
 import com.risk.validate.MapValidatorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

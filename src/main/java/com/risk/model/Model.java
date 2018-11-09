@@ -143,7 +143,6 @@ public class Model extends Observable {
 
     }
 
-
     /**
      * button event for  trade button
      * @param cards list of cards

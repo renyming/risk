@@ -19,7 +19,7 @@ public class PlayersWorldDomination extends Observable {
 
 
     /**
-     * ctor
+     * constructor
      */
     private PlayersWorldDomination() {}
 
