@@ -149,7 +149,11 @@ public class ModelTest {
 
         testedModel.readFile("./resource/Aden.map");
         testedModel.initiatePlayers("10");
-        assertEquals(10, testedModel.getPlayers().size());
+        assertEquals(0, testedModel.getPlayers().size());
+
+        testedModel.readFile("./resource/Aden.map");
+        testedModel.initiatePlayers("4");
+        assertEquals(4, testedModel.getPlayers().size());
         assertEquals(42, testedModel.getCountries().size());
         assertEquals(8, testedModel.getContinents().size());
     }

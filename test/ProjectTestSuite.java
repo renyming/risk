@@ -21,6 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
         CountryTest.class,
         PlayerTest.class,
         MapValidatorTest.class})
+
 public class ProjectTestSuite {
 
 }
