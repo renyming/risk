@@ -9,12 +9,12 @@
 
 <AnchorPane fx:id="mapPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapController">
    <children>
-      <Button fx:id="quitToMenuButton" disable="true" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="40.0" prefWidth="60.0" text="Quit" />
+      <Button fx:id="quitToMenuButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="40.0" prefWidth="60.0" text="Quit" />
       <Label fx:id="phaseLabel" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0" style="-fx-border-color: black;" text="Reinforcement Phase">
          <font>
             <Font size="30.0" />
          </font></Label>
-      <Button fx:id="nextPhaseButton" layoutX="235.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextPhase" prefHeight="40.0" prefWidth="500.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Enter Next Phase">
+      <Button fx:id="nextPhaseButton" layoutX="235.0" layoutY="10.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="40.0" prefWidth="500.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Enter Next Phase">
          <font>
             <Font size="19.0" />
          </font>
