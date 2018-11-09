@@ -52,9 +52,10 @@ public class CardController {
         trade.setDisable(false);
         textToShow.setText(null);
         List<Card> selectedCards = CardModel.getInstance().retrieveSelectedCardsFromCheckbox(
-                model.getCurrentPlayer().getPlayerCardList(),cbs);
-
+                CardModel.getInstance().getCurrentPlayer().getPlayerCardList(),cbs);
+        System.out.println("num slelecd"+ selectedCards.size());
         if (selectedCards.size() == 3) {
+
             model.trade((ArrayList<Card>) selectedCards);
             /*boolean flag = cardModel.checkTradePossible(selectedCards);
 
@@ -77,8 +78,8 @@ public class CardController {
 
     public void autoInitializeController() {
         cardVbox.getChildren().clear();
-        currentPlayerName.setText("Cards of " + Model.getCurrentPlayer().getName());
-        playerCards = Model.getCurrentPlayer().getPlayerCardList();
+        currentPlayerName.setText("Cards of " + CardModel.getInstance().getCurrentPlayer().getName());
+        playerCards = CardModel.getInstance().getCurrentPlayer().getPlayerCardList();
 
         if (playerCards.size() < 3) {
             trade.setDisable(true);
@@ -93,6 +94,7 @@ public class CardController {
 
     public void loadAllCards() {
         int numberOfCards = playerCards.size();
+        System.out.println("number of palyer cards"+numberOfCards);
         cbs = new CheckBox[numberOfCards];
         for (int i = 0; i < numberOfCards; i++) {
             cbs[i] = new CheckBox(

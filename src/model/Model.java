@@ -220,6 +220,8 @@ public class Model extends Observable {
      * CardModel exchange for armies
      */
    public void reinforcement(){
+       CardModel.getInstance().setCurrentPlayer(currentPlayer);
+       CardModel.getInstance().update();
 
         //nextPlayer();
 //        disable = false;
