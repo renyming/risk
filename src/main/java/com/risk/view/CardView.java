@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * Responsible for visualizing the card exchange view, show useful info to user
+ * Corresponding Observable subject is CardModel
+ * Singleton pattern
+ */
 public class CardView implements Observer{
 
     private static CardView instance;
@@ -18,6 +24,9 @@ public class CardView implements Observer{
     private CardController cardController;
     private Stage cardStage;
 
+    /**
+     * Ctor for CardView
+     */
     private CardView() {
         FXMLLoader menuFxmlLoader = new FXMLLoader(getClass().getResource("/Card.fxml"));
         try {
@@ -33,21 +42,42 @@ public class CardView implements Observer{
         cardStage.sizeToScene();
     }
 
+    /**
+     * Get or create the only instance
+     * @return
+     */
     public static CardView getInstance() {
         if (null == instance) instance = new CardView();
         return instance;
     }
 
+    /**
+     * get the reference of cardController
+     * @return the reference of cardController
+     */
     CardController getCardController() { return cardController; }
 
 
-
+    /**
+     * show CardView
+     */
     public void show() { cardStage.show(); }
 
+    /**
+     * hide CardView
+     */
     public void hide() { cardStage.hide(); }
 
+    /**
+     * close CardView
+     */
     public void close() { cardStage.close(); }
 
+    /**
+     * override update method
+     * @param obs observable object
+     * @param obj message from observable
+     */
     @Override
     public void update(Observable obs, Object obj) {
         cardController.autoInitializeController();
