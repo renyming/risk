@@ -42,8 +42,14 @@ public class CardController {
 
     @FXML
     private void cancelCardView(ActionEvent event) {
-        Stage stage = (Stage) cancelCardView.getScene().getWindow();
-        stage.close();
+        model.quitCards();
+        if(!CardModel.getInstance().getInvalidInfo().equals("you must exchange cards!")) {
+            Stage stage = (Stage) cancelCardView.getScene().getWindow();
+            stage.close();
+        }else{
+            textToShow.setText("more than 5.");
+        }
+
     }
 
 

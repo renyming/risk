@@ -679,6 +679,10 @@ public class Player extends Observable {
         cards.put(card1,cards.get(card1) - 1);
         cards.put(card2,cards.get(card2) - 1);
         cards.put(card3,cards.get(card3) - 1);
+        playerCardList.remove(0);
+        playerCardList.remove(1);
+        playerCardList.remove(2);
+
         CardModel.getInstance().update();
     }
 
