@@ -205,6 +205,8 @@ public class Model extends Observable {
     public void quitCards(){
 
         if(currentPlayer.getTotalCards() >= 5){
+            CardModel.getInstance().setInvalidInfo("you must exchange cards!");
+            CardModel.getInstance().update();
             return;
         }
 
