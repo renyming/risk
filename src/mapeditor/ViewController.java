@@ -63,7 +63,6 @@ public class ViewController {
                     if (event.getClickCount() == 2) {
                         Country country = new Country(event.getSceneX(), event.getSceneY());
                         drawCountry(country);
-                        country.relocateToPoint(new Point2D(event.getSceneX(),event.getSceneY()));
                         event.consume();
                     }
                 }
@@ -124,6 +123,7 @@ public class ViewController {
     public void drawCountry(Country country) {
         setCountryListener(country);
         draw_pane.getChildren().add(country);
+        country.relocateToPoint();
     }
 
     /**

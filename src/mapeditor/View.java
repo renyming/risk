@@ -23,7 +23,7 @@ import java.util.Observable;
  * Model class for View (root_pane) in map editor
  * In order to unify model.Model notify mechanism, implements Observer to receive file validation info
  */
-public class View extends AnchorPane implements Observer {
+public class View extends AnchorPane {
 
     private ViewController viewController;
     private view.View menuView;
@@ -78,33 +78,25 @@ public class View extends AnchorPane implements Observer {
 
         if (file==null) return;
 
-        model.addObserver(this);
-
         try{
-            model.readFile(file.toString());
+            model.editorReadFile(file.toString());
         }catch(IOException e) {
             Alert err=new Alert(Alert.AlertType.ERROR,"File IO error: \n"+e.getMessage());
             err.show();
             return;
         }
 
-    }
-
-    /**
-     * Overrides update method of Observer
-     * Determines if the map file is valid, and reconstruct map if valid
-     * @param obj Observable object
-     * @param arg Argument passed by Observable object
-     */
-    @Override
-    public void update(Observable obj, Object arg){
-        Model model=(Model) obj;
-        Message message=(Message) arg;
-        if(message.state!= STATE.CREATE_OBSERVERS){
+        if (model.isValidFile())
+            drawMap(model);
+        else{
             Alert err=new Alert(Alert.AlertType.ERROR,"Invalid map format");
             err.show();
             return;
         }
+    }
+
+
+    public void drawMap(Model model){
 
         //Clear draw_pane
         viewController.clearCanvas();

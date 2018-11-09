@@ -504,21 +504,17 @@ public class Model extends Observable {
             validFile = false;
         }
     }
-    public Model editorReadFile(String filePath) throws IOException{
+
+
+    public void editorReadFile(String filePath) throws IOException{
         loadFromMapFile(filePath);
         try {
             MapValidator.validateMap(this);
         }
         catch (Exception ex){
             validFile = false;
-
             System.out.println(ex.toString());
-            return this;
-
-//            message = new Message(STATE.LOAD_FILE,ex.getMessage());
-//            notify(message);
         }
-        return this;
     }
 
     /**

@@ -215,7 +215,7 @@ public class Country extends AnchorPane {
         return ID;
     }
 
-    public void relocateToPoint(Point2D point){
+    public void relocateToPoint(){
 //        System.out.println("Scene x: "+point.getX()+", y: "+point.getY());
 //        System.out.println("Local x: "+getParent().sceneToLocal(point).getX()+", y: "+getParent().sceneToLocal(point).getY());
 //        System.out.println("Relocate x: "+(getParent().sceneToLocal(point).getX() - (getWidth() / 2))+", y: "+(getParent().sceneToLocal(point).getY() - (getHeight() / 2)));
@@ -223,8 +223,8 @@ public class Country extends AnchorPane {
 //        System.out.println(widthProperty());
 
         relocate(
-                (getParent().sceneToLocal(point).getX() - (widthCountry / 2)),
-                (getParent().sceneToLocal(point).getY() - (heightCountry / 2))
+                (getParent().sceneToLocal(x,y).getX() - (widthCountry / 2)),
+                (getParent().sceneToLocal(x,y).getY() - (heightCountry / 2))
         );
     }
 }
