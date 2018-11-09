@@ -392,9 +392,7 @@ public class ViewController {
      * Handler for btnExit
      */
     public void exit() {
-        drawCountry(new Country(100,100));
-        drawCountry(new Country(200,200));
-//        view.exit();
+        view.exit();
     }
 
     /**
