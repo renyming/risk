@@ -633,11 +633,14 @@ public class Player extends Observable {
             defender.setArmies(defender.getArmies() + numArmies);
 
             phase.setActionResult(Action.Show_Next_Phase_Button);
+            if (!isAttackPossible()) {
+                phase.setInvalidInfo("Attack Impossible");
+            }
             phase.update();
             return;
         }
         phase.setActionResult(Action.Invalid_Move);
-        phase.setInvalidInfo("Number armies to move must more than the number of dice, and less than armies the country has");
+        phase.setInvalidInfo("The number of Armies that can move is " + attackerDiceNum);
         phase.update();
         return;
     }
@@ -737,10 +740,9 @@ public class Player extends Observable {
         }
         if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
             phase.setActionResult(Action.Show_Next_Phase_Button);
-        }
-
-        if (!isAttackPossible()) {
-            phase.setInvalidInfo("Attack Impossible");
+            if (!isAttackPossible()) {
+                phase.setInvalidInfo("Attack Impossible");
+            }
         }
 
         phase.update();
