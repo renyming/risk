@@ -162,9 +162,11 @@ public class Model extends Observable {
             CardModel.getInstance().update();
             return;
         }
+        System.out.println("before "+currentPlayer.getTotalCards());
         currentPlayer.handleCards(card1, card2, card3);
         currentPlayer.exchangeForArmy();
-
+        CardModel.getInstance().update();
+        System.out.println("after "+currentPlayer.getTotalCards());
         disable = false;
         currentPlayer.reinforcement();
     }
