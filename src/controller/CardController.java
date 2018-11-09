@@ -68,7 +68,7 @@ public class CardController {
                 return;
             }*/
         } else {
-            textToShow.setText("Select only 3 cardModel");
+            textToShow.setText("Select Only 3 Card");
             return;
         }
 
@@ -76,7 +76,7 @@ public class CardController {
 
 
     public void autoInitializeController() {
-
+        cardVbox.getChildren().clear();
         currentPlayerName.setText("Cards of " + Model.getCurrentPlayer().getName());
         playerCards = Model.getCurrentPlayer().getPlayerCardList();
 
