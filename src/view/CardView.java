@@ -35,7 +35,7 @@ public class CardView implements Observer{
         cardStage.sizeToScene();
     }
 
-    static CardView getInstance() {
+    public static CardView getInstance() {
         if (null == instance) instance = new CardView();
         return instance;
     }

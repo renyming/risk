@@ -136,6 +136,8 @@ public class Model extends Observable {
         Phase.getInstance().setCurrentPhase("Start Up Phase");
         Phase.getInstance().update();
 
+        CardModel.getInstance().addObserver(CardView.getInstance());
+
     }
 
 
@@ -151,9 +153,9 @@ public class Model extends Observable {
             return;
         }
 
-        String card1 = cards.get(0).cardType.toString();
-        String card2 = cards.get(1).cardType.toString();
-        String card3 = cards.get(2).cardType.toString();
+        String card1 = cards.get(0).cardType.toString().toLowerCase();
+        String card2 = cards.get(1).cardType.toString().toLowerCase();
+        String card3 = cards.get(2).cardType.toString().toLowerCase();
 
         if(validCardExchange(card1,card2,card3)){
             CardModel.getInstance().setInvalidInfo("invalid cards!");
