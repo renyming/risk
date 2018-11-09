@@ -1,18 +1,21 @@
 package model;
 
-import common.CardType;
 import javafx.scene.control.CheckBox;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class CardModel extends Observable {
 
     private static CardModel instance;
     private Player currentPlayer;
-    private Model model;
-    private List<Card> cardsToBeExchange;
     private String invalidInfo;
+    private int invalidInfoNum = -1;
+
+    private final String validType = "Card Exchange Finished";
+    private final String invalidTypeOne = "Invalid Card Combination";
+    private final String invalidTypeTwo = "Please Select 3 Cards Only";
+    private final String invalidTypeThree = "Current Player Owning More Than 5 Cards";
+    private final List<String> invalidTypes = Arrays.asList(validType,invalidTypeOne,invalidTypeTwo,invalidTypeThree);
 
     public static CardModel getInstance() {
         if (null == instance) instance = new CardModel();
@@ -49,63 +52,23 @@ public class CardModel extends Observable {
             }
             counter++;
         }
+        if(selectedCards.size() != 3) {
+            setInvalidInfo(2);
+            update();
+
+        }
         return selectedCards;
     }
-
-    public List<model.Card> getValidCardComibination(List<model.Card> selectedCards) {
-        HashMap<String, Integer> map = new HashMap<>();
-        for (model.Card card : selectedCards) {
-            if (map.containsKey(card.getCardType().toString())) {
-                map.put(card.getCardType().toString(), map.get(card.getCardType().toString()) + 1);
-            } else {
-                map.put(card.getCardType().toString(), 1);
-            }
-
-        }
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            if (entry.getValue() >= 3) {
-                return selectedCards.stream().filter(t -> t.getCardType().toString().equals(entry.getKey()))
-                        .collect(Collectors.toList());
-            }
-        }
-        return null;
-    }
-
-    public boolean checkTradePossible(List<model.Card> selectedCards) {
-        boolean returnFlag = false;
-        if (selectedCards.size() == 3) {
-            int infantry = 0, cavalry = 0, artillery = 0;
-            for (model.Card card : selectedCards) {
-                if (card.getCardType().toString().equals(CardType.INFANTRY.toString())) {
-                    infantry++;
-                } else if (card.getCardType().toString().equals(CardType.CAVALRY.toString())) {
-                    cavalry++;
-                } else if (card.getCardType().toString().equals(CardType.ARTILLERY.toString())) {
-                    artillery++;
-                }
-            }
-            if ((infantry == 1 && cavalry == 1 && artillery == 1) || infantry == 3 || cavalry == 3 || artillery == 3) {
-                returnFlag = true;
-            }
-        }
-        return returnFlag;
-    }
-
-    public void setCardsExchangeable(List<model.Card> selectedCards) {
-        setCardsToBeExchange(selectedCards);
-        update();
-    }
-    public void setCardsToBeExchange(List<model.Card> cardsToBeExchange) {
-        this.cardsToBeExchange = cardsToBeExchange;
-    }
-
 
     /**
      * Model call this to help user to identify the invalid action which is performed during a phase
      * i.e. invalidInfo = "Select one of your own countries", "There is no path between ...", etc
-     * @param invalidInfo is the user invalid action info
+     * @param invalidInfoType is the user invalid action info type
      */
-    void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
+    void setInvalidInfo(int invalidInfoType) {
+        invalidInfoNum = invalidInfoType;
+        this.invalidInfo = invalidTypes.get(invalidInfoType);
+    }
 
 
     /**
@@ -113,5 +76,9 @@ public class CardModel extends Observable {
      * @return the invalid info
      */
     public String getInvalidInfo() { return invalidInfo; }
+
+    public boolean readyToQuit() { return invalidInfoNum != 3; }
+
+    public boolean finishExchange() { return invalidInfoNum == 0; }
 
 }
