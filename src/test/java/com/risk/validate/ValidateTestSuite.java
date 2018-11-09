@@ -1,10 +1,7 @@
 package com.risk.validate;
 
 /**
- * @program: risk
- * @description: The test suite of validate
- * @author: Zhijing Ling
- * @create: 2018-11-08 20:39
+ * The test suite of validate
  **/
 
 import org.junit.runner.RunWith;

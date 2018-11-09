@@ -271,6 +271,9 @@ public class PlayerTest {
 
     }
 
+    /**
+     * Test of fortification method
+     */
     @Test
     public void fortification() {
 
