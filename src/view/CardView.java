@@ -1,12 +1,10 @@
 package view;
 
 import controller.CardController;
-import controller.MapController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Model;
 
 import java.io.IOException;
 import java.util.Observable;
@@ -42,11 +40,7 @@ public class CardView implements Observer{
 
     CardController getCardController() { return cardController; }
 
-    // TODO: get some controllers
-    void init (Model model, CardView card, MapController mapController) {
 
-
-    }
 
     public void show() { cardStage.show(); }
 
@@ -57,6 +51,5 @@ public class CardView implements Observer{
     @Override
     public void update(Observable obs, Object obj) {
         cardController.autoInitializeController();
-
     }
-    }
+}
