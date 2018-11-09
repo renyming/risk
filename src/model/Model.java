@@ -138,21 +138,26 @@ public class Model extends Observable {
 
     }
 
+
     /**
      * button event for  trade button
      * @param cards list of cards
      */
-    public void trade(ArrayList<String> cards){
+    public void trade(ArrayList<Card> cards){
 
         if(cards.size() != 3){
+            CardModel.getInstance().setInvalidInfo("please select three cards!");
+            CardModel.getInstance().update();
             return;
         }
 
-        String card1 = cards.get(0);
-        String card2 = cards.get(1);
-        String card3 = cards.get(2);
+        String card1 = cards.get(0).cardType.toString();
+        String card2 = cards.get(1).cardType.toString();
+        String card3 = cards.get(2).cardType.toString();
 
         if(validCardExchange(card1,card2,card3)){
+            CardModel.getInstance().setInvalidInfo("invalid cards!");
+            CardModel.getInstance().update();
             return;
         }
         currentPlayer.handleCards(card1, card2, card3);
