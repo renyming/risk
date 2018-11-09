@@ -631,7 +631,7 @@ public class Player extends Observable {
             return;
         }
         phase.setActionResult(Action.Invalid_Move);
-        phase.setInvalidInfo("Number armies to move must more than the number of dice, and less than armies the country has");
+        phase.setInvalidInfo("The number of Armies that can move is " + attackerDiceNum);
         phase.update();
         return;
     }

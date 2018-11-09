@@ -1,4 +1,4 @@
-package testValidate;
+package validate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ import model.Continent;
 import model.Model;
 import model.Country;
 import org.junit.rules.ExpectedException;
-import validate.MapValidator;
 import exception.InvalidMapException;
 
 /**
