@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Country;
@@ -54,6 +55,7 @@ public class CountryController {
         countryPane.setLayoutY(country.getY());
         countryNameLabel.setText(country.getName());
         countryNameLabel.setStyle("-fx-background-color: " + country.getContinent().getColor() + "; -fx-background-radius: 5");
+        countryNameLabel.setTooltip(new Tooltip(country.getContinent().getName()));
         numArmiesLabel.setText(Integer.toString(country.getArmies()));
         numArmiesLabel.setStyle("-fx-background-color: " + country.getOwner().getColor() + "; -fx-background-radius: 5");
     }
