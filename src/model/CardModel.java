@@ -77,7 +77,10 @@ public class CardModel extends Observable {
      */
     public String getInvalidInfo() { return invalidInfo; }
 
-    public boolean readyToQuit() { return invalidInfoNum != 3; }
+    public boolean readyToQuit() {
+        invalidInfo = null;
+        return invalidInfoNum != 3;
+    }
 
     public boolean finishExchange() { return invalidInfoNum == 0; }
 
