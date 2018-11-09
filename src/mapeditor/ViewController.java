@@ -4,7 +4,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -14,14 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -100,12 +97,22 @@ public class ViewController {
 
     }
 
+    /**
+     * Find the country object with the scene coordinates
+     * @param x Scene X
+     * @param y Scene Y
+     * @return Country that contains the scene coordinates
+     */
     private Optional<Country> findCountry(double x, double y){
         return countryList.stream().filter(c->c.boundsInLocalProperty().get().contains(c.sceneToLocal(x,y))).findAny();
     }
 
+    /**
+     * Drag a line starts
+     * @param country Country initiates the drag action
+     */
     private void startDrag(Country country){
-        System.out.println("StartDrage: "+country.getName());
+//        System.out.println("StartDrage: "+country.getName());
         if (dragActive)
             return;
 
@@ -121,11 +128,15 @@ public class ViewController {
 
     }
 
+    /**
+     * Drag a line stops
+     * @param country Country where the drag action finishes
+     */
     private void stopDrag(Country country) {
         dragActive=false;
 
         if (currentLine.getUserData()!=country){
-            System.out.println("different country");
+//            System.out.println("different country");
             //different countries
             currentLine.endYProperty().unbind();
             currentLine.endXProperty().unbind();
@@ -135,11 +146,14 @@ public class ViewController {
             drawLine((Country) currentLine.getUserData(),country);
         } else {
             //same country
-            System.out.println("same country");
+//            System.out.println("same country");
             stopDrag();
         }
     }
 
+    /**
+     * Drag a line stops outside of a country
+     */
     private void stopDrag() {
         dragActive=false;
 
@@ -201,13 +215,13 @@ public class ViewController {
      * @param country Country object
      */
     private void setCountryListener(Country country) {
-//        addMouseDragged(country);
-//        addMouseMoved(country);
-//        addMousePressed(country);
-//        addMouseReleased(country);
         addMousePressed(country);
     }
 
+    /**
+     * Set on event listeners for draw_pane object
+     * @param draw_pane Draw_pane object
+     */
     private void attachDrawPaneListener(AnchorPane draw_pane){
         addMouseDragged(draw_pane);
         addMouseMoved(draw_pane);
@@ -220,13 +234,17 @@ public class ViewController {
      */
     private void addMousePressed(Country country) {
         country.setOnMousePressed(event -> {
-            System.out.println("Country pressed");
+//            System.out.println("Country pressed");
 //            findCountry(event.getSceneX(),event.getSceneY()).ifPresent(this::startDrag);
             startDrag(country);
             event.consume();
         });
     }
 
+    /**
+     * Set on event listener when mouse moves over the draw_pane
+     * @param draw_pane Draw pane object
+     */
     private void addMouseMoved(AnchorPane draw_pane) {
         draw_pane.setOnMouseMoved(event -> {
 //            System.out.println("Draw pane moved");
@@ -237,7 +255,10 @@ public class ViewController {
         });
     }
 
-
+    /**
+     * Set on event listener when mouse drags over the draw_pane
+     * @param draw_pane Draw pane object
+     */
     private void addMouseDragged(AnchorPane draw_pane) {
         draw_pane.setOnMouseDragged(event -> {
 //            System.out.println("Draw pane dragged");
@@ -248,6 +269,10 @@ public class ViewController {
         });
     }
 
+    /**
+     * Set on event listener when mouse released on the draw_pane
+     * @param draw_pane Draw pane object
+     */
     private void addMouseReleased(AnchorPane draw_pane) {
         draw_pane.setOnMouseReleased(event -> {
             System.out.println("Country released");
