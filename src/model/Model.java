@@ -38,8 +38,6 @@ public class Model extends Observable {
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
 
-//    private String[] userColors = {"#FFD700","#FFFF00","#F4A460","#7CFC00","#00FFFF","#FF4500","#E9967A","#BA55D3","#FFB6C1","#FF00FF"};
-//    private String[] continentColors = {"#000080","#800080","#800000","#006400","#778899","#000000","#FFD700"};
 
     /**
      * ctor for Model
@@ -147,26 +145,21 @@ public class Model extends Observable {
      */
     public void trade(ArrayList<Card> cards){
 
-        if(cards.size() != 3){
-            CardModel.getInstance().setInvalidInfo("please select three cards!");
-            CardModel.getInstance().update();
-            return;
-        }
 
         String card1 = cards.get(0).cardType.toString().toLowerCase();
         String card2 = cards.get(1).cardType.toString().toLowerCase();
         String card3 = cards.get(2).cardType.toString().toLowerCase();
 
         if(!validCardExchange(card1,card2,card3)){
-            CardModel.getInstance().setInvalidInfo("invalid cards!");
+            CardModel.getInstance().setInvalidInfo(1);
             CardModel.getInstance().update();
             return;
         }
-        System.out.println("before "+currentPlayer.getTotalCards());
+        CardModel.getInstance().setInvalidInfo(0);
+        CardModel.getInstance().update();
         currentPlayer.handleCards(card1, card2, card3);
         currentPlayer.exchangeForArmy();
         CardModel.getInstance().update();
-        System.out.println("after "+currentPlayer.getTotalCards());
         disable = false;
         currentPlayer.reinforcement();
     }
@@ -207,7 +200,7 @@ public class Model extends Observable {
     public void quitCards(){
 
         if(currentPlayer.getTotalCards() >= 5){
-            CardModel.getInstance().setInvalidInfo("you must exchange cards!");
+            CardModel.getInstance().setInvalidInfo(3);
             CardModel.getInstance().update();
             return;
         }
