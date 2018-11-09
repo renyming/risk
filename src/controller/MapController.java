@@ -81,6 +81,7 @@ public class MapController {
     private int attackerDefenderDices[];
     private boolean allOut;
     private boolean countryClickable;
+    private boolean win;
 
 
     /**
@@ -113,6 +114,7 @@ public class MapController {
         attackerDefenderDices = new int[2];
         enableFortification = false;
         countryClickable = true;
+        win = false;
 
         PlayersWorldDominationView.getInstance().init(countryPercentageListView, armyDistributionListView, continentNameListView);
     }
@@ -261,7 +263,7 @@ public class MapController {
      * Prepare all necessary map component for the next phase, then enter the next phase
      * Called when user clicked the next phase button
      */
-    public void startNextPhase() {
+    public void enterNextPhase() {
         nextPhaseButton.setVisible(false);
         switch (currentPhase) {
             case "Start Up Phase": case "Fortification Phase":
@@ -281,6 +283,7 @@ public class MapController {
                 attackerDefenderDices[1] = 1;
                 defenderDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
                 resetAllDices();
+                model.isAttackPossible();
                 break;
             case "Attack Phase":
                 Phase.getInstance().setCurrentPhase("Fortification Phase");
@@ -302,7 +305,7 @@ public class MapController {
                 model.allocateArmy(country);
                 break;
             case "Attack Phase":
-                if (!countryClickable) break;
+                if (!countryClickable || win) break;
                 invalidMovedLabel.setVisible(false);
                 switch (fromToCountriesCounter) {
                     case 0:
@@ -372,7 +375,8 @@ public class MapController {
      * Called when user click the map, reset the from-to country relative info
      */
     private void clickedMap() {
-        if (currentPhase.equals("Attack Phase")) {
+        if (win) return;
+        if (currentPhase.equals("Attack Phase") && countryClickable) {
             resetFromToCountries();
             resetAllDices();
         } else if (currentPhase.equals("Fortification Phase") && enableFortification) {
@@ -440,6 +444,7 @@ public class MapController {
      * After gather countries and dices info, pass them to model to execute the attack
      */
     public void attack() {
+        numArmiesMovedTextField.requestFocus();
         invalidMovedLabel.setVisible(false);
         model.attack(fromToCountries[0], Integer.toString(attackerDefenderDices[0]), fromToCountries[1], Integer.toString(attackerDefenderDices[1]), allOut);
     }
@@ -477,6 +482,10 @@ public class MapController {
      */
     public void setCountryClick(boolean countryClickable) { this.countryClickable = countryClickable; }
 
+
+    public void setWin() { win = true; }
+
+
     /**
      * Since fortification can only be done once, so call it after one successful fortification
      */
@@ -498,39 +507,39 @@ public class MapController {
     }
 
 
-    /**
-     * Called when user click the 'Quit' during the game play
-     */
-    public void backToMenu() {
-        resetMapComponents();
-        map.hide();
-        menuController.switchToStartGameMenu();
-    }
-
-
-    /**
-     * Clear all lines and countries on the map
-     */
-    private void resetMapComponents() {
-        if (null != countryViews) {
-            for (int key : countryViews.keySet()) {
-                AnchorPane countryPane = countryViews.get(key).getCountryPane();
-                countryPane.getChildren().clear();
-                map.getMapRootPane().getChildren().remove(countryPane);
-            }
-            countryViews.clear();
-        }
-        if (null != lines) {
-            for (Line line : lines) {
-                map.getMapRootPane().getChildren().remove(line);
-            }
-            lines.clear();
-        }
-    }
+//    /**
+//     * Called when user click the 'Quit' during the game play
+//     */
+//    public void backToMenu() {
+//        resetMapComponents();
+//        map.hide();
+//        menuController.switchToStartGameMenu();
+//    }
+//
+//
+//    /**
+//     * Clear all lines and countries on the map
+//     */
+//    private void resetMapComponents() {
+//        if (null != countryViews) {
+//            for (int key : countryViews.keySet()) {
+//                AnchorPane countryPane = countryViews.get(key).getCountryPane();
+//                countryPane.getChildren().clear();
+//                map.getMapRootPane().getChildren().remove(countryPane);
+//            }
+//            countryViews.clear();
+//        }
+//        if (null != lines) {
+//            for (Line line : lines) {
+//                map.getMapRootPane().getChildren().remove(line);
+//            }
+//            lines.clear();
+//        }
+//    }
 
 
     /**
      * Called by MenuController when user quit the game from menu
      */
-    void quitGame() { map.close(); }
+    public void quitGame() { map.close(); }
 }

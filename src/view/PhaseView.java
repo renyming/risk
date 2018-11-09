@@ -156,6 +156,7 @@ public class PhaseView implements Observer {
             currentPlayer = phase.getCurrentPlayer();
             currentPlayerLabel.setText(currentPlayer.getName());
             currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
+            armiesInHandLabel.setText(Integer.toString(phase.getCurrentPlayer().getArmies()));
         }
 
         // check current Phase update, or current action update
@@ -227,6 +228,8 @@ public class PhaseView implements Observer {
                     displayAttackPhaseMapComponent(false);
                     phase.clearActionResult();
                     mapController.setCountryClick(false);
+                    invalidMovedLabel.setText(phase.getInvalidInfo());
+                    invalidMovedLabel.setVisible(true);
                     break;
                 case Show_Next_Phase_Button:
                     if (currentPhase.equals("Attack Phase")) {
@@ -247,8 +250,11 @@ public class PhaseView implements Observer {
                 case Win:
                     phaseLabel.setVisible(false);
                     nextPhaseButton.setVisible(false);
+                    hide();
                     invalidMovedLabel.setText(phase.getInvalidInfo());
                     invalidMovedLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+                    invalidMovedLabel.setVisible(true);
+                    mapController.setWin();
                     break;
                 default:
                     break;

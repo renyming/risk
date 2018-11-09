@@ -58,8 +58,10 @@ public class NumPlayerMenuView implements Observer {
         if (!numPlayerMenu.getVisible()) {
             reset();
         } else {
-            numPlayerInstructionLabel.setText("Enter number of players, max " + numPlayerMenu.getMaxNumPlayer());
-            mapController.setNumOfCountries(numPlayerMenu.getMaxNumPlayer());
+            int totalCountries = numPlayerMenu.getMaxNumPlayer();
+            int maxNumPlayer = totalCountries > 6 ? 6 : totalCountries;
+            mapController.setNumOfCountries(totalCountries);
+            numPlayerInstructionLabel.setText("Enter number of players, max " + maxNumPlayer);
             numPlayerInstructionLabel.setVisible(true);
             validationOfUserEnteredLabel.setVisible(true);
             numPlayerTextField.clear();
