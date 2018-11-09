@@ -215,6 +215,9 @@ public class Country extends AnchorPane {
         return ID;
     }
 
+    /**
+     * Relocate the coordinates from scene to local, and align the center to the cursor position
+     */
     public void relocateToPoint(){
 //        System.out.println("Scene x: "+point.getX()+", y: "+point.getY());
 //        System.out.println("Local x: "+getParent().sceneToLocal(point).getX()+", y: "+getParent().sceneToLocal(point).getY());

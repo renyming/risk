@@ -15,6 +15,7 @@ import java.util.HashMap;
  * this class is to generate standard map file
  */
 public class Writer {
+
     private ArrayList<Country> countries;
     private HashMap<String,Integer> continents;
     private String filePath;
@@ -36,7 +37,7 @@ public class Writer {
         String headContent = "[Map]\nauthor=SOEN6441Team11\nwarn=yes\nimage=unavailable.bmp\nwrap=no\nscroll=none\n\n";
 
         String continentsContent = "[Continents]\n";
-        String territoriesContent = "[Territories]\n";;
+        String territoriesContent = "[Territories]\n";
         //[map] and author
         File file = new File(filePath);
         FileWriter fileWriter= new FileWriter(file);

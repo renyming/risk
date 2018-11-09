@@ -2,6 +2,7 @@ package mapeditor;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -37,6 +38,15 @@ public class ViewController {
 
     private View view;
 
+    private EventHandler drawPaneClicked=new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            Country country = new Country(event.getSceneX(), event.getSceneY());
+            drawCountry(country);
+            event.consume();
+        }
+    };
+
     /**
      * Initialize the base pane
      * Fills continent list, set mouse listener to add new country, set listener for continent list view
@@ -56,18 +66,20 @@ public class ViewController {
         lstContinent.setItems(View.continents);
         lstContinent.getSelectionModel().selectFirst();
 
-        draw_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    if (event.getClickCount() == 2) {
-                        Country country = new Country(event.getSceneX(), event.getSceneY());
-                        drawCountry(country);
-                        event.consume();
-                    }
-                }
-            }
-        });
+//        draw_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                if (event.getButton() == MouseButton.PRIMARY) {
+//                    if (event.getClickCount() == 2) {
+//                        Country country = new Country(event.getSceneX(), event.getSceneY());
+//                        drawCountry(country);
+//                        event.consume();
+//                    }
+//                }
+//            }
+//        });
+
+        draw_pane.setOnMouseClicked(drawPaneClicked);
 
         //List view listener
         lstContinent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -144,6 +156,7 @@ public class ViewController {
         country.setOnDragDetected(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                draw_pane.removeEventHandler(MouseEvent.MOUSE_CLICKED,drawPaneClicked);
                 ClipboardContent content = new ClipboardContent();
                 content.putString("");
                 country.startDragAndDrop(TransferMode.ANY).setContent(content);
@@ -169,6 +182,7 @@ public class ViewController {
                 }
 
                 event.consume();
+                draw_pane.setOnMouseClicked(drawPaneClicked);
 
             }
         });
