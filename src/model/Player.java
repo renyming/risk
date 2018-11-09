@@ -33,7 +33,6 @@ public class Player extends Observable {
 
     private HashMap<String,Integer> cards;
     private int numberOccupy;
-    private List<Card> playerCardList;
 
     private Phase phase;
     private PlayersWorldDomination worldDomination;
@@ -59,14 +58,6 @@ public class Player extends Observable {
         cards.put("artillery",3);
         numberOccupy = 0;
 
-        this.playerCardList = new ArrayList<>();
-
-        for(int i = 0; i < 3; i ++){
-            playerCardList.add(new Card(CardType.INFANTRY));
-            playerCardList.add(new Card(CardType.CAVALRY));
-            playerCardList.add(new Card(CardType.ARTILLERY));
-        }
-
         phase = Phase.getInstance();
         worldDomination = PlayersWorldDomination.getInstance();
     }
@@ -91,7 +82,25 @@ public class Player extends Observable {
      * Get Player Card List
      * @return playerCardList
      */
-    public List<Card> getPlayerCardList() {
+    public List<Card> getPlayerCardList(){
+        List<Card> playerCardList = new ArrayList<>();
+        for(Map.Entry<String,Integer> entry:cards.entrySet()){
+            if(entry.getKey().equals(CardType.ARTILLERY.toString().toLowerCase())){
+                for(int i=0; i < entry.getValue(); i++){
+                    playerCardList.add(new Card(CardType.ARTILLERY));
+                }
+            }
+            if(entry.getKey().equals(CardType.CAVALRY.toString().toLowerCase())){
+                for(int i=0; i < entry.getValue(); i++){
+                    playerCardList.add(new Card(CardType.CAVALRY));
+                }
+            }
+            if(entry.getKey().equals(CardType.INFANTRY.toString().toLowerCase())){
+                for(int i=0; i < entry.getValue(); i++){
+                    playerCardList.add(new Card(CardType.INFANTRY));
+                }
+            }
+        }
         return playerCardList;
     }
 
@@ -679,9 +688,6 @@ public class Player extends Observable {
         cards.put(card1,cards.get(card1) - 1);
         cards.put(card2,cards.get(card2) - 1);
         cards.put(card3,cards.get(card3) - 1);
-        playerCardList.remove(0);
-        playerCardList.remove(1);
-        playerCardList.remove(2);
 
         CardModel.getInstance().update();
     }
