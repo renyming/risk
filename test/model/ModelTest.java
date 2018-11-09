@@ -1,12 +1,9 @@
-package testModel;
-
-import model.*;
+package model;
 
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import view.View;
 
 import java.io.IOException;
 
