@@ -586,6 +586,7 @@ public class Player extends Observable {
             // add numOfOccupy
             numberOccupy++;
             phase.setActionResult(Action.Move_After_Conquer);
+            phase.setInvalidInfo("The number of Armies that can move is " + attackerDiceNum);
 
             // if attacker win the game
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
