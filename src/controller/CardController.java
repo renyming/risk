@@ -94,7 +94,7 @@ public class CardController {
 
     public void loadAllCards() {
         int numberOfCards = playerCards.size();
-        System.out.println("number of palyer cards"+numberOfCards);
+        System.out.println("number of current palyer cards "+numberOfCards);
         cbs = new CheckBox[numberOfCards];
         for (int i = 0; i < numberOfCards; i++) {
             cbs[i] = new CheckBox(
