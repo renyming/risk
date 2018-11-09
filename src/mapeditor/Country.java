@@ -207,6 +207,14 @@ public class Country extends AnchorPane {
         setVisible(true);
     }
 
+    public double getCenterX(){
+        return getParent().sceneToLocal(x,y).getX() + (widthCountry / 2);
+    }
+
+    public double getCenterY(){
+        return getParent().sceneToLocal(x,y).getY() + (heightCountry / 2);
+    }
+
     /**
      * getter for ID of the country
      * @return ID of the country

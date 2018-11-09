@@ -1,7 +1,5 @@
 package mapeditor;
 
-import common.Message;
-import common.STATE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Observer;
-import java.util.Observable;
 
 /**
  * Model class for View (root_pane) in map editor
@@ -96,6 +92,10 @@ public class View extends AnchorPane {
     }
 
 
+    /**
+     * Draw the map from model after map file has been loaded
+     * @param model Model reference
+     */
     public void drawMap(Model model){
 
         //Clear draw_pane

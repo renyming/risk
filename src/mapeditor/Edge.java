@@ -8,7 +8,7 @@ import javafx.scene.shape.Line;
  */
 public class Edge extends Line {
     private Country p1, p2;
-    public final static Color normalColor=Color.web("#7e6b8f");
+    public final static Color normalColor=Color.web("#000000");
     public final static Color deleteColor=Color.web("#f2e94e");
     public final static int normalWidth=2;
     public final static int deleteWidth=3;

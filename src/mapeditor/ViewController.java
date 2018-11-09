@@ -1,8 +1,9 @@
 package mapeditor;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -12,11 +13,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Controller class for View object
@@ -37,13 +40,22 @@ public class ViewController {
     Button btnAddContinent;
 
     private View view;
+    private ArrayList<Country> countryList;
+    private boolean dragActive=false;
+    private static Line currentLine;
+    private DoubleProperty mouseX=new SimpleDoubleProperty();
+    private DoubleProperty mouseY=new SimpleDoubleProperty();
 
     private EventHandler drawPaneClicked=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            Country country = new Country(event.getSceneX(), event.getSceneY());
-            drawCountry(country);
-            event.consume();
+            if (event.getButton()==MouseButton.PRIMARY) {
+                if (event.getClickCount()==2){
+                    Country country = new Country(event.getSceneX(), event.getSceneY());
+                    drawCountry(country);
+                    countryList.add(country);
+                }
+            }
         }
     };
 
@@ -66,20 +78,13 @@ public class ViewController {
         lstContinent.setItems(View.continents);
         lstContinent.getSelectionModel().selectFirst();
 
-//        draw_pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                if (event.getButton() == MouseButton.PRIMARY) {
-//                    if (event.getClickCount() == 2) {
-//                        Country country = new Country(event.getSceneX(), event.getSceneY());
-//                        drawCountry(country);
-//                        event.consume();
-//                    }
-//                }
-//            }
-//        });
-
         draw_pane.setOnMouseClicked(drawPaneClicked);
+        countryList=new ArrayList<>();
+        attachDrawPaneListener(draw_pane);
+        currentLine=new Line();
+        currentLine.getStrokeDashArray().add(2d);
+        currentLine.setVisible(false);
+        draw_pane.getChildren().add(currentLine);
 
         //List view listener
         lstContinent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -89,6 +94,73 @@ public class ViewController {
                     btnDelContinent.setDisable(false);
             }
         });
+
+    }
+
+    /**
+     * Find the country object with the scene coordinates
+     * @param x Scene X
+     * @param y Scene Y
+     * @return Country that contains the scene coordinates
+     */
+    private Optional<Country> findCountry(double x, double y){
+        return countryList.stream().filter(c->c.boundsInLocalProperty().get().contains(c.sceneToLocal(x,y))).findAny();
+    }
+
+    /**
+     * Drag a line starts
+     * @param country Country initiates the drag action
+     */
+    private void startDrag(Country country){
+//        System.out.println("StartDrage: "+country.getName());
+        if (dragActive)
+            return;
+
+        dragActive=true;
+
+        currentLine.setUserData(country);
+        Point2D p=currentLine.getParent().sceneToLocal(country.getX(),country.getY());
+        currentLine.setStartX(p.getX());
+        currentLine.setStartY(p.getY());
+        currentLine.setVisible(true);
+        currentLine.endXProperty().bind(mouseX);
+        currentLine.endYProperty().bind(mouseY);
+
+    }
+
+    /**
+     * Drag a line stops
+     * @param country Country where the drag action finishes
+     */
+    private void stopDrag(Country country) {
+        dragActive=false;
+
+        if (currentLine.getUserData()!=country){
+//            System.out.println("different country");
+            //different countries
+            currentLine.endYProperty().unbind();
+            currentLine.endXProperty().unbind();
+            currentLine.setEndX(country.getCenterX());
+            currentLine.setEndY(country.getCenterY());
+            currentLine.setVisible(false);
+            drawLine((Country) currentLine.getUserData(),country);
+        } else {
+            //same country
+//            System.out.println("same country");
+            stopDrag();
+        }
+    }
+
+    /**
+     * Drag a line stops outside of a country
+     */
+    private void stopDrag() {
+        dragActive=false;
+
+        currentLine.endXProperty().unbind();
+        currentLine.endYProperty().unbind();
+        currentLine.setVisible(false);
+
     }
 
     /**
@@ -143,63 +215,75 @@ public class ViewController {
      * @param country Country object
      */
     private void setCountryListener(Country country) {
-        addDragDetection(country);
-        addDragOver(country);
-        addDragDropped(country);
+        addMousePressed(country);
+    }
+
+    /**
+     * Set on event listeners for draw_pane object
+     * @param draw_pane Draw_pane object
+     */
+    private void attachDrawPaneListener(AnchorPane draw_pane){
+        addMouseDragged(draw_pane);
+        addMouseMoved(draw_pane);
+        addMouseReleased(draw_pane);
     }
 
     /**
      * Set on event listener when drag action starts
      * @param country Country object
      */
-    private void addDragDetection(Country country) {
-        country.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                draw_pane.removeEventHandler(MouseEvent.MOUSE_CLICKED,drawPaneClicked);
-                ClipboardContent content = new ClipboardContent();
-                content.putString("");
-                country.startDragAndDrop(TransferMode.ANY).setContent(content);
-                event.consume();
-            }
+    private void addMousePressed(Country country) {
+        country.setOnMousePressed(event -> {
+//            System.out.println("Country pressed");
+//            findCountry(event.getSceneX(),event.getSceneY()).ifPresent(this::startDrag);
+            startDrag(country);
+            event.consume();
         });
     }
 
     /**
-     * Set on event listener when drag action drops
-     * @param country Country object
+     * Set on event listener when mouse moves over the draw_pane
+     * @param draw_pane Draw pane object
      */
-    private void addDragDropped(Country country) {
-        country.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-
-                Country source = (Country) event.getGestureSource();
-
-                if (source != country) {
-                    System.out.println(source.getName() + " and " + country.getName() + " are connected");
-                    drawLine(source, country);
-                }
-
-                event.consume();
-                draw_pane.setOnMouseClicked(drawPaneClicked);
-
-            }
+    private void addMouseMoved(AnchorPane draw_pane) {
+        draw_pane.setOnMouseMoved(event -> {
+//            System.out.println("Draw pane moved");
+            Point2D p=draw_pane.sceneToLocal(event.getSceneX(),event.getSceneY());
+            mouseX.set(p.getX());
+            mouseY.set(p.getY());
+            event.consume();
         });
     }
 
     /**
-     * Set on event listener when drag over
-     * Set transfer mode of receiver to accept drag
-     * @param country Country object
+     * Set on event listener when mouse drags over the draw_pane
+     * @param draw_pane Draw pane object
      */
-    private void addDragOver(Country country) {
-        country.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                event.acceptTransferModes(TransferMode.ANY);
-                event.consume();
+    private void addMouseDragged(AnchorPane draw_pane) {
+        draw_pane.setOnMouseDragged(event -> {
+//            System.out.println("Draw pane dragged");
+            Point2D p=draw_pane.sceneToLocal(event.getSceneX(),event.getSceneY());
+            mouseX.set(p.getX());
+            mouseY.set(p.getY());
+            event.consume();
+        });
+    }
+
+    /**
+     * Set on event listener when mouse released on the draw_pane
+     * @param draw_pane Draw pane object
+     */
+    private void addMouseReleased(AnchorPane draw_pane) {
+        draw_pane.setOnMouseReleased(event -> {
+            System.out.println("Country released");
+
+            Optional<Country> country_tmp=findCountry(event.getSceneX(),event.getSceneY());
+            if (country_tmp.isPresent()){
+                stopDrag(country_tmp.get());
+            }else{
+                stopDrag();
             }
+            event.consume();
         });
     }
 
@@ -308,7 +392,9 @@ public class ViewController {
      * Handler for btnExit
      */
     public void exit() {
-        view.exit();
+        drawCountry(new Country(100,100));
+        drawCountry(new Country(200,200));
+//        view.exit();
     }
 
     /**
