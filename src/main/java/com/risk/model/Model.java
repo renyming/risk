@@ -51,7 +51,7 @@ public class Model extends Observable {
 
     /**
      * Get fileInfoMenu
-     * @return fileInfoMenu
+     * @return fileInfoMenu the fileInfo menu
      */
     public FileInfoMenu getFileInfoMenu() {
         return fileInfoMenu;
@@ -59,7 +59,7 @@ public class Model extends Observable {
 
     /**
      * Get numPlayerMenu
-     * @return numPlayerMenu
+     * @return numPlayerMenu the numPlayer menu
      */
     public NumPlayerMenu getNumPlayerMenu() {
         return numPlayerMenu;
@@ -67,7 +67,7 @@ public class Model extends Observable {
 
     /**
      * set fileInfoMenu, for the test
-     * @param fileInfoMenu
+     * @param fileInfoMenu the observable
      */
     public void setFileInfoMenu(FileInfoMenu fileInfoMenu) {
         this.fileInfoMenu = fileInfoMenu;
@@ -75,14 +75,14 @@ public class Model extends Observable {
 
     /**
      * set numPlayerMenu, for the test
-     * @param numPlayerMenu
+     * @param numPlayerMenu the observable
      */
     public void setNumPlayerMenu(NumPlayerMenu numPlayerMenu) {
         this.numPlayerMenu = numPlayerMenu;
     }
 
     /**
-     * reset model object before reload mapfile
+     * reset model object before reload map file
      */
     private void reset(){
         players = new ArrayList<>();
@@ -116,6 +116,11 @@ public class Model extends Observable {
         setChanged();
         notifyObservers(message);
     }
+
+    /**
+     * Method for start up phase operation
+     * @param countryViewHashMap the countries observer
+     */
 
     public void startUp(HashMap<Integer,CountryView> countryViewHashMap){
 
@@ -160,8 +165,6 @@ public class Model extends Observable {
         currentPlayer.handleCards(card1, card2, card3);
         currentPlayer.exchangeForArmy();
         CardModel.getInstance().update();
-        disable = false;
-        currentPlayer.reinforcement();
     }
 
     /**
@@ -220,24 +223,6 @@ public class Model extends Observable {
        CardModel.getInstance().setCurrentPlayer(currentPlayer);
        CardModel.getInstance().update();
 
-        //nextPlayer();
-//        disable = false;
-//        currentPlayer.reinforcement();
-
-//       CardModel.getInstance().setCurrentPlayer(currentPlayer);
-//       CardModel.getInstance().display();
-//       CardModel.getInstance().update();
-
-//        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//        Phase.getInstance().update();
-
-        //get armies for each round
-        //currentPlayer.addRoundArmies();
-        //As the first step of each round, notify the change of current player to view
-        //currentPlayer.notifyObservers();
-
-        //View already in ROUND_ROBIN state, then it finds out there's allocatable armies of this player, it will
-        //show the "Allocate Armies" button
     }
 
     /**
@@ -254,19 +239,11 @@ public class Model extends Observable {
 
     /**
      * Method for fortification operation
+     * @param source country move armies from
+     * @param target country move armies to
+     * @param armyNumber number of moved armies
      */
     public void fortification(Country source, Country target, String armyNumber){
-        //return no response to view if source country's army number is less than the number of armies on moving,
-        //or the source and target countries aren't connected through the same player's countries
-//        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target))
-//            return;
-//
-//        source.setArmies(source.getArmies()-armyNumber);
-//        target.setArmies(target.getArmies()+armyNumber);
-//
-//        Message message = new Message(STATE.NEXT_PLAYER,null);
-//        notify(message);
-        //Phase.getInstance().
 
         int moveNumber;
         if(source == null || target == null){
@@ -325,21 +302,10 @@ public class Model extends Observable {
 
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
-
-        // The next player is the first player, current round ended, send STATE message
-        if (nextId == 1) {
-//            Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-//            Phase.getInstance().update();
-//            Message message = new Message(STATE.ROUND_ROBIN, null);
-//            notify(message);
-        } else {
-//            CurrentPlayer notifies view to update
-//            currentPlayer.callObservers();
-        }
     }
 
     /**
-     * allocate one army in a specific counry
+     * allocate one army in a specific country
      * @param country Country reference
      */
     public void allocateArmy(Country country){
@@ -355,9 +321,7 @@ public class Model extends Observable {
             return;
         }
 
-        //country army + 1
         country.addArmies(1);
-        //player army - 1
         country.getOwner().subArmies(1);
 
 
@@ -372,8 +336,6 @@ public class Model extends Observable {
                     nextPlayer();
                 } else {
                     disable = true;
-//                    Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-//                    Phase.getInstance().update();
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                     Phase.getInstance().update();
                     phaseNumber = 1;
@@ -475,6 +437,11 @@ public class Model extends Observable {
         return 0;
     }
 
+    /**
+     * load file and initiate model
+     * @param filePath The path of the map file
+     * @throws IOException
+     */
     public void loadFromMapFile(String filePath) throws IOException{
         reset();
         String content = "";
@@ -499,6 +466,11 @@ public class Model extends Observable {
     }
 
 
+    /**
+     * load file path for map editor
+     * @param filePath The path of the map file
+     * @throws IOException
+     */
     public void editorReadFile(String filePath) throws IOException{
         loadFromMapFile(filePath);
         try {
@@ -527,8 +499,6 @@ public class Model extends Observable {
             fileInfoMenu.update();
             numPlayerMenu.setVisible(false);
             numPlayerMenu.update();
-//            message = new Message(STATE.LOAD_FILE,"invalid file format!");
-//            notify(message);
             return;
         }
 
@@ -543,10 +513,6 @@ public class Model extends Observable {
             numPlayerMenu.update();
 
             System.out.println(ex.toString());
-
-//            message = new Message(STATE.LOAD_FILE,ex.getMessage());
-//            notify(message);
-
             return;
         }
         fileInfoMenu.setValidationResult(true,"valid map");

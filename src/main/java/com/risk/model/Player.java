@@ -74,9 +74,6 @@ public class Player extends Observable {
         return n;
     }
 
-    public HashMap<String,Integer> getCards(){
-        return cards;
-    }
 
     /**
      * Get Player Card List
@@ -127,6 +124,14 @@ public class Player extends Observable {
         String hex = "#"+Integer.toHexString(randomColor.getRGB()).substring(2);
 
         this.color=hex;
+    }
+
+    /**
+     * getter for cards
+     * @return
+     */
+    public HashMap<String,Integer> getCards(){
+        return cards;
     }
 
     /**
@@ -247,35 +252,11 @@ public class Player extends Observable {
     */
     private int getArmiesAddedFromContinent() {
 
-//        // record the number of countries in a continent
-//        HashMap<Continent, Integer> continentStatics = new HashMap<Continent, Integer>();
-//
-//        for (Country country : countriesOwned) {
-//
-//            Continent continent = country.getContinent();
-//
-//            if (continentStatics.containsKey(continent)){
-//
-//                int newValue = continentStatics.get(continent) + 1;
-//                continentStatics.put(continent, newValue);
-//
-//            } else {
-//                continentStatics.put(continent, 1);
-//            }
-//        }
-//
-//        //
         int armiesAdded = 0;
-//        for (Continent c : continentStatics.keySet()) {
-//
-//            if (c.getSize() == continentStatics.get(c)) {
-//                armiesAdded += c.getControlVal();
-//            }
-//        }
+
         for (Continent continent : continentsOwned) {
             armiesAdded += continent.getControlVal();
         }
-
 
         return armiesAdded;
     }
@@ -684,6 +665,12 @@ public class Player extends Observable {
         Phase.getInstance().update();
     }
 
+    /**
+     * player exchange three cards
+     * @param card1 name of the first card
+     * @param card2 name of the second card
+     * @param card3 name of the third card
+     */
     public void handleCards(String card1, String card2, String card3){
         cards.put(card1,cards.get(card1) - 1);
         cards.put(card2,cards.get(card2) - 1);
@@ -692,11 +679,18 @@ public class Player extends Observable {
         CardModel.getInstance().update();
     }
 
+    /**
+     * player change cards for armies
+     */
     public void exchangeForArmy(){
-        cardsArmy = Model.cardsValue;
+        cardsArmy += Model.cardsValue;
         Model.cardsValue += 5;
     }
 
+    /**
+     * player receive a random card
+     * @param newCard name of the new card
+     */
     public void addRandomCard(String newCard) {
 
         if (numberOccupy > 0) {
@@ -707,6 +701,11 @@ public class Player extends Observable {
         numberOccupy = 0;
     }
 
+    /**
+     * attacker get all the defender's cards
+     * @param attacker the player who attack
+     * @param defender the player who defend
+     */
     public void getDefenderCards(Player attacker, Player defender){
         for(String key : defender.cards.keySet()){
             attacker.cards.put(key, attacker.cards.get(key) + defender.cards.get(key));
