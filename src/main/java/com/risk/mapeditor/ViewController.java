@@ -206,6 +206,7 @@ public class ViewController {
         setCountryListener(country);
         draw_pane.getChildren().add(country);
         country.relocateToPoint();
+        countryList.add(country);
     }
 
     /**
@@ -377,6 +378,7 @@ public class ViewController {
      */
     public void clearCanvas() {
         draw_pane.getChildren().clear();
+        initialize(view);
     }
 
     /**

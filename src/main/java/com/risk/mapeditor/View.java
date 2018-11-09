@@ -106,6 +106,7 @@ public class View extends AnchorPane {
 
         //add continents
         continents.clear();
+
         for (Continent continent:continentList){
 
             continents.add(continent.getName());
