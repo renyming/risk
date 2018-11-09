@@ -207,9 +207,7 @@ public class Player extends Observable {
         //based on continent
         armiesAdded += getArmiesAddedFromContinent();
 
-        //TODO:based on card
         //need to implement next phase
-
         armiesAdded += cardsArmy;
         cardsArmy = 0;
 
@@ -591,7 +589,7 @@ public class Player extends Observable {
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
                 phase.setActionResult(Action.Win);
                 // give the name of winner
-                phase.setInvalidInfo(attacker.getOwner().getName());
+                phase.setInvalidInfo("Congratulations, You Win!");
             }
 
             return true;
