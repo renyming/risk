@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import common.CardType;
@@ -55,7 +56,8 @@ public class CardController {
                 model.getCurrentPlayer().getPlayerCardList(),cbs);
 
         if (selectedCards.size() == 3) {
-            boolean flag = cardModel.checkTradePossible(selectedCards);
+            model.trade((ArrayList<Card>) selectedCards);
+            /*boolean flag = cardModel.checkTradePossible(selectedCards);
 
             if (flag) {
                 cardModel.setCardsExchangeable(selectedCards);
@@ -65,7 +67,7 @@ public class CardController {
                 textToShow.setText("Invalid Combination.");
                 trade.setDisable(false);
                 return;
-            }
+            }*/
         } else {
             textToShow.setText("Select only 3 cardModel");
             return;
@@ -77,11 +79,6 @@ public class CardController {
     public void autoInitializeController() {
 
         currentPlayerName.setText("Cards of " + Model.getCurrentPlayer().getName());
-        for(int i=0;i<3;i++){
-            Model.getCurrentPlayer().getPlayerCardList().add(new Card(CardType.ARTILLERY));
-            Model.getCurrentPlayer().getPlayerCardList().add(new Card(CardType.CAVALRY));
-            Model.getCurrentPlayer().getPlayerCardList().add(new Card(CardType.INFANTRY));
-        }
         playerCards = Model.getCurrentPlayer().getPlayerCardList();
 
         if (playerCards.size() < 3) {

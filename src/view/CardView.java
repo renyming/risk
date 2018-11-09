@@ -9,8 +9,10 @@ import javafx.stage.Stage;
 import model.Model;
 
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
-public class CardView {
+public class CardView implements Observer{
 
     private static CardView instance;
 
@@ -52,4 +54,9 @@ public class CardView {
 
     public void close() { cardStage.close(); }
 
-}
+    @Override
+    public void update(Observable obs, Object obj) {
+        cardController.autoInitializeController();
+
+    }
+    }

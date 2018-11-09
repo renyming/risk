@@ -6,7 +6,7 @@ import common.CardType;
 
 public class Card  {
 
-    CardType cardType;
+    public CardType cardType;
     private Country territory;
 
     public Card(CardType cardType) {
