@@ -624,6 +624,9 @@ public class Player extends Observable {
             defender.setArmies(defender.getArmies() + numArmies);
 
             phase.setActionResult(Action.Show_Next_Phase_Button);
+            if (!isAttackPossible()) {
+                phase.setInvalidInfo("Attack Impossible");
+            }
             phase.update();
             return;
         }
@@ -728,10 +731,9 @@ public class Player extends Observable {
         }
         if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
             phase.setActionResult(Action.Show_Next_Phase_Button);
-        }
-
-        if (!isAttackPossible()) {
-            phase.setInvalidInfo("Attack Impossible");
+            if (!isAttackPossible()) {
+                phase.setInvalidInfo("Attack Impossible");
+            }
         }
 
         phase.update();
