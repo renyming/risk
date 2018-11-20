@@ -34,7 +34,7 @@ public class Menu {
         menuController = menuFxmlLoader.getController();
         menuStage = new Stage();
         menuStage.setTitle("Risk Game");
-        menuStage.setScene(new Scene(mainMenuPane,500,300));
+        menuStage.setScene(new Scene(mainMenuPane));
         menuStage.setResizable(false);
         menuStage.sizeToScene();
     }
