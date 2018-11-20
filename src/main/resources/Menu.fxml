@@ -1,66 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
+<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
    <children>
-      <AnchorPane fx:id="startGamePane" prefHeight="300.0" prefWidth="500.0" visible="false">
+      <AnchorPane fx:id="startGamePane" prefHeight="450.0" prefWidth="700.0" visible="false">
          <children>
-            <!--<Label alignment="CENTER" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: white;" text="Risk Game">-->
-               <!--<font>-->
-                  <!--<Font size="35.0" />-->
-               <!--</font>-->
-               <!--<textFill>-->
-                  <!--<LinearGradient cycleMethod="REFLECT" endX="0.7259615384615385" endY="0.75" startX="0.20192307692307693" startY="0.3125">-->
-                     <!--<stops>-->
-                        <!--<Stop color="RED" />-->
-                        <!--<Stop color="RED" offset="0.007434944237918215" />-->
-                        <!--<Stop color="AQUA" offset="1.0" />-->
-                     <!--</stops>-->
-                  <!--</LinearGradient>-->
-               <!--</textFill>-->
-            <!--</Label>-->
-            <ImageView fitHeight="300.0" fitWidth="500.0" layoutX="0.0" layoutY="0" opacity="1.0">
+            <ImageView fitHeight="450.0" fitWidth="700.0" opacity="1.0">
                <image>
                   <Image url="@risk.jpeg" />
                </image>
             </ImageView>
-            <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="120.0" text="Start Game" />
-            <Button layoutX="190.0" layoutY="220.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="120.0" text="Quit" />
-            <Button layoutX="190.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="120.0" text="Map Editor" />
+            <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" text="Tournament Mode" />
+            <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="199.0" text="Quit" />
+            <Button layoutX="251.0" layoutY="352.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="199.0" text="Map Editor" />
+            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" text="Start Saved Game" />
+            <Button layoutX="251.0" layoutY="262.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" text="Start Game" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="newGamePane" prefHeight="300.0" prefWidth="500.0">
+      <AnchorPane fx:id="newGamePane" prefHeight="450.0" prefWidth="700.0">
          <children>
-            <Button layoutX="190.0" layoutY="140.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="120.0" text="Select Map" />
-            <TextField fx:id="numPlayerTextField" layoutX="305.0" layoutY="256.0" prefHeight="30.0" prefWidth="50.0" />
-            <Button fx:id="startButton" layoutX="386.0" layoutY="256.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="100.0" text="Start Game" />
-            <Button layoutX="14.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="Back" />
-            <Label fx:id="selectedFilenameLabel" alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="30.0" prefWidth="490.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" />
-            <Label fx:id="mapValidationInfoLabel" alignment="CENTER" layoutY="35.0" prefHeight="30.0" prefWidth="500.0" text="Map info, max player, ext." wrapText="true" />
-            <Label fx:id="numPlayerInstructionLabel" alignment="CENTER" layoutX="150.0" layoutY="200.0" prefHeight="30.0" prefWidth="200.0" text="Enter number of players, max 10">
+            <ImageView fitHeight="450.0" fitWidth="700.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@risk.jpeg" />
+               </image>
+            </ImageView>
+            <Button layoutX="72.0" layoutY="188.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <TextField fx:id="numPlayerTextField" layoutX="504.0" layoutY="130.0" prefHeight="30.0" prefWidth="50.0" />
+            <Button fx:id="startButton" disable="true" layoutX="72.0" layoutY="352.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="199.0" text="Start" />
+            <Button layoutX="72.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" text="Back" />
+            <Label fx:id="selectedFilenameLabel" alignment="CENTER" layoutX="6.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" textAlignment="CENTER" />
+            <Label fx:id="mapValidationInfoLabel" alignment="CENTER" layoutY="84.0" prefHeight="91.0" prefWidth="342.0" text="Map info, max player, ext. Map info, max player, ext.Map info, max player, ext." textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="numPlayerInstructionLabel" alignment="CENTER" layoutX="365.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Enter number of players, max 10" textAlignment="CENTER">
                <font>
                   <Font size="12.0" />
                </font>
             </Label>
-            <Label fx:id="validationOfUserEnteredLabel" alignment="CENTER" layoutX="140.0" layoutY="256.0" prefHeight="30.0" prefWidth="140.0" text="Invalid players number!">
+            <Label fx:id="validationOfUserEnteredLabel" alignment="CENTER" layoutX="364.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" text="Invalid players number!" textAlignment="CENTER">
                <font>
                   <Font size="12.0" />
                </font>
             </Label>
+            <AnchorPane layoutX="402.0" layoutY="169.0" prefHeight="267.0" prefWidth="255.0">
+               <children>
+                  <VBox prefHeight="267.0" prefWidth="255.0" />
+                  <ChoiceBox layoutX="141.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" />
+                  <Label layoutX="28.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" text="player 0" />
+                  <ChoiceBox layoutX="141.0" layoutY="60.0" prefHeight="25.0" prefWidth="100.0" />
+                  <Label layoutX="28.0" layoutY="60.0" prefHeight="25.0" prefWidth="100.0" text="player 1" />
+                  <ChoiceBox layoutX="141.0" layoutY="100.0" prefHeight="25.0" prefWidth="100.0" />
+                  <Label layoutX="28.0" layoutY="100.0" prefHeight="25.0" prefWidth="100.0" text="player 2" />
+                  <ChoiceBox layoutX="141.0" layoutY="140.0" prefHeight="25.0" prefWidth="100.0" />
+                  <Label layoutX="28.0" layoutY="140.0" prefHeight="25.0" prefWidth="100.0" text="player 3" />
+                  <ChoiceBox layoutX="141.0" layoutY="180.0" prefHeight="25.0" prefWidth="100.0" />
+                  <Label layoutX="28.0" layoutY="180.0" prefHeight="25.0" prefWidth="100.0" text="player 4" />
+                  <ChoiceBox layoutX="141.0" layoutY="220.0" prefHeight="25.0" prefWidth="100.0" />
+                  <Label layoutX="28.0" layoutY="220.0" prefHeight="25.0" prefWidth="100.0" text="player 5" />
+               </children></AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="quitPane" prefHeight="300.0" prefWidth="500.0" visible="false">
+      <AnchorPane fx:id="quitPane" prefHeight="450.0" prefWidth="700.0" visible="false">
          <children>
-            <Button layoutX="200.0" layoutY="220.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="100.0" text="No" />
-            <Button layoutX="200.0" layoutY="180.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="30.0" prefWidth="100.0" text="Yes" />
-            <Label alignment="CENTER" layoutX="200.0" layoutY="50.0" prefHeight="30.0" prefWidth="100.0" text="Quit?" />
+            <ImageView fitHeight="450.0" fitWidth="700.0" opacity="0.1">
+               <image>
+                  <Image url="@risk.jpeg" />
+               </image>
+            </ImageView>
+            <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" text="No" />
+            <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="30.0" prefWidth="199.0" text="Yes" />
+            <Label alignment="CENTER" layoutX="300.0" layoutY="177.0" prefHeight="30.0" prefWidth="100.0" text="Quit?">
+               <font>
+                  <Font size="33.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </children>
