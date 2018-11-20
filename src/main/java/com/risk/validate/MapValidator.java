@@ -102,12 +102,12 @@ public class MapValidator {
             throw new InvalidMapException(
                     "Country: " + country.getName() + " is not forming a connected sub graph.");
         } else {
-            for (Country adjCountry : adjCountryList) {
-                if (!adjCountry.getAdjCountries().contains(country)) {
-                    throw new InvalidMapException("Country: " + country.getName()
-                            + " is not linked by all its adjacent Country: " + adjCountry.getName());
-                }
-            }
+//            for (Country adjCountry : adjCountryList) {
+//                if (!adjCountry.getAdjCountries().contains(country)) {
+//                    throw new InvalidMapException("Country: " + country.getName()
+//                            + " is not linked by all its adjacent Country: " + adjCountry.getName());
+//                }
+//            }
         }
     }
 

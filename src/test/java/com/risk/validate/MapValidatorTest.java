@@ -132,7 +132,7 @@ public class MapValidatorTest {
      * This method is used to test if a country is linked by all its adjacent country or not.
      * @throws InvalidMapException Invalid map exception.
      */
-    @Test
+    /*@Test
     public void validateLinkCountry() throws InvalidMapException {
         exception.expect(InvalidMapException.class);
         exception.expectMessage("Country: " + country.getName()
@@ -145,7 +145,7 @@ public class MapValidatorTest {
         country3.addEdge(country2);
         model.setContinents(listOfContinents);
         MapValidator.validateCountry(country, model);
-    }
+    }*/
 
     /**
      * This method is used to test if a country is uniquely associated.
