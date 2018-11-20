@@ -22,6 +22,7 @@ public class Menu {
     private MenuController menuController;
     private AnchorPane mainMenuPane;
     private Stage menuStage;
+    private MediaPlayer mediaPlayer;
 
 
     /**
@@ -42,9 +43,9 @@ public class Menu {
         menuStage.sizeToScene();
 
         Media sound = new Media(Objects.requireNonNull(getClass().getClassLoader().getResource("GOT.mp3")).toExternalForm());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+
     }
 
 
@@ -61,19 +62,19 @@ public class Menu {
     /**
      * Show menu
      */
-    public void show() { menuStage.show(); }
+    public void show() { menuStage.show(); mediaPlayer.play(); }
 
 
     /**
      * Hide menu
      */
-    public void hide() { menuStage.hide(); }
+    public void hide() { menuStage.hide(); mediaPlayer.stop(); }
 
 
     /**
      * Close menu
      */
-    public void close() { menuStage.close(); }
+    public void close() { menuStage.close(); mediaPlayer.stop(); }
 
 
     /**

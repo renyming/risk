@@ -4,9 +4,12 @@ import com.risk.controller.MapController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -19,6 +22,7 @@ public class Map {
     private AnchorPane mapRootPane;
     private MapController mapController;
     private Stage mapStage;
+    private MediaPlayer mediaPlayer;
 
 
     /**
@@ -40,6 +44,11 @@ public class Map {
         mapStage.setScene(new Scene(mapRootPane, GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT));
         mapStage.setResizable(false);
         mapStage.sizeToScene();
+
+        Media sound = new Media(Objects.requireNonNull(getClass().getClassLoader().getResource("Needle.mp3")).toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
     }
 
 
@@ -71,17 +80,17 @@ public class Map {
     /**
      * Show map
      */
-    public void show() { mapStage.show(); }
+    public void show() { mapStage.show(); mediaPlayer.play(); }
 
 
     /**
      * Hide map
      */
-    public void hide() { mapStage.hide(); }
+    public void hide() { mapStage.hide(); mediaPlayer.stop(); }
 
 
     /**
      * Close map
      */
-    public void close() { mapStage.close(); }
+    public void close() { mapStage.close(); mediaPlayer.stop(); }
 }
