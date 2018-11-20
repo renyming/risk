@@ -117,17 +117,17 @@ public class MapValidator {
      * @return boolean isCountry a connected graph
      */
     public static boolean isCountryAConnectedGraph(Country country) {
-        HashSet<Country> coountrySet = new HashSet<>();
+        HashSet<Country> countrySet = new HashSet<>();
         Continent continent = country.getContinent();
         List<Country> countryList = continent.getCountry();
-        coountrySet.add(country);
+        countrySet.add(country);
         country.setProcessed(true);
 
-        checkGraph(country, coountrySet);
+        checkGraph(country, countrySet);
         for (Country cou : continent.getCountry()) {
             cou.setProcessed(false);
         }
-        return coountrySet.containsAll(countryList);
+        return countrySet.containsAll(countryList);
     }
 
     /**
