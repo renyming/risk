@@ -65,15 +65,15 @@ public class NumPlayerMenuView implements Observer {
             numPlayerInstructionLabel.setVisible(true);
             validationOfUserEnteredLabel.setVisible(true);
             numPlayerTextField.clear();
-            numPlayerTextField.setVisible(true);
+            numPlayerTextField.setDisable(false);
         }
         if (!numPlayerMenu.getValid()) {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
             validationOfUserEnteredLabel.setText(numPlayerMenu.getValidationInfo());
-            startButton.setVisible(false);
+            startButton.setDisable(true);
         } else {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-            startButton.setVisible(true);
+            startButton.setDisable(false);
         }
     }
 
@@ -82,13 +82,13 @@ public class NumPlayerMenuView implements Observer {
      * Reset all relative number of player menu components
      */
     public void reset() {
-        numPlayerInstructionLabel.setVisible(false);
-        validationOfUserEnteredLabel.setVisible(false);
+        //numPlayerInstructionLabel.setVisible(false);
+        //validationOfUserEnteredLabel.setVisible(false);
         validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
         validationOfUserEnteredLabel.setText("Total Player: NONE");
-        numPlayerTextField.setVisible(false);
+        numPlayerTextField.setDisable(true);
         numPlayerTextField.clear();
-        startButton.setVisible(false);
+        startButton.setDisable(true);
     }
 
 
