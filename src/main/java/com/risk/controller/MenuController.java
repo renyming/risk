@@ -123,6 +123,8 @@ public class MenuController {
     public void selectMap() {
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Risk Map File");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Map files (*.map)", "*.map");
+        fileChooser.getExtensionFilters().add(extensionFilter);
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
             fileInfoMenuView.setSelectedFilename(riskMapFile.getName());
