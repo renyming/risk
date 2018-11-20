@@ -38,7 +38,7 @@
             <Button fx:id="startButton" disable="true" layoutX="72.0" layoutY="352.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="199.0" text="Start" />
             <Button layoutX="72.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" text="Back" />
             <Label fx:id="selectedFilenameLabel" alignment="CENTER" layoutX="6.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" textAlignment="CENTER" />
-            <Label fx:id="mapValidationInfoLabel" alignment="CENTER" layoutY="84.0" prefHeight="91.0" prefWidth="342.0" text="Map info, max player, ext. Map info, max player, ext.Map info, max player, ext." textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="mapValidationInfoLabel" alignment="CENTER" layoutX="34.0" layoutY="69.0" prefHeight="91.0" prefWidth="275.0" text="Map info, max player, ext. Map info, max player, ext.Map info, max player, ext." textAlignment="CENTER" wrapText="true" />
             <Label fx:id="numPlayerInstructionLabel" alignment="CENTER" layoutX="365.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Enter number of players, max 10" textAlignment="CENTER">
                <font>
                   <Font size="12.0" />
