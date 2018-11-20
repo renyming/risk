@@ -26,7 +26,7 @@
                   <!--</LinearGradient>-->
                <!--</textFill>-->
             <!--</Label>-->
-            <ImageView fitHeight="315.0" fitWidth="510.0" layoutX="0.0" layoutY="-5.0" opacity="1.0">
+            <ImageView fitHeight="300.0" fitWidth="500.0" layoutX="0.0" layoutY="0" opacity="1.0">
                <image>
                   <Image url="@risk.jpeg" />
                </image>
