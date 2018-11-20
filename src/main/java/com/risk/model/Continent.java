@@ -128,16 +128,20 @@ public class Continent {
 
     /**
     * verify if two continent is same continent
-    * @param c continent need to be compare
+    * @param obj continent need to be compare
     * @return  true same continent, false  different continent
     */
-    public boolean equals(Continent c) {
 
-        if (this.name.equals(c.name)) {
+    public boolean equals(Object obj) {
+
+        if (obj == this) {
             return true;
         }
-        return false;
+        if (!(obj instanceof Continent)) {
+            return false;
+        }
+        Continent continent = (Continent) obj;
+        return continent.getName().equalsIgnoreCase(name);
     }
-    
 
 }
