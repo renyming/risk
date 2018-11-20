@@ -5,7 +5,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import java.util.Objects;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 
@@ -37,6 +40,11 @@ public class Menu {
         menuStage.setScene(new Scene(mainMenuPane));
         menuStage.setResizable(false);
         menuStage.sizeToScene();
+
+        Media sound = new Media(Objects.requireNonNull(getClass().getClassLoader().getResource("GOT.mp3")).toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
     }
 
 
