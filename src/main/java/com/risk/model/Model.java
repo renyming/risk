@@ -3,6 +3,7 @@ package com.risk.model;
 import com.risk.common.Action;
 import com.risk.common.Message;
 import com.risk.common.STATE;
+import com.risk.exception.InvalidMapException;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
@@ -480,7 +481,7 @@ public class Model extends Observable {
         try {
             MapValidator.validateMap(this);
         }
-        catch (Exception ex){
+        catch (InvalidMapException ex){
             validFile = false;
             System.out.println(ex.toString());
         }
@@ -509,7 +510,7 @@ public class Model extends Observable {
         try {
             MapValidator.validateMap(this);
         }
-        catch (Exception ex){
+        catch (InvalidMapException ex){
 
             fileInfoMenu.setValidationResult(false,ex.getMessage());
             fileInfoMenu.update();
