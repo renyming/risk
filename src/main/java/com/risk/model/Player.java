@@ -508,7 +508,7 @@ public class Player extends Observable {
 
         for (int i=0; i<num; i++){
             int temp = random.nextInt(6)+1;
-            System.out.println("Dice " + i + " : " + temp);
+//            System.out.println("Dice " + i + " : " + temp);
             dices.add(temp);
         }
         Collections.sort(dices, Collections.reverseOrder());
@@ -542,6 +542,7 @@ public class Player extends Observable {
                 if (isDefenderLoose()) return;
             }
         }
+        phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
         return;
 
     }
@@ -590,7 +591,8 @@ public class Player extends Observable {
             // add numOfOccupy
             numberOccupy++;
             phase.setActionResult(Action.Move_After_Conquer);
-            phase.setInvalidInfo("The number of Armies that can move is " + attackerDiceNum);
+            phase.setInvalidInfo("Successfully Conquered Country : "+ defender.getName()
+                    +". Now You Must Place At Least " + attackerDiceNum + " Armies.");
 
             // if attacker win the game
             if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
@@ -625,14 +627,17 @@ public class Player extends Observable {
             defender.setArmies(defender.getArmies() + numArmies);
 
             phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
             if (!isAttackPossible()) {
-                phase.setInvalidInfo("Attack Impossible");
+                phase.setActionResult(Action.Attack_Impossible);
+                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
             }
             phase.update();
             return;
         }
         phase.setActionResult(Action.Invalid_Move);
-        phase.setInvalidInfo("The number of Armies that can move is " + attackerDiceNum);
+        phase.setInvalidInfo("You Must Place At Least " + attackerDiceNum + ", And Maximum "
+                +attacker.getArmies()+" Armies.");
         phase.update();
         return;
     }
@@ -752,7 +757,8 @@ public class Player extends Observable {
         if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
             phase.setActionResult(Action.Show_Next_Phase_Button);
             if (!isAttackPossible()) {
-                phase.setInvalidInfo("Attack Impossible");
+                phase.setActionResult(Action.Attack_Impossible);
+                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
             }
         }
 

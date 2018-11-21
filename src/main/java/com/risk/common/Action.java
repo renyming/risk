@@ -11,5 +11,6 @@ public enum Action {
     Invalid_Move,
     Move_After_Conquer,
     Show_Next_Phase_Button,
-    Win
+    Win,
+    Attack_Impossible,
 }
