@@ -62,6 +62,17 @@ public class CardController {
     }
 
     /**
+     * handle close card window event
+     */
+    public void closeRequest(){
+        model.quitCards();
+        if(CardModel.getInstance().readyToQuit()) {
+            Stage stage = (Stage) cancelCardView.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    /**
      * if the exchange operation is valid
      * @param event the Action event
      */
