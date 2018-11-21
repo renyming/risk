@@ -3,70 +3,79 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mapPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MapController">
+<AnchorPane fx:id="mapPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MapController">
    <children>
-      <Button fx:id="quitToMenuButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="40.0" prefWidth="60.0" text="Quit" />
-      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="235.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0" style="-fx-border-color: black;" text="Reinforcement Phase">
+      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="8.0" layoutY="14.0" prefHeight="40.0" prefWidth="439.0" style="-fx-border-color: black;" text="Reinforcement Phase" textAlignment="CENTER">
          <font>
-            <Font size="30.0" />
+            <Font size="20.0" />
          </font></Label>
-      <Button fx:id="nextPhaseButton" layoutX="235.0" layoutY="10.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="40.0" prefWidth="500.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Enter Next Phase">
+      <Button fx:id="nextPhaseButton" layoutX="467.0" layoutY="12.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="43.0" prefWidth="439.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Click To Enter Next Phase">
          <font>
-            <Font size="19.0" />
+            <Font size="20.0" />
          </font>
       </Button>
-      <AnchorPane fx:id="currentPlayerPane" layoutX="900.0" layoutY="10.0" prefHeight="748.0" prefWidth="112.0" style="-fx-border-color: black;">
+      <AnchorPane fx:id="currentPlayerPane" layoutX="912.0" prefHeight="768.0" prefWidth="112.0">
          <children>
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="110.0" text="Current Player" />
             <Label fx:id="currentPlayerLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99" />
             <Label alignment="CENTER" layoutY="60.0" prefHeight="30.0" prefWidth="110.0" text="Arimes in hand" />
-            <Label fx:id="armiesInHandLabel" alignment="CENTER" layoutX="2.0" layoutY="90.0" prefHeight="30.0" prefWidth="108.0" text="99" />
-            <Label fx:id="countryALabel" alignment="CENTER" layoutY="135.0" prefHeight="30.0" prefWidth="110.0" text="From Country" />
-            <Label fx:id="countryANameLabel" alignment="CENTER" layoutX="2.0" layoutY="165.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
-            <Label fx:id="countryBLabel" alignment="CENTER" layoutY="195.0" prefHeight="30.0" prefWidth="110.0" text="To Country" />
-            <Label fx:id="countryBNameLabel" alignment="CENTER" layoutX="2.0" layoutY="225.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
-            <TextField fx:id="numArmiesMovedTextField" layoutX="30.0" layoutY="390.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
-            <Label fx:id="numArmiesMovedLabel" alignment="CENTER" layoutX="2.0" layoutY="360.0" prefHeight="30.0" prefWidth="108.0" text="Armies To Move" />
-            <Button fx:id="skipFortificationPhaseButton" layoutX="25.0" layoutY="695.0" mnemonicParsing="false" onAction="#skipFortificationPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
-            <Label fx:id="invalidMovedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="525.0" prefHeight="150.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="There is no path between these two countries that is composed of countries that you owns" textAlignment="CENTER" wrapText="true" />
-            <Label fx:id="attackerDiceLabel" alignment="CENTER" layoutY="270.0" prefHeight="30.0" prefWidth="110.0" text="Attacker's Dices" />
-            <Label fx:id="defenderDiceLabel" alignment="CENTER" layoutY="330.0" prefHeight="30.0" prefWidth="110.0" text="Defend's Dices" />
-            <Button fx:id="attackerDiceOneButton" ellipsisString="" layoutX="5.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
-            <Button fx:id="attackerDiceTwoButton" ellipsisString="" layoutX="40.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
-            <Button fx:id="attackerDiceThreeButton" ellipsisString="" layoutX="75.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="3" />
-            <Button fx:id="defenderDiceOneButton" ellipsisString="" layoutX="17.0" layoutY="360.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
-            <Button fx:id="defenderDiceTwoButton" ellipsisString="" layoutX="63.0" layoutY="360.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
-            <Label fx:id="allOutLabel" alignment="CENTER" layoutY="390.0" prefHeight="30.0" prefWidth="110.0" text="All Out Mode" />
-            <Button fx:id="allOutEnableButton" ellipsisString="" layoutX="17.0" layoutY="420.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="✓" />
-            <Button fx:id="allOutDisableButton" ellipsisString="" layoutX="63.0" layoutY="420.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="x" />
-            <Button fx:id="attackButton" ellipsisString="" layoutX="25.0" layoutY="465.0" mnemonicParsing="false" onAction="#attack" prefHeight="30.0" prefWidth="60.0" text="Attack" />
+            <Label fx:id="armiesInHandLabel" alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="108.0" text="99" />
+            <Label fx:id="countryALabel" alignment="CENTER" layoutY="125.0" prefHeight="30.0" prefWidth="110.0" text="From Country" />
+            <Label fx:id="countryANameLabel" alignment="CENTER" layoutY="155.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
+            <Label fx:id="countryBLabel" alignment="CENTER" layoutY="185.0" prefHeight="30.0" prefWidth="110.0" text="To Country" />
+            <Label fx:id="countryBNameLabel" alignment="CENTER" layoutY="215.0" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
+            <TextField fx:id="numArmiesMovedTextField" layoutX="30.0" layoutY="350.0" onAction="#enteredNumArmiesMoved" prefHeight="30.0" prefWidth="50.0" />
+            <Label fx:id="numArmiesMovedLabel" alignment="CENTER" layoutY="300.0" prefHeight="30.0" prefWidth="112.0" text="Armies To Move" />
+            <Button fx:id="skipFortificationPhaseButton" layoutX="26.0" layoutY="480.0" mnemonicParsing="false" onAction="#skipFortificationPhase" prefHeight="30.0" prefWidth="60.0" text="Skip" />
+            <Label fx:id="invalidMovedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="525.0" prefHeight="130.0" prefWidth="110.0" style="-fx-border-color: red; -fx-border-width: 3;" text="There is no path between these two countries that is composed of countries that you owns" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="attackerDiceLabel" alignment="CENTER" layoutX="1.0" layoutY="339.0" prefHeight="30.0" prefWidth="110.0" text="Attacker's Dices" />
+            <Label fx:id="defenderDiceLabel" alignment="CENTER" layoutX="1.0" layoutY="399.0" prefHeight="30.0" prefWidth="110.0" text="Defend's Dices" />
+            <Button fx:id="attackerDiceOneButton" ellipsisString="" layoutX="6.0" layoutY="369.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
+            <Button fx:id="attackerDiceTwoButton" ellipsisString="" layoutX="41.0" layoutY="369.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
+            <Button fx:id="attackerDiceThreeButton" ellipsisString="" layoutX="76.0" layoutY="369.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="3" />
+            <Button fx:id="defenderDiceOneButton" ellipsisString="" layoutX="18.0" layoutY="429.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="1" />
+            <Button fx:id="defenderDiceTwoButton" ellipsisString="" layoutX="64.0" layoutY="429.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="2" />
+            <Label fx:id="allOutLabel" alignment="CENTER" layoutY="270.0" prefHeight="30.0" prefWidth="110.0" text="All Out Mode" />
+            <Button fx:id="allOutEnableButton" ellipsisString="" layoutX="18.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="✓" />
+            <Button fx:id="allOutDisableButton" ellipsisString="" layoutX="64.0" layoutY="300.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="x" />
+            <Button fx:id="attackButton" ellipsisString="" layoutX="26.0" layoutY="480.0" mnemonicParsing="false" onAction="#attack" prefHeight="30.0" prefWidth="60.0" text="Attack" />
+            <Separator layoutX="-6.0" layoutY="124.0" prefWidth="118.0" />
+            <Separator layoutX="-6.0" layoutY="260.0" prefWidth="118.0" />
+            <Separator layoutX="-6.0" layoutY="520.0" prefWidth="118.0" />
+            <Separator layoutX="-6.0" layoutY="660.0" prefWidth="118.0" />
+            <Button fx:id="cardButton" layoutX="11.0" layoutY="672.0" mnemonicParsing="false" onAction="#openCardWindow" prefHeight="45.0" prefWidth="45.0" text="Card" />
+            <Button fx:id="saveGameButton" layoutX="57.0" layoutY="672.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" text="Save" />
+            <Button fx:id="quitToMenuButton" layoutX="12.0" layoutY="718.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="45.0" prefWidth="90.0" text="Quit" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="13.0" layoutY="630.0" prefHeight="128.0" prefWidth="876.0" style="-fx-border-color: black;">
+      <AnchorPane layoutY="630.0" prefHeight="128.0" prefWidth="908.0">
          <children>
-            <ListView fx:id="countryPercentageListView" layoutX="15.0" layoutY="30.0" prefHeight="85.0" prefWidth="150.0" />
-            <Label layoutX="15.0" prefHeight="30.0" prefWidth="150.0" text="  Player  Country%">
+            <ListView fx:id="countryPercentageListView" layoutX="103.0" layoutY="45.0" prefHeight="85.0" prefWidth="127.0" />
+            <ListView fx:id="armyDistributionListView" layoutX="327.0" layoutY="45.0" prefHeight="85.0" prefWidth="127.0" />
+            <ListView fx:id="continentNameListView" layoutX="566.0" layoutY="45.0" prefHeight="85.0" prefWidth="328.0" />
+            <Label layoutX="14.0" layoutY="45.0" prefHeight="85.0" prefWidth="90.0" text="Player Country%" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="180.0" prefHeight="30.0" prefWidth="150.0" text="  Player  Armies">
+            <Label layoutX="476.0" layoutY="47.0" prefHeight="85.0" prefWidth="90.0" text="Player Continents" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <ListView fx:id="armyDistributionListView" layoutX="180.0" layoutY="30.0" prefHeight="85.0" prefWidth="150.0" />
-            <Label layoutX="345.0" prefHeight="30.0" prefWidth="150.0" text="  Player  Continents">
+            <Label layoutX="237.0" layoutY="47.0" prefHeight="85.0" prefWidth="90.0" text="Player Armies" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <ListView fx:id="continentNameListView" layoutX="345.0" layoutY="30.0" prefHeight="85.0" prefWidth="520.0" />
          </children>
       </AnchorPane>
+      <Separator layoutX="906.0" orientation="VERTICAL" prefHeight="768.0" />
+      <Separator layoutY="660.0" prefWidth="1024.0" />
    </children>
 </AnchorPane>
