@@ -220,6 +220,7 @@ public class Model extends Observable {
      * CardModel exchange for armies
      */
    public void reinforcement(){
+       PhaseView.getInstance().hide();
        CardModel.getInstance().setCurrentPlayer(currentPlayer);
        CardModel.getInstance().update();
 
@@ -382,6 +383,7 @@ public class Model extends Observable {
         numPlayerMenu.update();
 
         int initialArmies = getInitialArmies(playerCounter);
+        initialArmies=3;
 
 
         for (int i = 0; i < playerCounter; i++){
@@ -679,12 +681,12 @@ public class Model extends Observable {
      */
     public void isAttackPossible() {
        if (!currentPlayer.isAttackPossible()){
-           Phase.getInstance().setActionResult(Action.Invalid_Move);
-           Phase.getInstance().setInvalidInfo("Attack Impossible");
+           Phase.getInstance().setActionResult(Action.Attack_Impossible);
+           Phase.getInstance().setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
            Phase.getInstance().update();
 
-           Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-           Phase.getInstance().update();
+//           Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+//           Phase.getInstance().update();
        }
     }
 }
