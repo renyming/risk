@@ -173,14 +173,14 @@ public class PhaseView implements Observer {
                     reset();
                     // update current Player UI
                     armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                    nextPhaseButton.setText("Enter Reinforcement Phase");
+                    nextPhaseButton.setText("Click To Enter Reinforcement Phase");
                     break;
                 case "Reinforcement Phase":
                     // set Reinforcement Phase UI
                     hide();
                     // update current Player UI
                     armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
-                    nextPhaseButton.setText("Enter Attack Phase");
+                    nextPhaseButton.setText("Click To Enter Attack Phase");
                     break;
                 case "Attack Phase":
                     // set Attack Phase UI
@@ -191,7 +191,7 @@ public class PhaseView implements Observer {
                     countryBLabel.setVisible(true);
                     countryBNameLabel.setVisible(true);
                     displayAttackPhaseMapComponent(true);
-                    nextPhaseButton.setText("Enter Fortification Phase");
+                    nextPhaseButton.setText("Click To Enter Fortification Phase");
                     break;
                 case "Fortification Phase":
                     // set Fortification Phase UI
@@ -204,7 +204,7 @@ public class PhaseView implements Observer {
                     numArmiesMovedLabel.setVisible(true);
                     numArmiesMovedTextField.setVisible(true);
                     skipFortificationPhaseButton.setVisible(true);
-                    nextPhaseButton.setText("Enter Reinforcement Phase");
+                    nextPhaseButton.setText("Click To Enter Reinforcement Phase");
                     break;
             }
         } else {
@@ -218,6 +218,7 @@ public class PhaseView implements Observer {
                     break;
                 case Invalid_Move:
                     invalidMovedLabel.setText(phase.getInvalidInfo());
+                    invalidMovedLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
                     invalidMovedLabel.setVisible(true);
                     phase.clearActionResult();
                     break;
@@ -228,20 +229,25 @@ public class PhaseView implements Observer {
                     displayAttackPhaseMapComponent(false);
                     phase.clearActionResult();
                     mapController.setCountryClick(false);
+                    reset();
                     invalidMovedLabel.setText(phase.getInvalidInfo());
+                    invalidMovedLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
                     invalidMovedLabel.setVisible(true);
                     break;
                 case Show_Next_Phase_Button:
+                    invalidMovedLabel.setVisible(false);
                     if (currentPhase.equals("Attack Phase")) {
                         displayAttackPhaseMapComponent(true);
                         numArmiesMovedLabel.setVisible(false);
                         numArmiesMovedTextField.clear();
                         numArmiesMovedTextField.setVisible(false);
                         mapController.setCountryClick(true);
+                        invalidMovedLabel.setText(phase.getInvalidInfo());
+                        invalidMovedLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+                        invalidMovedLabel.setVisible(true);
                     }
-                    phaseLabel.setVisible(false);
+//                    phaseLabel.setVisible(false);
                     nextPhaseButton.setVisible(true);
-                    invalidMovedLabel.setVisible(false);
                     if (currentPhase.equals("Fortification Phase")) {
                         mapController.disableFortification();
                     }
@@ -256,6 +262,22 @@ public class PhaseView implements Observer {
                     invalidMovedLabel.setVisible(true);
                     mapController.setWin();
                     break;
+                case Attack_Impossible:
+                    displayAttackPhaseMapComponent(false);
+                    numArmiesMovedLabel.setVisible(false);
+                    numArmiesMovedTextField.clear();
+                    numArmiesMovedTextField.setVisible(false);
+                    mapController.setCountryClick(false);
+                    countryALabel.setVisible(false);
+                    countryANameLabel.setVisible(false);
+                    countryBLabel.setVisible(false);
+                    countryBNameLabel.setVisible(false);
+                    invalidMovedLabel.setText(phase.getInvalidInfo());
+                    invalidMovedLabel.setStyle("-fx-border-color: red; -fx-border-width: 3");
+                    invalidMovedLabel.setVisible(true);
+                    nextPhaseButton.setVisible(true);
+                    phase.clearActionResult();
+                    break;
                 default:
                     break;
             }
@@ -266,7 +288,7 @@ public class PhaseView implements Observer {
     /**
      * Hide all map component for attack/fortification phase
      */
-    private void hide() {
+    public void hide() {
         countryALabel.setVisible(false);
         countryANameLabel.setVisible(false);
         countryBLabel.setVisible(false);
