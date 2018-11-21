@@ -61,7 +61,8 @@ public class MapController {
     @FXML private ListView<String> armyDistributionListView;
     @FXML private ListView<String> continentNameListView;
 
-
+    //card button
+    @FXML private Button cardButton;
 
     private Model model;
     private Map map;
@@ -106,6 +107,7 @@ public class MapController {
         countryBLabel.setVisible(false);
         countryANameLabel.setVisible(false);
         countryBNameLabel.setVisible(false);
+        cardButton.setDisable(true);
         addEventListener();
 
 
@@ -269,6 +271,9 @@ public class MapController {
             case "Start Up Phase": case "Fortification Phase":
                 model.nextPlayer();
                 model.reinforcement();
+                if(cardButton.isDisable()){
+                    cardButton.setDisable(false);
+                }
                 break;
             case "Reinforcement Phase":
                 Phase.getInstance().setCurrentPhase("Attack Phase");
@@ -522,7 +527,7 @@ public class MapController {
      * card button to open card exchange window
      */
     public void openCardWindow(){
-        cardController.autoInitializeController();
+        cardController.openReadOnlyCardWindow();
         card.show();
     }
 
