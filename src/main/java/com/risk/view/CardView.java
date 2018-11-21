@@ -85,5 +85,6 @@ public class CardView implements Observer{
     @Override
     public void update(Observable obs, Object obj) {
         cardController.autoInitializeController();
+        show();
     }
 }

@@ -269,8 +269,6 @@ public class MapController {
             case "Start Up Phase": case "Fortification Phase":
                 model.nextPlayer();
                 model.reinforcement();
-                cardController.autoInitializeController();
-                card.show();
                 break;
             case "Reinforcement Phase":
                 Phase.getInstance().setCurrentPhase("Attack Phase");
