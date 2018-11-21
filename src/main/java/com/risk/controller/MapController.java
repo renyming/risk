@@ -506,6 +506,13 @@ public class MapController {
         nextPhaseButton.setVisible(true);
     }
 
+    /**
+     * card button to open card exchange window
+     */
+    public void openCardWindow(){
+        cardController.autoInitializeController();
+        card.show();
+    }
 
 //    /**
 //     * Called when user click the 'Quit' during the game play
