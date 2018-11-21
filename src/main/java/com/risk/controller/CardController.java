@@ -1,9 +1,6 @@
 package com.risk.controller;
 
-import com.risk.model.Card;
-import com.risk.model.CardModel;
-import com.risk.model.Model;
-import com.risk.model.Player;
+import com.risk.model.*;
 import com.risk.view.CardView;
 
 import javafx.stage.Stage;
@@ -58,6 +55,8 @@ public class CardController {
         if(CardModel.getInstance().readyToQuit()) {
             Stage stage = (Stage) cancelCardView.getScene().getWindow();
             stage.close();
+            cancelCardView.setDisable(false);
+            trade.setDisable(false);
         }
     }
 
@@ -65,10 +64,16 @@ public class CardController {
      * handle close card window event
      */
     public void closeRequest(){
-        model.quitCards();
-        if(CardModel.getInstance().readyToQuit()) {
-            Stage stage = (Stage) cancelCardView.getScene().getWindow();
-            stage.close();
+        if(!cancelCardView.isDisable()) {
+            model.quitCards();
+            if (CardModel.getInstance().readyToQuit()) {
+                Stage stage = (Stage) cancelCardView.getScene().getWindow();
+                stage.close();
+                cancelCardView.setDisable(false);
+                trade.setDisable(false);
+            }
+        }else{
+            System.out.println("just close");
         }
     }
 
@@ -121,5 +126,14 @@ public class CardController {
                     playerCards.get(i).getCardType().toString());
         }
         cardVbox.getChildren().addAll(cbs);
+    }
+
+    /**
+     * card button open read only card ex window
+     */
+    public void openReadOnlyCardWindow(){
+        autoInitializeController();
+        cancelCardView.setDisable(true);
+        trade.setDisable(true);
     }
 }
