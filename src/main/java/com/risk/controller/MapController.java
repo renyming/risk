@@ -281,11 +281,13 @@ public class MapController {
                 attackerDefenderDices[1] = 1;
                 defenderDiceOneButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
                 resetAllDices();
+                setCountryClick(true);
                 model.isAttackPossible();
                 break;
             case "Attack Phase":
                 Phase.getInstance().setCurrentPhase("Fortification Phase");
                 Phase.getInstance().update();
+                skipFortificationPhaseButton.setDisable(false);
                 fromToCountriesCounter = 0;
                 model.addRandomCard();
                 break;
@@ -307,38 +309,38 @@ public class MapController {
                 invalidMovedLabel.setVisible(false);
                 switch (fromToCountriesCounter) {
                     case 0:
+                        resetFromToCountries();
+                        resetAllDices();
                         setFromCountryInfo(country);
+                        fromToCountriesCounter++;
                         break;
                     case 1:
                         setToCountryInfo(country);
                         if (0 == country.getArmies()) {
                             attackerDefenderDices[1] = 0;
+                            clearAttackerDiceButtons();
+                            clearDefenderDiceButtons();
                             displayDices(false);
-                            allOutEnableButton.setVisible(false);
+                            allOutEnableButton.setDisable(true);
                         }
-                        break;
-                    case 2:
-                        resetFromToCountries();
-                        resetAllDices();
+                        fromToCountriesCounter--;
                         break;
                 }
-                fromToCountriesCounter++;
                 break;
             case "Fortification Phase":
                 if (enableFortification) {
                     invalidMovedLabel.setVisible(false);
                     switch (fromToCountriesCounter) {
                         case 0:
+                            resetFromToCountries();
                             setFromCountryInfo(country);
+                            fromToCountriesCounter++;
                             break;
                         case 1:
                             setToCountryInfo(country);
-                            break;
-                        case 2:
-                            resetFromToCountries();
+                            fromToCountriesCounter--;
                             break;
                     }
-                    fromToCountriesCounter++;
                 }
                 break;
         }
@@ -353,7 +355,9 @@ public class MapController {
     private void setFromCountryInfo(Country country) {
         fromToCountries[0] = country;
         countryANameLabel.setText(country.getName());
+        if(Phase.getInstance().getCurrentPlayer().equals(country.getOwner())){
         countryANameLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+        }
     }
 
 
@@ -380,7 +384,6 @@ public class MapController {
         } else if (currentPhase.equals("Fortification Phase") && enableFortification) {
             resetFromToCountries();
         }
-        fromToCountriesCounter++;
     }
 
 
@@ -391,12 +394,12 @@ public class MapController {
     private void resetFromToCountries() {
         fromToCountries[0] = null;
         fromToCountries[1] = null;
-        fromToCountriesCounter = -1;
+        fromToCountriesCounter = 0;
         countryANameLabel.setText("NONE");
         countryANameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
         countryBNameLabel.setText("NONE");
         countryBNameLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
-        invalidMovedLabel.setVisible(false);
+//        invalidMovedLabel.setVisible(false);
     }
 
 
@@ -434,7 +437,7 @@ public class MapController {
         allOutEnableButton.setStyle("");
         allOutDisableButton.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
         displayDices(true);
-        allOutEnableButton.setVisible(true);
+        allOutEnableButton.setDisable(false);
     }
 
 
@@ -453,11 +456,11 @@ public class MapController {
      * @param display determine either show or hide
      */
     private void displayDices(boolean display) {
-        attackerDiceOneButton.setVisible(display);
-        attackerDiceTwoButton.setVisible(display);
-        attackerDiceThreeButton.setVisible(display);
-        defenderDiceOneButton.setVisible(display);
-        defenderDiceTwoButton.setVisible(display);
+        attackerDiceOneButton.setDisable(!display);
+        attackerDiceTwoButton.setDisable(!display);
+        attackerDiceThreeButton.setDisable(!display);
+        defenderDiceOneButton.setDisable(!display);
+        defenderDiceTwoButton.setDisable(!display);
     }
 
 
@@ -470,6 +473,7 @@ public class MapController {
             model.fortification(fromToCountries[0], fromToCountries[1], numArmiesMovedTextField.getText());
         } else if (currentPhase.equals("Attack Phase")) {
             model.moveAfterConquer(numArmiesMovedTextField.getText());
+            resetAllDices();
         }
     }
 
@@ -500,8 +504,18 @@ public class MapController {
      */
     public void skipFortificationPhase() {
         enableFortification = false;
-        phaseLabel.setVisible(false);
+//        phaseLabel.setVisible(false);
         nextPhaseButton.setVisible(true);
+        countryANameLabel.setVisible(false);
+        countryALabel.setVisible(false);
+        countryBNameLabel.setVisible(false);
+        countryBLabel.setVisible(false);
+        numArmiesMovedTextField.setVisible(false);
+        numArmiesMovedLabel.setVisible(false);
+        invalidMovedLabel.setVisible(false);
+        skipFortificationPhaseButton.setDisable(true);
+
+
     }
 
     /**
