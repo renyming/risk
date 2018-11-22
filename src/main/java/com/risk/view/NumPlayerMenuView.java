@@ -73,7 +73,7 @@ public class NumPlayerMenuView implements Observer {
             startButton.setDisable(true);
         } else {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-            startButton.setStyle("-fx-border-color:green;");
+            startButton.setStyle("-fx-border-color: #4CAF50;");
             startButton.setDisable(false);
         }
     }

@@ -3,7 +3,7 @@
 }
 
 .button:hover {
-    -fx-background-color: green;
+    -fx-background-color: #4CAF50;
 	-fx-border-color:transparent;
 	-fx-text-fill: white;
 }

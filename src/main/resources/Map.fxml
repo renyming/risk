@@ -14,7 +14,7 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Button fx:id="nextPhaseButton" layoutX="467.0" layoutY="12.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="43.0" prefWidth="439.0" style="-fx-background-color: #00ff00; -fx-border-color: black;" text="Click To Enter Next Phase">
+      <Button fx:id="nextPhaseButton" layoutX="461.0" layoutY="10.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="43.0" prefWidth="439.0" style="-fx-border-color: #4CAF50;" stylesheets="@ButtonStyle.css" text="Click To Enter Next Phase">
          <font>
             <Font size="20.0" />
          </font>
@@ -50,7 +50,7 @@
             <Separator layoutX="-6.0" layoutY="660.0" prefWidth="118.0" />
             <Button fx:id="cardButton" layoutX="11.0" layoutY="672.0" mnemonicParsing="false" onAction="#openCardWindow" prefHeight="45.0" prefWidth="45.0" text="Card" />
             <Button fx:id="saveGameButton" layoutX="57.0" layoutY="672.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" text="Save" />
-            <Button fx:id="quitToMenuButton" layoutX="12.0" layoutY="718.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="45.0" prefWidth="90.0" text="Quit" />
+            <Button fx:id="quitToMenuButton" layoutX="12.0" layoutY="718.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="45.0" prefWidth="90.0" stylesheets="@QuitButtonStyle.css" text="Quit" />
          </children>
       </AnchorPane>
       <AnchorPane layoutY="630.0" prefHeight="128.0" prefWidth="908.0">
