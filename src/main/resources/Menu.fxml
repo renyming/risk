@@ -20,11 +20,11 @@
                   <Image url="@risk.jpeg" />
                </image>
             </ImageView>
-            <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" text="Tournament Mode" />
-            <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="199.0" text="Quit" />
-            <Button layoutX="251.0" layoutY="352.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="199.0" text="Map Editor" />
-            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" text="Start Saved Game" />
-            <Button layoutX="251.0" layoutY="262.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" text="Start Game" />
+            <Button layoutX="251.0" layoutY="262.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start New Game" />
+            <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Quit" />
+            <Button layoutX="251.0" layoutY="352.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Map Editor" />
+            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start Saved Game" />
+            <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Tournament Mode" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="newGamePane" prefHeight="450.0" prefWidth="700.0">
@@ -37,7 +37,7 @@
             <Button layoutX="72.0" layoutY="188.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
             <TextField fx:id="numPlayerTextField" layoutX="504.0" layoutY="130.0" prefHeight="30.0" prefWidth="50.0" />
             <Button fx:id="startButton" disable="true" layoutX="72.0" layoutY="345.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start" />
-            <Button layoutX="72.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" text="Back" />
+            <Button layoutX="72.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Back" />
             <Label fx:id="selectedFilenameLabel" alignment="CENTER" layoutX="6.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" textAlignment="CENTER" />
             <Label fx:id="mapValidationInfoLabel" alignment="CENTER" layoutX="34.0" layoutY="69.0" prefHeight="91.0" prefWidth="275.0" text="Map info, max player, ext. Map info, max player, ext.Map info, max player, ext." textAlignment="CENTER" wrapText="true" />
             <Label fx:id="numPlayerInstructionLabel" alignment="CENTER" layoutX="365.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Enter number of players, max 10" textAlignment="CENTER">
