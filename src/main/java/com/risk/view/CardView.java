@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class CardView implements Observer{
         cardStage.setScene(new Scene(mainCardPane,500,300));
         cardStage.setResizable(false);
         cardStage.sizeToScene();
+        cardStage.initStyle(StageStyle.UNDECORATED);
         cardStage.setOnCloseRequest((WindowEvent event1) -> {
             cardController.closeRequest();
         });

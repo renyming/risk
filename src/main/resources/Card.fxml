@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.CardController">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-border-width: 5; -fx-border-color: green;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.CardController">
    <children>
       <ScrollPane layoutX="14.0" layoutY="55.0" prefHeight="232.0" prefWidth="271.0">
          <content>
