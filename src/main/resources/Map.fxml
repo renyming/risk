@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -10,7 +11,7 @@
 
 <AnchorPane fx:id="mapPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MapController">
    <children>
-      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="14.0" layoutY="10.0" prefHeight="47.0" prefWidth="439.0" style="-fx-border-color: black;" text="Reinforcement Phase" textAlignment="CENTER">
+      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="14.0" layoutY="10.0" prefHeight="47.0" prefWidth="439.0" style="-fx-background-color: #4CAF50;" text="Reinforcement Phase" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font></Label>
@@ -53,7 +54,7 @@
             <Button fx:id="quitToMenuButton" layoutX="12.0" layoutY="718.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="45.0" prefWidth="90.0" stylesheets="@QuitButtonStyle.css" text="Quit" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="630.0" prefHeight="128.0" prefWidth="908.0">
+      <AnchorPane layoutY="630.0" prefHeight="128.0" prefWidth="908.0" visible="false">
          <children>
             <ListView fx:id="countryPercentageListView" layoutX="103.0" layoutY="45.0" prefHeight="85.0" prefWidth="127.0" />
             <ListView fx:id="armyDistributionListView" layoutX="327.0" layoutY="45.0" prefHeight="85.0" prefWidth="127.0" />
@@ -76,6 +77,7 @@
          </children>
       </AnchorPane>
       <Separator layoutX="906.0" orientation="VERTICAL" prefHeight="768.0" />
-      <Separator layoutY="660.0" prefWidth="1024.0" />
+      <Separator layoutY="660.0" prefWidth="1024.0" visible="false" />
+      <PieChart fx:id="countryChart" layoutY="560.0" prefHeight="206.0" prefWidth="328.0" />
    </children>
 </AnchorPane>

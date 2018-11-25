@@ -2,6 +2,7 @@ package com.risk.controller;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -60,6 +61,7 @@ public class MapController {
     @FXML private ListView<String> countryPercentageListView;
     @FXML private ListView<String> armyDistributionListView;
     @FXML private ListView<String> continentNameListView;
+    @FXML private PieChart countryChart;
 
     //card button
     @FXML private Button cardButton;
@@ -118,7 +120,7 @@ public class MapController {
         countryClickable = true;
         win = false;
 
-        PlayersWorldDominationView.getInstance().init(countryPercentageListView, armyDistributionListView, continentNameListView);
+        PlayersWorldDominationView.getInstance().init(countryPercentageListView, armyDistributionListView, continentNameListView, model, countryChart);
     }
 
 

@@ -1,6 +1,8 @@
 package com.risk.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 
@@ -98,5 +100,33 @@ public class PlayersWorldDomination extends Observable {
             continentNames.add(player.getName() + ": " + allContinentNamesPerPlayer.toString());
         }
         return continentNames;
+    }
+
+    /**
+     * set country domination percentage of players
+     * @param map current playing model
+     * @return playerCouPercent of country
+     */
+    public HashMap<Player, Double> setCountryDominationData(Model map) {
+
+        HashMap<Player, Double> playerCountryCount = new HashMap<>();
+        Double countryCount = 0.0;
+        for (Continent cont : map.getContinents()) {
+            for (Country cou : cont.getCountry()) {
+                countryCount++;
+                Player player = cou.getOwner();
+                if(playerCountryCount.containsKey(player)) {
+                    playerCountryCount.put(player, playerCountryCount.get(player)+1);
+                } else {
+                    playerCountryCount.put(player, Double.valueOf("1"));
+                }
+            }
+        }
+
+        HashMap<Player, Double> playerCouPercent = new HashMap<>();
+        for(Map.Entry<Player, Double> entry : playerCountryCount.entrySet()) {
+            playerCouPercent.put(entry.getKey(), (entry.getValue()/countryCount * 100));
+        }
+        return playerCouPercent;
     }
 }
