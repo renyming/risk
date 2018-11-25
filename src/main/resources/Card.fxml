@@ -21,5 +21,6 @@
          <font>
             <Font size="14.0" />
          </font></Label>
+      <Button fx:id="closeButton" layoutX="352.0" layoutY="232.0" mnemonicParsing="false" onAction="#closeReadOnlyCardWindow" prefHeight="25.0" prefWidth="76.0" text="Close" />
    </children>
 </AnchorPane>

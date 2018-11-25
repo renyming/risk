@@ -10,11 +10,11 @@
 
 <AnchorPane fx:id="mapPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MapController">
    <children>
-      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="8.0" layoutY="14.0" prefHeight="40.0" prefWidth="439.0" style="-fx-border-color: black;" text="Reinforcement Phase" textAlignment="CENTER">
+      <Label fx:id="phaseLabel" alignment="CENTER" layoutX="14.0" layoutY="10.0" prefHeight="47.0" prefWidth="439.0" style="-fx-border-color: black;" text="Reinforcement Phase" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Button fx:id="nextPhaseButton" layoutX="461.0" layoutY="10.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="43.0" prefWidth="439.0" style="-fx-border-color: #4CAF50;" stylesheets="@ButtonStyle.css" text="Click To Enter Next Phase">
+      <Button fx:id="nextPhaseButton" layoutX="460.0" layoutY="10.0" mnemonicParsing="false" onAction="#enterNextPhase" prefHeight="43.0" prefWidth="439.0" style="-fx-border-color: #4CAF50;" stylesheets="@ButtonStyle.css" text="Click To Enter Next Phase">
          <font>
             <Font size="20.0" />
          </font>

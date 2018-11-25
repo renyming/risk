@@ -21,6 +21,7 @@ public class CardController {
 
     @FXML private Button trade;
     @FXML private Button cancelCardView;
+    @FXML private Button closeButton;
     @FXML private Label currentPlayerName;
     @FXML private Label textToShow;
     @FXML private VBox cardVbox;
@@ -55,13 +56,11 @@ public class CardController {
         if(CardModel.getInstance().readyToQuit()) {
             Stage stage = (Stage) cancelCardView.getScene().getWindow();
             stage.close();
-            cancelCardView.setDisable(false);
-            trade.setDisable(false);
         }
     }
 
     /**
-     * handle close card window event
+     * handle close card window by red button
      */
     public void closeRequest(){
         if(!cancelCardView.isDisable()) {
@@ -69,8 +68,6 @@ public class CardController {
             if (CardModel.getInstance().readyToQuit()) {
                 Stage stage = (Stage) cancelCardView.getScene().getWindow();
                 stage.close();
-                cancelCardView.setDisable(false);
-                trade.setDisable(false);
             }
         }else{
             System.out.println("just close");
@@ -112,6 +109,7 @@ public class CardController {
         } else {
             trade.setDisable(false);
         }
+        closeButton.setVisible(false);
         loadAllCards();
     }
 
@@ -133,7 +131,17 @@ public class CardController {
      */
     public void openReadOnlyCardWindow(){
         autoInitializeController();
-        cancelCardView.setDisable(true);
-        trade.setDisable(true);
+        cancelCardView.setVisible(false);
+        trade.setVisible(false);
+        closeButton.setVisible(true);
+
+    }
+
+    /**
+     *close card ex window without check current card numbers
+     */
+    public void closeReadOnlyCardWindow(){
+        Stage stage = (Stage) cancelCardView.getScene().getWindow();
+        stage.close();
     }
 }
