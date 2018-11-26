@@ -218,6 +218,10 @@ public class Player extends Observable {
 
     public PlayerBehaviorStrategy getStrategy(){return strategy;}
 
+    public void increaseNumberOccupy() {
+        numberOccupy ++;
+    }
+
     /**
      * Substract one for armies when allocated army in the initArmy() or the reinforcements phase
      * @param num remove army from player
@@ -784,14 +788,12 @@ public class Player extends Observable {
      * @param newCard name of the new card
      */
     public void addRandomCard(String newCard) {
-        strategy.addRandomCard(newCard);
-
-//        if (numberOccupy > 0) {
-//            int value = cards.get(newCard) + 1;
-//            cards.put(newCard, value);
-//        }
-//        //reset the number of occupy
-//        numberOccupy = 0;
+        if (numberOccupy > 0) {
+            int value = cards.get(newCard) + 1;
+            cards.put(newCard, value);
+        }
+        //reset the number of occupy
+        numberOccupy = 0;
     }
 
     public boolean isContain(Country c) {
@@ -812,27 +814,28 @@ public class Player extends Observable {
      * @param armyNumber Number of armies to move
      */
     public void fortification(Country source, Country target, int armyNumber){
-        //return no response to view if source country's army number is less than the number of armies on moving,
-        //or the source and target countries aren't connected through the same player's countries
-        if (!source.getOwner().equals(this) || !target.getOwner().equals(this)) {
-            Phase.getInstance().setActionResult(Action.Invalid_Move);
-            Phase.getInstance().setInvalidInfo("Invalid move, This is not your country.");
-            Phase.getInstance().update();
-            return;
-        }
-
-        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target)) {
-            Phase.getInstance().setActionResult(Action.Invalid_Move);
-            Phase.getInstance().setInvalidInfo("invalid move");
-            Phase.getInstance().update();
-            return;
-        }
-
-        source.setArmies(source.getArmies()-armyNumber);
-        target.setArmies(target.getArmies()+armyNumber);
-
-        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-        Phase.getInstance().update();
+        strategy.fortification(source, target, armyNumber);
+//        //return no response to view if source country's army number is less than the number of armies on moving,
+//        //or the source and target countries aren't connected through the same player's countries
+//        if (!source.getOwner().equals(this) || !target.getOwner().equals(this)) {
+//            Phase.getInstance().setActionResult(Action.Invalid_Move);
+//            Phase.getInstance().setInvalidInfo("Invalid move, This is not your country.");
+//            Phase.getInstance().update();
+//            return;
+//        }
+//
+//        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target)) {
+//            Phase.getInstance().setActionResult(Action.Invalid_Move);
+//            Phase.getInstance().setInvalidInfo("invalid move");
+//            Phase.getInstance().update();
+//            return;
+//        }
+//
+//        source.setArmies(source.getArmies()-armyNumber);
+//        target.setArmies(target.getArmies()+armyNumber);
+//
+//        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+//        Phase.getInstance().update();
     }
 
 }

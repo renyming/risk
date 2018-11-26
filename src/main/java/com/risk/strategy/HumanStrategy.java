@@ -18,13 +18,14 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
     private int attackerDiceNum;
     private Country defender;
     private int defenderDiceNum;
-    private int numberOccupy ;
 
     //TODO:doc
     public HumanStrategy(Player player){
         this.player = player;
     }
 
+
+//-----------------------------------------reinforcement----------------------------------------------
     /**
      *  Implementation of reinforcement
      */
@@ -91,7 +92,7 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
         return armiesAdded;
     }
 
-//------------------------------attack-----------------------------
+//--------------------------------------------------attack--------------------------------------------------------
     /**
      * Method for attack operation
      * @param attacker The country who start an attack
@@ -187,7 +188,8 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
         // if attacker's dice valid
         if (!attacker.isValidAttacker(attackerDiceNum)) {
             phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid attacker dice number, armies in attacker must more than two, and the dice must less than armies");
+            phase.setInvalidInfo("Invalid attacker dice number, " +
+                    "armies in attacker must more than two, and the dice must less than armies");
             phase.update();
             return false;
         }
@@ -238,7 +240,7 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
             attacker.getOwner().addCountry(defender);
 
             // add numOfOccupy
-            numberOccupy ++;
+            player.increaseNumberOccupy();
             phase.setActionResult(Action.Move_After_Conquer);
             phase.setInvalidInfo("Successfully Conquered Country : "+ defender.getName()
                     +". Now You Must Place At Least " + attackerDiceNum + " Armies.");
@@ -370,7 +372,8 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
             return;
         }
 
-        if (player.isContain(attacker) && player.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
+        if (player.isContain(attacker) && player.isContain(defender)
+                && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
             attacker.setArmies(attacker.getArmies() - numArmies);
             defender.setArmies(defender.getArmies() + numArmies);
 
@@ -390,22 +393,38 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
         return;
     }
 
+
+//---------------------------------------------fortify----------------------------------------------------
     /**
-     * player receive a random card
-     * @param newCard name of the new card
+     * Method for fortification operation
+     * @param source The country moves out army
+     * @param target The country receives out army
+     * @param armyNumber Number of armies to move
      */
     @Override
-    public void addRandomCard(String newCard) {
-
-        if (numberOccupy > 0) {
-            int value = player.getCards().get(newCard) + 1;
-            player.getCards().put(newCard, value);
+    public void fortification(Country source, Country target, int armyNumber){
+        //return no response to view if source country's army number is less than the number of armies on moving,
+        //or the source and target countries aren't connected through the same player's countries
+        if (!source.getOwner().equals(player) || !target.getOwner().equals(player)) {
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid move, This is not your country.");
+            Phase.getInstance().update();
+            return;
         }
-        //reset the number of occupy
-        numberOccupy = 0;
+
+        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target)) {
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("invalid move");
+            Phase.getInstance().update();
+            return;
+        }
+
+        source.setArmies(source.getArmies()-armyNumber);
+        target.setArmies(target.getArmies()+armyNumber);
+
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
     }
-
-
 
 
 
