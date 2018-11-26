@@ -61,7 +61,7 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
 
         //rPhase
         if(country.getOwner().getArmies() == 0){
-            disable = true;
+            Model.disable = true;
             Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
             Phase.getInstance().update();
             Model.phaseNumber = 2;
