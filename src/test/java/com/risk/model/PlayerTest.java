@@ -208,14 +208,14 @@ public class PlayerTest {
     /**
      * Test isConnected() method
      */
-    @Test
-    public void getRandomDice() {
-
-        System.out.println(player.getRandomDice(3));
-        System.out.println(player.getRandomDice(2));
-        System.out.println(player.getRandomDice(10));
-
-    }
+//    @Test
+//    public void getRandomDice() {
+//
+//        System.out.println(player.getRandomDice(3));
+//        System.out.println(player.getRandomDice(2));
+//        System.out.println(player.getRandomDice(10));
+//
+//    }
 
     /**
      * Test attack() method

@@ -81,7 +81,7 @@ public class Phase extends Observable {
      * i.e. actionResult = Allocate_Army, etc
      * @param actionResult is the action that are taking place during a phase
      */
-    void setActionResult(Action actionResult) { this.actionResult = actionResult; }
+    public void setActionResult(Action actionResult) { this.actionResult = actionResult; }
 
 
     /**
@@ -106,7 +106,7 @@ public class Phase extends Observable {
      * i.e. invalidInfo = "Select one of your own countries", "There is no path between ...", etc
      * @param invalidInfo is the user invalid action info
      */
-    void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
+    public void setInvalidInfo(String invalidInfo) { this.invalidInfo = invalidInfo; }
 
 
     /**

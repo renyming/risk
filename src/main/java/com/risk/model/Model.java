@@ -680,7 +680,7 @@ public class Model extends Observable {
      * Verify if the Attack possible
      */
     public void isAttackPossible() {
-       if (!currentPlayer.isAttackPossible()){
+       if (!currentPlayer.getStrategy().isAttackPossible()){
            Phase.getInstance().setActionResult(Action.Attack_Impossible);
            Phase.getInstance().setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
            Phase.getInstance().update();
