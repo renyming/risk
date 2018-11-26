@@ -31,10 +31,10 @@ public class Model extends Observable {
     private boolean validFile = true;
 
     //decided whether country view should respond to the event
-    private boolean disable = false;
+    public static boolean disable = false;
 
     //indicate current phaseNumber; startUp0; rPhase1; aPhase2; fPhase3
-    private int phaseNumber = 0;
+    public static int phaseNumber = 0;
 
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
@@ -314,6 +314,7 @@ public class Model extends Observable {
      * allocate one army in a specific country
      * @param country Country reference
      */
+    //TODO:change algorithm
     public void allocateArmy(Country country){
 
         if(disable) {

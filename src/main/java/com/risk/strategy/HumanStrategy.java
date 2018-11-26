@@ -1,10 +1,7 @@
 package com.risk.strategy;
 
 import com.risk.common.Action;
-import com.risk.model.Continent;
-import com.risk.model.Country;
-import com.risk.model.Phase;
-import com.risk.model.Player;
+import com.risk.model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,64 +29,43 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
     @Override
     public void reinforcement(){
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-        addRoundArmies();
+        player.addRoundArmies();
         Phase.getInstance().update();
     }
 
     /**
-     * Add armies in the very first of the reinforcement phase
-     * The number of armies added is computed based on the number of countries and cards it has
+     * allocate one army in a specific country
+     * @param country Country reference
      */
-    public void addRoundArmies(){
+    @Override
+    public void allocateArmy(Country country, boolean disable){
+        System.out.println("here");
 
-        int newArmies = getArmiesAdded();
-        player.setArmies(newArmies);
-        player.setTotalStrength(player.getTotalStrength() + newArmies);
-    }
-
-    /**
-     * Compute the armiesAdded based on the number of countries continent and cards it has
-     * @return armies need to be added
-     */
-    private int getArmiesAdded() {
-
-        int armiesAdded = 0;
-
-        // based on countries num
-        if (player.getCountriesOwned().size() > 0) {
-            armiesAdded = player.getCountriesOwned().size() / 3;
+        if(disable) {
+            Phase.getInstance().setInvalidInfo("Start Up Phase ended!");
+            Phase.getInstance().update();
+            return;
+        }
+        if(!Model.getCurrentPlayer().getCountriesOwned().contains(country)){
+            Phase.getInstance().setInvalidInfo("Invalid country!");
+            Phase.getInstance().update();
+            return;
         }
 
-        //based on continent
-        armiesAdded += getArmiesAddedFromContinent();
+        country.addArmies(1);
+        country.getOwner().subArmies(1);
 
-        System.out.println("REINFORCEMENT ARMY NUMBER: " + armiesAdded);
-        System.out.println("CARD ARMY NUMBER: " + player.getCardsArmy());
-        //need to implement next phase
-        armiesAdded += player.getCardsArmy();
 
-        // the minimal number of reinforcement armies is 3
-        if (armiesAdded < 3) {
-            armiesAdded = 3;
+        Phase.getInstance().setActionResult(Action.Allocate_Army);
+        Phase.getInstance().update();
+
+        //rPhase
+        if(country.getOwner().getArmies() == 0){
+            disable = true;
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+            Phase.getInstance().update();
+            Model.phaseNumber = 2;
         }
-
-        return armiesAdded;
-
-    }
-
-    /**
-     * Compute the armiesAdded based on the continents it has
-     * @return the number of armies need to be added based on the continents it has
-     */
-    private int getArmiesAddedFromContinent() {
-
-        int armiesAdded = 0;
-
-        for (Continent continent : player.getContinentsOwned()) {
-            armiesAdded += continent.getControlVal();
-        }
-
-        return armiesAdded;
     }
 
 //--------------------------------------------------attack--------------------------------------------------------

@@ -398,62 +398,62 @@ public class Player extends Observable {
 //        Phase.getInstance().update();
     }
 
-//    /**
-//     * Add armies in the very first of the reinforcement phase
-//     * The number of armies added is computed based on the number of countries and cards it has
-//     */
-//    public void addRoundArmies(){
-//
-//        int newArmies = getArmiesAdded();
-//        setArmies(newArmies);
-//        setTotalStrength(totalStrength + newArmies);
-//    }
-//
-//    /**
-//     * Compute the armiesAdded based on the number of countries continent and cards it has
-//     * @return armies need to be added
-//     */
-//    private int getArmiesAdded() {
-//
-//        int armiesAdded = 0;
-//
-//        // based on countries num
-//        if (countriesOwned.size() > 0) {
-//            armiesAdded = countriesOwned.size() / 3;
-//        }
-//
-//        //based on continent
-//        armiesAdded += getArmiesAddedFromContinent();
-//
-//        System.out.println("REINFORCEMENT ARMY NUMBER: " + armiesAdded);
-//        System.out.println("CARD ARMY NUMBER: " + cardsArmy);
-//        //need to implement next phase
-//        armiesAdded += cardsArmy;
-//
-//        // the minimal number of reinforcement armies is 3
-//        if (armiesAdded < 3) {
-//            armiesAdded = 3;
-//        }
-//
-//        return armiesAdded;
-//
-//    }
-//
-//    /**
-//     * Compute the armiesAdded based on the continents it has
-//     * @return the number of armies need to be added based on the continents it has
-//     */
-//    private int getArmiesAddedFromContinent() {
-//
-//        int armiesAdded = 0;
-//
-//        for (Continent continent : continentsOwned) {
-//            armiesAdded += continent.getControlVal();
-//        }
-//
-//        return armiesAdded;
-//    }
-//
+    /**
+     * Add armies in the very first of the reinforcement phase
+     * The number of armies added is computed based on the number of countries and cards it has
+     */
+    public void addRoundArmies(){
+
+        int newArmies = getArmiesAdded();
+        setArmies(newArmies);
+        setTotalStrength(totalStrength + newArmies);
+    }
+
+    /**
+     * Compute the armiesAdded based on the number of countries continent and cards it has
+     * @return armies need to be added
+     */
+    private int getArmiesAdded() {
+
+        int armiesAdded = 0;
+
+        // based on countries num
+        if (countriesOwned.size() > 0) {
+            armiesAdded = countriesOwned.size() / 3;
+        }
+
+        //based on continent
+        armiesAdded += getArmiesAddedFromContinent();
+
+        System.out.println("REINFORCEMENT ARMY NUMBER: " + armiesAdded);
+        System.out.println("CARD ARMY NUMBER: " + cardsArmy);
+        //need to implement next phase
+        armiesAdded += cardsArmy;
+
+        // the minimal number of reinforcement armies is 3
+        if (armiesAdded < 3) {
+            armiesAdded = 3;
+        }
+
+        return armiesAdded;
+
+    }
+
+    /**
+     * Compute the armiesAdded based on the continents it has
+     * @return the number of armies need to be added based on the continents it has
+     */
+    private int getArmiesAddedFromContinent() {
+
+        int armiesAdded = 0;
+
+        for (Continent continent : continentsOwned) {
+            armiesAdded += continent.getControlVal();
+        }
+
+        return armiesAdded;
+    }
+
     /**
      * player exchange three cards
      * @param card1 name of the first card

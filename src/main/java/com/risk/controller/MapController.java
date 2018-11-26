@@ -308,8 +308,11 @@ public class MapController {
      */
     void clickedCountry(Country country) {
         switch (currentPhase) {
-            case "Start Up Phase": case "Reinforcement Phase":
+            case "Start Up Phase":
                 model.allocateArmy(country);
+                break;
+            case "Reinforcement Phase":
+                Model.getCurrentPlayer().getStrategy().allocateArmy(country, Model.disable);
                 break;
             case "Attack Phase":
                 if (!countryClickable || win) break;
