@@ -1,4 +1,12 @@
-package com.risk.strategy;
-
-public class CheaterStrategy implements PlayerBehaviorStrategy {
-}
+//package com.risk.strategy;
+//
+//import com.risk.model.Player;
+//
+//public class CheaterStrategy implements PlayerBehaviorStrategy {
+//
+//
+//    @Override
+//    public void reinforcement(Player player) {
+//
+//    }
+//}
