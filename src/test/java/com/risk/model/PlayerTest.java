@@ -115,22 +115,22 @@ public class PlayerTest {
     /**
      * Test addRoundArmies() method
      */
-    @Test
-    public void addRoundArmies() {
-        int num = 7;
-        player.addRoundArmies();
-        assertEquals(num, player.getArmies());
-
-        num = 3;
-        player.delCountry(usa);
-        player.addRoundArmies();
-        assertEquals(num, player.getArmies());
-
-        num = 3;
-        newPlayer.addRoundArmies();
-        assertEquals(num, newPlayer.getArmies());
-
-    }
+//    @Test
+//    public void addRoundArmies() {
+//        int num = 7;
+//        player.addRoundArmies();
+//        assertEquals(num, player.getArmies());
+//
+//        num = 3;
+//        player.delCountry(usa);
+//        player.addRoundArmies();
+//        assertEquals(num, player.getArmies());
+//
+//        num = 3;
+//        newPlayer.addRoundArmies();
+//        assertEquals(num, newPlayer.getArmies());
+//
+//    }
 
     /**
      * Test subArmies() method

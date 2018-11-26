@@ -2,6 +2,9 @@ package com.risk.model;
 
 import com.risk.common.Action;
 import com.risk.common.CardType;
+import com.risk.strategy.HumanStrategy;
+import com.risk.strategy.PlayerBehaviorStrategy;
+import com.sun.xml.internal.bind.v2.TODO;
 
 import java.awt.*;
 import java.util.*;
@@ -36,7 +39,7 @@ public class Player extends Observable {
 
     private Phase phase;
     private PlayersWorldDomination worldDomination;
-
+    private PlayerBehaviorStrategy strategy = new HumanStrategy();
 
     /**
      * Constructor of player
@@ -206,61 +209,8 @@ public class Player extends Observable {
         worldDomination.update();
     }
 
-    /**
-    * Add armies in the very first of the reinforcement phase
-    * The number of armies added is computed based on the number of countries and cards it has
-    */
-    public void addRoundArmies(){
-
-        int newArmies = getArmiesAdded();
-        setArmies(newArmies);
-        setTotalStrength(totalStrength + newArmies);
-    }
-
-    /**
-    * Compute the armiesAdded based on the number of countries continent and cards it has
-    * @return armies need to be added
-    */
-    private int getArmiesAdded() {
-
-        int armiesAdded = 0;
-
-        // based on countries num
-        if (countriesOwned.size() > 0) {
-            armiesAdded = countriesOwned.size() / 3;
-        }
-
-        //based on continent
-        armiesAdded += getArmiesAddedFromContinent();
-
-        System.out.println("REINFORCEMENT ARMY NUMBER: " + armiesAdded);
-        System.out.println("CARD ARMY NUMBER: " + cardsArmy);
-        //need to implement next phase
-        armiesAdded += cardsArmy;
-
-        // the minimal number of reinforcement armies is 3
-        if (armiesAdded < 3) {
-            armiesAdded = 3;
-        }
-
-        return armiesAdded;
-
-    }
-
-    /**
-    * Compute the armiesAdded based on the continents it has
-    * @return the number of armies need to be added based on the continents it has
-    */
-    private int getArmiesAddedFromContinent() {
-
-        int armiesAdded = 0;
-
-        for (Continent continent : continentsOwned) {
-            armiesAdded += continent.getControlVal();
-        }
-
-        return armiesAdded;
-    }
+    //TODO:doc
+    public int getCardsArmy(){return cardsArmy;}
 
 
     /**
@@ -418,6 +368,209 @@ public class Player extends Observable {
      */
     public boolean equals(Player p) { return this.getId() == p.getId(); }
 
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Move number of armies to the new conquered country
+     * @param num the number of armies need to be move
+     */
+    public void moveArmy(String num){
+
+        int numArmies = 0;
+        try{
+            numArmies = Integer.valueOf(num);
+        } catch (Exception e){
+            phase.setActionResult(Action.Invalid_Move);
+            phase.setInvalidInfo("Please input a number");
+            phase.update();
+            return;
+        }
+
+        if (this.isContain(attacker) && this.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
+            attacker.setArmies(attacker.getArmies() - numArmies);
+            defender.setArmies(defender.getArmies() + numArmies);
+
+            phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
+            if (!isAttackPossible()) {
+                phase.setActionResult(Action.Attack_Impossible);
+                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
+            }
+            phase.update();
+            return;
+        }
+        phase.setActionResult(Action.Invalid_Move);
+        phase.setInvalidInfo("You Must Place At Least " + attackerDiceNum + ", And Maximum "
+                +attacker.getArmies()+" Armies.");
+        phase.update();
+        return;
+    }
+
+
+
+    public boolean isGg() {
+        return this.countriesOwned.size() == 0;
+    }
+
+    /**
+     *  Implementation of reinforcement
+     */
+    public void reinforcement(){
+        strategy.reinforcement(this);
+
+//        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+//        addRoundArmies();
+//        Phase.getInstance().update();
+    }
+
+//    /**
+//     * Add armies in the very first of the reinforcement phase
+//     * The number of armies added is computed based on the number of countries and cards it has
+//     */
+//    public void addRoundArmies(){
+//
+//        int newArmies = getArmiesAdded();
+//        setArmies(newArmies);
+//        setTotalStrength(totalStrength + newArmies);
+//    }
+//
+//    /**
+//     * Compute the armiesAdded based on the number of countries continent and cards it has
+//     * @return armies need to be added
+//     */
+//    private int getArmiesAdded() {
+//
+//        int armiesAdded = 0;
+//
+//        // based on countries num
+//        if (countriesOwned.size() > 0) {
+//            armiesAdded = countriesOwned.size() / 3;
+//        }
+//
+//        //based on continent
+//        armiesAdded += getArmiesAddedFromContinent();
+//
+//        System.out.println("REINFORCEMENT ARMY NUMBER: " + armiesAdded);
+//        System.out.println("CARD ARMY NUMBER: " + cardsArmy);
+//        //need to implement next phase
+//        armiesAdded += cardsArmy;
+//
+//        // the minimal number of reinforcement armies is 3
+//        if (armiesAdded < 3) {
+//            armiesAdded = 3;
+//        }
+//
+//        return armiesAdded;
+//
+//    }
+//
+//    /**
+//     * Compute the armiesAdded based on the continents it has
+//     * @return the number of armies need to be added based on the continents it has
+//     */
+//    private int getArmiesAddedFromContinent() {
+//
+//        int armiesAdded = 0;
+//
+//        for (Continent continent : continentsOwned) {
+//            armiesAdded += continent.getControlVal();
+//        }
+//
+//        return armiesAdded;
+//    }
+//
+    /**
+     * player exchange three cards
+     * @param card1 name of the first card
+     * @param card2 name of the second card
+     * @param card3 name of the third card
+     */
+    public void handleCards(String card1, String card2, String card3){
+        cards.put(card1,cards.get(card1) - 1);
+        cards.put(card2,cards.get(card2) - 1);
+        cards.put(card3,cards.get(card3) - 1);
+
+        CardModel.getInstance().update();
+    }
+
+    /**
+     * player change cards for armies
+     */
+    public void exchangeForArmy(){
+        cardsArmy += Model.cardsValue;
+        Model.cardsValue += 5;
+    }
+
+    /**
+     * player receive a random card
+     * @param newCard name of the new card
+     */
+    public void addRandomCard(String newCard) {
+
+        if (numberOccupy > 0) {
+            int value = cards.get(newCard) + 1;
+            cards.put(newCard, value);
+        }
+        //reset the number of occupy
+        numberOccupy = 0;
+    }
+
+
+
+
+    /**
+     * Method for attack operation
+     * @param attacker The country who start an attack
+     * @param attackerNum how many dice the attacker choose
+     * @param defender The country who defend
+     * @param defenderNum how many dice the defender choose
+     * @param isAllOut true, if the attacker want to all-out; else false
+     */
+    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
+
+        if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
+            return;
+        }
+
+        // if defender country doesn't has army
+        if (isDefenderLoose()) {
+            phase.update();
+            return;
+        }
+
+        if (isAllOut) {
+            // dice number depend by computer
+            allOut();
+        } else {
+            // players choose how many dice need to put
+            attackOnce();
+        }
+
+        //update phase info
+        if (phase.getActionResult() == null) {
+            phase.setActionResult(Action.Show_Next_Phase_Button);
+        }
+        if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
+            phase.setActionResult(Action.Show_Next_Phase_Button);
+            if (!isAttackPossible()) {
+                phase.setActionResult(Action.Attack_Impossible);
+                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
+            }
+        }
+
+        phase.update();
+
+        return;
+    }
+
     /**
      * Test if attack is valid
      * @param attacker The country who start the attack
@@ -497,77 +650,6 @@ public class Player extends Observable {
     }
 
     /**
-     * Get a sorted list of random dices
-     * @param num how many dices needed
-     * @return list of random dice
-     */
-    public ArrayList<Integer> getRandomDice(int num){
-
-        ArrayList<Integer> dices = new ArrayList<Integer>();
-        Random random = new Random();
-
-        for (int i=0; i<num; i++){
-            int temp = random.nextInt(6)+1;
-//            System.out.println("Dice " + i + " : " + temp);
-            dices.add(temp);
-        }
-        Collections.sort(dices, Collections.reverseOrder());
-        return dices;
-    }
-
-    /**
-     * Battle only run once time
-     */
-    private void attackOnce() {
-
-        // roll the dices to battle
-        ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
-//        System.out.println(dicesAttacker);
-        ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
-//        System.out.println(diceDefender);
-
-        // compare the rolling result
-        int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
-        for (int i=0; i<range; i++){
-
-            if (diceDefender.get(i) >= dicesAttacker.get(i)) {
-                attacker.setArmies(attacker.getArmies()-1);
-                attacker.getOwner().subTotalStrength(1);
-
-            } else {
-                defender.setArmies(defender.getArmies()-1);
-                defender.getOwner().subTotalStrength(1);
-
-                //if defender's armies == 0, attacker victory
-                if (isDefenderLoose()) return;
-            }
-        }
-        phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
-        return;
-
-    }
-
-    /**
-     * Battle until the defender be occupied or the attacker consume its armies
-     */
-    private void allOut() {
-
-        Phase phase = Phase.getInstance();
-        while (true) {
-            attackerDiceNum = attacker.getArmies() > 3? 3 : attacker.getArmies();
-            defenderDiceNum = defender.getArmies() > 2? 2 : defender.getArmies();
-
-            attackOnce();
-            // if defender is occupied by attacker
-            if(attacker.getOwner().equals(defender.getOwner())) break;
-            // if attacker exhaust all its armies
-            // if attack possible
-            if(attacker.getArmies() == 0) break;
-        }
-        return;
-    }
-
-    /**
      * Verify if defender loose the country
      * @return
      */
@@ -607,39 +689,86 @@ public class Player extends Observable {
     }
 
     /**
-     * Move number of armies to the new conquered country
-     * @param num the number of armies need to be move
+     * attacker get all the defender's cards
+     * @param attacker the player who attack
+     * @param defender the player who defend
      */
-    public void moveArmy(String num){
-
-        int numArmies = 0;
-        try{
-            numArmies = Integer.valueOf(num);
-        } catch (Exception e){
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Please input a number");
-            phase.update();
-            return;
+    public void getDefenderCards(Player attacker, Player defender){
+        for(String key : defender.cards.keySet()){
+            attacker.cards.put(key, attacker.cards.get(key) + defender.cards.get(key));
+            defender.cards.put(key,0);
         }
+    }
 
-        if (this.isContain(attacker) && this.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
-            attacker.setArmies(attacker.getArmies() - numArmies);
-            defender.setArmies(defender.getArmies() + numArmies);
+    /**
+     * Battle until the defender be occupied or the attacker consume its armies
+     */
+    private void allOut() {
 
-            phase.setActionResult(Action.Show_Next_Phase_Button);
-            phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
-            if (!isAttackPossible()) {
-                phase.setActionResult(Action.Attack_Impossible);
-                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
-            }
-            phase.update();
-            return;
+        Phase phase = Phase.getInstance();
+        while (true) {
+            attackerDiceNum = attacker.getArmies() > 3? 3 : attacker.getArmies();
+            defenderDiceNum = defender.getArmies() > 2? 2 : defender.getArmies();
+
+            attackOnce();
+            // if defender is occupied by attacker
+            if(attacker.getOwner().equals(defender.getOwner())) break;
+            // if attacker exhaust all its armies
+            // if attack possible
+            if(attacker.getArmies() == 0) break;
         }
-        phase.setActionResult(Action.Invalid_Move);
-        phase.setInvalidInfo("You Must Place At Least " + attackerDiceNum + ", And Maximum "
-                +attacker.getArmies()+" Armies.");
-        phase.update();
         return;
+    }
+
+    /**
+     * Battle only run once time
+     */
+    private void attackOnce() {
+
+        // roll the dices to battle
+        ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
+//        System.out.println(dicesAttacker);
+        ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
+//        System.out.println(diceDefender);
+
+        // compare the rolling result
+        int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
+        for (int i=0; i<range; i++){
+
+            if (diceDefender.get(i) >= dicesAttacker.get(i)) {
+                attacker.setArmies(attacker.getArmies()-1);
+                attacker.getOwner().subTotalStrength(1);
+
+            } else {
+                defender.setArmies(defender.getArmies()-1);
+                defender.getOwner().subTotalStrength(1);
+
+                //if defender's armies == 0, attacker victory
+                if (isDefenderLoose()) return;
+            }
+        }
+        phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
+        return;
+
+    }
+
+    /**
+     * Get a sorted list of random dices
+     * @param num how many dices needed
+     * @return list of random dice
+     */
+    public ArrayList<Integer> getRandomDice(int num){
+
+        ArrayList<Integer> dices = new ArrayList<Integer>();
+        Random random = new Random();
+
+        for (int i=0; i<num; i++){
+            int temp = random.nextInt(6)+1;
+//            System.out.println("Dice " + i + " : " + temp);
+            dices.add(temp);
+        }
+        Collections.sort(dices, Collections.reverseOrder());
+        return dices;
     }
 
     /**
@@ -659,113 +788,6 @@ public class Player extends Observable {
         return false;
     }
 
-    public boolean isGg() {
-        return this.countriesOwned.size() == 0;
-    }
-
-    /**
-     *  Implementation of reinforcement
-     */
-    public void reinforcement(){
-
-        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-        addRoundArmies();
-        Phase.getInstance().update();
-    }
-
-    /**
-     * player exchange three cards
-     * @param card1 name of the first card
-     * @param card2 name of the second card
-     * @param card3 name of the third card
-     */
-    public void handleCards(String card1, String card2, String card3){
-        cards.put(card1,cards.get(card1) - 1);
-        cards.put(card2,cards.get(card2) - 1);
-        cards.put(card3,cards.get(card3) - 1);
-
-        CardModel.getInstance().update();
-    }
-
-    /**
-     * player change cards for armies
-     */
-    public void exchangeForArmy(){
-        cardsArmy += Model.cardsValue;
-        Model.cardsValue += 5;
-    }
-
-    /**
-     * player receive a random card
-     * @param newCard name of the new card
-     */
-    public void addRandomCard(String newCard) {
-
-        if (numberOccupy > 0) {
-            int value = cards.get(newCard) + 1;
-            cards.put(newCard, value);
-        }
-        //reset the number of occupy
-        numberOccupy = 0;
-    }
-
-    /**
-     * attacker get all the defender's cards
-     * @param attacker the player who attack
-     * @param defender the player who defend
-     */
-    public void getDefenderCards(Player attacker, Player defender){
-        for(String key : defender.cards.keySet()){
-            attacker.cards.put(key, attacker.cards.get(key) + defender.cards.get(key));
-            defender.cards.put(key,0);
-        }
-    }
-
-
-    /**
-     * Method for attack operation
-     * @param attacker The country who start an attack
-     * @param attackerNum how many dice the attacker choose
-     * @param defender The country who defend
-     * @param defenderNum how many dice the defender choose
-     * @param isAllOut true, if the attacker want to all-out; else false
-     */
-    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
-
-        if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
-            return;
-        }
-
-        // if defender country doesn't has army
-        if (isDefenderLoose()) {
-            phase.update();
-            return;
-        }
-
-        if (isAllOut) {
-            // dice number depend by computer
-            allOut();
-        } else {
-            // players choose how many dice need to put
-            attackOnce();
-        }
-
-        //update phase info
-        if (phase.getActionResult() == null) {
-            phase.setActionResult(Action.Show_Next_Phase_Button);
-        }
-        if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
-            phase.setActionResult(Action.Show_Next_Phase_Button);
-            if (!isAttackPossible()) {
-                phase.setActionResult(Action.Attack_Impossible);
-                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
-            }
-        }
-
-        phase.update();
-
-        return;
-    }
 
     /**
      * Method for fortification operation
