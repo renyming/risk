@@ -719,7 +719,7 @@ public class Player extends Observable {
     /**
      * Battle only run once time
      */
-    public void attackOnce(Country defender) {
+    public void attackOnce(Country attacker, Country defender) {
 
         // roll the dices to battle
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
@@ -753,7 +753,7 @@ public class Player extends Observable {
      * Overriding attackOnce for non-parameter call, for human player
      */
     public void attackOnce() {
-        attackOnce(defender);
+        attackOnce(attacker, defender);
     }
 
     /**
