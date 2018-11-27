@@ -1,6 +1,11 @@
-package com.risk.model;
+package com.risk.strategy;
 
 import com.risk.common.Action;
+import com.risk.model.Continent;
+import com.risk.model.Country;
+import com.risk.model.Phase;
+import com.risk.model.Player;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -130,7 +135,7 @@ public class BenevolentStrategyTest {
         assertEquals(4, thailand.getArmies());
         assertEquals(0, defender.getArmies());
         assertEquals(8, defender.getTotalStrength());
-        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+        Assert.assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
 
         // original totalStrength = 10
         //singapore = 1, canada = 1, usa = 8

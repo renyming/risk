@@ -3,7 +3,8 @@ package com.risk.model;
 /**
  * The test suite of model
  **/
-import com.risk.strategy.CheaterStrategy;
+import com.risk.strategy.BenevolentStrategyTest;
+import com.risk.strategy.CheaterStrategyTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -12,9 +13,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ContinentTest.class,
         ModelTest.class,
         CountryTest.class,
-        PlayerTest.class,
-        CheaterStrategyTest.class,
-        BenevolentStrategyTest.class})
+        PlayerTest.class
+})
 
 public class ModelTestSuite {
 

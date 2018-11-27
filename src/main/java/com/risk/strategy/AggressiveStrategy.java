@@ -8,7 +8,10 @@ import com.risk.model.Player;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
+
+
 
 public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
@@ -31,6 +34,12 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void reinforcement() {
 
+        // change card first
+        // cards = {"infantry","cavalry","artillery"};
+        while (player.getTotalCards() >= 5) {
+            player.autoTradeCard();
+        }
+
         // computer the armies that need to added roundly
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         player.addRoundArmies();
@@ -49,6 +58,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
     }
+
+
 
     /**
      * Attack method
@@ -81,7 +92,10 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
                 });
 
+        player.addRandomCard();
     }
+
+
 
     /**
      * Move army method

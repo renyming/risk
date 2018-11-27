@@ -7,8 +7,11 @@ import com.risk.model.Phase;
 import com.risk.model.Player;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static com.risk.model.Model.cards;
 
 
 /**
@@ -66,6 +69,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                     country.getOwner().addCountry(defender);
 
                     // set phase info
+                    player.setNumberOccupy(player.getNumberOccupy() + 1);
                     phase.setActionResult(Action.Move_After_Conquer);
                     phase.setInvalidInfo("Successfully Conquered Country : "+ defender.getName());
 
@@ -80,6 +84,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
                 });
 
+        player.addRandomCard();
     }
 
 

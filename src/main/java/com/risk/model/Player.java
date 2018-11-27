@@ -4,10 +4,13 @@ import com.risk.common.Action;
 import com.risk.common.CardType;
 import com.risk.strategy.PlayerBehaviorStrategy;
 import com.risk.strategy.StrategyFactory;
+import static com.risk.model.Model.cards;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+
+import static com.risk.model.Model.cards;
 
 /**
  * Define class of a player
@@ -66,6 +69,22 @@ public class Player extends Observable {
         worldDomination = PlayersWorldDomination.getInstance();
 
         strategy = StrategyFactory.getStrategy(s, this);
+    }
+
+    /**
+     * Get number of occupy
+     * @return numberOccupy
+     */
+    public int getNumberOccupy() {
+        return numberOccupy;
+    }
+
+    /**
+     * Set number of occupy
+     * @param numberOccupy number of occupy
+     */
+    public void setNumberOccupy(int numberOccupy) {
+        this.numberOccupy = numberOccupy;
     }
 
     /**
@@ -513,9 +532,23 @@ public class Player extends Observable {
     }
 
 
+    /**
+     * trade card
+     */
+    public void autoTradeCard() {
 
+        for (String card : cards.keySet()) {
 
+            if (cards.get(card) >= 3) {
+                handleCards(card, card, card);
+                exchangeForArmy();
+                return;
+            }
+        }
 
+        handleCards("infantry","cavalry","artillery");
+        exchangeForArmy();
+    }
 
     /**
      * Method for attack operation
@@ -854,6 +887,19 @@ public class Player extends Observable {
         }
         //reset the number of occupy
         numberOccupy = 0;
+    }
+
+    /**
+     * Add Random card without param
+     */
+    public void addRandomCard() {
+
+        if (getNumberOccupy() > 0) {
+            Random random = new Random();
+            int num = random.nextInt(3);
+            String newCard = Model.cards[num];
+            addRandomCard(newCard);
+        }
     }
 
     public boolean isContain(Country c) {

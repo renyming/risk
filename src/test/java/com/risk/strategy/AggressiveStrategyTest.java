@@ -1,17 +1,24 @@
-package com.risk.model;
+package com.risk.strategy;
 
 import com.risk.common.Action;
+import com.risk.model.Continent;
+import com.risk.model.Country;
+import com.risk.model.Phase;
+import com.risk.model.Player;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Test Player class
+ * This is the test of AggressiveStrategy test
  */
-public class CheaterStrategyTest {
+public class AggressiveStrategyTest {
 
     public static Continent asien;
     public static Country china;
@@ -29,7 +36,6 @@ public class CheaterStrategyTest {
 
     /**
      * Preparation before all this method
-     *
      * @throws Exception exceptions
      */
     @SuppressWarnings("Duplicates")
@@ -82,9 +88,9 @@ public class CheaterStrategyTest {
     @Before
     public void setUp() throws Exception {
 
-        newPlayer = new Player("Lee", 5, "cheater");
+        newPlayer = new Player("Lee", 5, "aggressive");
 
-        player = new Player("Ann", 5, "cheater");
+        player = new Player("Ann", 5, "aggressive");
 
         ArrayList<Country> countries = new ArrayList<Country>();
         singapore.setPlayer(player);
@@ -106,7 +112,7 @@ public class CheaterStrategyTest {
 //        player.setTotalStrength(10);
 
 
-        defender = new Player("Mike", 5, "cheater");
+        defender = new Player("Mike", 5, "aggressive");
         defender.setTotalStrength(5);
 
         china.setPlayer(defender);
@@ -125,33 +131,61 @@ public class CheaterStrategyTest {
 
         // original totalStrength = 5
         // china = 4, thailand = 1
+        // addedArmies = 3
         defender.reinforcement();
-        assertEquals(8, china.getArmies());
-        assertEquals(2, thailand.getArmies());
-        assertEquals(10, defender.getTotalStrength());
+        assertEquals(7, china.getArmies());
+        assertEquals(1, thailand.getArmies());
+        assertEquals(0, defender.getArmies());
+        assertEquals(8, defender.getTotalStrength());
+        Assert.assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+
+        // original totalStrength = 10
+        //singapore = 1, canada = 1, usa = 8
+        // addedArmies = 7
+        player.reinforcement();
+        assertEquals(1, singapore.getArmies());
+        assertEquals(1, canada.getArmies());
+        assertEquals(15, usa.getArmies());
+        assertEquals(17, player.getTotalStrength());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
 
-        // original totalStrength = 9
-        //singapore = 0, canada = 1, usa = 8
-        player.reinforcement();
-        assertEquals(2, singapore.getArmies());
-        assertEquals(2, canada.getArmies());
-        assertEquals(16, usa.getArmies());
-        assertEquals(20, player.getTotalStrength());
-        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
     }
 
+    /**
+     * Test1 of attack() method
+     */
     @Test
-    public void attack(){
+    public void attack1() {
 
-        // first attack, conquer china
-        player.attack(null, "0", null, "0", false);
+        defender.attack(null, "0", null, "0", true);
+        assertEquals(defender, singapore.getOwner());
+        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+
+    }
+
+    /**
+     * Test2 of attack() method
+     */
+    @Test
+    public void attack2() {
+
+        //set up
+        singapore.addEdge(thailand);
+        thailand.addEdge(singapore);
+
+        // original totalStrength = 10
+        //singapore = 1, canada = 1, usa = 8
+        singapore.setArmies(100);
+        canada.setArmies(1);
+        usa.setArmies(8);
+
+        player.setTotalStrength(109);
+
+        player.attack(null, "0", null, "0", true);
         assertEquals(player, china.getOwner());
-        assertEquals(Action.Move_After_Conquer, Phase.getInstance().getActionResult());
-
-        // second attack, conquer thailand, win the game
-        player.attack(null, "0", null, "0", false);
         assertEquals(player, thailand.getOwner());
+        assertTrue(player.getContinentsOwned().contains(asien));
+        assertEquals(1, player.getTotalCards());
         assertEquals(Action.Win, Phase.getInstance().getActionResult());
 
     }
@@ -163,13 +197,27 @@ public class CheaterStrategyTest {
     @Test
     public void fortification() {
 
-        // original totalStrength = 9
-        //singapore = 0, canada = 1, usa = 8
+        // original totalStrength = 10
+        //singapore = 1, canada = 1, usa = 8
         player.fortification(null, null,0);
-        assertEquals(2, singapore.getArmies());
-        assertEquals(1, canada.getArmies());
-        assertEquals(8, usa.getArmies());
-        assertEquals(11, player.getTotalStrength());
+        assertEquals(1, singapore.getArmies());
+        assertEquals(0, canada.getArmies());
+        assertEquals(9, usa.getArmies());
+        assertEquals(10, player.getTotalStrength());
+        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+
+
+        // original totalStrength = 5
+        // china = 4, thailand = 1
+        // addedArmies = 3
+        defender.fortification(null, null,0);
+        assertEquals(5, china.getArmies());
+        assertEquals(0, thailand.getArmies());
+        assertEquals(0, defender.getArmies());
+        assertEquals(5, defender.getTotalStrength());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
     }
+
+
+
 }
