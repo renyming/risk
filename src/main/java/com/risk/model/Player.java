@@ -4,11 +4,13 @@ import com.risk.common.Action;
 import com.risk.common.CardType;
 import com.risk.strategy.HumanStrategy;
 import com.risk.strategy.PlayerBehaviorStrategy;
+import com.risk.strategy.StrategyFactory;
 import com.sun.xml.internal.bind.v2.TODO;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Define class of a player
@@ -39,14 +41,15 @@ public class Player extends Observable {
 
     private Phase phase;
     private PlayersWorldDomination worldDomination;
-    private PlayerBehaviorStrategy strategy = new HumanStrategy (this);
+    private PlayerBehaviorStrategy strategy;
 
     /**
      * Constructor of player
      * @param name player name
      * @param countriesSize size of countries
+     * @param s strategy wanted
      */
-    public Player(String name, int countriesSize){
+    public Player(String name, int countriesSize, String s){
         this.Id=++cId;
         this.name= name;
         this.countriesSize = countriesSize;
@@ -64,6 +67,8 @@ public class Player extends Observable {
 
         phase = Phase.getInstance();
         worldDomination = PlayersWorldDomination.getInstance();
+
+        strategy = StrategyFactory.getStrategy(s, this);
     }
 
     /**
@@ -402,19 +407,18 @@ public class Player extends Observable {
     public boolean equals(Player p) { return this.getId() == p.getId(); }
 
 
+    /**
+     * Verify if player is win all the game
+     * @return true win, false, not yet
+     */
+    public boolean isWin(){
+        return this.getCountriesOwned().size() == countriesSize;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Verify if player is loose the game
+     * @return true, loose, false not yet
+     */
     public boolean isGg() {
         return this.countriesOwned.size() == 0;
     }
@@ -441,14 +445,20 @@ public class Player extends Observable {
         setTotalStrength(totalStrength + newArmies);
     }
 
+    /**
+     * Double armies in all the countries owned
+     */
+    public void doubleArmies(Predicate<Country> p) {
 
-    public void doubleArmies() {
+        countriesOwned.stream()
+                .filter(p)
+                .forEach(country -> {
+                    setTotalStrength(totalStrength + country.getArmies());
+                    country.setArmies(country.getArmies() * 2);
 
-        countriesOwned.stream().forEach(country -> {
-            country.setArmies(country.getArmies() * 2);
-        });
-
+                });
     }
+
 
     /**
      * Compute the armiesAdded based on the number of countries continent and cards it has
@@ -675,7 +685,7 @@ public class Player extends Observable {
                     +". Now You Must Place At Least " + attackerDiceNum + " Armies.");
 
             // if attacker win the game
-            if (attacker.getOwner().getCountriesOwned().size() == countriesSize) {
+            if (attacker.getOwner().isWin()) {
                 phase.setActionResult(Action.Win);
                 // give the name of winner
                 phase.setInvalidInfo("Congratulations, You Win!");

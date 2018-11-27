@@ -286,5 +286,16 @@ public class Country extends Observable implements Comparable<Country> {
 
     }
 
+    /**
+     * Test is it has adjacent enemy (the owner is different)
+     * @return true, has; false no enemy in the adjacent countries
+     */
+    public boolean hasAdjEnemy() {
+
+        return adjCountries.stream()
+                .anyMatch(c -> !c.getOwner().equals(this.getOwner()));
+
+    }
+
 
 }

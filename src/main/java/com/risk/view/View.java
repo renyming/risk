@@ -68,7 +68,7 @@ public class View {
         try {
             com.risk.mapeditor.View mapView = new com.risk.mapeditor.View();
             mapView.setMenuView(this);
-            mapEditorStage.setScene(new Scene(mapView,1080,746));
+            mapEditorStage.setScene(new Scene(mapView,1140,855));
 //            mapEditorStage.setResizable(false);
         } catch (Exception e) {
             System.out.println("View.openMapEditor(): " + e.getMessage());

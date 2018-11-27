@@ -29,8 +29,8 @@ public class Map {
      * Ctor, load UI, set default values
      */
     private Map() {
-        final double GAME_BOARD_WIDTH = 1024;
-        final double GAME_BOARD_HEIGHT = 768;
+        final double GAME_BOARD_WIDTH = 1140;
+        final double GAME_BOARD_HEIGHT = 855;
 
         FXMLLoader mapFxmlLoader = new FXMLLoader(getClass().getResource("/Map.fxml"));
         try {
