@@ -52,8 +52,9 @@ public class CountryController {
      * @param country is the Country object which info need to be updated
      */
     public void updateCountryPaneInfo(Country country) {
-        countryPane.setLayoutX(country.getX());
-        countryPane.setLayoutY(country.getY());
+        int countryViewHalfSize = 30;
+        countryPane.setLayoutX(country.getX() + countryViewHalfSize);
+        countryPane.setLayoutY(country.getY() + countryViewHalfSize);
         countryNameLabel.setText(country.getName());
         countryNameLabel.setStyle("-fx-background-color: " + country.getContinent().getColor() + "; -fx-background-radius: 5");
         countryNameLabel.setTooltip(new Tooltip(country.getContinent().getName()));

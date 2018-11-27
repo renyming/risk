@@ -41,8 +41,8 @@ public class NumPlayerMenuView implements Observer {
      * @param playerNumTextField allows user to enter the number of playey
      * @param startButton allows user to enter the game
      * @param mapController allow map to be shown
-     * @
-     * @
+     * @param playerNumLabels displays each Player's name
+     * @param playerTypeChoiceBoxes allows user to select each Player's type
      */
     public void init(Label playerNumInstructionLabel, Label userEnteredPlayNumLabel, TextField playerNumTextField,
                      Button startButton, MapController mapController,
@@ -81,7 +81,6 @@ public class NumPlayerMenuView implements Observer {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             startButton.setStyle("-fx-border-color: #4CAF50;");
             showPlayerTypeInfo(Integer.parseInt(totalPlayer), true);
-            // TODO: select type first, then show start button
             startButton.setDisable(false);
         } else {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
@@ -125,8 +124,8 @@ public class NumPlayerMenuView implements Observer {
      * @param show is true if the info need to be displayed, false otherwise
      */
     private void showPlayerTypeInfo(int x, boolean show) {
-        for (int i = 1; i <= 6; ++i) {
-            if (i <= x) {
+        for (int i = 0; i < 6; ++i) {
+            if (i < x) {
                 playerNumLabels.get(i).setVisible(show);
                 playerTypeChoiceBoxes.get(i).setVisible(show);
             } else {
