@@ -14,7 +14,6 @@ import com.risk.view.View;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -33,15 +32,14 @@ public class MenuController {
     @FXML public Label playerFourLabel;
     @FXML public Label playerFiveLabel;
     @FXML public Label playerSixLabel;
+    @FXML public Label gamesPerMapLabel;
+    @FXML public Label turnsPerGameLabel;
 
     @FXML public TextField numPlayerTextField;
 
     @FXML public Button startButton;
-    @FXML public Button selectMapOneButton;
-    @FXML public Button selectMapTwoButton;
-    @FXML public Button selectMapThreeButton;
-    @FXML public Button selectMapFourButton;
-    @FXML public Button selectMapFiveButton;
+    @FXML public Button selectMapButton;
+    @FXML public Button deleteMapButton;
 
     @FXML public ChoiceBox<String> playerOneTypeChoiceBox;
     @FXML public ChoiceBox<String> playerTwoTypeChoiceBox;
@@ -56,6 +54,11 @@ public class MenuController {
     @FXML public AnchorPane newGamePane;
     @FXML public AnchorPane quitPane;
 
+    @FXML public Spinner<Integer> gamesPerMapSpinner;
+    @FXML public Spinner<Integer> turnsPerGameSpinner;
+
+    @FXML private ListView<String> selectedMapsListView;
+
     private Model model;
     private View view;
     private Menu menu;
@@ -64,6 +67,10 @@ public class MenuController {
     private FileInfoMenuView fileInfoMenuView;
     private NumPlayerMenuView numPlayerMenuView;
     private HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes;
+    private boolean tournamentMode;
+    private ObservableList<String> selectedMaps = FXCollections.observableArrayList();
+    private ObservableList<String> playerTypes;
+
 
 
     /**
@@ -87,7 +94,12 @@ public class MenuController {
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
+        selectedMapsListView.setItems(selectedMaps);
         addEventListener();
+        SpinnerValueFactory<Integer> gamesPerMapValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
+        gamesPerMapSpinner.setValueFactory(gamesPerMapValueFactory);
+        SpinnerValueFactory<Integer> turnsPerGameValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 50, 10);
+        turnsPerGameSpinner.setValueFactory(turnsPerGameValueFactory);
     }
 
     /**
@@ -126,22 +138,48 @@ public class MenuController {
 
 
     /**
+     * Show/Hide tournament mode relative UI
+     * @param tournamentMode determines whether it's tournament or not
+     */
+    private void tournamentMode(boolean tournamentMode) {
+        this.tournamentMode = tournamentMode;
+        selectedMapsListView.setVisible(tournamentMode);
+        deleteMapButton.setVisible(tournamentMode);
+        gamesPerMapLabel.setVisible(tournamentMode);
+        gamesPerMapSpinner.setVisible(tournamentMode);
+        turnsPerGameLabel.setVisible(tournamentMode);
+        turnsPerGameSpinner.setVisible(tournamentMode);
+        if (tournamentMode) selectedMaps.clear();
+    }
+
+
+    /**
      * Called when users click StartNewGame Button
      */
     public void startNewGame() {
-        selectMapTwoButton.setVisible(false);
-        selectMapThreeButton.setVisible(false);
-        selectMapFourButton.setVisible(false);
-        selectMapFiveButton.setVisible(false);
+        tournamentMode(false);
         switchToSelectMapMenu();
     }
 
 
     /**
-     * Called when users click LoadSavedGame
+     * Called when users click Load Saved Game
      */
-    public void loadSavedGame() {
+    public void loadGame() {
+        mapController.initPhaseView();
+//        model.loadGame(); // model update Phase, PlayersWorldDomination
+    }
 
+
+    /**
+     * Called by model for asking CountryViews
+     * @param numOfCountries is the total number of Countries
+     */
+    public void load(int numOfCountries) {
+        mapController.setNumOfCountries(numOfCountries);
+        model.startUp(mapController.createCountryViews());
+        menu.hide();
+        mapController.showMapStage();
     }
 
 
@@ -149,10 +187,7 @@ public class MenuController {
      * Called when users click TournamentMode
      */
     public void tournamentMode() {
-        selectMapTwoButton.setVisible(true);
-        selectMapThreeButton.setVisible(true);
-        selectMapFourButton.setVisible(true);
-        selectMapFiveButton.setVisible(true);
+        tournamentMode(true);
         switchToSelectMapMenu();
     }
 
@@ -164,7 +199,7 @@ public class MenuController {
     private void switchToSelectMapMenu() {
         if (null == fileInfoMenuView && null == numPlayerMenuView) {
             fileInfoMenuView = new FileInfoMenuView();
-            fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
+            fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel, selectedMaps, deleteMapButton);
             numPlayerMenuView = new NumPlayerMenuView();
 
             HashMap<Integer, Label> playerNumLabels;
@@ -184,16 +219,22 @@ public class MenuController {
             playerTypeChoiceBoxes.put(4, playerFiveTypeChoiceBox);
             playerTypeChoiceBoxes.put(5, playerSixTypeChoiceBox);
 
-            ObservableList<String> playerTypes = FXCollections.observableArrayList();
-            playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
-            for (int i = 0; i < 6; ++i) {
-                playerTypeChoiceBoxes.get(i).setItems(playerTypes);
-                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
-            }
-
+            playerTypes = FXCollections.observableArrayList();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
                     startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
+        }
+        if (null != fileInfoMenuView) {
+            if (tournamentMode) {
+                fileInfoMenuView.setTournament(true);
+                numPlayerMenuView.setTournament(true);
+            } else {
+                fileInfoMenuView.setTournament(false);
+                numPlayerMenuView.setTournament(false);
+            }
+        } else {
+            System.out.println("MenuController.switchToSelectMapMenu: fileInfoMenuView is null");
+            return;
         }
         numPlayerMenuView.reset();
         fileInfoMenuView.reset();
@@ -207,6 +248,11 @@ public class MenuController {
      * Called when user clicked the select map button
      */
     public void selectMap() {
+        if (tournamentMode && 2 == selectedMaps.size()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Max map number is 5, remove first");
+            alert.show();
+            return;
+        }
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Risk Map File");
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Map files (*.map)", "*.map");
@@ -224,12 +270,36 @@ public class MenuController {
 
 
     /**
+     * Delete a selected map in tournament mode
+     */
+    public void deleteMap() {
+        selectedMaps.remove(selectedMapsListView.getSelectionModel().getSelectedItem());
+        if (0 == selectedMapsListView.getItems().size()) deleteMapButton.setDisable(true);
+    }
+
+
+    /**
      * Pass user entered string into NumPlayerMenuView
      * Update menu view to display the map number
      * Ask Model to initiate Player relative info
      * @param enteredPlayerNum is what user entered in the text field
      */
     private void validateEnteredNumPlayer(String enteredPlayerNum) {
+        if (!tournamentMode) {
+            playerTypes.clear();
+            playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
+            for (int i = 0; i < 6; ++i) {
+                playerTypeChoiceBoxes.get(i).setItems(playerTypes);
+                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
+            }
+        } else {
+            playerTypes.clear();
+            playerTypes.addAll("Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
+            for (int i = 0; i < 6; ++i) {
+                playerTypeChoiceBoxes.get(i).setItems(playerTypes);
+                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
+            }
+        }
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
         model.initiatePlayers(enteredPlayerNum);
     }
@@ -241,14 +311,25 @@ public class MenuController {
      * Pass info to the Menu, Model, and MapController
      */
     public void startGame() {
-        mapController.createPhaseView();
-        // TODO: pass all Player type info to Model, Model choose needed ones
+        mapController.initPhaseView();
+
+        // TODO: pass Players type info to Model
         HashMap<Integer, String> playerTypes = new HashMap<>();
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < numPlayerMenuView.getTotalNumPlayer(); ++i) {
             playerTypes.put(i, playerTypeChoiceBoxes.get(i).getValue());
         }
-        System.out.println(playerTypes);
+        System.out.println("Start Game");
+        System.out.println("Player Type: " + playerTypes);
+        System.out.println("Tournament Mode: " + tournamentMode);
+        if (tournamentMode) {
+            System.out.println("Selected Map: " + selectedMaps);
+            System.out.println("Games per map: " + gamesPerMapSpinner.getValue());
+            System.out.println("Turns per Game: " + turnsPerGameSpinner.getValue());
+
+        }
+
         model.startUp(mapController.createCountryViews());
+//        model.setPlayerType(playerTypes);
         menu.hide();
         mapController.showMapStage();
     }

@@ -24,8 +24,8 @@ public class NumPlayerMenuView implements Observer {
     private HashMap<Integer, Label> playerNumLabels;
     private HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes;
     private String totalPlayer;
-
     private MapController mapController;
+    private boolean tournamentMode;
 
 
     /**
@@ -38,7 +38,7 @@ public class NumPlayerMenuView implements Observer {
      * Initialize the number of player relative menu components
      * @param playerNumInstructionLabel displays the max allow number of player
      * @param userEnteredPlayNumLabel displays the valid entered number, or invalid result
-     * @param playerNumTextField allows user to enter the number of playey
+     * @param playerNumTextField allows user to enter the number of player
      * @param startButton allows user to enter the game
      * @param mapController allow map to be shown
      * @param playerNumLabels displays each Player's name
@@ -69,7 +69,8 @@ public class NumPlayerMenuView implements Observer {
             reset();
         } else {
             int totalCountries = numPlayerMenu.getMaxNumPlayer();
-            int maxNumPlayer = totalCountries > 6 ? 6 : totalCountries;
+            int max = tournamentMode ? 4 : 6;
+            int maxNumPlayer = totalCountries > max ? max : totalCountries;
             mapController.setNumOfCountries(totalCountries);
             numPlayerInstructionLabel.setText("Enter number of players, max " + maxNumPlayer);
             numPlayerInstructionLabel.setVisible(true);
@@ -136,4 +137,19 @@ public class NumPlayerMenuView implements Observer {
     }
 
 
+    /**
+     * Set tournament mode
+     * @param tournamentMode determine weather it's tournament of not
+     */
+    public void setTournament(boolean tournamentMode) {
+        this.tournamentMode = tournamentMode;
+        numPlayerInstructionLabel.setText("Enter number of players, max " + 4);
+    }
+
+
+    /**
+     * Get total number of Players
+     * @return the number of total Players
+     */
+    public int getTotalNumPlayer() { return Integer.parseInt(totalPlayer); }
 }

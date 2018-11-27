@@ -12,7 +12,9 @@ import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.view.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -194,7 +196,7 @@ public class MapController {
     /**
      * Create the PhaseView, pass relative button/pane/.. reference to it
      */
-    void createPhaseView() {
+    void initPhaseView() {
         PhaseView phaseView = PhaseView.getInstance();
         phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
@@ -536,12 +538,20 @@ public class MapController {
         card.show();
     }
 
+
     /**
      * Called when user clicks Save Button
      */
     public void saveGame() {
-        // TODO: call Model saveGame() method
+//        model.saveGame(mapPane);
     }
+
+
+    /**
+     * Called when user clicks Load Button
+     */
+    public void loadGame() { menuController.loadGame(); }
+
 
     /**
      * Called when user click the 'Quit' during the game play
@@ -577,5 +587,5 @@ public class MapController {
     /**
      * Called by MenuController when user quit the game from menu
      */
-    public void quitGame() { map.close(); }
+    void quitGame() { map.close(); }
 }
