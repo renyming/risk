@@ -2,10 +2,12 @@ package com.risk.view;
 
 import com.risk.controller.MapController;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import com.risk.model.NumPlayerMenu;
 
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +21,9 @@ public class NumPlayerMenuView implements Observer {
     private Label validationOfUserEnteredLabel;
     private TextField numPlayerTextField;
     private Button startButton;
+    private HashMap<Integer, Label> playerNumLabels;
+    private HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes;
+    private String totalPlayer;
 
     private MapController mapController;
 
@@ -36,14 +41,19 @@ public class NumPlayerMenuView implements Observer {
      * @param playerNumTextField allows user to enter the number of playey
      * @param startButton allows user to enter the game
      * @param mapController allow map to be shown
+     * @
+     * @
      */
-    public void init(Label playerNumInstructionLabel, Label userEnteredPlayNumLabel,
-                     TextField playerNumTextField, Button startButton, MapController mapController) {
+    public void init(Label playerNumInstructionLabel, Label userEnteredPlayNumLabel, TextField playerNumTextField,
+                     Button startButton, MapController mapController,
+                     HashMap<Integer, Label> playerNumLabels, HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes) {
         this.numPlayerInstructionLabel = playerNumInstructionLabel;
         this.validationOfUserEnteredLabel = userEnteredPlayNumLabel;
         this.numPlayerTextField = playerNumTextField;
         this.startButton = startButton;
         this.mapController = mapController;
+        this.playerNumLabels = playerNumLabels;
+        this.playerTypeChoiceBoxes = playerTypeChoiceBoxes;
     }
 
 
@@ -67,14 +77,17 @@ public class NumPlayerMenuView implements Observer {
             numPlayerTextField.clear();
             numPlayerTextField.setDisable(false);
         }
-        if (!numPlayerMenu.getValid()) {
-            validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
-            validationOfUserEnteredLabel.setText(numPlayerMenu.getValidationInfo());
-            startButton.setDisable(true);
-        } else {
+        if (numPlayerMenu.getValid()) {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             startButton.setStyle("-fx-border-color: #4CAF50;");
+            showPlayerTypeInfo(Integer.parseInt(totalPlayer), true);
+            // TODO: select type first, then show start button
             startButton.setDisable(false);
+        } else {
+            validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
+            validationOfUserEnteredLabel.setText(numPlayerMenu.getValidationInfo());
+            showPlayerTypeInfo(6, false);
+            startButton.setDisable(true);
         }
     }
 
@@ -90,6 +103,8 @@ public class NumPlayerMenuView implements Observer {
         numPlayerTextField.setDisable(true);
         numPlayerTextField.clear();
         startButton.setDisable(true);
+        startButton.setStyle("");
+        showPlayerTypeInfo(6, false);
     }
 
 
@@ -98,7 +113,28 @@ public class NumPlayerMenuView implements Observer {
      * @param totalNumPlayer is the total number of player
      */
     public void setTotalNumPlayer(String totalNumPlayer) {
+        this.totalPlayer = totalNumPlayer;
         validationOfUserEnteredLabel.setText("Total Player: " + totalNumPlayer);
         validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
     }
+
+
+    /**
+     * Show/hide Player type info
+     * @param x is the number of Players
+     * @param show is true if the info need to be displayed, false otherwise
+     */
+    private void showPlayerTypeInfo(int x, boolean show) {
+        for (int i = 1; i <= 6; ++i) {
+            if (i <= x) {
+                playerNumLabels.get(i).setVisible(show);
+                playerTypeChoiceBoxes.get(i).setVisible(show);
+            } else {
+                playerNumLabels.get(i).setVisible(!show);
+                playerTypeChoiceBoxes.get(i).setVisible(!show);
+            }
+        }
+    }
+
+
 }

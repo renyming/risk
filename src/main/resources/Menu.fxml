@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
+<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
    <children>
       <AnchorPane fx:id="startGamePane" prefHeight="450.0" prefWidth="700.0" visible="false">
          <children>
@@ -20,11 +20,11 @@
                   <Image url="@risk.jpeg" />
                </image>
             </ImageView>
-            <Button layoutX="251.0" layoutY="262.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start New Game" />
-            <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Quit" />
+            <Button layoutX="251.0" layoutY="262.0" mnemonicParsing="false" onAction="#startNewGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start New Game" />
+            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadSavedGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start Saved Game" />
+            <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#tournamentMode" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Tournament Mode" />
             <Button layoutX="251.0" layoutY="352.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Map Editor" />
-            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start Saved Game" />
-            <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToSelectMapMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Tournament Mode" />
+            <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Quit" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="newGamePane" prefHeight="450.0" prefWidth="700.0">
@@ -34,7 +34,7 @@
                   <Image url="@risk.jpeg" />
                </image>
             </ImageView>
-            <Button layoutX="72.0" layoutY="188.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <Button fx:id="selectMapOneButton" layoutX="72.0" layoutY="188.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
             <TextField fx:id="numPlayerTextField" layoutX="504.0" layoutY="130.0" prefHeight="30.0" prefWidth="50.0" />
             <Button fx:id="startButton" disable="true" layoutX="72.0" layoutY="345.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start" />
             <Button layoutX="72.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Back" />
@@ -53,23 +53,23 @@
             <AnchorPane layoutX="402.0" layoutY="169.0" prefHeight="267.0" prefWidth="255.0">
                <children>
                   <VBox prefHeight="267.0" prefWidth="255.0" />
-                  <ChoiceBox layoutX="141.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label layoutX="28.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" text="player 0" />
-                  <ChoiceBox layoutX="141.0" layoutY="60.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label layoutX="28.0" layoutY="60.0" prefHeight="25.0" prefWidth="100.0" text="player 1" />
-                  <ChoiceBox layoutX="141.0" layoutY="100.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label layoutX="28.0" layoutY="100.0" prefHeight="25.0" prefWidth="100.0" text="player 2" />
-                  <ChoiceBox layoutX="141.0" layoutY="140.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label layoutX="28.0" layoutY="140.0" prefHeight="25.0" prefWidth="100.0" text="player 3" />
-                  <ChoiceBox layoutX="141.0" layoutY="180.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label layoutX="28.0" layoutY="180.0" prefHeight="25.0" prefWidth="100.0" text="player 4" />
-                  <ChoiceBox layoutX="141.0" layoutY="220.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label layoutX="28.0" layoutY="220.0" prefHeight="25.0" prefWidth="100.0" text="player 5" />
+                  <ChoiceBox fx:id="playerOneTypeChoiceBox" layoutX="76.0" layoutY="19.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerOneLabel" layoutX="2.0" layoutY="19.0" prefHeight="30.0" prefWidth="60.0" text="Player 0" />
+                  <ChoiceBox fx:id="playerTwoTypeChoiceBox" layoutX="76.0" layoutY="59.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerTwoLabel" layoutX="2.0" layoutY="59.0" prefHeight="30.0" prefWidth="60.0" text="Player 1" />
+                  <ChoiceBox fx:id="playerThreeTypeChoiceBox" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerThreeLabel" layoutX="2.0" layoutY="99.0" prefHeight="25.0" prefWidth="60.0" text="Player 2" />
+                  <ChoiceBox fx:id="playerFourTypeChoiceBox" layoutX="76.0" layoutY="139.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerFourLabel" layoutX="2.0" layoutY="139.0" prefHeight="25.0" prefWidth="60.0" text="Player 3" />
+                  <ChoiceBox fx:id="playerFiveTypeChoiceBox" layoutX="76.0" layoutY="179.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerFiveLabel" layoutX="2.0" layoutY="179.0" prefHeight="25.0" prefWidth="100.0" text="Player 4" />
+                  <ChoiceBox fx:id="playerSixTypeChoiceBox" layoutX="76.0" layoutY="219.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerSixLabel" layoutX="2.0" layoutY="219.0" prefHeight="25.0" prefWidth="60.0" text="Player 5" />
                </children></AnchorPane>
-            <Button layoutX="72.0" layoutY="308.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <Button layoutX="72.0" layoutY="218.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <Button layoutX="72.0" layoutY="248.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <Button layoutX="72.0" layoutY="278.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <Button fx:id="selectMapFiveButton" layoutX="72.0" layoutY="308.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <Button fx:id="selectMapTwoButton" layoutX="72.0" layoutY="218.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <Button fx:id="selectMapThreeButton" layoutX="72.0" layoutY="248.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <Button fx:id="selectMapFourButton" layoutX="72.0" layoutY="278.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
             <Separator layoutX="348.0" orientation="VERTICAL" prefHeight="450.0" />
          </children>
       </AnchorPane>

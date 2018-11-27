@@ -1,9 +1,9 @@
 package com.risk.controller;
 
-import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import com.risk.model.Model;
@@ -14,6 +14,8 @@ import com.risk.view.View;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 /**
@@ -23,11 +25,31 @@ public class MenuController {
 
     @FXML public Label selectedFilenameLabel;
     @FXML public Label mapValidationInfoLabel;
-
     @FXML public Label numPlayerInstructionLabel;
     @FXML public Label validationOfUserEnteredLabel;
+    @FXML public Label playerOneLabel;
+    @FXML public Label playerTwoLabel;
+    @FXML public Label playerThreeLabel;
+    @FXML public Label playerFourLabel;
+    @FXML public Label playerFiveLabel;
+    @FXML public Label playerSixLabel;
+
     @FXML public TextField numPlayerTextField;
+
     @FXML public Button startButton;
+    @FXML public Button selectMapOneButton;
+    @FXML public Button selectMapTwoButton;
+    @FXML public Button selectMapThreeButton;
+    @FXML public Button selectMapFourButton;
+    @FXML public Button selectMapFiveButton;
+
+    @FXML public ChoiceBox<String> playerOneTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerTwoTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerThreeTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerFourTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerFiveTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerSixTypeChoiceBox;
+
 
     @FXML public AnchorPane startGamePane;
     @FXML public AnchorPane mainMenuPane;
@@ -43,6 +65,11 @@ public class MenuController {
     private NumPlayerMenuView numPlayerMenuView;
 
 
+    /**
+     * Default ctor
+     */
+    public MenuController() {}
+
 
     /**
      * Store reference of Model, View and MapController
@@ -55,6 +82,7 @@ public class MenuController {
         this.view = view;
         this.menu = menu;
         this.mapController = mapController;
+
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
@@ -71,7 +99,6 @@ public class MenuController {
 
     /**
      * Switch to start game menu
-     * Called when user quitGame to the menu page
      */
     public void switchToStartGameMenu() {
         mainMenuPane.getChildren().clear();
@@ -82,7 +109,7 @@ public class MenuController {
 
     /**
      * Switch to Map Editor
-     * Called when user click the map editor button
+     * Called when user clicks the map editor button
      */
     public void switchToMapEditor() { view.openMapEditor(); }
 
@@ -98,15 +125,72 @@ public class MenuController {
 
 
     /**
+     * Called when users click StartNewGame Button
+     */
+    public void startNewGame() {
+        selectMapTwoButton.setVisible(false);
+        selectMapThreeButton.setVisible(false);
+        selectMapFourButton.setVisible(false);
+        selectMapFiveButton.setVisible(false);
+        switchToSelectMapMenu();
+    }
+
+
+    /**
+     * Called when users click LoadSavedGame
+     */
+    public void loadSavedGame() {
+
+    }
+
+
+    /**
+     * Called when users click TournamentMode
+     */
+    public void tournamentMode() {
+        selectMapTwoButton.setVisible(true);
+        selectMapThreeButton.setVisible(true);
+        selectMapFourButton.setVisible(true);
+        selectMapFiveButton.setVisible(true);
+        switchToSelectMapMenu();
+    }
+
+
+    /**
      * Switch to select map menu, hide irrelevant panes
      * Called when user click the new game button
      */
-    public void switchToSelectMapMenu() {
+    private void switchToSelectMapMenu() {
         if (null == fileInfoMenuView && null == numPlayerMenuView) {
             fileInfoMenuView = new FileInfoMenuView();
             fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
             numPlayerMenuView = new NumPlayerMenuView();
-            numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField, startButton, mapController);
+
+            HashMap<Integer, Label> playerNumLabels = new HashMap<>();
+            playerNumLabels.put(1, playerOneLabel);
+            playerNumLabels.put(2, playerTwoLabel);
+            playerNumLabels.put(3, playerThreeLabel);
+            playerNumLabels.put(4, playerFourLabel);
+            playerNumLabels.put(5, playerFiveLabel);
+            playerNumLabels.put(6, playerSixLabel);
+
+            HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes = new HashMap<>();
+            playerTypeChoiceBoxes.put(1, playerOneTypeChoiceBox);
+            playerTypeChoiceBoxes.put(2, playerTwoTypeChoiceBox);
+            playerTypeChoiceBoxes.put(3, playerThreeTypeChoiceBox);
+            playerTypeChoiceBoxes.put(4, playerFourTypeChoiceBox);
+            playerTypeChoiceBoxes.put(5, playerFiveTypeChoiceBox);
+            playerTypeChoiceBoxes.put(6, playerSixTypeChoiceBox);
+
+            ObservableList<String> playerTypes = FXCollections.observableArrayList();
+            playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
+            for (int i = 1; i <= 6; ++i) {
+                playerTypeChoiceBoxes.get(i).setItems(playerTypes);
+                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
+            }
+
+            numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
+                    startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         }
         numPlayerMenuView.reset();
