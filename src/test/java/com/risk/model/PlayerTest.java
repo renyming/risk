@@ -256,8 +256,8 @@ public class PlayerTest {
         defender.addCountry(china);
         china.setArmies(100);
         singapore.getOwner().attack(singapore, "2", china, "2", true);
-        assertEquals("Attack Impossible", Phase.getInstance().getInvalidInfo());
-        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+        assertEquals("Attack Impossible. You Can Enter Next Phase Now.", Phase.getInstance().getInvalidInfo());
+        assertEquals(Action.Attack_Impossible, Phase.getInstance().getActionResult());
 
         // test attacker occupied all the countries, and win the game
         player.delCountry(china);
