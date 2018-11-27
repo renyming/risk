@@ -15,6 +15,10 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     private Player player;
     private Phase phase;
+    Country attackingCountry;
+    Country defendingCountry;
+    int attackerDiceNum;
+    int defenderDiceNum;
     private Random random=new Random();
 
     public RandomStrategy(Player player) {
@@ -53,7 +57,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         ArrayList<Country> attackingCandidatesList=new ArrayList<>(player.getCountriesOwned());
 
         for (int i=1;i<randomNumAttacks;i++){
-            Country attackingCountry= getRandomCountry(attackingCandidatesList);
+            attackingCountry= getRandomCountry(attackingCandidatesList);
             if (isValidAttacker(attackingCountry)) {
                 //get all adjacent countries belongs to other players
                 ArrayList<Country> defendingCandiatesList=attackingCountry.getAdjCountries().stream()
@@ -61,12 +65,9 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
                         .collect(Collectors.toCollection(ArrayList::new));
 
                 //randomly pick an adjacent country to attack
-                Country defendingCountry= getRandomCountry(defendingCandiatesList);
+                defendingCountry= getRandomCountry(defendingCandiatesList);
 
                 //randomly generates number of dices
-                int attackerDiceNum;
-                int defenderDiceNum;
-
                 if (attackingCountry.getArmies()==2) {
                     attackerDiceNum=random.nextInt(2)+1; //1~2
                 } else {
@@ -81,7 +82,12 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
                 player.attackOnce(attackingCountry, attackerDiceNum, defendingCountry, defenderDiceNum);
 
+                if (phase.getActionResult()==Action.Move_After_Conquer)
+                    moveArmy(""); //dummy param
 
+                // update phase
+                phase.setActionResult(Action.Show_Next_Phase_Button);
+                phase.update();
 
             } else {
                 attackingCandidatesList.remove(attackingCountry);
@@ -93,7 +99,9 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     @Override
     public void moveArmy(String num) {
-
+        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum)+attackerDiceNum;
+        attackingCountry.setArmies(attackingCountry.getArmies()-n);
+        defendingCountry.addArmies(n);
     }
 
     @Override
