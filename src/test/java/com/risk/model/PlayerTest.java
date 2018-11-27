@@ -80,17 +80,21 @@ public class PlayerTest {
     @Before
     public void setUp() throws Exception {
 
-        newPlayer = new Player("Lee",5);
+        newPlayer = new Player("Lee",5, "human");
 
-        player = new Player("Ann",5);
+        player = new Player("Ann",5, "human");
 
         ArrayList<Country> countries= new ArrayList<Country>();
         singapore.setPlayer(player);
+        singapore.setArmies(1);
         player.addCountry(singapore);
         canada.setPlayer(player);
+        canada.setArmies(1);
         player.addCountry(canada);
         usa.setPlayer(player);
+        usa.setArmies(8);
         player.addCountry(usa);
+        player.setTotalStrength(10);
 
 //        countries.add(singapore);
 //        countries.add(canada);
@@ -100,12 +104,14 @@ public class PlayerTest {
 //        player.setTotalStrength(10);
 
 
-        defender = new Player("Mike", 5);
+        defender = new Player("Mike", 5, "human");
         defender.setTotalStrength(5);
 
         china.setPlayer(defender);
+        china.setArmies(4);
         defender.addCountry(china);
         thailand.setPlayer(defender);
+        thailand.setArmies(1);
         defender.addCountry(thailand);
 
 
@@ -115,22 +121,54 @@ public class PlayerTest {
     /**
      * Test addRoundArmies() method
      */
-//    @Test
-//    public void addRoundArmies() {
-//        int num = 7;
-//        player.addRoundArmies();
-//        assertEquals(num, player.getArmies());
-//
-//        num = 3;
-//        player.delCountry(usa);
-//        player.addRoundArmies();
-//        assertEquals(num, player.getArmies());
-//
-//        num = 3;
-//        newPlayer.addRoundArmies();
-//        assertEquals(num, newPlayer.getArmies());
-//
-//    }
+    @Test
+    public void addRoundArmies() {
+        int num = 7;
+        player.addRoundArmies();
+        assertEquals(num, player.getArmies());
+
+        num = 3;
+        player.delCountry(usa);
+        player.addRoundArmies();
+        assertEquals(num, player.getArmies());
+
+        num = 3;
+        newPlayer.addRoundArmies();
+        assertEquals(num, newPlayer.getArmies());
+
+    }
+
+    /**
+     * Test doubleArmies() method
+     */
+    @Test
+    public void doubleArmies(){
+
+        // original totalStrength = 5
+        // china = 4, thailand = 1
+
+        defender.doubleArmies(c -> true);
+        assertEquals(8, china.getArmies());
+        assertEquals(2, thailand.getArmies());
+        assertEquals(10, defender.getTotalStrength());
+
+        // original totalStrength = 9
+        //singapore = 0, canada = 1, usa = 8
+
+        player.doubleArmies(c -> true);
+        assertEquals(2, singapore.getArmies());
+        assertEquals(2, canada.getArmies());
+        assertEquals(16, usa.getArmies());
+        assertEquals(20, player.getTotalStrength());
+
+        // has condition when country has enemy around
+        player.doubleArmies(c -> c.hasAdjEnemy());
+        assertEquals(4, singapore.getArmies());
+        assertEquals(2, canada.getArmies());
+        assertEquals(16, usa.getArmies());
+        assertEquals(22, player.getTotalStrength());
+
+    }
 
     /**
      * Test subArmies() method

@@ -15,6 +15,7 @@ public class CountryTest {
     Continent continent;
     Country country1;
     Country country2;
+    Country country3;
     Player player1;
     Player player2;
 
@@ -27,14 +28,19 @@ public class CountryTest {
         continent = new Continent("OuterSpace",10);
         country1 = new Country("Country1",continent);
         country2 = new Country("Country2",continent);
+        country3 = new Country("Country3",continent);
         country1.addEdge(country2);
+        country1.addEdge(country3);
         country2.addEdge(country1);
+        country3.addEdge(country1);
 
-        player1 = new Player("player1", 2);
-        player2 = new Player("player2", 2);
+
+        player1 = new Player("player1", 2, "human");
+        player2 = new Player("player2", 2, "human");
 
         country1.setPlayer(player1);
         country2.setPlayer(player2);
+        country3.setPlayer(player1);
     }
 
     /**
@@ -44,6 +50,7 @@ public class CountryTest {
     public void addEdge() {
         ArrayList<Country> result = new ArrayList<>();
         result.add(country2);
+        result.add(country3);
         assertTrue(country1.getAdjCountries().equals(result));
 
         result.clear();
@@ -90,5 +97,21 @@ public class CountryTest {
         Country country3 = new Country("country3",continent);
         assertFalse(country1.attack(country3));
         assertTrue(country1.attack(country2));
+    }
+
+    /**
+     *  Test hasAdjEnemy() method
+     */
+    @Test
+    public void hasAdjEnemy(){
+
+        // country1 -- player1, adj: country2, country3
+        // country2 -- player2, adj: country1;
+        // country3 -- player1, adj: country1
+        assertTrue(country1.hasAdjEnemy());
+        assertTrue(country2.hasAdjEnemy());
+        assertFalse(country3.hasAdjEnemy());
+
+
     }
 }

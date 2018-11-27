@@ -389,7 +389,8 @@ public class Model extends Observable {
 
         for (int i = 0; i < playerCounter; i++){
 
-            Player newPlayer = new Player("Player" + String.valueOf(i), countries.size());
+            String strategy = "human";
+            Player newPlayer = new Player("Player" + String.valueOf(i), countries.size(), strategy);
             newPlayer.setArmies(initialArmies);
             newPlayer.setTotalStrength(initialArmies);
             //assign each player a different color
