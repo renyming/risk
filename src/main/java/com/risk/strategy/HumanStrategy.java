@@ -8,17 +8,15 @@ import java.util.Collections;
 import java.util.Random;
 
 public class HumanStrategy implements PlayerBehaviorStrategy {
-    private Player player;
 
-    private Phase phase = Phase.getInstance();
-    private Country attacker;
-    private int attackerDiceNum;
-    private Country defender;
-    private int defenderDiceNum;
+    private Player player;
+    private Phase phase;
 
     //TODO:doc
     public HumanStrategy(Player player){
+
         this.player = player;
+        phase = Phase.getInstance();
     }
 
 
@@ -121,7 +119,11 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
      * @param num the number of armies need to be move
      */
     @Override
-    public void moveArmy(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum, String num){
+    public void moveArmy(String num){
+
+        Country attacker = player.getAttacker();
+        Country defender = player.getDefender();
+        int attackerDiceNum = player.getAttackerDiceNum();
 
         int numArmies = 0;
         try{

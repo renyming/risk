@@ -67,6 +67,38 @@ public class Player extends Observable {
     }
 
     /**
+     * Get attacker country
+     * @return attacker country
+     */
+    public Country getAttacker() {
+        return attacker;
+    }
+
+    /**
+     * Get the dice used in attacker country
+     * @return dice used in attacker country
+     */
+    public int getAttackerDiceNum() {
+        return attackerDiceNum;
+    }
+
+    /**
+     * Get the defender country
+     * @return defender country
+     */
+    public Country getDefender() {
+        return defender;
+    }
+
+    /**
+     * Get the dice used in defender country
+     * @return dice used in defender country
+     */
+    public int getDefenderDiceNum() {
+        return defenderDiceNum;
+    }
+
+    /**
      * return total number of cards owned by the player
      * @return n the total number of cards owned by the player
      */
@@ -407,6 +439,15 @@ public class Player extends Observable {
         int newArmies = getArmiesAdded();
         setArmies(newArmies);
         setTotalStrength(totalStrength + newArmies);
+    }
+
+
+    public void doubleArmies() {
+
+        countriesOwned.stream().forEach(country -> {
+            country.setArmies(country.getArmies() * 2);
+        });
+
     }
 
     /**
@@ -751,7 +792,7 @@ public class Player extends Observable {
      */
     public void moveArmy(String num){
 
-        strategy.moveArmy(attacker, attackerDiceNum, defender, defenderDiceNum, num);
+        strategy.moveArmy(num);
 
 //        int numArmies = 0;
 //        try{
