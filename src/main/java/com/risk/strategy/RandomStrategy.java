@@ -6,6 +6,7 @@ import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomStrategy implements PlayerBehaviorStrategy {
@@ -13,6 +14,11 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
     private Player player;
     private Phase phase;
     private Random random=new Random();
+
+    public RandomStrategy(Player player) {
+        this.player = player;
+        phase = Phase.getInstance();
+    }
 
     /**
      * Reinforcement operation for random player
@@ -24,7 +30,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         phase.update();
 
         player.addRoundArmies();
-        Country country=getRandomOwnedCountry();
+        Country country=getRandomOwnedCountry(player.getCountriesOwned());
         country.addArmies(player.getArmies());
         player.setArmies(0);
 
@@ -37,6 +43,8 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
+        int randomNumAttacks=random.nextInt();
+
 
     }
 
@@ -51,12 +59,15 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
     }
 
     /**
-     * Get a random country from the country list owned by current player
+     * Get a random country from the given country list
+     * @param countryList Country list to randomly choose a country from
      * @return A random country
      */
-    private Country getRandomOwnedCountry() {
-        int randomIdx=random.nextInt(player.getCountriesSize());
-        return player.getCountriesOwned().get(randomIdx);
+    private Country getRandomOwnedCountry(ArrayList<Country> countryList) {
+        int randomIdx=random.nextInt(countryList.size());
+        return countryList.get(randomIdx);
     }
+
+
 
 }
