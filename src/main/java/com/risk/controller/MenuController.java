@@ -14,8 +14,8 @@ import com.risk.view.View;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 
 /**
@@ -63,6 +63,7 @@ public class MenuController {
 
     private FileInfoMenuView fileInfoMenuView;
     private NumPlayerMenuView numPlayerMenuView;
+    private HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes;
 
 
     /**
@@ -166,25 +167,26 @@ public class MenuController {
             fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
             numPlayerMenuView = new NumPlayerMenuView();
 
-            HashMap<Integer, Label> playerNumLabels = new HashMap<>();
-            playerNumLabels.put(1, playerOneLabel);
-            playerNumLabels.put(2, playerTwoLabel);
-            playerNumLabels.put(3, playerThreeLabel);
-            playerNumLabels.put(4, playerFourLabel);
-            playerNumLabels.put(5, playerFiveLabel);
-            playerNumLabels.put(6, playerSixLabel);
+            HashMap<Integer, Label> playerNumLabels;
+            playerNumLabels = new HashMap<>();
+            playerNumLabels.put(0, playerOneLabel);
+            playerNumLabels.put(1, playerTwoLabel);
+            playerNumLabels.put(2, playerThreeLabel);
+            playerNumLabels.put(3, playerFourLabel);
+            playerNumLabels.put(4, playerFiveLabel);
+            playerNumLabels.put(5, playerSixLabel);
 
-            HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes = new HashMap<>();
-            playerTypeChoiceBoxes.put(1, playerOneTypeChoiceBox);
-            playerTypeChoiceBoxes.put(2, playerTwoTypeChoiceBox);
-            playerTypeChoiceBoxes.put(3, playerThreeTypeChoiceBox);
-            playerTypeChoiceBoxes.put(4, playerFourTypeChoiceBox);
-            playerTypeChoiceBoxes.put(5, playerFiveTypeChoiceBox);
-            playerTypeChoiceBoxes.put(6, playerSixTypeChoiceBox);
+            playerTypeChoiceBoxes = new HashMap<>();
+            playerTypeChoiceBoxes.put(0, playerOneTypeChoiceBox);
+            playerTypeChoiceBoxes.put(1, playerTwoTypeChoiceBox);
+            playerTypeChoiceBoxes.put(2, playerThreeTypeChoiceBox);
+            playerTypeChoiceBoxes.put(3, playerFourTypeChoiceBox);
+            playerTypeChoiceBoxes.put(4, playerFiveTypeChoiceBox);
+            playerTypeChoiceBoxes.put(5, playerSixTypeChoiceBox);
 
             ObservableList<String> playerTypes = FXCollections.observableArrayList();
             playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
-            for (int i = 1; i <= 6; ++i) {
+            for (int i = 0; i < 6; ++i) {
                 playerTypeChoiceBoxes.get(i).setItems(playerTypes);
                 playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
             }
@@ -240,6 +242,12 @@ public class MenuController {
      */
     public void startGame() {
         mapController.createPhaseView();
+        // TODO: pass all Player type info to Model, Model choose needed ones
+        HashMap<Integer, String> playerTypes = new HashMap<>();
+        for (int i = 0; i < 6; ++i) {
+            playerTypes.put(i, playerTypeChoiceBoxes.get(i).getValue());
+        }
+        System.out.println(playerTypes);
         model.startUp(mapController.createCountryViews());
         menu.hide();
         mapController.showMapStage();

@@ -27,6 +27,7 @@ public class PhaseView implements Observer {
     private Label currentPlayerLabel;
     private Label armiesInHandLabel;
     private Label invalidMovedLabel;
+    private Button saveGameButton;
 
     // From-To country relative components
     private Label countryALabel;
@@ -92,7 +93,7 @@ public class PhaseView implements Observer {
     public void init(Label phaseLabel, Button nextPhaseButton, Label currentPlayerLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
-                     Button skipFortificationPhaseButton,
+                     Button skipFortificationPhaseButton, Button saveGameButton,
                      MapController mapController) { // TODO: refactor
         this.phaseLabel = phaseLabel;
         this.nextPhaseButton = nextPhaseButton;
@@ -106,6 +107,7 @@ public class PhaseView implements Observer {
         this.numArmiesMovedTextField = numArmiesMovedTextField;
         this.invalidMovedLabel = invalidMoveLabel;
         this.skipFortificationPhaseButton = skipFortificationPhaseButton;
+        this.saveGameButton = saveGameButton;
         this.mapController = mapController;
     }
 
@@ -236,21 +238,27 @@ public class PhaseView implements Observer {
                     break;
                 case Show_Next_Phase_Button:
                     invalidMovedLabel.setVisible(false);
-                    if (currentPhase.equals("Attack Phase")) {
-                        displayAttackPhaseMapComponent(true);
-                        numArmiesMovedLabel.setVisible(false);
-                        numArmiesMovedTextField.clear();
-                        numArmiesMovedTextField.setVisible(false);
-                        mapController.setCountryClick(true);
-                        invalidMovedLabel.setText(phase.getInvalidInfo());
-                        invalidMovedLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
-                        invalidMovedLabel.setVisible(true);
+                    switch (currentPhase) {
+                        case "Start Up Phase":
+                            saveGameButton.setVisible(true);
+                            break;
+                        case "Attack Phase":
+                            displayAttackPhaseMapComponent(true);
+                            numArmiesMovedLabel.setVisible(false);
+                            numArmiesMovedTextField.clear();
+                            numArmiesMovedTextField.setVisible(false);
+                            mapController.setCountryClick(true);
+                            invalidMovedLabel.setText(phase.getInvalidInfo());
+                            invalidMovedLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
+                            invalidMovedLabel.setVisible(true);
+                            break;
+                        case "Fortification Phase":
+                            mapController.disableFortification();
+                            saveGameButton.setVisible(true);
+                            break;
                     }
 //                    phaseLabel.setVisible(false);
                     nextPhaseButton.setVisible(true);
-                    if (currentPhase.equals("Fortification Phase")) {
-                        mapController.disableFortification();
-                    }
                     phase.clearActionResult();
                     break;
                 case Win:

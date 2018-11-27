@@ -71,7 +71,8 @@ public class PlayersWorldDominationView implements Observer {
         ArrayList<PieChart.Data> chartData = new ArrayList<>();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         for (Map.Entry<Player, Double> entry : playerTerPercent.entrySet()) {
-            chartData.add(new PieChart.Data(entry.getKey().getName(), entry.getValue()));
+            double percentage = Math.round(entry.getValue() * 100.0) / 100.0;
+            chartData.add(new PieChart.Data(entry.getKey().getName() + ": " + percentage + "%", entry.getValue()));
             pieChartColor.add(entry.getKey().getColor());
         }
         pieChartData.addAll(chartData);
@@ -82,7 +83,6 @@ public class PlayersWorldDominationView implements Observer {
         for (PieChart.Data data : pieChartData) {
             data.getNode().setStyle("-fx-pie-color: " + pieChartColor.get(0) + ";");
             pieChartColor.remove(0);
-
         }
 
     }

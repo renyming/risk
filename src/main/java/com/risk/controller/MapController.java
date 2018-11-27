@@ -8,8 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
@@ -32,6 +30,7 @@ public class MapController {
     @FXML private AnchorPane mapPane;
     @FXML private Label phaseLabel;
     @FXML private AnchorPane currentPlayerPane;
+    @FXML private Button saveGameButton;
 
     // From-To country relative components
     @FXML private Label countryALabel;
@@ -75,7 +74,6 @@ public class MapController {
     private Country fromToCountries[];
     private int fromToCountriesCounter;
     private HashMap<Integer, CountryView> countryViews;
-//    private HashSet<Line> lines;
     private HashSet<Arrow> arrows;
     private int numOfCountries;
     private String currentPhase;
@@ -111,6 +109,7 @@ public class MapController {
         countryANameLabel.setVisible(false);
         countryBNameLabel.setVisible(false);
         cardButton.setDisable(true);
+        saveGameButton.setVisible(false);
         addEventListener();
 
 
@@ -200,7 +199,7 @@ public class MapController {
         phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
-                skipFortificationPhaseButton,
+                skipFortificationPhaseButton, saveGameButton,
                 this);
         phaseView.initAttackComponents(attackerDiceLabel, attackerDiceOneButton, attackerDiceTwoButton, attackerDiceThreeButton,
                 defenderDiceLabel, defenderDiceOneButton, defenderDiceTwoButton,
@@ -241,23 +240,14 @@ public class MapController {
         // draw lines
         final double COUNTRY_VIEW_WIDTH = 60;
         final double COUNTRY_VIEW_HEIGHT = 60;
-//        lines = new HashSet<>();
         arrows = new HashSet<>();
         for (int key : countryViews.keySet()) {
             Country countryA = countryViews.get(key).getCountry();
             for (Country countryB : countryA.getAdjCountries()) {
-//                Line line = new Line();
-//                line.setStartX(countryA.getX() + COUNTRY_VIEW_WIDTH/2);
-//                line.setStartY(countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
-//                line.setEndX(countryB.getX() + COUNTRY_VIEW_WIDTH/2);
-//                line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
-//                line.setStroke(Color.BLACK);
-//                line.setStrokeWidth(2);
                 Arrow arrow = new Arrow("DEFAULT");
 //                System.out.println(countryA.getName() + " " + countryB.getName());
-                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH/2, countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
-                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH/2, countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
-//                lines.add(line);
+                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH, countryA.getY() + COUNTRY_VIEW_HEIGHT);
+                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH, countryB.getY() + COUNTRY_VIEW_HEIGHT);
                 arrows.add(arrow);
                 mapRootPane.getChildren().add(arrow);
             }
@@ -276,6 +266,7 @@ public class MapController {
      */
     public void enterNextPhase() {
         nextPhaseButton.setVisible(false);
+        saveGameButton.setVisible(false);
         switch (currentPhase) {
             case "Start Up Phase": case "Fortification Phase":
                 model.nextPlayer();
@@ -537,42 +528,50 @@ public class MapController {
     }
 
     /**
-     * card button to open card exchange window
+     * Called when user clicks Card Button
+     * Open card exchange window
      */
     public void openCardWindow(){
         cardController.openReadOnlyCardWindow();
         card.show();
     }
 
-//    /**
-//     * Called when user click the 'Quit' during the game play
-//     */
-//    public void backToMenu() {
-//        resetMapComponents();
-//        map.hide();
-//        menuController.switchToStartGameMenu();
-//    }
-//
-//
-//    /**
-//     * Clear all lines and countries on the map
-//     */
-//    private void resetMapComponents() {
-//        if (null != countryViews) {
-//            for (int key : countryViews.keySet()) {
-//                AnchorPane countryPane = countryViews.get(key).getCountryPane();
-//                countryPane.getChildren().clear();
-//                map.getMapRootPane().getChildren().remove(countryPane);
-//            }
-//            countryViews.clear();
-//        }
-//        if (null != lines) {
-//            for (Line line : lines) {
-//                map.getMapRootPane().getChildren().remove(line);
-//            }
-//            lines.clear();
-//        }
-//    }
+    /**
+     * Called when user clicks Save Button
+     */
+    public void saveGame() {
+        // TODO: call Model saveGame() method
+    }
+
+    /**
+     * Called when user click the 'Quit' during the game play
+     */
+    public void backToMenu() {
+        resetMapComponents();
+        map.hide();
+        menuController.switchToStartGameMenu();
+    }
+
+
+    /**
+     * Clear all lines and countries on the map
+     */
+    private void resetMapComponents() {
+        if (null != countryViews) {
+            for (int key : countryViews.keySet()) {
+                AnchorPane countryPane = countryViews.get(key).getCountryPane();
+                countryPane.getChildren().clear();
+                map.getMapRootPane().getChildren().remove(countryPane);
+            }
+            countryViews.clear();
+        }
+        if (null != arrows) {
+            for (Arrow arrow : arrows) {
+                map.getMapRootPane().getChildren().remove(arrow);
+            }
+            arrows.clear();
+        }
+    }
 
 
     /**
