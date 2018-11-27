@@ -75,7 +75,8 @@ public class MapController {
     private Country fromToCountries[];
     private int fromToCountriesCounter;
     private HashMap<Integer, CountryView> countryViews;
-    private HashSet<Line> lines;
+//    private HashSet<Line> lines;
+    private HashSet<Arrow> arrows;
     private int numOfCountries;
     private String currentPhase;
     private boolean enableFortification;
@@ -235,24 +236,30 @@ public class MapController {
      * Called by MenuController when user click the start button in select-map menu
      */
     void showMapStage() {
-        // TODO: use efficient way to draw lines, avoid duplicate
+        AnchorPane mapRootPane = map.getMapRootPane();
+
         // draw lines
         final double COUNTRY_VIEW_WIDTH = 60;
         final double COUNTRY_VIEW_HEIGHT = 60;
-        AnchorPane mapRootPane = map.getMapRootPane();
-        lines = new HashSet<>();
+//        lines = new HashSet<>();
+        arrows = new HashSet<>();
         for (int key : countryViews.keySet()) {
             Country countryA = countryViews.get(key).getCountry();
             for (Country countryB : countryA.getAdjCountries()) {
-                Line line = new Line();
-                line.setStartX(countryA.getX() + COUNTRY_VIEW_WIDTH/2);
-                line.setStartY(countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
-                line.setEndX(countryB.getX() + COUNTRY_VIEW_WIDTH/2);
-                line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
-                line.setStroke(Color.BLACK);
-                line.setStrokeWidth(2);
-                lines.add(line);
-                mapRootPane.getChildren().add(line);
+//                Line line = new Line();
+//                line.setStartX(countryA.getX() + COUNTRY_VIEW_WIDTH/2);
+//                line.setStartY(countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
+//                line.setEndX(countryB.getX() + COUNTRY_VIEW_WIDTH/2);
+//                line.setEndY(countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
+//                line.setStroke(Color.BLACK);
+//                line.setStrokeWidth(2);
+                Arrow arrow = new Arrow("DEFAULT");
+//                System.out.println(countryA.getName() + " " + countryB.getName());
+                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH/2, countryA.getY() + COUNTRY_VIEW_HEIGHT/2);
+                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH/2, countryB.getY() + COUNTRY_VIEW_HEIGHT/2);
+//                lines.add(line);
+                arrows.add(arrow);
+                mapRootPane.getChildren().add(arrow);
             }
         }
 
