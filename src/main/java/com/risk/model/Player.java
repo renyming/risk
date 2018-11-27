@@ -721,7 +721,7 @@ public class Player extends Observable {
     /**
      * Battle only run once time
      */
-    public void attackOnce() {
+    public void attackOnce(Country defender) {
 
         // roll the dices to battle
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
@@ -748,6 +748,14 @@ public class Player extends Observable {
         phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
         return;
 
+    }
+
+
+    /**
+     * Overriding attackOnce for non-parameter call, for human player
+     */
+    public void attackOnce() {
+        attackOnce(defender);
     }
 
     /**
