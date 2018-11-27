@@ -70,12 +70,9 @@ public class Arrow extends Group {
         double degree = Math.atan((endY - startY) / (endX - startX)) / (2 * Math.PI) * 360;
         double endXIndent = 0; // used for fixed arrow
         double positiveDegree = degree < 0 ? degree * -1 : degree;
-        System.out.println(positiveDegree);
         if (0 <= positiveDegree && positiveDegree < 45) {
-            System.out.println("case_1");
             endXIndent = countryViewHalfSize / cos(Math.toRadians(positiveDegree));
         } else if (45 <= positiveDegree && positiveDegree <= 90) {
-            System.out.println("case_2");
             endXIndent = countryViewHalfSize / sin(Math.toRadians(positiveDegree));
         }
 
