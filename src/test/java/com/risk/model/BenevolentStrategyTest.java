@@ -133,14 +133,42 @@ public class BenevolentStrategyTest {
         assertEquals(8, defender.getTotalStrength());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
 
-        // original totalStrength = 9
-        //singapore = 0, canada = 1, usa = 8
+        // original totalStrength = 10
+        //singapore = 1, canada = 1, usa = 8
         // addedArmies = 7
         player.reinforcement();
         assertEquals(8, singapore.getArmies());
         assertEquals(1, canada.getArmies());
         assertEquals(8, usa.getArmies());
         assertEquals(17, player.getTotalStrength());
+        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+    }
+
+
+    /**
+     * test fortification() method
+     */
+    @Test
+    public void fortification() {
+
+        // original totalStrength = 10
+        //singapore = 1, canada = 1, usa = 8
+        player.fortification(null, null,0);
+        assertEquals(1, singapore.getArmies());
+        assertEquals(5, canada.getArmies());
+        assertEquals(4, usa.getArmies());
+        assertEquals(10, player.getTotalStrength());
+        assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
+
+
+        // original totalStrength = 5
+        // china = 4, thailand = 1
+        // addedArmies = 3
+        defender.fortification(null, null,0);
+        assertEquals(2, china.getArmies());
+        assertEquals(3, thailand.getArmies());
+        assertEquals(0, defender.getArmies());
+        assertEquals(5, defender.getTotalStrength());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
     }
 

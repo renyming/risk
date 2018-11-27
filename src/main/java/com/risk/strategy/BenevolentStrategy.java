@@ -5,7 +5,10 @@ import com.risk.model.Country;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
@@ -43,6 +46,9 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
 
+        phase.setActionResult(Action.Show_Next_Phase_Button);
+        phase.update();
+
     }
 
     @Override
@@ -53,28 +59,29 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
     @Override
     public void fortification(Country source, Country target, int armyNumber) {
 
-        // target is the weakest country in the countries owned
-        // find the weakest country
-        Country weakest = player.getCountriesOwned().stream()
-                .min(Comparator.comparingInt(Country::getArmies))
-                .get();
+        List<Country> increaseSorted = player.getCountriesOwned().stream()
+                .sorted(Comparator.comparingInt(Country::getArmies))
+                .collect(Collectors.toList());
 
-        // source is the strongest contry that connected to the target(weakest)
-        Country stronger = player.getCountriesOwned().stream()
-                .filter(c -> player.isConnected(weakest, c) && c.getArmies() > weakest.getArmies())
-                .max(Comparator.comparingInt(Country::getArmies))
-                .get();
-
-        // re-allocated armies
-        int total = stronger.getArmies() + weakest.getArmies();
-        stronger.setArmies(total/2);
-        weakest.setArmies(total - total/2);
-
-        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-        Phase.getInstance().update();
+        List<Country> decreaseSorted = player.getCountriesOwned().stream()
+                .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
+                .collect(Collectors.toList());
 
 
+        for (Country weaker : increaseSorted) {
+            for (Country stronger : decreaseSorted) {
+                if (player.isConnected(weaker, stronger)) {
+                    // re-allocated armies
+                    int total = stronger.getArmies() + weaker.getArmies();
+                    stronger.setArmies(total/2);
+                    weaker.setArmies(total - total/2);
 
+                    Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+                    Phase.getInstance().update();
+                    return;
+                }
+            }
+        }
     }
 }
 
