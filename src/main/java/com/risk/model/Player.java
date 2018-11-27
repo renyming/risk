@@ -718,6 +718,10 @@ public class Player extends Observable {
 
     /**
      * Battle only run once time
+     * @param attacker Attacking country
+     * @param attackerDiceNum Number of dices of attacking player
+     * @param defender Defending country
+     * @param defenderDiceNum Number of dices of defending player
      */
     public void attackOnce(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum) {
 
