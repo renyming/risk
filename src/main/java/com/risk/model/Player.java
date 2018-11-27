@@ -2,15 +2,12 @@ package com.risk.model;
 
 import com.risk.common.Action;
 import com.risk.common.CardType;
-import com.risk.strategy.HumanStrategy;
 import com.risk.strategy.PlayerBehaviorStrategy;
 import com.risk.strategy.StrategyFactory;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Define class of a player
@@ -701,7 +698,6 @@ public class Player extends Observable {
      */
     public void allOut() {
 
-        Phase phase = Phase.getInstance();
         while (true) {
             attackerDiceNum = attacker.getArmies() > 3? 3 : attacker.getArmies();
             defenderDiceNum = defender.getArmies() > 2? 2 : defender.getArmies();
@@ -714,6 +710,19 @@ public class Player extends Observable {
             if(attacker.getArmies() == 0) break;
         }
         return;
+    }
+
+    /**
+     * Battle until the defender be occupied or the attacker consume its armies
+     * @param attacker attack country
+     * @param defender defend country
+     */
+    public void allOut(Country attacker, Country defender) {
+
+        this.attacker = attacker;
+        this.defender = defender;
+
+        allOut();
     }
 
     /**

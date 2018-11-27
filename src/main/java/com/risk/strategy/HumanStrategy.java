@@ -3,10 +3,9 @@ package com.risk.strategy;
 import com.risk.common.Action;
 import com.risk.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
+/**
+ * Human strategy class
+ */
 public class HumanStrategy implements PlayerBehaviorStrategy {
 
     private Player player;

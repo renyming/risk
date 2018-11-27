@@ -10,16 +10,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Benevolent Strategy class
+ */
 public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
     private Player player;
     private Phase phase;
 
+    /**
+     * Constructor
+     * @param player the corresponding player
+     */
     public BenevolentStrategy(Player player) {
         this.player = player;
         phase = Phase.getInstance();
     }
 
+    /**
+     * Reinforcement method
+     * reinforces its weakest countries
+     */
     @Override
     public void reinforcement() {
 
@@ -43,6 +54,10 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
     }
 
+    /**
+     * Attack method
+     * never attacks
+     */
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
 
@@ -51,11 +66,22 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
     }
 
+    /**
+     * moveArmy method
+     * no attacks, no victory, no move army
+     */
     @Override
     public void moveArmy(String num) {
 
     }
 
+    /**
+     * Fortification method
+     * move armies to weaker countries
+     * @param source null
+     * @param target null
+     * @param armyNumber 0
+     */
     @Override
     public void fortification(Country source, Country target, int armyNumber) {
 

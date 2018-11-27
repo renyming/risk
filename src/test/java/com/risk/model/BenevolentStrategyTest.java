@@ -29,7 +29,6 @@ public class BenevolentStrategyTest {
 
         /**
          * Preparation before all this method
-         *
          * @throws Exception exceptions
          */
         @SuppressWarnings("Duplicates")
