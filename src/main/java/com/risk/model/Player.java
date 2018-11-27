@@ -445,19 +445,7 @@ public class Player extends Observable {
         setTotalStrength(totalStrength + newArmies);
     }
 
-    /**
-     * Double armies in all the countries owned
-     */
-    public void doubleArmies(Predicate<Country> p) {
 
-        countriesOwned.stream()
-                .filter(p)
-                .forEach(country -> {
-                    setTotalStrength(totalStrength + country.getArmies());
-                    country.setArmies(country.getArmies() * 2);
-
-                });
-    }
 
 
     /**

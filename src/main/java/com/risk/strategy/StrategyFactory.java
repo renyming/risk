@@ -20,7 +20,7 @@ public class StrategyFactory {
 
         if (s.equalsIgnoreCase("aggressive")) {
             return new AggressiveStrategy(p);
-        } else if (s.equalsIgnoreCase("benevolentStrategy")) {
+        } else if (s.equalsIgnoreCase("benevolent")) {
             return new BenevolentStrategy(p);
         } else if (s.equalsIgnoreCase("human")) {
             return new HumanStrategy(p);

@@ -7,6 +7,7 @@ import com.risk.model.Phase;
 import com.risk.model.Player;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CheaterStrategy implements PlayerBehaviorStrategy {
@@ -36,7 +37,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         phase.update();
 
         // double armies in owned country
-        player.doubleArmies(c -> true);
+        doubleArmies(c -> true);
 
         // update phase
         phase.setActionResult(Action.Show_Next_Phase_Button);
@@ -122,11 +123,25 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
     public void fortification(Country source, Country target, int armyNumber) {
 
         // double armies in owned country
-        player.doubleArmies(c -> c.hasAdjEnemy());
+        doubleArmies(c -> c.hasAdjEnemy());
 
         // update phase
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
         Phase.getInstance().update();
 
+    }
+
+    /**
+     * Double armies in all the countries owned
+     */
+    public void doubleArmies(Predicate<Country> p) {
+
+        player.getCountriesOwned().stream()
+                .filter(p)
+                .forEach(country -> {
+                    player.setTotalStrength(player.getTotalStrength() + country.getArmies());
+                    country.setArmies(country.getArmies() * 2);
+
+                });
     }
 }

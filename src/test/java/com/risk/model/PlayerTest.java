@@ -138,37 +138,37 @@ public class PlayerTest {
 
     }
 
-    /**
-     * Test doubleArmies() method
-     */
-    @Test
-    public void doubleArmies(){
-
-        // original totalStrength = 5
-        // china = 4, thailand = 1
-
-        defender.doubleArmies(c -> true);
-        assertEquals(8, china.getArmies());
-        assertEquals(2, thailand.getArmies());
-        assertEquals(10, defender.getTotalStrength());
-
-        // original totalStrength = 9
-        //singapore = 0, canada = 1, usa = 8
-
-        player.doubleArmies(c -> true);
-        assertEquals(2, singapore.getArmies());
-        assertEquals(2, canada.getArmies());
-        assertEquals(16, usa.getArmies());
-        assertEquals(20, player.getTotalStrength());
-
-        // has condition when country has enemy around
-        player.doubleArmies(c -> c.hasAdjEnemy());
-        assertEquals(4, singapore.getArmies());
-        assertEquals(2, canada.getArmies());
-        assertEquals(16, usa.getArmies());
-        assertEquals(22, player.getTotalStrength());
-
-    }
+//    /**
+//     * Test doubleArmies() method
+//     */
+//    @Test
+//    public void doubleArmies(){
+//
+//        // original totalStrength = 5
+//        // china = 4, thailand = 1
+//
+//        defender.doubleArmies(c -> true);
+//        assertEquals(8, china.getArmies());
+//        assertEquals(2, thailand.getArmies());
+//        assertEquals(10, defender.getTotalStrength());
+//
+//        // original totalStrength = 9
+//        //singapore = 0, canada = 1, usa = 8
+//
+//        player.doubleArmies(c -> true);
+//        assertEquals(2, singapore.getArmies());
+//        assertEquals(2, canada.getArmies());
+//        assertEquals(16, usa.getArmies());
+//        assertEquals(20, player.getTotalStrength());
+//
+//        // has condition when country has enemy around
+//        player.doubleArmies(c -> c.hasAdjEnemy());
+//        assertEquals(4, singapore.getArmies());
+//        assertEquals(2, canada.getArmies());
+//        assertEquals(16, usa.getArmies());
+//        assertEquals(22, player.getTotalStrength());
+//
+//    }
 
     /**
      * Test subArmies() method
