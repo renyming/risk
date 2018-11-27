@@ -101,6 +101,7 @@ public class PlayersWorldDominationView implements Observer {
         // update country percentage
         allPlayerCountryPercentage.clear();
         allPlayerCountryPercentage.addAll(playersWorldDomination.getCountryPercentage());
+        populateCountryDominationData();
 
         // update army distribution
         allPlayerArmyDistribution.clear();
@@ -109,6 +110,5 @@ public class PlayersWorldDominationView implements Observer {
         // update continent name
         allPlayerContinentName.clear();
         allPlayerContinentName.addAll(playersWorldDomination.getContinentNames());
-        populateCountryDominationData();
     }
 }

@@ -22,7 +22,7 @@ public class NumPlayerMenuView implements Observer {
     private TextField numPlayerTextField;
     private Button startButton;
     private HashMap<Integer, Label> playerNumLabels;
-    private HashMap<Integer, ChoiceBox> playerTypeChoiceBoxes;
+    private HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes;
     private String totalPlayer;
 
     private MapController mapController;
@@ -46,7 +46,7 @@ public class NumPlayerMenuView implements Observer {
      */
     public void init(Label playerNumInstructionLabel, Label userEnteredPlayNumLabel, TextField playerNumTextField,
                      Button startButton, MapController mapController,
-                     HashMap<Integer, Label> playerNumLabels, HashMap<Integer, ChoiceBox> playerTypeChoiceBoxes) {
+                     HashMap<Integer, Label> playerNumLabels, HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes) {
         this.numPlayerInstructionLabel = playerNumInstructionLabel;
         this.validationOfUserEnteredLabel = userEnteredPlayNumLabel;
         this.numPlayerTextField = playerNumTextField;

@@ -1,10 +1,9 @@
 package com.risk.controller;
 
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import com.risk.model.Model;
@@ -44,12 +43,12 @@ public class MenuController {
     @FXML public Button selectMapFourButton;
     @FXML public Button selectMapFiveButton;
 
-    @FXML public ChoiceBox playerOneTypeChoiceBox;
-    @FXML public ChoiceBox playerTwoTypeChoiceBox;
-    @FXML public ChoiceBox playerThreeTypeChoiceBox;
-    @FXML public ChoiceBox playerFourTypeChoiceBox;
-    @FXML public ChoiceBox playerFiveTypeChoiceBox;
-    @FXML public ChoiceBox playerSixTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerOneTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerTwoTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerThreeTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerFourTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerFiveTypeChoiceBox;
+    @FXML public ChoiceBox<String> playerSixTypeChoiceBox;
 
 
     @FXML public AnchorPane startGamePane;
@@ -66,6 +65,11 @@ public class MenuController {
     private NumPlayerMenuView numPlayerMenuView;
 
 
+    /**
+     * Default ctor
+     */
+    public MenuController() {}
+
 
     /**
      * Store reference of Model, View and MapController
@@ -78,6 +82,7 @@ public class MenuController {
         this.view = view;
         this.menu = menu;
         this.mapController = mapController;
+
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
@@ -160,6 +165,7 @@ public class MenuController {
             fileInfoMenuView = new FileInfoMenuView();
             fileInfoMenuView.init(selectedFilenameLabel, mapValidationInfoLabel);
             numPlayerMenuView = new NumPlayerMenuView();
+
             HashMap<Integer, Label> playerNumLabels = new HashMap<>();
             playerNumLabels.put(1, playerOneLabel);
             playerNumLabels.put(2, playerTwoLabel);
@@ -167,13 +173,21 @@ public class MenuController {
             playerNumLabels.put(4, playerFourLabel);
             playerNumLabels.put(5, playerFiveLabel);
             playerNumLabels.put(6, playerSixLabel);
-            HashMap<Integer, ChoiceBox> playerTypeChoiceBoxes = new HashMap<>();
+
+            HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes = new HashMap<>();
             playerTypeChoiceBoxes.put(1, playerOneTypeChoiceBox);
             playerTypeChoiceBoxes.put(2, playerTwoTypeChoiceBox);
             playerTypeChoiceBoxes.put(3, playerThreeTypeChoiceBox);
             playerTypeChoiceBoxes.put(4, playerFourTypeChoiceBox);
             playerTypeChoiceBoxes.put(5, playerFiveTypeChoiceBox);
             playerTypeChoiceBoxes.put(6, playerSixTypeChoiceBox);
+
+            ObservableList<String> playerTypes = FXCollections.observableArrayList();
+            playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
+            for (int i = 1; i <= 6; ++i) {
+                playerTypeChoiceBoxes.get(i).setItems(playerTypes);
+                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
+            }
 
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
                     startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);

@@ -53,18 +53,18 @@
             <AnchorPane layoutX="402.0" layoutY="169.0" prefHeight="267.0" prefWidth="255.0">
                <children>
                   <VBox prefHeight="267.0" prefWidth="255.0" />
-                  <ChoiceBox fx:id="playerOneTypeChoiceBox" layoutX="141.0" layoutY="19.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label fx:id="playerOneLabel" layoutX="28.0" layoutY="19.0" prefHeight="30.0" prefWidth="100.0" text="Player 1" />
-                  <ChoiceBox fx:id="playerTwoTypeChoiceBox" layoutX="141.0" layoutY="59.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label fx:id="playerTwoLabel" layoutX="28.0" layoutY="59.0" prefHeight="30.0" prefWidth="100.0" text="Player 2" />
-                  <ChoiceBox fx:id="playerThreeTypeChoiceBox" layoutX="141.0" layoutY="99.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label fx:id="playerThreeLabel" layoutX="28.0" layoutY="99.0" prefHeight="25.0" prefWidth="100.0" text="Player 3" />
-                  <ChoiceBox fx:id="playerFourTypeChoiceBox" layoutX="141.0" layoutY="139.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label fx:id="playerFourLabel" layoutX="28.0" layoutY="139.0" prefHeight="25.0" prefWidth="100.0" text="Player 4" />
-                  <ChoiceBox fx:id="playerFiveTypeChoiceBox" layoutX="141.0" layoutY="179.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label fx:id="playerFiveLabel" layoutX="28.0" layoutY="179.0" prefHeight="25.0" prefWidth="100.0" text="Player 5" />
-                  <ChoiceBox fx:id="playerSixTypeChoiceBox" layoutX="141.0" layoutY="219.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Label fx:id="playerSixLabel" layoutX="28.0" layoutY="219.0" prefHeight="25.0" prefWidth="100.0" text="Player 6" />
+                  <ChoiceBox fx:id="playerOneTypeChoiceBox" layoutX="76.0" layoutY="19.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerOneLabel" layoutX="2.0" layoutY="19.0" prefHeight="30.0" prefWidth="60.0" text="Player 0" />
+                  <ChoiceBox fx:id="playerTwoTypeChoiceBox" layoutX="76.0" layoutY="59.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerTwoLabel" layoutX="2.0" layoutY="59.0" prefHeight="30.0" prefWidth="60.0" text="Player 1" />
+                  <ChoiceBox fx:id="playerThreeTypeChoiceBox" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerThreeLabel" layoutX="2.0" layoutY="99.0" prefHeight="25.0" prefWidth="60.0" text="Player 2" />
+                  <ChoiceBox fx:id="playerFourTypeChoiceBox" layoutX="76.0" layoutY="139.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerFourLabel" layoutX="2.0" layoutY="139.0" prefHeight="25.0" prefWidth="60.0" text="Player 3" />
+                  <ChoiceBox fx:id="playerFiveTypeChoiceBox" layoutX="76.0" layoutY="179.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerFiveLabel" layoutX="2.0" layoutY="179.0" prefHeight="25.0" prefWidth="100.0" text="Player 4" />
+                  <ChoiceBox fx:id="playerSixTypeChoiceBox" layoutX="76.0" layoutY="219.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerSixLabel" layoutX="2.0" layoutY="219.0" prefHeight="25.0" prefWidth="60.0" text="Player 5" />
                </children></AnchorPane>
             <Button fx:id="selectMapFiveButton" layoutX="72.0" layoutY="308.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
             <Button fx:id="selectMapTwoButton" layoutX="72.0" layoutY="218.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
