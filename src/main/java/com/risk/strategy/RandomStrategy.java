@@ -43,8 +43,16 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
-        int randomNumAttacks=random.nextInt();
 
+        if (!player.isAttackPossible()) return;
+
+        int randomNumAttacks=random.nextInt();
+        ArrayList<Country> countryList=player.getCountriesOwned();
+
+        for (int i=1;i<randomNumAttacks;i++){
+            Country attackCountry=getRandomOwnedCountry(player.getCountriesOwned());
+            
+        }
 
     }
 
