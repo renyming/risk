@@ -3,12 +3,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
@@ -21,7 +22,7 @@
                </image>
             </ImageView>
             <Button layoutX="251.0" layoutY="262.0" mnemonicParsing="false" onAction="#startNewGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start New Game" />
-            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadSavedGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start Saved Game" />
+            <Button layoutX="251.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Load Saved Game" />
             <Button layoutX="251.0" layoutY="322.0" mnemonicParsing="false" onAction="#tournamentMode" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Tournament Mode" />
             <Button layoutX="251.0" layoutY="352.0" mnemonicParsing="false" onAction="#switchToMapEditor" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Map Editor" />
             <Button layoutX="251.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToQuitMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Quit" />
@@ -34,43 +35,44 @@
                   <Image url="@risk.jpeg" />
                </image>
             </ImageView>
-            <Button fx:id="selectMapOneButton" layoutX="72.0" layoutY="188.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <TextField fx:id="numPlayerTextField" layoutX="504.0" layoutY="130.0" prefHeight="30.0" prefWidth="50.0" />
+            <Button fx:id="selectMapButton" layoutX="72.0" layoutY="268.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
+            <TextField fx:id="numPlayerTextField" layoutX="504.0" layoutY="120.0" prefHeight="30.0" prefWidth="50.0" />
             <Button fx:id="startButton" disable="true" layoutX="72.0" layoutY="345.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start" />
             <Button layoutX="72.0" layoutY="382.0" mnemonicParsing="false" onAction="#switchToStartGameMenu" prefHeight="30.0" prefWidth="199.0" stylesheets="@QuitButtonStyle.css" text="Back" />
             <Label fx:id="selectedFilenameLabel" alignment="CENTER" layoutX="6.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" style="-fx-border-color: red; -fx-border-width: 2;" text="Selected Map: NONE" textAlignment="CENTER" />
             <Label fx:id="mapValidationInfoLabel" alignment="CENTER" layoutX="34.0" layoutY="69.0" prefHeight="91.0" prefWidth="275.0" text="Map info, max player, ext. Map info, max player, ext.Map info, max player, ext." textAlignment="CENTER" wrapText="true" />
-            <Label fx:id="numPlayerInstructionLabel" alignment="CENTER" layoutX="365.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Enter number of players, max 10" textAlignment="CENTER">
+            <Label fx:id="numPlayerInstructionLabel" alignment="CENTER" layoutX="365.0" layoutY="84.0" prefHeight="30.0" prefWidth="330.0" text="Enter number of players, max 6" textAlignment="CENTER">
                <font>
                   <Font size="12.0" />
                </font>
             </Label>
-            <Label fx:id="validationOfUserEnteredLabel" alignment="CENTER" layoutX="364.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" text="Invalid players number!" textAlignment="CENTER">
+            <Label fx:id="validationOfUserEnteredLabel" alignment="CENTER" layoutX="364.0" layoutY="25.0" prefHeight="30.0" prefWidth="330.0" style="-fx-border-width: 3; -fx-border-color: #ff0000;" text="Total Player: NONE" textAlignment="CENTER">
                <font>
                   <Font size="12.0" />
                </font>
             </Label>
             <AnchorPane layoutX="402.0" layoutY="169.0" prefHeight="267.0" prefWidth="255.0">
                <children>
-                  <VBox prefHeight="267.0" prefWidth="255.0" />
-                  <ChoiceBox fx:id="playerOneTypeChoiceBox" layoutX="76.0" layoutY="19.0" prefHeight="27.0" prefWidth="165.0" />
-                  <Label fx:id="playerOneLabel" layoutX="2.0" layoutY="19.0" prefHeight="30.0" prefWidth="60.0" text="Player 0" />
-                  <ChoiceBox fx:id="playerTwoTypeChoiceBox" layoutX="76.0" layoutY="59.0" prefHeight="27.0" prefWidth="165.0" />
-                  <Label fx:id="playerTwoLabel" layoutX="2.0" layoutY="59.0" prefHeight="30.0" prefWidth="60.0" text="Player 1" />
-                  <ChoiceBox fx:id="playerThreeTypeChoiceBox" layoutX="76.0" layoutY="99.0" prefHeight="27.0" prefWidth="165.0" />
-                  <Label fx:id="playerThreeLabel" layoutX="2.0" layoutY="99.0" prefHeight="25.0" prefWidth="60.0" text="Player 2" />
-                  <ChoiceBox fx:id="playerFourTypeChoiceBox" layoutX="76.0" layoutY="139.0" prefHeight="27.0" prefWidth="165.0" />
-                  <Label fx:id="playerFourLabel" layoutX="2.0" layoutY="139.0" prefHeight="25.0" prefWidth="60.0" text="Player 3" />
-                  <ChoiceBox fx:id="playerFiveTypeChoiceBox" layoutX="76.0" layoutY="179.0" prefHeight="27.0" prefWidth="165.0" />
-                  <Label fx:id="playerFiveLabel" layoutX="2.0" layoutY="179.0" prefHeight="25.0" prefWidth="100.0" text="Player 4" />
-                  <ChoiceBox fx:id="playerSixTypeChoiceBox" layoutX="76.0" layoutY="219.0" prefHeight="27.0" prefWidth="165.0" />
-                  <Label fx:id="playerSixLabel" layoutX="2.0" layoutY="219.0" prefHeight="25.0" prefWidth="60.0" text="Player 5" />
+                  <ChoiceBox fx:id="playerOneTypeChoiceBox" layoutX="90.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerOneLabel" layoutX="2.0" prefHeight="25.0" prefWidth="60.0" text="Player 0" />
+                  <ChoiceBox fx:id="playerTwoTypeChoiceBox" layoutX="90.0" layoutY="30.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerTwoLabel" layoutX="2.0" layoutY="30.0" prefHeight="25.0" prefWidth="60.0" text="Player 1" />
+                  <ChoiceBox fx:id="playerThreeTypeChoiceBox" layoutX="90.0" layoutY="60.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerThreeLabel" layoutX="2.0" layoutY="60.0" prefHeight="25.0" prefWidth="60.0" text="Player 2" />
+                  <ChoiceBox fx:id="playerFourTypeChoiceBox" layoutX="90.0" layoutY="90.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerFourLabel" layoutX="2.0" layoutY="90.0" prefHeight="25.0" prefWidth="60.0" text="Player 3" />
+                  <ChoiceBox fx:id="playerFiveTypeChoiceBox" layoutX="90.0" layoutY="120.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerFiveLabel" layoutX="2.0" layoutY="120.0" prefHeight="25.0" prefWidth="100.0" text="Player 4" />
+                  <ChoiceBox fx:id="playerSixTypeChoiceBox" layoutX="90.0" layoutY="150.0" prefHeight="27.0" prefWidth="165.0" />
+                  <Label fx:id="playerSixLabel" layoutX="2.0" layoutY="150.0" prefHeight="25.0" prefWidth="60.0" text="Player 5" />
+                  <Label fx:id="gamesPerMapLabel" layoutY="190.0" prefHeight="25.0" prefWidth="120.0" text="Games per map" />
+                  <Spinner fx:id="gamesPerMapSpinner" layoutX="165.0" layoutY="190.0" prefHeight="27.0" prefWidth="90.0" />
+                  <Spinner fx:id="turnsPerGameSpinner" layoutX="165.0" layoutY="220.0" prefHeight="25.0" prefWidth="90.0" />
+                  <Label fx:id="turnsPerGameLabel" layoutX="2.0" layoutY="220.0" prefHeight="25.0" prefWidth="120.0" text="Turns per Game" />
                </children></AnchorPane>
-            <Button fx:id="selectMapFiveButton" layoutX="72.0" layoutY="308.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <Button fx:id="selectMapTwoButton" layoutX="72.0" layoutY="218.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <Button fx:id="selectMapThreeButton" layoutX="72.0" layoutY="248.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
-            <Button fx:id="selectMapFourButton" layoutX="72.0" layoutY="278.0" mnemonicParsing="false" onAction="#selectMap" prefHeight="30.0" prefWidth="199.0" text="Select Map" />
             <Separator layoutX="348.0" orientation="VERTICAL" prefHeight="450.0" />
+            <ListView fx:id="selectedMapsListView" layoutX="72.0" layoutY="168.0" prefHeight="90.0" prefWidth="199.0" />
+            <Button fx:id="deleteMapButton" layoutX="72.0" layoutY="308.0" mnemonicParsing="false" onAction="#deleteMap" prefHeight="30.0" prefWidth="199.0" text="Delete Map" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="quitPane" prefHeight="450.0" prefWidth="700.0" visible="false">
