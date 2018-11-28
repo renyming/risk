@@ -65,7 +65,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         }
 
         // computer the armies that need to added roundly
-        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+//        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         player.addRoundArmies();
         Phase.getInstance().update();
 
@@ -82,7 +82,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
 
-        sleep(500);
+//        sleep(500);
     }
 
 
@@ -120,7 +120,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         player.addRandomCard();
 
-        sleep(500);
+//        sleep(500);
     }
 
 
@@ -181,6 +181,6 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
             }
         }
 
-        sleep(500);
+//        sleep(500);
     }
 }

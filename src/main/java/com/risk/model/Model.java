@@ -227,8 +227,9 @@ public class Model extends Observable implements Serializable {
    public void reinforcement(){
        PhaseView.getInstance().hide();
        CardModel.getInstance().setCurrentPlayer(currentPlayer);
-       CardModel.getInstance().update();
-
+       if (currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+           CardModel.getInstance().update();
+       }
     }
 
     /**
@@ -399,7 +400,7 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().update();
 
         try{
-            sleep(1000);
+            sleep(500);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
