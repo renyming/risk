@@ -223,7 +223,7 @@ public class MenuController {
 
         load(model.getCountries().size());
 
-        model.loadGame(); // model update Phase, PlayersWorldDomination
+        //model.loadGame(); // model update Phase, PlayersWorldDomination
     }
 
 
