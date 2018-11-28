@@ -87,9 +87,9 @@ public class CheaterStrategyTest {
     @Before
     public void setUp() throws Exception {
 
-        newPlayer = new Player("Lee", 5, "cheater");
+        newPlayer = new Player("Lee", 5, "cheater computer");
 
-        player = new Player("Ann", 5, "cheater");
+        player = new Player("Ann", 5, "cheater computer");
 
         ArrayList<Country> countries = new ArrayList<Country>();
         singapore.setPlayer(player);
@@ -111,7 +111,7 @@ public class CheaterStrategyTest {
 //        player.setTotalStrength(10);
 
 
-        defender = new Player("Mike", 5, "cheater");
+        defender = new Player("Mike", 5, "cheater computer");
         defender.setTotalStrength(5);
 
         china.setPlayer(defender);
