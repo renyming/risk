@@ -7,7 +7,6 @@ import com.risk.model.Phase;
 import com.risk.model.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -99,13 +98,14 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     @Override
     public void moveArmy(String num) {
-        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum)+attackerDiceNum;
+        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum+1)+attackerDiceNum;
         attackingCountry.setArmies(attackingCountry.getArmies()-n);
         defendingCountry.addArmies(n);
     }
 
     @Override
     public void fortification(Country source, Country target, int armyNumber) {
+
 
     }
 
