@@ -424,6 +424,11 @@ public class Model extends Observable implements Serializable {
             Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
             Phase.getInstance().update();
             phaseNumber = 1;
+
+            if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+                Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+                nextPlayer();
+            }
         }
     }
 
@@ -456,7 +461,7 @@ public class Model extends Observable implements Serializable {
     public void initiatePlayers(List<String> playerType)  {
 
         int initialArmies = getInitialArmies(playerCounter);
-        initialArmies=3;
+//        initialArmies=3;
 
         playerCounter = playerType.size();
 
