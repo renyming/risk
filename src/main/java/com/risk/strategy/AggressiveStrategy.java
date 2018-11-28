@@ -52,7 +52,12 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         Tool.printBasicInfo(player,"Before Round-Robin");
 
         reinforcement();
+        Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
+        if (phase.getActionResult() == Action.Win) {
+            return;
+        }
+        Phase.getInstance().setCurrentPhase("Fortification Phase");
         fortification(null, null, 0);
     }
 
@@ -124,6 +129,10 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
             if (strongest.getArmies() >= 2) {
                 player.allOut(strongest, enemy);
 
+                if (phase.getActionResult() == Action.Win) {
+                    return;
+                }
+
                 if (phase.getActionResult() == Action.Move_After_Conquer) {
                     moveArmy(String.valueOf(player.getAttackerDiceNum()));
                 }
@@ -131,8 +140,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         }
 
         player.addRandomCard();
-
+        phase.update();
         Tool.printBasicInfo(player,"After attack: ");
+
 
 //        sleep(500);
     }
@@ -169,7 +179,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
-        System.out.println(player.getName() + " enter the attack phase");
+        System.out.println(player.getName() + " enter the fortification phase");
 
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
                 .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
@@ -192,10 +202,13 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                     Phase.getInstance().update();
+
+                    Tool.printBasicInfo(player,"After fortification: ");
                     return;
                 }
             }
         }
+
         Tool.printBasicInfo(player,"After fortification: ");
 //        sleep(500);
     }

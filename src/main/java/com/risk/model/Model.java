@@ -337,6 +337,9 @@ public class Model extends Observable implements Serializable {
                 autoLocatedArmy();
             } else {
                 currentPlayer.execute();
+                if (Phase.getInstance().getActionResult() == Action.Win) {
+                    return;
+                }
                 nextPlayer();
             }
         }

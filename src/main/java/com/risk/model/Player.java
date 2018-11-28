@@ -720,6 +720,7 @@ public class Player extends Observable implements Serializable {
                 phase.setActionResult(Action.Win);
                 // give the name of winner
                 phase.setInvalidInfo("Congratulations, You Win!");
+                System.out.println(name + ", Congratulations, You Win!");
             }
 
             return true;

@@ -22,7 +22,7 @@ public class Tool {
         System.out.println("Current size of countries owned: " + player.getCountriesOwned().size());
         System.out.println(player.getCountriesOwned());
         System.out.println("Current continent owned: ");
-        System.out.print(player.getContinentsOwned());
+        player.getContinentsOwned().stream().forEach(continent -> System.out.print(continent.getName() + ", "));
         System.out.println("Current Card owned: ");
         System.out.println(player.getCards());
         System.out.println();
