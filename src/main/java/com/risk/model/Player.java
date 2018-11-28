@@ -814,7 +814,7 @@ public class Player extends Observable implements Serializable {
                 defender.getOwner().subTotalStrength(1);
 
                 //if defender's armies == 0, attacker victory
-                if (isDefenderLoose()) return;
+                if (isDefenderLoose(defender)) return;
             }
         }
         phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
