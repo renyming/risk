@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  */
 public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
+    private String name;
     private Player player;
     private Phase phase;
 
@@ -23,9 +24,21 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
      * @param player the corresponding player
      */
     public BenevolentStrategy(Player player) {
+        name = "benevolent";
         this.player = player;
         phase = Phase.getInstance();
     }
+
+
+    /**
+     * Get name
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
 
     /**
      * Reinforcement method
