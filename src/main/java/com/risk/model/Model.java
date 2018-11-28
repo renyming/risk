@@ -8,9 +8,7 @@ import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -728,5 +726,23 @@ public class Model extends Observable {
 //           Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //           Phase.getInstance().update();
        }
+    }
+
+    /**
+     * save the whole game to be loaded later
+     * @param fileName the name of file save to
+     * @return true if the game is saved successfully; otherwise return false
+     */
+    public boolean save(String fileName){
+        try {
+            FileOutputStream fileStream = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fileStream);
+            os.writeObject(this);
+        } catch (FileNotFoundException ex){
+            return false;
+        } catch (IOException ex){
+            return false;
+        }
+        return true;
     }
 }
