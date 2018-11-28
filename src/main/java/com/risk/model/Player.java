@@ -690,9 +690,18 @@ public class Player extends Observable implements Serializable {
 
     /**
      * Verify if defender loose the country
-     * @return
+     * @return True-defender lost, otherwise false
      */
     public boolean isDefenderLoose() {
+        return isDefenderLoose(defender);
+    }
+
+    /**
+     * Verify if defender loose the country
+     * @param defender Defending country
+     * @return True-defender lost, otherwise false
+     */
+    public boolean isDefenderLoose(Country defender) {
 
         if (defender.getArmies() == 0) {
 
