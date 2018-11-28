@@ -314,6 +314,12 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
+        try{
+            sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+
         isComputerPlayer();
 
     }
@@ -323,7 +329,8 @@ public class Model extends Observable implements Serializable {
      */
     public void isComputerPlayer()  {
         if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
-            if (Phase.getInstance().getCurrentPhase() == "Start Up Phase") {
+            System.out.println(Phase.getInstance().getCurrentPhase());
+            if (Phase.getInstance().getCurrentPhase().equalsIgnoreCase("Start Up Phase")) {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
@@ -392,7 +399,7 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().update();
 
         try{
-            sleep(500);
+            sleep(1000);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
@@ -475,6 +482,7 @@ public class Model extends Observable implements Serializable {
         }
         //current player notify
         currentPlayer = players.get(0);
+        Phase.getInstance().setCurrentPhase("Start Up Phase");
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
