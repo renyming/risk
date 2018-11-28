@@ -65,7 +65,7 @@ public class RandomStrategyTest {
     @SuppressWarnings("Duplicates")
     @Before
     public void setUp() throws Exception {
-        player = new Player("Ann", 3, "random");
+        player = new Player("Ann", 3, "random computer");
 
         ArrayList<Country> countries = new ArrayList<>();
         singapore.setPlayer(player);
@@ -79,7 +79,7 @@ public class RandomStrategyTest {
         player.addCountry(usa);
         player.setTotalStrength(10);
 
-        defender = new Player("Mike", 2, "random");
+        defender = new Player("Mike", 2, "random computer");
         defender.setTotalStrength(5);
         china.setPlayer(defender);
         china.setArmies(4);

@@ -86,9 +86,9 @@ public class BenevolentStrategyTest {
         @Before
         public void setUp() throws Exception {
 
-            newPlayer = new Player("Lee", 5, "benevolent");
+            newPlayer = new Player("Lee", 5, "benevolent computer");
 
-            player = new Player("Ann", 5, "benevolent");
+            player = new Player("Ann", 5, "benevolent computer");
 
             ArrayList<Country> countries = new ArrayList<Country>();
             singapore.setPlayer(player);
@@ -110,7 +110,7 @@ public class BenevolentStrategyTest {
 //        player.setTotalStrength(10);
 
 
-            defender = new Player("Mike", 5, "benevolent");
+            defender = new Player("Mike", 5, "benevolent computer");
             defender.setTotalStrength(5);
 
             china.setPlayer(defender);
