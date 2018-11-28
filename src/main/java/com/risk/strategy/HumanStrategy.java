@@ -3,23 +3,34 @@ package com.risk.strategy;
 import com.risk.common.Action;
 import com.risk.model.*;
 
+import java.io.Serializable;
+
 /**
  * Human strategy class
  */
-public class HumanStrategy implements PlayerBehaviorStrategy {
+public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
 
+    private String name;
     private Player player;
     private Phase phase;
 
     //TODO:doc
     public HumanStrategy(Player player){
-
+        name = "human";
         this.player = player;
         phase = Phase.getInstance();
     }
 
+    /**
+     * Get name
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
 
-//-----------------------------------------reinforcement----------------------------------------------
+    //-----------------------------------------reinforcement----------------------------------------------
     /**
      *  Implementation of reinforcement
      */

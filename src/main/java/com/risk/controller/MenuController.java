@@ -1,5 +1,7 @@
 package com.risk.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -14,6 +16,7 @@ import com.risk.view.View;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -47,6 +50,7 @@ public class MenuController {
     @FXML public ChoiceBox<String> playerFourTypeChoiceBox;
     @FXML public ChoiceBox<String> playerFiveTypeChoiceBox;
     @FXML public ChoiceBox<String> playerSixTypeChoiceBox;
+    private ArrayList<String> listOfPlayersType;
 
 
     @FXML public AnchorPane startGamePane;
@@ -90,12 +94,13 @@ public class MenuController {
         this.view = view;
         this.menu = menu;
         this.mapController = mapController;
-
+        this.listOfPlayersType = new ArrayList<>();
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
         selectedMapsListView.setItems(selectedMaps);
         addEventListener();
+        playersTypeSelectionListener();
         SpinnerValueFactory<Integer> gamesPerMapValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
         gamesPerMapSpinner.setValueFactory(gamesPerMapValueFactory);
         SpinnerValueFactory<Integer> turnsPerGameValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 50, 10);
@@ -109,6 +114,51 @@ public class MenuController {
         numPlayerTextField.setOnAction((event) -> validateEnteredNumPlayer(numPlayerTextField.getText()));
     }
 
+
+    /**
+     * Decides type of players .
+     */
+    public void playersTypeSelectionListener() {
+        playerOneTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                listOfPlayersType.add(0,playerOneTypeChoiceBox.getSelectionModel().getSelectedItem());
+            }
+        });
+
+        playerTwoTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                listOfPlayersType.add(1,playerTwoTypeChoiceBox.getSelectionModel().getSelectedItem());
+            }
+        });
+
+        playerThreeTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                listOfPlayersType.add(2,playerThreeTypeChoiceBox.getSelectionModel().getSelectedItem());
+            }
+        });
+
+        playerFourTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                listOfPlayersType.add(3,playerFourTypeChoiceBox.getSelectionModel().getSelectedItem());
+            }
+        });
+        playerFiveTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                listOfPlayersType.add(4,playerFiveTypeChoiceBox.getSelectionModel().getSelectedItem());
+            }
+        });
+        playerSixTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                listOfPlayersType.add(5,playerSixTypeChoiceBox.getSelectionModel().getSelectedItem());
+            }
+        });
+    }
 
     /**
      * Switch to start game menu
@@ -285,12 +335,13 @@ public class MenuController {
      * @param enteredPlayerNum is what user entered in the text field
      */
     private void validateEnteredNumPlayer(String enteredPlayerNum) {
+        System.out.println("enter num");
         if (!tournamentMode) {
             playerTypes.clear();
             playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
             for (int i = 0; i < 6; ++i) {
                 playerTypeChoiceBoxes.get(i).setItems(playerTypes);
-                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
+//                playerTypeChoiceBoxes.get(i).getSelectionModel().selectFirst();
             }
         } else {
             playerTypes.clear();
@@ -311,6 +362,7 @@ public class MenuController {
      * Pass info to the Menu, Model, and MapController
      */
     public void startGame() {
+        model.initiatePlayersType(listOfPlayersType);
         mapController.initPhaseView();
 
         // TODO: pass Players type info to Model
@@ -341,5 +393,12 @@ public class MenuController {
     public void quitGame() {
         menu.close();
         mapController.quitGame();
+    }
+
+    public void startTournamentGame(){
+
+
+
+
     }
 }

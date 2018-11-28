@@ -1,5 +1,6 @@
 package com.risk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Observable;
  * 2) the continents controlled by every player
  * 3) the total number of armies owned by every player
  */
-public class PlayersWorldDomination extends Observable {
+public class PlayersWorldDomination extends Observable implements Serializable {
 
     private static PlayersWorldDomination instance;
 

@@ -19,6 +19,7 @@ import static com.risk.model.Model.cards;
  */
 public class CheaterStrategy implements PlayerBehaviorStrategy {
 
+    private String name;
     private Player player;
     private Phase phase;
 
@@ -27,10 +28,21 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      * @param player the correspinding player
      */
     public CheaterStrategy(Player player){
-
+        name = "cheater";
         this.player = player;
         phase = Phase.getInstance();
     }
+
+
+    /**
+     * Get name
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
 
     /**
      *  reinforcement method

@@ -4,12 +4,11 @@ import com.risk.common.Action;
 import com.risk.common.Message;
 import com.risk.common.STATE;
 import com.risk.exception.InvalidMapException;
+import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -17,7 +16,7 @@ import java.util.*;
  * ...
  */
 
-public class Model extends Observable {
+public class Model extends Observable implements Serializable{
 
     public static int cardsValue = 5;
     public static final String[] cards = {"infantry","cavalry","artillery"};
@@ -48,6 +47,10 @@ public class Model extends Observable {
         countries = new HashMap<>();
         continents = new ArrayList<>();
         playerCounter = 0;
+    }
+
+    public Model(Model model){
+        this.continents = model.continents;
     }
 
     /**
@@ -362,15 +365,10 @@ public class Model extends Observable {
     }
 
     /**
-     * create Player object for every Player, and add the observer
-     * Players are allocated a number of initial armies
-     * notify CountryView (country info
-     * notify PlayerView  (current player)
-     * notify View (state and additional info)
+     * Check if the number of players is valid
      * @param enteredPlayerNum number of players
      */
-    public void initiatePlayers(String enteredPlayerNum){
-
+    public void checkPlayersNum(String enteredPlayerNum) {
         players.clear();
         playerCounter = Integer.parseInt(enteredPlayerNum);
 
@@ -379,17 +377,29 @@ public class Model extends Observable {
             numPlayerMenu.update();
             return;
         }
-
         numPlayerMenu.setValidationResult(true,"");
         numPlayerMenu.update();
+    }
+
+
+    /**
+     * create Player object for every Player, and add the observer
+     * Players are allocated a number of initial armies
+     * notify CountryView (country info
+     * notify PlayerView  (current player)
+     * notify View (state and additional info)
+     * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
+     */
+    public void initiatePlayers(List<String> playerType){
 
         int initialArmies = getInitialArmies(playerCounter);
         initialArmies=3;
 
+        playerCounter = playerType.size();
 
         for (int i = 0; i < playerCounter; i++){
 
-            String strategy = "human";
+            String strategy = playerType.get(i);
             Player newPlayer = new Player("Player" + String.valueOf(i), countries.size(), strategy);
             newPlayer.setArmies(initialArmies);
             newPlayer.setTotalStrength(initialArmies);
@@ -423,6 +433,43 @@ public class Model extends Observable {
         PlayersWorldDomination.getInstance().setTotalNumCountries(countries.size());
         PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
+    }
+
+    /**
+     * initiate player strategy before start game
+     * @param listOfPlayersType string types of strategy
+     */
+    public void initiatePlayersType(ArrayList<String> listOfPlayersType){
+        for(Player p : players){
+            PlayerBehaviorStrategy strategyToSet = convertTypeToStrategy(listOfPlayersType.get(players.indexOf(p)),p);
+            p.setStrategy(strategyToSet);
+            System.out.println(p.getName());
+            System.out.println(p.getArmies());
+            System.out.println(p.getStrategy());
+        }
+
+    }
+
+    /**
+     * This method converts string type to strategy.
+     * @param playerType String of player type
+     * @param newPlayer new players
+     * @return strategy corresponding to string type
+     */
+    public PlayerBehaviorStrategy convertTypeToStrategy(String playerType, Player newPlayer) {
+        PlayerBehaviorStrategy strategy = null;
+        if (playerType.equals("Human Player")) {
+            strategy = new HumanStrategy(newPlayer);
+        } else if (playerType.equals("Aggressive Computer")) {
+            strategy = new AggressiveStrategy(newPlayer);
+        } else if (playerType.equals("Benevolent Computer")) {
+            strategy = new BenevolentStrategy(newPlayer);
+        } else if (playerType.equals("Random Computer")) {
+            strategy = new RandomStrategy(newPlayer);
+        }else if (playerType.equals("Cheater Computer")) {
+            strategy = new CheaterStrategy(newPlayer);
+        }
+        return strategy;
     }
 
     /**
@@ -691,4 +738,23 @@ public class Model extends Observable {
 //           Phase.getInstance().update();
        }
     }
+
+    /**
+     * save the whole game to be loaded later
+     * @param fileName the name of file save to
+     * @return true if the game is saved successfully; otherwise return false
+     */
+    public boolean save(String fileName){
+        try {
+            FileOutputStream fileStream = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fileStream);
+            os.writeObject(this);
+        } catch (FileNotFoundException ex){
+            return false;
+        } catch (IOException ex){
+            return false;
+        }
+        return true;
+    }
+
 }

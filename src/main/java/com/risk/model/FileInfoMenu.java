@@ -1,5 +1,6 @@
 package com.risk.model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 
@@ -12,7 +13,7 @@ import java.util.Observable;
  *              call setValidationResult(false, invalidInfo)
  *          then call update();
  */
-public class FileInfoMenu extends Observable {
+public class FileInfoMenu extends Observable implements Serializable {
 
     private boolean valid;
     private String validationInfo;
