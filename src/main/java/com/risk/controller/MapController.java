@@ -238,6 +238,7 @@ public class MapController {
      */
     void showMapStage() {
         AnchorPane mapRootPane = map.getMapRootPane();
+        //mapRootPane.getChildren().clear();
 
         // draw lines
         final double COUNTRY_VIEW_WIDTH = 60;

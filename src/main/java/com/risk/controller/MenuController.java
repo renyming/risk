@@ -219,9 +219,9 @@ public class MenuController {
         ObjectInputStream os = new ObjectInputStream(fileStream);
         model = (Model) os.readObject();
 
-        mapController.initPhaseView();
+        load(model.getCountries().size());
 
-//        model.loadGame(); // model update Phase, PlayersWorldDomination
+        model.loadGame(); // model update Phase, PlayersWorldDomination
     }
 
 
@@ -235,7 +235,6 @@ public class MenuController {
         menu.hide();
         mapController.showMapStage();
     }
-
 
     /**
      * Called when users click TournamentMode
