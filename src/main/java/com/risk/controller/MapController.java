@@ -13,7 +13,6 @@ import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.view.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -237,8 +236,8 @@ public class MapController {
      * Called by MenuController when user click the start button in select-map menu
      */
     void showMapStage() {
-        AnchorPane mapRootPane = map.getMapRootPane();
-        //mapRootPane.getChildren().clear();
+//        AnchorPane mapRootPane = map.getMapRootPane();
+        mapPane.getChildren().clear();
 
         // draw lines
         final double COUNTRY_VIEW_WIDTH = 60;
@@ -249,15 +248,15 @@ public class MapController {
             for (Country countryB : countryA.getAdjCountries()) {
                 Arrow arrow = new Arrow("DEFAULT");
 //                System.out.println(countryA.getName() + " " + countryB.getName());
-                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH, countryA.getY() + COUNTRY_VIEW_HEIGHT);
-                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH, countryB.getY() + COUNTRY_VIEW_HEIGHT);
+                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH / 2, countryA.getY() + COUNTRY_VIEW_HEIGHT / 2);
+                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH / 2, countryB.getY() + COUNTRY_VIEW_HEIGHT / 2);
                 arrows.add(arrow);
-                mapRootPane.getChildren().add(arrow);
+                mapPane.getChildren().add(arrow);
             }
         }
 
         // draw countries
-        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
+        for (int key : countryViews.keySet()) mapPane.getChildren().add(countryViews.get(key).getCountryPane());
 
         map.show();
     }
@@ -273,7 +272,6 @@ public class MapController {
         switch (currentPhase) {
             case "Start Up Phase": case "Fortification Phase":
                 Phase.getInstance().setCurrentPhase("Reinforcement");
-                System.out.println("Current Phase : Reinforcement");
                 model.nextPlayer();
                 model.reinforcement();
                 if(cardButton.isDisable()){
@@ -282,7 +280,6 @@ public class MapController {
                 break;
             case "Reinforcement Phase":
                 Phase.getInstance().setCurrentPhase("Attack Phase");
-                System.out.println("Current Phase : Attack Phase. Current Player : "+model.getCurrentPlayer().getName());
                 Phase.getInstance().update();
                 fromToCountriesCounter = 0;
                 clearAttackerDiceButtons();
@@ -297,7 +294,6 @@ public class MapController {
                 break;
             case "Attack Phase":
                 Phase.getInstance().setCurrentPhase("Fortification Phase");
-                System.out.println("Current Phase : Fortification Phase");
                 Phase.getInstance().update();
                 skipFortificationPhaseButton.setDisable(false);
                 fromToCountriesCounter = 0;
@@ -547,13 +543,6 @@ public class MapController {
      * Called when user clicks Save Button
      */
     public void saveGame() {
-
-        String fileName = "game1.ser";
-
-        if(model.save(fileName)){
-            System.out.println("Game is saved!");
-        }
-
 //        model.saveGame(mapPane);
     }
 
@@ -561,16 +550,7 @@ public class MapController {
     /**
      * Called when user clicks Load Button
      */
-    public void loadGame() {
-
-        try {
-            menuController.loadGame();
-        } catch (IOException ex){
-            System.out.println("Load game failed!");
-        } catch (ClassNotFoundException ex){
-            System.out.println("Load game failed!");
-        }
-    }
+    public void loadGame() { menuController.loadGame(); }
 
 
     /**

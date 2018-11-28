@@ -463,7 +463,6 @@ public class Player extends Observable implements Serializable {
     public void addRoundArmies(){
 
         int newArmies = getArmiesAdded();
-        System.out.println("Total Army To Allocate :"+newArmies);
         setArmies(newArmies);
         setTotalStrength(totalStrength + newArmies);
     }
