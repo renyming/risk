@@ -205,6 +205,7 @@ public class MenuController {
      * Called when users click StartNewGame Button
      */
     public void startNewGame() {
+        System.out.println("Start New Game");
         tournamentMode(false);
         switchToSelectMapMenu();
     }
@@ -235,6 +236,7 @@ public class MenuController {
      * Called when users click TournamentMode
      */
     public void tournamentMode() {
+        System.out.println("Start Tournament Mode");
         tournamentMode(true);
         switchToSelectMapMenu();
     }
@@ -296,6 +298,7 @@ public class MenuController {
      * Called when user clicked the select map button
      */
     public void selectMap() {
+        System.out.println("Selecting Map......");
         if (tournamentMode && 2 == selectedMaps.size()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Max map number is 5, remove first");
             alert.show();
@@ -314,6 +317,7 @@ public class MenuController {
                 System.out.println("MenuController.readFile(): " + exception.getMessage());
             }
         }
+        System.out.println("Current Map Is : "+riskMapFile.getName());
     }
 
 
@@ -333,7 +337,6 @@ public class MenuController {
      * @param enteredPlayerNum is what user entered in the text field
      */
     private void validateEnteredNumPlayer(String enteredPlayerNum) {
-        System.out.println("enter num");
         if (!tournamentMode) {
             playerTypes.clear();
             playerTypes.addAll("Human Player", "Aggressive Computer", "Benevolent Computer", "Random Computer", "Cheater Computer");
@@ -350,6 +353,7 @@ public class MenuController {
             }
         }
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
+        System.out.println("Total Player Number: "+enteredPlayerNum);
         model.checkPlayersNum(enteredPlayerNum);
     }
 

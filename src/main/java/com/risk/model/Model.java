@@ -394,7 +394,7 @@ public class Model extends Observable implements Serializable {
      */
     public void autoLocatedArmy()  {
 
-        System.out.println(currentPlayer.getName() + " enter autoLocated initiate armies");
+        System.out.println(currentPlayer.getName() + " is allocating armies......");
 
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
@@ -497,6 +497,7 @@ public class Model extends Observable implements Serializable {
         //current player notify
         currentPlayer = players.get(0);
         Phase.getInstance().setCurrentPhase("Start Up Phase");
+        System.out.println("Current Phase : Start Up Phase");
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 

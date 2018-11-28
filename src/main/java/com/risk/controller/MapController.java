@@ -271,6 +271,7 @@ public class MapController {
         switch (currentPhase) {
             case "Start Up Phase": case "Fortification Phase":
                 Phase.getInstance().setCurrentPhase("Reinforcement");
+                System.out.println("Current Phase : Reinforcement");
                 model.nextPlayer();
                 model.reinforcement();
                 if(cardButton.isDisable()){
@@ -279,6 +280,7 @@ public class MapController {
                 break;
             case "Reinforcement Phase":
                 Phase.getInstance().setCurrentPhase("Attack Phase");
+                System.out.println("Current Phase : Attack Phase. Current Player : "+model.getCurrentPlayer().getName());
                 Phase.getInstance().update();
                 fromToCountriesCounter = 0;
                 clearAttackerDiceButtons();
@@ -293,6 +295,7 @@ public class MapController {
                 break;
             case "Attack Phase":
                 Phase.getInstance().setCurrentPhase("Fortification Phase");
+                System.out.println("Current Phase : Fortification Phase");
                 Phase.getInstance().update();
                 skipFortificationPhaseButton.setDisable(false);
                 fromToCountriesCounter = 0;
