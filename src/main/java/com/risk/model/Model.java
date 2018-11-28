@@ -11,12 +11,14 @@ import com.risk.view.*;
 import java.io.*;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Define Observable class
  * ...
  */
 
-public class Model extends Observable implements Serializable{
+public class Model extends Observable implements Serializable {
 
     public static int cardsValue = 5;
     public static final String[] cards = {"infantry","cavalry","artillery"};
@@ -294,7 +296,7 @@ public class Model extends Observable implements Serializable{
      * 2. In round robin, when the last player finishes fortification phaseNumber, this method tells view round robin starts
      * again, meanwhile change current player to the first player.
      */
-    public void nextPlayer(){
+    public void nextPlayer()  {
 
         int nextId = 0;
 
@@ -319,7 +321,7 @@ public class Model extends Observable implements Serializable{
     /**
      * Check if the current player is the computer player
      */
-    public void isComputerPlayer() {
+    public void isComputerPlayer()  {
         if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
             if (Phase.getInstance().getCurrentPhase() == "Start Up Phase") {
                 // autoLocatedArmy() includ the nextPlayer() method
@@ -378,7 +380,7 @@ public class Model extends Observable implements Serializable{
     /**
      * Automatically allocate armies for the computer player
      */
-    public void autoLocatedArmy() {
+    public void autoLocatedArmy()  {
 
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
@@ -388,6 +390,12 @@ public class Model extends Observable implements Serializable{
 
         Phase.getInstance().setActionResult(Action.Allocate_Army);
         Phase.getInstance().update();
+
+        try{
+            sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
 
         isLastPlayer();
     }
@@ -432,7 +440,7 @@ public class Model extends Observable implements Serializable{
      * notify View (state and additional info)
      * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
      */
-    public void initiatePlayers(List<String> playerType){
+    public void initiatePlayers(List<String> playerType)  {
 
         int initialArmies = getInitialArmies(playerCounter);
         initialArmies=3;

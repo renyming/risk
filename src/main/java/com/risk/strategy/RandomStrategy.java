@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static java.lang.Thread.sleep;
+
 public class RandomStrategy implements PlayerBehaviorStrategy {
 
     private String name;
@@ -40,7 +42,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
      * Orderly execute reinforcement(), attack() and fortification method
      */
     @Override
-    public void execute() {
+    public void execute() throws InterruptedException {
         reinforcement();
         attack(null, "0", null, "0", true);
         fortification(null, null, 0);
@@ -50,7 +52,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
      * Reinforcement operation for random player
      */
     @Override
-    public void reinforcement() {
+    public void reinforcement() throws InterruptedException {
         //update current phase on view
         phase.setCurrentPhase("Reinforcement Phase");
         phase.update();
@@ -65,10 +67,12 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         phase.update();
         Model.phaseNumber=2;
 
+        sleep(500);
+
     }
 
     @Override
-    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
+    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
         //player has no country is a valid attacker
         if (!player.isAttackPossible()) return;
@@ -115,6 +119,8 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
             }
         }
 
+        sleep(500);
+
     }
 
     @Override
@@ -125,7 +131,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
     }
 
     @Override
-    public void fortification(Country source, Country target, int armyNumber) {
+    public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
         //terminates if player has less than two countries
         if (player.getCountriesSize()<2) return;
@@ -146,6 +152,8 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
+
+        sleep(500);
 
     }
 
