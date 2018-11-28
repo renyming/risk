@@ -12,8 +12,7 @@ import com.risk.view.Menu;
 import com.risk.view.NumPlayerMenuView;
 import com.risk.view.View;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -213,8 +212,15 @@ public class MenuController {
     /**
      * Called when users click Load Saved Game
      */
-    public void loadGame() {
+    public void loadGame() throws IOException,ClassNotFoundException {
+
+        String fileName = "game1.ser";
+        FileInputStream fileStream = new FileInputStream(fileName);
+        ObjectInputStream os = new ObjectInputStream(fileStream);
+        model = (Model) os.readObject();
+
         mapController.initPhaseView();
+
 //        model.loadGame(); // model update Phase, PlayersWorldDomination
     }
 
