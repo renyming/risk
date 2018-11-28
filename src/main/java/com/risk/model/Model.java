@@ -3,6 +3,7 @@ package com.risk.model;
 import com.risk.common.Action;
 import com.risk.common.Message;
 import com.risk.common.STATE;
+import com.risk.common.Tool;
 import com.risk.exception.InvalidMapException;
 import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
@@ -335,6 +336,9 @@ public class Model extends Observable implements Serializable {
                 autoLocatedArmy();
             } else {
                 currentPlayer.execute();
+                if (Phase.getInstance().getActionResult() == Action.Win) {
+                    return;
+                }
                 nextPlayer();
             }
         }
@@ -389,6 +393,8 @@ public class Model extends Observable implements Serializable {
      */
     public void autoLocatedArmy()  {
 
+        System.out.println(currentPlayer.getName() + " enter autoLocated initiate armies");
+
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
             country.addArmies(1);
@@ -404,6 +410,8 @@ public class Model extends Observable implements Serializable {
             System.out.println(e);
         }
 
+        Tool.printBasicInfo(currentPlayer, "After allocated armies");
+
         isLastPlayer();
     }
 
@@ -418,6 +426,11 @@ public class Model extends Observable implements Serializable {
             Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
             Phase.getInstance().update();
             phaseNumber = 1;
+
+            if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+                Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+                nextPlayer();
+            }
         }
     }
 
@@ -450,7 +463,7 @@ public class Model extends Observable implements Serializable {
     public void initiatePlayers(List<String> playerType)  {
 
         int initialArmies = getInitialArmies(playerCounter);
-        initialArmies=3;
+//        initialArmies=3;
 
         playerCounter = playerType.size();
 

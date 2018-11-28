@@ -1,6 +1,7 @@
 package com.risk.strategy;
 
 import com.risk.common.Action;
+import com.risk.common.Tool;
 import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
@@ -43,8 +44,21 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void execute() throws InterruptedException {
+
+        Tool.printBasicInfo(player,"Before Round-Robin");
+
+        //reinforcement
         reinforcement();
+
+        //attack
+        Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
+        if (phase.getActionResult() == Action.Win) {
+            return;
+        }
+
+        //fortification
+        Phase.getInstance().setCurrentPhase("Fortification Phase");
         fortification(null, null, 0);
     }
 
@@ -53,8 +67,10 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void reinforcement() throws InterruptedException {
+
+        System.out.println(player.getName() + " enter the reinforcement phase");
         //update current phase on view
-        phase.setCurrentPhase("Reinforcement Phase");
+//        phase.setCurrentPhase("Reinforcement Phase");
         phase.update();
 
         player.addRoundArmies();
@@ -67,12 +83,15 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         phase.update();
         Model.phaseNumber=2;
 
+        Tool.printBasicInfo(player, "After reinforcement: ");
         sleep(500);
 
     }
 
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
+
+        System.out.println(player.getName() + " enter the attack phase");
 
         //player has no country is a valid attacker
         if (!player.isAttackPossible()) return;
@@ -119,6 +138,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
             }
         }
 
+        Tool.printBasicInfo(player,"After attack: ");
         sleep(500);
 
     }
@@ -133,8 +153,13 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
+        System.out.println(player.getName() + " enter the fortification phase");
+
         //terminates if player has less than two countries
-        if (player.getCountriesSize()<2) return;
+        if (player.getCountriesSize()<2) {
+            Tool.printBasicInfo(player,"After fortification: ");
+            return;
+        }
 
         Country fromCountry=getRandomCountry(player.getCountriesOwned());
         Country toCountry;
@@ -153,6 +178,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
 
+        Tool.printBasicInfo(player,"After fortification: ");
         sleep(500);
 
     }

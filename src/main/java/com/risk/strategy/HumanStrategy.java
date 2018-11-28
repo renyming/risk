@@ -51,40 +51,6 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
 
     }
 
-//    /**
-//     * allocate one army in a specific country
-//     * @param country Country reference
-//     */
-//    @Override
-//    public void allocateArmy(Country country, boolean disable){
-//        System.out.println("here");
-//
-//        if(disable) {
-//            Phase.getInstance().setInvalidInfo("Start Up Phase ended!");
-//            Phase.getInstance().update();
-//            return;
-//        }
-//        if(!Model.getCurrentPlayer().getCountriesOwned().contains(country)){
-//            Phase.getInstance().setInvalidInfo("Invalid country!");
-//            Phase.getInstance().update();
-//            return;
-//        }
-//
-//        country.addArmies(1);
-//        country.getOwner().subArmies(1);
-//
-//
-//        Phase.getInstance().setActionResult(Action.Allocate_Army);
-//        Phase.getInstance().update();
-//
-//        //rPhase
-//        if(country.getOwner().getArmies() == 0){
-//            disable = true;
-//            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//            Phase.getInstance().update();
-//            Model.phaseNumber = 2;
-//        }
-//    }
 
 //--------------------------------------------------attack--------------------------------------------------------
     /**

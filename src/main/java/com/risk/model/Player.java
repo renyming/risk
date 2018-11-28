@@ -526,7 +526,10 @@ public class Player extends Observable implements Serializable {
         cards.put(card2,cards.get(card2) - 1);
         cards.put(card3,cards.get(card3) - 1);
 
-        CardModel.getInstance().update();
+        if (strategy.getName().equalsIgnoreCase("human")) {
+            CardModel.getInstance().update();
+        }
+
     }
 
     /**
@@ -717,6 +720,7 @@ public class Player extends Observable implements Serializable {
                 phase.setActionResult(Action.Win);
                 // give the name of winner
                 phase.setInvalidInfo("Congratulations, You Win!");
+                System.out.println(name + ", Congratulations, You Win!");
             }
 
             return true;
@@ -764,6 +768,11 @@ public class Player extends Observable implements Serializable {
 
         this.attacker = attacker;
         this.defender = defender;
+
+        //if defender country doesn't has army
+        if (isDefenderLoose()) {
+            return;
+        }
 
         allOut();
     }

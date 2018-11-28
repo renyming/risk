@@ -1,6 +1,7 @@
 package com.risk.strategy;
 
 import com.risk.common.Action;
+import com.risk.common.Tool;
 import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
@@ -45,8 +46,21 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void execute() throws InterruptedException {
+
+        Tool.printBasicInfo(player,"Before Round-Robin");
+
+        //reinforcement
         reinforcement();
+
+        //attack
+        Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
+        if (phase.getActionResult() == Action.Win) {
+            return;
+        }
+
+        //fortification
+        Phase.getInstance().setCurrentPhase("Fortification Phase");
         fortification(null, null, 0);
     }
 
@@ -57,6 +71,8 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void reinforcement() throws InterruptedException {
+
+        System.out.println(player.getName() + " enter the reinforcement phase");
 
         // correct display current phase
         phase.setCurrentPhase("Reinforcement Phase");
@@ -70,6 +86,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         phase.update();
         Model.phaseNumber = 2;
 
+        Tool.printBasicInfo(player, "After reinforcement: ");
         sleep(500);
     }
 
@@ -86,6 +103,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                     // change the ownership of the defender country
                     defender.getOwner().delCountry(defender);
                     defender.setPlayer(country.getOwner());
+                    defender.setArmies(0);
                     country.getOwner().addCountry(defender);
 
                     // set phase info
@@ -98,7 +116,9 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                         phase.setActionResult(Action.Win);
                         // give the name of winner
                         phase.setInvalidInfo("Congratulations, You Win!");
+                        System.out.println(player.getName() + ", Congratulations, You Win! ");
                         phase.update();
+                        return;
                     }
                     phase.update();
 
@@ -121,10 +141,13 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
+        System.out.println(player.getName() + " enter the attack phase");
+
         player.getCountriesOwned().stream()
                 .collect(Collectors.toSet())
                 .forEach(c -> conquerAdj(c));
 
+        Tool.printBasicInfo(player,"After attack: ");
         sleep(500);
 
     }
@@ -154,6 +177,8 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
+        System.out.println(player.getName() + " enter the fortification phase");
+
         // double armies in owned country
         doubleArmies(c -> c.hasAdjEnemy());
 
@@ -161,6 +186,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
         Phase.getInstance().update();
 
+        Tool.printBasicInfo(player,"After fortification: ");
         sleep(500);
 
     }
