@@ -4,6 +4,7 @@ import com.risk.common.Action;
 import com.risk.common.Message;
 import com.risk.common.STATE;
 import com.risk.exception.InvalidMapException;
+import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
@@ -423,6 +424,43 @@ public class Model extends Observable {
         PlayersWorldDomination.getInstance().setTotalNumCountries(countries.size());
         PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
+    }
+
+    /**
+     * initiate player strategy before start game
+     * @param listOfPlayersType string types of strategy
+     */
+    public void initiatePlayersType(ArrayList<String> listOfPlayersType){
+        for(Player p : players){
+            PlayerBehaviorStrategy strategyToSet = convertTypeToStrategy(listOfPlayersType.get(players.indexOf(p)),p);
+            p.setStrategy(strategyToSet);
+            System.out.println(p.getName());
+            System.out.println(p.getArmies());
+            System.out.println(p.getStrategy());
+        }
+
+    }
+
+    /**
+     * This method converts string type to strategy.
+     * @param playerType String of player type
+     * @param newPlayer new players
+     * @return strategy corresponding to string type
+     */
+    public PlayerBehaviorStrategy convertTypeToStrategy(String playerType, Player newPlayer) {
+        PlayerBehaviorStrategy strategy = null;
+        if (playerType.equals("Human Player")) {
+            strategy = new HumanStrategy(newPlayer);
+        } else if (playerType.equals("Aggressive Computer")) {
+            strategy = new AggressiveStrategy(newPlayer);
+        } else if (playerType.equals("Benevolent Computer")) {
+            strategy = new BenevolentStrategy(newPlayer);
+        } else if (playerType.equals("Random Computer")) {
+            strategy = new RandomStrategy(newPlayer);
+        }else if (playerType.equals("Cheater Computer")) {
+            strategy = new CheaterStrategy(newPlayer);
+        }
+        return strategy;
     }
 
     /**
