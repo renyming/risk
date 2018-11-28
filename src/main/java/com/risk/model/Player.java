@@ -7,6 +7,7 @@ import com.risk.strategy.StrategyFactory;
 import static com.risk.model.Model.cards;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import static com.risk.model.Model.phaseNumber;
  * Define class of a player
  * The following is only base code, further features need to be added
  */
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
 
     //Unique Id for each player, starts from 1
     private int Id;

@@ -2,11 +2,15 @@ package com.risk.model;
 
 import static org.junit.Assert.*;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 /**
  * Test Model class
@@ -59,6 +63,19 @@ public class ModelTest {
         china.setArmies(5);
     }
 
+    /**
+     * Test save() method
+     */
+    @Test
+    public void testSave() throws Exception{
+        newModel1.save("testmodel.ser");
+        Model newModel2;
+        FileInputStream fileStream = new FileInputStream("testmodel.ser");
+        ObjectInputStream os = new ObjectInputStream(fileStream);
+        newModel2 = (Model) os.readObject();
+        assertTrue(newModel2.getContinents().size() == 8);
+
+    }
 
     /**
      * Test allocateArmy() method

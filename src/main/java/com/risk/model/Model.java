@@ -16,7 +16,7 @@ import java.util.*;
  * ...
  */
 
-public class Model extends Observable {
+public class Model extends Observable implements Serializable{
 
     public static int cardsValue = 5;
     public static final String[] cards = {"infantry","cavalry","artillery"};
@@ -47,6 +47,10 @@ public class Model extends Observable {
         countries = new HashMap<>();
         continents = new ArrayList<>();
         playerCounter = 0;
+    }
+
+    public Model(Model model){
+        this.continents = model.continents;
     }
 
     /**
@@ -796,4 +800,5 @@ public class Model extends Observable {
         }
         return true;
     }
+
 }

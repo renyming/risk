@@ -1,5 +1,6 @@
 package com.risk.model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 
@@ -20,7 +21,7 @@ import java.util.Observable;
  *              call setValidationResult(false, "invalid Info")
  *          then call update()
  */
-public class NumPlayerMenu extends Observable {
+public class NumPlayerMenu extends Observable implements Serializable {
 
     private boolean visible;
     private boolean valid;

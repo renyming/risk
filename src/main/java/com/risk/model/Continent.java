@@ -1,6 +1,7 @@
 package com.risk.model;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ import java.util.Random;
  * Define class of a continent
  * The following is only base code, further features need to be added
  */
-public class Continent {
+public class Continent implements Serializable {
 
     //Unique ID for each continent, starts from 1
     private int ID = 0;

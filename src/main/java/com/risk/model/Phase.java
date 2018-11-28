@@ -1,5 +1,6 @@
 package com.risk.model;
 
+import java.io.Serializable;
 import java.util.Observable;
 import com.risk.common.Action;
 
@@ -10,7 +11,7 @@ import com.risk.common.Action;
  * 2) the current player's name
  * 3) information about actions that are taking place during this phase
  */
-public class Phase extends Observable {
+public class Phase extends Observable implements Serializable {
 
     private static Phase instance;
 
