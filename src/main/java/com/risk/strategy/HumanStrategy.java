@@ -28,6 +28,13 @@ public class HumanStrategy implements PlayerBehaviorStrategy {
         return name;
     }
 
+    /**
+     * Not need
+     */
+    @Override
+    public void execute() {
+    }
+
     //-----------------------------------------reinforcement----------------------------------------------
     /**
      *  Implementation of reinforcement

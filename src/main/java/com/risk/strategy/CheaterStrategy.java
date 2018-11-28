@@ -45,6 +45,17 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
 
     /**
+     * Orderly execute reinforcement(), attack() and fortification method
+     */
+    @Override
+    public void execute() {
+        reinforcement();
+        attack(null, "0", null, "0", true);
+        fortification(null, null, 0);
+    }
+
+
+    /**
      *  reinforcement method
      *  doubles the number of armies on all its countries
      */

@@ -307,6 +307,24 @@ public class Model extends Observable {
 
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
+
+        isComputerPlayer();
+
+    }
+
+    /**
+     * Check if the current player is the computer player
+     */
+    public void isComputerPlayer() {
+        if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+            if (Phase.getInstance().getCurrentPhase() == "Start Up Phase") {
+                // autoLocatedArmy() includ the nextPlayer() method
+                autoLocatedArmy();
+            } else {
+                currentPlayer.execute();
+                nextPlayer();
+            }
+        }
     }
 
     /**
@@ -338,14 +356,7 @@ public class Model extends Observable {
         if(phaseNumber == 0){
             //all the armies are allocated
             if(country.getOwner().getArmies() == 0){
-                if(!currentPlayer.equals(players.get(players.size() - 1))){
-                    nextPlayer();
-                } else {
-                    disable = true;
-                    Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-                    Phase.getInstance().update();
-                    phaseNumber = 1;
-                }
+                isLastPlayer();
             }
         }
         //rPhase
@@ -358,6 +369,37 @@ public class Model extends Observable {
             }
         }
 
+    }
+
+    /**
+     * Automatically allocate armies for the computer player
+     */
+    public void autoLocatedArmy() {
+
+        while(currentPlayer.getArmies() > 0) {
+            Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
+            country.addArmies(1);
+            currentPlayer.subArmies(1);
+        }
+
+        Phase.getInstance().setActionResult(Action.Allocate_Army);
+        Phase.getInstance().update();
+
+        isLastPlayer();
+    }
+
+    /**
+     * Check if current player is the last player, and go to the different movement
+     */
+    public void isLastPlayer() {
+        if(!currentPlayer.equals(players.get(players.size() - 1))){
+            nextPlayer();
+        } else {
+            disable = true;
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+            Phase.getInstance().update();
+            phaseNumber = 1;
+        }
     }
 
     /**
@@ -429,44 +471,46 @@ public class Model extends Observable {
         PlayersWorldDomination.getInstance().setTotalNumCountries(countries.size());
         PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
+
+        isComputerPlayer();
     }
 
-    /**
-     * initiate player strategy before start game
-     * @param listOfPlayersType string types of strategy
-     */
-    public void initiatePlayersType(ArrayList<String> listOfPlayersType){
-        for(Player p : players){
-            PlayerBehaviorStrategy strategyToSet = convertTypeToStrategy(listOfPlayersType.get(players.indexOf(p)),p);
-            p.setStrategy(strategyToSet);
-            System.out.println(p.getName());
-            System.out.println(p.getArmies());
-            System.out.println(p.getStrategy());
-        }
-
-    }
-
-    /**
-     * This method converts string type to strategy.
-     * @param playerType String of player type
-     * @param newPlayer new players
-     * @return strategy corresponding to string type
-     */
-    public PlayerBehaviorStrategy convertTypeToStrategy(String playerType, Player newPlayer) {
-        PlayerBehaviorStrategy strategy = null;
-        if (playerType.equals("Human Player")) {
-            strategy = new HumanStrategy(newPlayer);
-        } else if (playerType.equals("Aggressive Computer")) {
-            strategy = new AggressiveStrategy(newPlayer);
-        } else if (playerType.equals("Benevolent Computer")) {
-            strategy = new BenevolentStrategy(newPlayer);
-        } else if (playerType.equals("Random Computer")) {
-            strategy = new RandomStrategy(newPlayer);
-        }else if (playerType.equals("Cheater Computer")) {
-            strategy = new CheaterStrategy(newPlayer);
-        }
-        return strategy;
-    }
+//    /**
+//     * initiate player strategy before start game
+//     * @param listOfPlayersType string types of strategy
+//     */
+//    public void initiatePlayersType(ArrayList<String> listOfPlayersType){
+//        for(Player p : players){
+//            PlayerBehaviorStrategy strategyToSet = convertTypeToStrategy(listOfPlayersType.get(players.indexOf(p)),p);
+//            p.setStrategy(strategyToSet);
+//            System.out.println(p.getName());
+//            System.out.println(p.getArmies());
+//            System.out.println(p.getStrategy());
+//        }
+//
+//    }
+//
+//    /**
+//     * This method converts string type to strategy.
+//     * @param playerType String of player type
+//     * @param newPlayer new players
+//     * @return strategy corresponding to string type
+//     */
+//    public PlayerBehaviorStrategy convertTypeToStrategy(String playerType, Player newPlayer) {
+//        PlayerBehaviorStrategy strategy = null;
+//        if (playerType.equals("Human Player")) {
+//            strategy = new HumanStrategy(newPlayer);
+//        } else if (playerType.equals("Aggressive Computer")) {
+//            strategy = new AggressiveStrategy(newPlayer);
+//        } else if (playerType.equals("Benevolent Computer")) {
+//            strategy = new BenevolentStrategy(newPlayer);
+//        } else if (playerType.equals("Random Computer")) {
+//            strategy = new RandomStrategy(newPlayer);
+//        }else if (playerType.equals("Cheater Computer")) {
+//            strategy = new CheaterStrategy(newPlayer);
+//        }
+//        return strategy;
+//    }
 
     /**
      * calculate initial armies

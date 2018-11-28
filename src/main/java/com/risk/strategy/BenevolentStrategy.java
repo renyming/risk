@@ -39,6 +39,16 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
         return name;
     }
 
+    /**
+     * Orderly execute reinforcement(), attack() and fortification method
+     */
+    @Override
+    public void execute() {
+        reinforcement();
+        attack(null, "0", null, "0", true);
+        fortification(null, null, 0);
+    }
+
 
     /**
      * Reinforcement method

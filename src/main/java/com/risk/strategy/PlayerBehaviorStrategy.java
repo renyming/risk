@@ -17,4 +17,6 @@ public interface PlayerBehaviorStrategy {
     void fortification(Country source, Country target, int armyNumber);
 
     String getName();
+
+    void execute();
 }

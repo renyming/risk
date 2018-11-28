@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.List;
 
 import static com.risk.model.Model.cards;
+import static com.risk.model.Model.phaseNumber;
 
 /**
  * Define class of a player
@@ -943,5 +944,13 @@ public class Player extends Observable {
 //        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //        Phase.getInstance().update();
     }
+
+    /**
+     * For the computer player to orderly execute reinforcement(), attack() and fortification method
+     */
+    public void execute(){
+        strategy.execute();
+    }
+
 
 }
