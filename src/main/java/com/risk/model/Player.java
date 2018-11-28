@@ -765,6 +765,11 @@ public class Player extends Observable implements Serializable {
         this.attacker = attacker;
         this.defender = defender;
 
+        //if defender country doesn't has army
+        if (isDefenderLoose()) {
+            return;
+        }
+
         allOut();
     }
 

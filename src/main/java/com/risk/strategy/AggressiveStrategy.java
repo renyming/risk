@@ -6,6 +6,7 @@ import com.risk.model.Country;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -25,9 +26,27 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      * @param player
      */
     public AggressiveStrategy(Player player) {
+
         name = "aggressive";
         this.player = player;
         phase = Phase.getInstance();
+    }
+
+    public void printBasicInfo(String title) {
+
+        System.out.println();
+        System.out.println(title);
+        System.out.println("-----------------------------------------------");
+        System.out.println("Current Player: " + name);
+        System.out.println("Current total strength: " + player.getTotalStrength());
+        System.out.println("Current armies need to allocated: " + player.getArmies());
+        System.out.println("Current size of countries owned: " + player.getCountriesOwned().size());
+        System.out.println(player.getCountriesOwned());
+        System.out.println("Current continent owned: ");
+        System.out.print(player.getContinentsOwned());
+        System.out.println("Current Card owned: ");
+        System.out.println(player.getCards());
+        System.out.println();
     }
 
 
@@ -45,6 +64,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void execute() throws InterruptedException {
+
+        printBasicInfo("Before Round-Robin");
+
         reinforcement();
         attack(null, "0", null, "0", true);
         fortification(null, null, 0);
@@ -57,6 +79,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void reinforcement() throws InterruptedException {
+
+        System.out.println(player.getName() + " enter the reinforcement phase");
 
         // change card first
         // cards = {"infantry","cavalry","artillery"};
@@ -82,6 +106,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
 
+        printBasicInfo("After reinforcement: ");
+
 //        sleep(500);
     }
 
@@ -99,26 +125,30 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
+        System.out.println(player.getName() + " enter the attack phase");
+
         // attacker is the strongest country
         Country strongest = player.getCountriesOwned().stream()
                 .max(Comparator.comparingInt(Country::getArmies))
                 .get();
 
-        strongest.getAdjCountries().stream()
+        List<Country> enemies = strongest.getAdjCountries().stream()
                 .filter(c -> !c.getOwner().equals(player))
-                .forEach(c -> {
+                .collect(Collectors.toList());
 
-                    if (strongest.getArmies() >= 2) {
-                        player.allOut(strongest, c);
+        for (Country enemy : enemies) {
+            if (strongest.getArmies() >= 2) {
+                player.allOut(strongest, enemy);
 
-                        if (phase.getActionResult() == Action.Move_After_Conquer) {
-                            moveArmy(String.valueOf(player.getAttackerDiceNum()));
-                        }
-                    }
-
-                });
+                if (phase.getActionResult() == Action.Move_After_Conquer) {
+                    moveArmy(String.valueOf(player.getAttackerDiceNum()));
+                }
+            }
+        }
 
         player.addRandomCard();
+
+        printBasicInfo("After attack: ");
 
 //        sleep(500);
     }
@@ -155,6 +185,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
+        System.out.println(player.getName() + " enter the attack phase");
+
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
                 .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
                 .collect(Collectors.toList());
@@ -180,7 +212,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                 }
             }
         }
-
+        printBasicInfo("After fortification: ");
 //        sleep(500);
     }
 }
