@@ -5,14 +5,8 @@ import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
-
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static com.risk.model.Model.cards;
-
 
 /**
  * Cheater Strategy class
