@@ -111,7 +111,7 @@ public class MapController {
         countryANameLabel.setVisible(false);
         countryBNameLabel.setVisible(false);
         cardButton.setDisable(true);
-        saveGameButton.setVisible(false);
+        saveGameButton.setVisible(true);
         addEventListener();
 
 
@@ -526,8 +526,7 @@ public class MapController {
         numArmiesMovedLabel.setVisible(false);
         invalidMovedLabel.setVisible(false);
         skipFortificationPhaseButton.setDisable(true);
-
-
+        saveGameButton.setVisible(true);
     }
 
     /**
