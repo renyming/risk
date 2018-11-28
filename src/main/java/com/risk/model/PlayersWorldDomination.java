@@ -81,7 +81,7 @@ public class PlayersWorldDomination extends Observable implements Serializable {
     public ArrayList<String> getArmyDistribution() {
         ArrayList<String> armyDistribution = new ArrayList<>();
         for (Player player : players) {
-            armyDistribution.add(player.getName() + ": " + player.getTotalStrength());
+            armyDistribution.add(player.getName() + "_" + player.getStrategy().getName() + ": " + player.getTotalStrength());
         }
         return armyDistribution;
     }
@@ -98,7 +98,7 @@ public class PlayersWorldDomination extends Observable implements Serializable {
             for (Continent continent : player.getContinentsOwned()) {
                 allContinentNamesPerPlayer.append(continent.getName()).append(", ");
             }
-            continentNames.add(player.getName() + ": " + allContinentNamesPerPlayer.toString());
+            continentNames.add(player.getName() + "_" + player.getStrategy().getName() + ": " + allContinentNamesPerPlayer.toString());
         }
         return continentNames;
     }

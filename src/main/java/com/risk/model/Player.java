@@ -445,7 +445,11 @@ public class Player extends Observable implements Serializable {
      *  Implementation of reinforcement
      */
     public void reinforcement(){
-        strategy.reinforcement();
+        try {
+            strategy.reinforcement();
+        } catch (InterruptedException e) {
+            System.out.println("Payer.reinforcement(): " + e.getMessage());
+        }
 
 //        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
 //        addRoundArmies();
@@ -562,7 +566,11 @@ public class Player extends Observable implements Serializable {
      */
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
 
-        strategy.attack(attacker, attackerNum, defender, defenderNum, isAllOut);
+        try {
+            strategy.attack(attacker, attackerNum, defender, defenderNum, isAllOut);
+        } catch (InterruptedException e) {
+            System.out.println("Payer.reinforcement(): " + e.getMessage());
+        }
 
 //        if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
 //            return;
@@ -921,8 +929,12 @@ public class Player extends Observable implements Serializable {
      * @param target The country receives out army
      * @param armyNumber Number of armies to move
      */
-    public void fortification(Country source, Country target, int armyNumber){
-        strategy.fortification(source, target, armyNumber);
+    public void fortification(Country source, Country target, int armyNumber) {
+        try {
+            strategy.fortification(source, target, armyNumber);
+        } catch (InterruptedException e) {
+            System.out.println("Payer.reinforcement(): " + e.getMessage());
+        }
 //        //return no response to view if source country's army number is less than the number of armies on moving,
 //        //or the source and target countries aren't connected through the same player's countries
 //        if (!source.getOwner().equals(this) || !target.getOwner().equals(this)) {
@@ -949,9 +961,11 @@ public class Player extends Observable implements Serializable {
     /**
      * For the computer player to orderly execute reinforcement(), attack() and fortification method
      */
-    public void execute(){
-        strategy.execute();
+    public void execute() {
+        try {
+            strategy.execute();
+        } catch (InterruptedException e) {
+            System.out.println("Payer.reinforcement(): " + e.getMessage());
+        }
     }
-
-
 }
