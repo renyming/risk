@@ -13,6 +13,8 @@ import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.view.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -543,14 +545,24 @@ public class MapController {
      * Called when user clicks Save Button
      */
     public void saveGame() {
-//        model.saveGame(mapPane);
+
+        String fileName = "game1.ser";
+        model.save(fileName);
     }
 
 
     /**
      * Called when user clicks Load Button
      */
-    public void loadGame() { menuController.loadGame(); }
+    public void loadGame() {
+       try {
+           menuController.loadGame();
+       } catch (IOException ex){
+           ex.getStackTrace();
+       } catch (ClassNotFoundException ex){
+           ex.getStackTrace();
+       }
+    }
 
 
     /**
