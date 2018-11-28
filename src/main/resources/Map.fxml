@@ -23,7 +23,7 @@
       <AnchorPane fx:id="currentPlayerPane" layoutX="1018.0" layoutY="9.0" prefHeight="835.0" prefWidth="112.0">
          <children>
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="110.0" text="Current Player" />
-            <Label fx:id="currentPlayerNumLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99">
+            <Label fx:id="currentPlayerNameLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99">
                <font>
                   <Font size="10.0" />
                </font></Label>
