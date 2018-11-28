@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static java.lang.Thread.sleep;
 
 
 public class AggressiveStrategy implements PlayerBehaviorStrategy {
@@ -43,7 +44,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      * Orderly execute reinforcement(), attack() and fortification method
      */
     @Override
-    public void execute() {
+    public void execute() throws InterruptedException {
         reinforcement();
         attack(null, "0", null, "0", true);
         fortification(null, null, 0);
@@ -55,7 +56,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      * reinforces its strongest country
      */
     @Override
-    public void reinforcement() {
+    public void reinforcement() throws InterruptedException {
 
         // change card first
         // cards = {"infantry","cavalry","artillery"};
@@ -80,6 +81,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         // update phase
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
+
+        sleep(500);
     }
 
 
@@ -94,7 +97,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      * @param isAllOut true
      */
     @Override
-    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
+    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
         // attacker is the strongest country
         Country strongest = player.getCountriesOwned().stream()
@@ -116,6 +119,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                 });
 
         player.addRandomCard();
+
+        sleep(500);
     }
 
 
@@ -148,7 +153,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      * @param armyNumber
      */
     @Override
-    public void fortification(Country source, Country target, int armyNumber) {
+    public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
                 .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
@@ -175,5 +180,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                 }
             }
         }
+
+        sleep(500);
     }
 }

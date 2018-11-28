@@ -5,6 +5,8 @@ import com.risk.model.*;
 
 import java.io.Serializable;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Human strategy class
  */
@@ -42,10 +44,11 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
      *  Implementation of reinforcement
      */
     @Override
-    public void reinforcement(){
+    public void reinforcement() throws InterruptedException {
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         player.addRoundArmies();
         Phase.getInstance().update();
+
     }
 
 //    /**
@@ -93,7 +96,7 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
      * @param isAllOut true, if the attacker want to all-out; else false
      */
     @Override
-    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut){
+    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
         if (!player.isValidAttack(attacker, attackerNum, defender, defenderNum)) {
             return;
@@ -171,6 +174,7 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
                 +attacker.getArmies()+" Armies.");
         phase.update();
         return;
+
     }
 
 

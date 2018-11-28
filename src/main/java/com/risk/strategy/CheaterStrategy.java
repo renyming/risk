@@ -5,14 +5,10 @@ import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
-
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.risk.model.Model.cards;
-
+import static java.lang.Thread.sleep;
 
 /**
  * Cheater Strategy class
@@ -48,7 +44,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      * Orderly execute reinforcement(), attack() and fortification method
      */
     @Override
-    public void execute() {
+    public void execute() throws InterruptedException {
         reinforcement();
         attack(null, "0", null, "0", true);
         fortification(null, null, 0);
@@ -60,7 +56,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      *  doubles the number of armies on all its countries
      */
     @Override
-    public void reinforcement() {
+    public void reinforcement() throws InterruptedException {
 
         // correct display current phase
         phase.setCurrentPhase("Reinforcement Phase");
@@ -74,6 +70,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         phase.update();
         Model.phaseNumber = 2;
 
+        sleep(500);
     }
 
     /**
@@ -108,6 +105,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                 });
 
         player.addRandomCard();
+
     }
 
 
@@ -121,11 +119,13 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      * @param isAllOut false
      */
     @Override
-    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) {
+    public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
         player.getCountriesOwned().stream()
                 .collect(Collectors.toSet())
                 .forEach(c -> conquerAdj(c));
+
+        sleep(500);
 
     }
 
@@ -152,7 +152,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
      * @param armyNumber 0
      */
     @Override
-    public void fortification(Country source, Country target, int armyNumber) {
+    public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
         // double armies in owned country
         doubleArmies(c -> c.hasAdjEnemy());
@@ -160,6 +160,8 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         // update phase
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
         Phase.getInstance().update();
+
+        sleep(500);
 
     }
 

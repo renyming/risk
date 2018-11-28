@@ -23,10 +23,7 @@
       <AnchorPane fx:id="currentPlayerPane" layoutX="1018.0" layoutY="9.0" prefHeight="835.0" prefWidth="112.0">
          <children>
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="110.0" text="Current Player" />
-            <Label fx:id="currentPlayerNumLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99">
-               <font>
-                  <Font size="10.0" />
-               </font></Label>
+            <Label fx:id="currentPlayerNameLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99" />
             <Label alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="110.0" text="Arimes in hand" />
             <Label fx:id="armiesInHandLabel" alignment="CENTER" layoutY="120.0" prefHeight="30.0" prefWidth="108.0" text="99" />
             <Label fx:id="countryALabel" alignment="CENTER" layoutY="150.0" prefHeight="30.0" prefWidth="110.0" text="From Country" />
@@ -58,11 +55,7 @@
             <Separator layoutX="-6.0" prefWidth="118.0" />
             <Separator layoutX="-6.0" layoutY="835.0" prefWidth="118.0" />
             <Button fx:id="saveGameButton" layoutY="730.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="30.0" prefWidth="108.0" text="Save" />
-            <Label fx:id="currentPlayerTypeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="60.0" prefHeight="30.0" prefWidth="108.0" text="Aggresive Computer" wrapText="true">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
+            <Label fx:id="currentPlayerTypeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="60.0" prefHeight="30.0" prefWidth="108.0" text="aggresive" wrapText="true" />
             <Separator layoutX="-6.0" layoutY="90.0" prefWidth="118.0" />
          </children>
       </AnchorPane>

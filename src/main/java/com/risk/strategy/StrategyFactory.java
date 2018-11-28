@@ -18,15 +18,15 @@ public class StrategyFactory {
      */
     public static PlayerBehaviorStrategy getStrategy(String s, Player p) {
 
-        if (s.equalsIgnoreCase("aggressive")) {
+        if (s.equalsIgnoreCase("aggressive computer")) {
             return new AggressiveStrategy(p);
-        } else if (s.equalsIgnoreCase("benevolent")) {
+        } else if (s.equalsIgnoreCase("benevolent computer")) {
             return new BenevolentStrategy(p);
-        } else if (s.equalsIgnoreCase("human")) {
+        } else if (s.equalsIgnoreCase("human player")) {
             return new HumanStrategy(p);
-        } else if (s.equalsIgnoreCase("random")) {
+        } else if (s.equalsIgnoreCase("random computer")) {
             return new RandomStrategy(p);
-        } else if (s.equalsIgnoreCase("cheater")) {
+        } else if (s.equalsIgnoreCase("cheater computer")) {
             return new CheaterStrategy(p);
         }
 

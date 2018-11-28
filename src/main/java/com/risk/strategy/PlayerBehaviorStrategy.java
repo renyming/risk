@@ -6,17 +6,17 @@ import com.risk.model.Player;
 
 public interface PlayerBehaviorStrategy {
 
-    void reinforcement( );
+    void reinforcement( ) throws InterruptedException;
 
 //    void allocateArmy(Country country, boolean disable);
 
-    void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut);
+    void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException;
 
     void moveArmy(String num);
 
-    void fortification(Country source, Country target, int armyNumber);
+    void fortification(Country source, Country target, int armyNumber) throws InterruptedException;
 
     String getName();
 
-    void execute();
+    void execute() throws InterruptedException;
 }

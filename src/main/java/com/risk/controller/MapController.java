@@ -270,6 +270,7 @@ public class MapController {
         saveGameButton.setVisible(false);
         switch (currentPhase) {
             case "Start Up Phase": case "Fortification Phase":
+                Phase.getInstance().setCurrentPhase("Reinforcement");
                 model.nextPlayer();
                 model.reinforcement();
                 if(cardButton.isDisable()){
