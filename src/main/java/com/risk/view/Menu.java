@@ -62,7 +62,10 @@ public class Menu {
     /**
      * Show menu
      */
-    public void show() { menuStage.show(); mediaPlayer.play(); }
+    public void show() {
+        menuStage.show();
+//        mediaPlayer.play();
+    }
 
 
     /**
