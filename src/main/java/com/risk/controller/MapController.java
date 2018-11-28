@@ -236,7 +236,8 @@ public class MapController {
      * Called by MenuController when user click the start button in select-map menu
      */
     void showMapStage() {
-        AnchorPane mapRootPane = map.getMapRootPane();
+//        AnchorPane mapRootPane = map.getMapRootPane();
+        mapPane.getChildren().clear();
 
         // draw lines
         final double COUNTRY_VIEW_WIDTH = 60;
@@ -247,15 +248,15 @@ public class MapController {
             for (Country countryB : countryA.getAdjCountries()) {
                 Arrow arrow = new Arrow("DEFAULT");
 //                System.out.println(countryA.getName() + " " + countryB.getName());
-                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH, countryA.getY() + COUNTRY_VIEW_HEIGHT);
-                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH, countryB.getY() + COUNTRY_VIEW_HEIGHT);
+                arrow.setStart(countryA.getX() + COUNTRY_VIEW_WIDTH / 2, countryA.getY() + COUNTRY_VIEW_HEIGHT / 2);
+                arrow.setEnd(countryB.getX() + COUNTRY_VIEW_WIDTH / 2, countryB.getY() + COUNTRY_VIEW_HEIGHT / 2);
                 arrows.add(arrow);
-                mapRootPane.getChildren().add(arrow);
+                mapPane.getChildren().add(arrow);
             }
         }
 
         // draw countries
-        for (int key : countryViews.keySet()) mapRootPane.getChildren().add(countryViews.get(key).getCountryPane());
+        for (int key : countryViews.keySet()) mapPane.getChildren().add(countryViews.get(key).getCountryPane());
 
         map.show();
     }
