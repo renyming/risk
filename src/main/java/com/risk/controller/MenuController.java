@@ -215,6 +215,7 @@ public class MenuController {
      */
     public void loadGame() throws IOException,ClassNotFoundException {
 
+        
         String fileName = "game1.ser";
         FileInputStream fileStream = new FileInputStream(fileName);
         ObjectInputStream os = new ObjectInputStream(fileStream);
