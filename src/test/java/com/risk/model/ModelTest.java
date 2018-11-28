@@ -2,7 +2,6 @@ package com.risk.model;
 
 import static org.junit.Assert.*;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test Model class
@@ -162,16 +163,21 @@ public class ModelTest {
     @Ignore
     public void testStartUpPhase() throws IOException {
 
+        List<String> listOne = new ArrayList<>();
+        listOne.add("10");
+        List<String> listTwo = new ArrayList<>();
+        listOne.add("4");
+
         Model testedModel = new Model();
         testedModel.setFileInfoMenu(new FileInfoMenu());
         testedModel.setNumPlayerMenu(new NumPlayerMenu());
 
         testedModel.readFile("./src/main/resources/Aden.map");
-        testedModel.initiatePlayers("10");
+        testedModel.initiatePlayers(listOne);
         assertEquals(0, testedModel.getPlayers().size());
 
         testedModel.readFile("./src/main/resources/Aden.map");
-        testedModel.initiatePlayers("4");
+        testedModel.initiatePlayers(listTwo);
         assertEquals(4, testedModel.getPlayers().size());
         assertEquals(42, testedModel.getCountries().size());
         assertEquals(8, testedModel.getContinents().size());
