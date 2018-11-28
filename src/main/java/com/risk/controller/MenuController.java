@@ -378,6 +378,7 @@ public class MenuController {
         model.startUp(mapController.createCountryViews());
         menu.hide();
         mapController.showMapStage();
+        model.isComputerPlayer();
     }
 
 

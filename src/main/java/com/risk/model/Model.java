@@ -493,7 +493,7 @@ public class Model extends Observable implements Serializable {
         PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
 
-        isComputerPlayer();
+//        isComputerPlayer();
     }
 
 //    /**
