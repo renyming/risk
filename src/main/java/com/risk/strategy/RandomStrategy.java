@@ -7,12 +7,12 @@ import com.risk.model.Phase;
 import com.risk.model.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class RandomStrategy implements PlayerBehaviorStrategy {
 
+    private String name;
     private Player player;
     private Phase phase;
     Country attackingCountry;
@@ -22,8 +22,28 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
     private Random random=new Random();
 
     public RandomStrategy(Player player) {
+        name = "random";
         this.player = player;
         phase = Phase.getInstance();
+    }
+
+    /**
+     * Get name
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Orderly execute reinforcement(), attack() and fortification method
+     */
+    @Override
+    public void execute() {
+        reinforcement();
+        attack(null, "0", null, "0", true);
+        fortification(null, null, 0);
     }
 
     /**
@@ -99,15 +119,36 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     @Override
     public void moveArmy(String num) {
-        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum)+attackerDiceNum;
-        attackingCountry.setArmies(attackingCountry.getArmies()-n);
+        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum+1)+attackerDiceNum;
+        attackingCountry.addArmies(-n);
         defendingCountry.addArmies(n);
     }
 
     @Override
     public void fortification(Country source, Country target, int armyNumber) {
 
+        //terminates if player has less than two countries
+        if (player.getCountriesSize()<2) return;
+
+        Country fromCountry=getRandomCountry(player.getCountriesOwned());
+        Country toCountry;
+
+        //pick a dest country until it's not the origin country
+        while(true){
+            toCountry=getRandomCountry(player.getCountriesOwned());
+            if (toCountry!=fromCountry) break;
+        }
+
+        //number of armies to move
+        int numArmies=random.nextInt(fromCountry.getArmies()+1);
+        fromCountry.addArmies(-numArmies);
+        toCountry.addArmies(numArmies);
+
+        phase.setActionResult(Action.Show_Next_Phase_Button);
+        phase.update();
+
     }
+
 
     /**
      * Test if a country can act as valid attacker

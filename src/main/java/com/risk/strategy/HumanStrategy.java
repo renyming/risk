@@ -30,6 +30,13 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
         return name;
     }
 
+    /**
+     * Not need
+     */
+    @Override
+    public void execute() {
+    }
+
     //-----------------------------------------reinforcement----------------------------------------------
     /**
      *  Implementation of reinforcement

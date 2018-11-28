@@ -352,7 +352,8 @@ public class MenuController {
             }
         }
         numPlayerMenuView.setTotalNumPlayer(enteredPlayerNum);
-        model.initiatePlayers(enteredPlayerNum);
+        //TODO:: modify the list<String> playerStrategy
+//        model.initiatePlayers(enteredPlayerNum);
     }
 
 
@@ -362,8 +363,8 @@ public class MenuController {
      * Pass info to the Menu, Model, and MapController
      */
     public void startGame() {
-        model.initiatePlayersType(listOfPlayersType);
-        mapController.initPhaseView();
+//        model.initiatePlayersType(listOfPlayersType);
+//        mapController.initPhaseView();
 
         // TODO: pass Players type info to Model
         HashMap<Integer, String> playerTypes = new HashMap<>();

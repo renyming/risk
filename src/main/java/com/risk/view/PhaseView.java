@@ -24,7 +24,8 @@ public class PhaseView implements Observer {
     // general map components
     private Label phaseLabel;
     private Button nextPhaseButton;
-    private Label currentPlayerLabel;
+    private Label currentPlayerNameLabel;
+    private Label currentPlayerTypeLabel;
     private Label armiesInHandLabel;
     private Label invalidMovedLabel;
     private Button saveGameButton;
@@ -78,7 +79,8 @@ public class PhaseView implements Observer {
      * Initialize the relative map component
      * @param phaseLabel displays the current phase
      * @param nextPhaseButton allows user the enter the next phase
-     * @param currentPlayerLabel displays the current player name
+     * @param currentPlayerNameLabel displays the current player name
+     * @param currentPlayerTypeLabel displays the current player type
      * @param armiesInHandLabel displays the number of armies in current player's hand
      * @param countryALabel indicates the from-country
      * @param countryANameLabel displays the from-country name
@@ -90,14 +92,15 @@ public class PhaseView implements Observer {
      * @param skipFortificationPhaseButton allows user to skip the fortification phase
      * @param mapController is the MapController reference
      */
-    public void init(Label phaseLabel, Button nextPhaseButton, Label currentPlayerLabel, Label armiesInHandLabel,
+    public void init(Label phaseLabel, Button nextPhaseButton, Label currentPlayerNameLabel, Label currentPlayerTypeLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
                      Button skipFortificationPhaseButton, Button saveGameButton,
                      MapController mapController) { // TODO: refactor
         this.phaseLabel = phaseLabel;
         this.nextPhaseButton = nextPhaseButton;
-        this.currentPlayerLabel = currentPlayerLabel;
+        this.currentPlayerNameLabel = currentPlayerNameLabel;
+        this.currentPlayerTypeLabel = currentPlayerTypeLabel;
         this.armiesInHandLabel = armiesInHandLabel;
         this.countryALabel = countryALabel;
         this.countryANameLabel = countryANameLabel;
@@ -156,8 +159,9 @@ public class PhaseView implements Observer {
         // check current Player update
         if (null == currentPlayer || currentPlayer.getId() != nextPlayer.getId()) {
             currentPlayer = phase.getCurrentPlayer();
-            currentPlayerLabel.setText(currentPlayer.getName());
-            currentPlayerLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
+            currentPlayerNameLabel.setText(currentPlayer.getName());
+            currentPlayerNameLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
+            currentPlayerTypeLabel.setText(currentPlayer.getStrategy().getName());
             armiesInHandLabel.setText(Integer.toString(phase.getCurrentPlayer().getArmies()));
         }
 

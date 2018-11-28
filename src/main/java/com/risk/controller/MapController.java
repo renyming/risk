@@ -12,9 +12,7 @@ import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.view.*;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -25,7 +23,8 @@ import java.util.HashSet;
 public class MapController {
 
     // general map components
-    @FXML private Label currentPlayerLabel;
+    @FXML private Label currentPlayerNameLabel;
+    @FXML private Label currentPlayerTypeLabel;
     @FXML private Label armiesInHandLabel;
     @FXML private Button nextPhaseButton;
     @FXML private Label invalidMovedLabel;
@@ -198,7 +197,7 @@ public class MapController {
      */
     void initPhaseView() {
         PhaseView phaseView = PhaseView.getInstance();
-        phaseView.init(phaseLabel, nextPhaseButton, currentPlayerLabel, armiesInHandLabel,
+        phaseView.init(phaseLabel, nextPhaseButton, currentPlayerNameLabel, currentPlayerTypeLabel, armiesInHandLabel,
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton, saveGameButton,
