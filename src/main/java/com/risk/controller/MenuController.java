@@ -1,6 +1,5 @@
 package com.risk.controller;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -15,10 +14,8 @@ import com.risk.view.View;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.FutureTask;
 
 
 /**
@@ -380,25 +377,6 @@ public class MenuController {
         model.initiatePlayers(playerTypes);
         model.startUp(mapController.createCountryViews());
         menu.hide();
-
-//        try {
-//            FutureTask<Void> updateUITask = new FutureTask(() -> {
-//
-//                // code to update UI...
-//                mapController.showMapStage();
-//
-//            }, /* return value from task: */ null);
-//
-//            // submit for execution on FX Application Thread:
-//            Platform.runLater(updateUITask);
-//
-//            // block until work complete:
-//            updateUITask.get();
-//        } catch (ExportException e) {
-//            System.out.println("MenuController.");
-//        }
-
-
         mapController.showMapStage();
         model.isComputerPlayer();
     }
