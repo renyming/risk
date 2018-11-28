@@ -2,6 +2,7 @@ package com.risk.strategy;
 
 
 import com.risk.common.Action;
+import com.risk.common.Tool;
 import com.risk.model.Country;
 import com.risk.model.Phase;
 import com.risk.model.Player;
@@ -32,23 +33,6 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         phase = Phase.getInstance();
     }
 
-    public void printBasicInfo(String title) {
-
-        System.out.println();
-        System.out.println(title);
-        System.out.println("-----------------------------------------------");
-        System.out.println("Current Player: " + name);
-        System.out.println("Current total strength: " + player.getTotalStrength());
-        System.out.println("Current armies need to allocated: " + player.getArmies());
-        System.out.println("Current size of countries owned: " + player.getCountriesOwned().size());
-        System.out.println(player.getCountriesOwned());
-        System.out.println("Current continent owned: ");
-        System.out.print(player.getContinentsOwned());
-        System.out.println("Current Card owned: ");
-        System.out.println(player.getCards());
-        System.out.println();
-    }
-
 
     /**
      * Get name
@@ -65,7 +49,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void execute() throws InterruptedException {
 
-        printBasicInfo("Before Round-Robin");
+        Tool.printBasicInfo(player,"Before Round-Robin");
 
         reinforcement();
         attack(null, "0", null, "0", true);
@@ -106,7 +90,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
 
-        printBasicInfo("After reinforcement: ");
+        Tool.printBasicInfo(player, "After reinforcement: ");
 
 //        sleep(500);
     }
@@ -148,7 +132,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         player.addRandomCard();
 
-        printBasicInfo("After attack: ");
+        Tool.printBasicInfo(player,"After attack: ");
 
 //        sleep(500);
     }
@@ -212,7 +196,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                 }
             }
         }
-        printBasicInfo("After fortification: ");
+        Tool.printBasicInfo(player,"After fortification: ");
 //        sleep(500);
     }
 }

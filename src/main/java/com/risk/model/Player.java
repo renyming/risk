@@ -526,7 +526,10 @@ public class Player extends Observable implements Serializable {
         cards.put(card2,cards.get(card2) - 1);
         cards.put(card3,cards.get(card3) - 1);
 
-        CardModel.getInstance().update();
+        if (strategy.getName().equalsIgnoreCase("human")) {
+            CardModel.getInstance().update();
+        }
+
     }
 
     /**
