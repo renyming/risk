@@ -3,10 +3,12 @@ package com.risk.strategy;
 import com.risk.common.Action;
 import com.risk.model.*;
 
+import java.io.Serializable;
+
 /**
  * Human strategy class
  */
-public class HumanStrategy implements PlayerBehaviorStrategy {
+public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private Player player;
     private Phase phase;

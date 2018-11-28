@@ -1,5 +1,6 @@
 package com.risk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -10,7 +11,7 @@ import java.util.Observable;
  * Note:
  *      1. No arg in notifyObservers() call because view will refresh all the elements on "Country" node;
  */
-public class Country extends Observable implements Comparable<Country> {
+public class Country extends Observable implements Comparable<Country>, Serializable {
 
     //Unique ID for each country, starts from 1
     private int ID;
