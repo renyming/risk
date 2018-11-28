@@ -373,15 +373,10 @@ public class Model extends Observable {
     }
 
     /**
-     * create Player object for every Player, and add the observer
-     * Players are allocated a number of initial armies
-     * notify CountryView (country info
-     * notify PlayerView  (current player)
-     * notify View (state and additional info)
+     * Check if the number of players is valid
      * @param enteredPlayerNum number of players
      */
-    public void initiatePlayers(String enteredPlayerNum){
-
+    public void checkPlayersNum(String enteredPlayerNum) {
         players.clear();
         playerCounter = Integer.parseInt(enteredPlayerNum);
 
@@ -390,17 +385,29 @@ public class Model extends Observable {
             numPlayerMenu.update();
             return;
         }
-
         numPlayerMenu.setValidationResult(true,"");
         numPlayerMenu.update();
+    }
+
+
+    /**
+     * create Player object for every Player, and add the observer
+     * Players are allocated a number of initial armies
+     * notify CountryView (country info
+     * notify PlayerView  (current player)
+     * notify View (state and additional info)
+     * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
+     */
+    public void initiatePlayers(List<String> playerType){
 
         int initialArmies = getInitialArmies(playerCounter);
         initialArmies=3;
 
+        playerCounter = playerType.size();
 
         for (int i = 0; i < playerCounter; i++){
 
-            String strategy = "human";
+            String strategy = playerType.get(i);
             Player newPlayer = new Player("Player" + String.valueOf(i), countries.size(), strategy);
             newPlayer.setArmies(initialArmies);
             newPlayer.setTotalStrength(initialArmies);

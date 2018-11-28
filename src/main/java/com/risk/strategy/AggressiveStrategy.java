@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
+    private String name;
     private Player player;
     private Phase phase;
 
@@ -23,9 +24,21 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
      * @param player
      */
     public AggressiveStrategy(Player player) {
+        name = "aggressive";
         this.player = player;
         phase = Phase.getInstance();
     }
+
+
+    /**
+     * Get name
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
 
     /**
      * Reinforcement method
