@@ -112,6 +112,7 @@ public class RandomStrategyTest {
 
     @Test
     public void attack() {
+        singapore.setArmies(100);
         player.attack(singapore,"0",china,"0",true);
     }
 

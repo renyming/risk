@@ -77,11 +77,11 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         //player has no country is a valid attacker
         if (!player.isAttackPossible()) return;
 
-        int randomNumAttacks=random.nextInt();
         ArrayList<Country> attackingCandidatesList=new ArrayList<>(player.getCountriesOwned());
 
-        for (int i=1;i<randomNumAttacks;i++){
+        while (player.isAttackPossible()){
             attackingCountry= getRandomCountry(attackingCandidatesList);
+            System.out.println("Attacking country: "+ attackingCountry.getName());
             if (isValidAttacker(attackingCountry)) {
                 //get all adjacent countries belongs to other players
                 ArrayList<Country> defendingCandiatesList=attackingCountry.getAdjCountries().stream()
@@ -90,6 +90,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
                 //randomly pick an adjacent country to attack
                 defendingCountry= getRandomCountry(defendingCandiatesList);
+                System.out.println("Defending country: "+defendingCountry.getName());
 
                 //randomly generates number of dices
                 if (attackingCountry.getArmies()==2) {
@@ -97,12 +98,14 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
                 } else {
                     attackerDiceNum=random.nextInt(3)+1; //1~3
                 }
+                System.out.println("Attacker dice number: "+attackerDiceNum);
 
                 if (defendingCountry.getArmies()==1) {
                     defenderDiceNum=1;
                 } else {
                     defenderDiceNum=random.nextInt(2)+1; //1~2
                 }
+                System.out.println("Defender dice number: "+defenderDiceNum);
 
                 player.attackOnce(attackingCountry, attackerDiceNum, defendingCountry, defenderDiceNum);
 
@@ -115,8 +118,16 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
             } else {
                 attackingCandidatesList.remove(attackingCountry);
-                --i;
+                System.out.println("Country invalid");
+                continue;
             }
+
+            int moreAttack=random.nextInt(2); //0~1; 0-exit attacking; 1-continue attacking
+            attackingCandidatesList=new ArrayList<>(player.getCountriesOwned());
+            if (moreAttack==0) {
+                break;
+            }
+
         }
 
         sleep(500);
