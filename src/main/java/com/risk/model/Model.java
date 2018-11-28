@@ -7,9 +7,7 @@ import com.risk.exception.InvalidMapException;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -48,6 +46,19 @@ public class Model extends Observable {
         countries = new HashMap<>();
         continents = new ArrayList<>();
         playerCounter = 0;
+    }
+
+    public boolean save(String fileName){
+        try {
+            FileOutputStream fileStream = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fileStream);
+            os.writeObject(this);
+        } catch (FileNotFoundException ex){
+            return false;
+        } catch (IOException ex){
+            return false;
+        }
+        return true;
     }
 
     /**
