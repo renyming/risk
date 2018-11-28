@@ -147,7 +147,6 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().update();
 
         CardModel.getInstance().addObserver(CardView.getInstance());
-
     }
 
     /**
@@ -830,6 +829,11 @@ public class Model extends Observable implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public void loadGame(){
+        Phase.getInstance().update();
+        PlayersWorldDomination.getInstance().update();
     }
 
 }

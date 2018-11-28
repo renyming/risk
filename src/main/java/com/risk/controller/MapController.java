@@ -13,6 +13,7 @@ import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.view.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -237,6 +238,7 @@ public class MapController {
      */
     void showMapStage() {
         AnchorPane mapRootPane = map.getMapRootPane();
+        //mapRootPane.getChildren().clear();
 
         // draw lines
         final double COUNTRY_VIEW_WIDTH = 60;
@@ -545,6 +547,13 @@ public class MapController {
      * Called when user clicks Save Button
      */
     public void saveGame() {
+
+        String fileName = "game1.ser";
+
+        if(model.save(fileName)){
+            System.out.println("Game is saved!");
+        }
+
 //        model.saveGame(mapPane);
     }
 
@@ -552,7 +561,16 @@ public class MapController {
     /**
      * Called when user clicks Load Button
      */
-    public void loadGame() { menuController.loadGame(); }
+    public void loadGame() {
+
+        try {
+            menuController.loadGame();
+        } catch (IOException ex){
+            System.out.println("Load game failed!");
+        } catch (ClassNotFoundException ex){
+            System.out.println("Load game failed!");
+        }
+    }
 
 
     /**
