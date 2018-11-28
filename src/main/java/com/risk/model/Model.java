@@ -48,19 +48,6 @@ public class Model extends Observable {
         playerCounter = 0;
     }
 
-    public boolean save(String fileName){
-        try {
-            FileOutputStream fileStream = new FileOutputStream(fileName);
-            ObjectOutputStream os = new ObjectOutputStream(fileStream);
-            os.writeObject(this);
-        } catch (FileNotFoundException ex){
-            return false;
-        } catch (IOException ex){
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Get fileInfoMenu
      * @return fileInfoMenu the fileInfo menu
@@ -701,5 +688,23 @@ public class Model extends Observable {
 //           Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //           Phase.getInstance().update();
        }
+    }
+
+    /**
+     * save the whole game to be loaded later
+     * @param fileName the name of file save to
+     * @return true if the game is saved successfully; otherwise return false
+     */
+    public boolean save(String fileName){
+        try {
+            FileOutputStream fileStream = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fileStream);
+            os.writeObject(this);
+        } catch (FileNotFoundException ex){
+            return false;
+        } catch (IOException ex){
+            return false;
+        }
+        return true;
     }
 }
