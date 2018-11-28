@@ -51,12 +51,17 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         Tool.printBasicInfo(player,"Before Round-Robin");
 
+        //reinforcement
         reinforcement();
+
+        //attack
         Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
         if (phase.getActionResult() == Action.Win) {
             return;
         }
+
+        //fortification
         Phase.getInstance().setCurrentPhase("Fortification Phase");
         fortification(null, null, 0);
     }
