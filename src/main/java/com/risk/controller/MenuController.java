@@ -1,5 +1,7 @@
 package com.risk.controller;
 
+import com.risk.model.Phase;
+import com.risk.model.PlayersWorldDomination;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -38,6 +40,7 @@ public class MenuController {
     @FXML public TextField numPlayerTextField;
 
     @FXML public Button startButton;
+    @FXML public Button startButton1;
     @FXML public Button selectMapButton;
     @FXML public Button deleteMapButton;
 
@@ -71,7 +74,7 @@ public class MenuController {
     private boolean tournamentMode;
     private ObservableList<String> selectedMaps = FXCollections.observableArrayList();
     private ObservableList<String> playerTypes;
-
+    private ArrayList<String> filesPath = new ArrayList<>();
 
 
     /**
@@ -214,13 +217,33 @@ public class MenuController {
      * Called when users click Load Saved Game
      */
     public void loadGame() throws IOException,ClassNotFoundException {
+        mapController.initPhaseView();
 
-        
-        String fileName = "game1.ser";
-        FileInputStream fileStream = new FileInputStream(fileName);
+        String fileName = "game1";
+
+        FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
         ObjectInputStream os = new ObjectInputStream(fileStream);
         model = (Model) os.readObject();
 
+
+        fileStream = new FileInputStream(fileName + "phase.ser");
+        os = new ObjectInputStream(fileStream);
+
+        Phase phase = (Phase)os.readObject();
+
+        Phase.getInstance().setActionResult(phase.getActionResult());
+        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+        Phase.getInstance().setCurrentPlayer(phase.getCurrentPlayer());
+
+        fileStream = new FileInputStream(fileName + "world.ser");
+        os = new ObjectInputStream(fileStream);
+
+        PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
+
+        PlayersWorldDomination.getInstance().setPlayers(playersWorldDomination.getPlayers());
+        PlayersWorldDomination.getInstance().setTotalNumCountries(playersWorldDomination.getTotalNumCountries());
+
+        os.close();
         load(model.getCountries().size());
 
         //model.loadGame(); // model update Phase, PlayersWorldDomination
@@ -277,7 +300,7 @@ public class MenuController {
 
             playerTypes = FXCollections.observableArrayList();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
-                    startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);
+                    startButton, startButton1, mapController, playerNumLabels, playerTypeChoiceBoxes);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         }
         if (null != fileInfoMenuView) {
@@ -305,7 +328,7 @@ public class MenuController {
      */
     public void selectMap() {
         System.out.println("Selecting Map......");
-        if (tournamentMode && 2 == selectedMaps.size()) {
+        if (tournamentMode && 5 == selectedMaps.size()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Max map number is 5, remove first");
             alert.show();
             return;
@@ -317,6 +340,7 @@ public class MenuController {
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
             fileInfoMenuView.setSelectedFilename(riskMapFile.getName());
+            filesPath.add(riskMapFile.getPath());
             try {
                 model.readFile(riskMapFile.getPath());
             } catch (IOException exception) {
@@ -401,5 +425,50 @@ public class MenuController {
     }
 
 
-    public void startTournamentGame(){ }
+    /**
+     * start tournament game
+     */
+    public void startTournamentGame(){
+        int numMaps = 0;
+        int numGames = 0;
+        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();
+
+        while(numMaps < selectedMaps.size()){
+
+            String mapPath = filesPath.get(numMaps);
+            ArrayList<String> winners = new ArrayList<>();
+
+            try {
+                model.resetValue();
+                model.readFile(mapPath);
+                System.out.println(model.phaseNumber);
+            } catch (IOException exception) {
+                System.out.println("MenuController.readFile(): " + exception.getMessage());
+            }
+            System.out.println("Next map is "+mapPath);
+            while(numGames< gamesPerMapSpinner.getValue()){
+                model.resetValue();
+                System.out.println("Next game is "+ numGames);
+                Model.maxTurn = turnsPerGameSpinner.getValue();
+                System.out.println("max TUrn:"+Model.maxTurn);
+                startGame();
+                System.out.println("finish!!!!!!!!!!!!!!!!!!!!!");
+                winners.add(Model.winner);
+                numGames++;
+            }
+
+            finalResult.add(winners);
+            numMaps++;
+        }
+
+        for(int i=0; i<numMaps; i++){
+            for(int j=0; j<numGames; j++){
+                System.out.print("Map : "+selectedMaps.get(i)+" Game : "+(j+1)+" Winner : "+finalResult.get(i).get(j));
+                System.out.println("");
+
+                }
+            }
+
+    }
+
 }

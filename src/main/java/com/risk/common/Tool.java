@@ -1,5 +1,6 @@
 package com.risk.common;
 
+import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 import javafx.application.Platform;
@@ -32,6 +33,7 @@ public class Tool {
         player.getContinentsOwned().stream().forEach(continent -> System.out.print(continent.getName() + ", "));
         System.out.println("Current Card owned: ");
         System.out.println(player.getCards());
+        System.out.println("Current turn " + Model.currentTurn);
         System.out.println();
     }
 
