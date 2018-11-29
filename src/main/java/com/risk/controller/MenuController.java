@@ -2,6 +2,8 @@ package com.risk.controller;
 
 import com.risk.model.Phase;
 import com.risk.model.PlayersWorldDomination;
+import com.risk.view.*;
+import com.risk.view.Menu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -9,10 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import com.risk.model.Model;
-import com.risk.view.FileInfoMenuView;
-import com.risk.view.Menu;
-import com.risk.view.NumPlayerMenuView;
-import com.risk.view.View;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -226,6 +224,7 @@ public class MenuController {
         FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
         ObjectInputStream os = new ObjectInputStream(fileStream);
         model = (Model) os.readObject();
+        model.nonStaticToStatic();
 
         os.close();
 
@@ -233,13 +232,15 @@ public class MenuController {
         os = new ObjectInputStream(fileStream);
 
         Phase phase = (Phase)os.readObject();
-
+        //phase.setCurrentPhase("Reinforcement Phase");
+        phase.addObserver(PhaseView.getInstance());
         phase.update();
 
         fileStream = new FileInputStream(fileName + "world.ser");
         os = new ObjectInputStream(fileStream);
 
         PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
+        playersWorldDomination.addObserver(PlayersWorldDominationView.getInstance());
         playersWorldDomination.update();
 
         os.close();
