@@ -118,10 +118,14 @@ public class RandomStrategyTest {
         assertEquals(canada.getOwner(),player);
         assertEquals(usa.getOwner(),player);
         assertEquals(thailand.getOwner(),defender);
+        assertEquals(Phase.getInstance().getActionResult(),Action.Show_Next_Phase_Button);
     }
 
     @Test
     public void fortification() {
-
+        player.fortification(singapore,china,0);
+        defender.fortification(singapore,china,0);
+        assertEquals(singapore.getArmies()+canada.getArmies()+usa.getArmies(),10);
+        assertEquals(thailand.getArmies()+china.getArmies(),5);
     }
 }
