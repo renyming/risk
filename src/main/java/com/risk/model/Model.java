@@ -20,15 +20,24 @@ import static java.lang.Thread.sleep;
 
 public class Model extends Observable implements Serializable {
 
+    public int cardsValueNonStatic;
+    public int phaseNumberNonStatic;
+    public boolean disableNonStatic;
+
+
     //card
     public static int cardsValue = 5;
-    public static final String[] cards = {"infantry","cavalry","artillery"};
+
+
+
+    public final static String[] cards = {"infantry","cavalry","artillery"};
+
 
     //winner
     public static String winner = "draw";
 
     // data
-    private static Player currentPlayer;
+    private Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
@@ -42,6 +51,8 @@ public class Model extends Observable implements Serializable {
 
     //indicate current phaseNumber; startUp0; rPhase1; aPhase2; fPhase3
     public static int phaseNumber = 0;
+
+
 
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
@@ -120,7 +131,7 @@ public class Model extends Observable implements Serializable {
      * get current player
      * @return current player
      */
-    public static Player getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
@@ -128,7 +139,7 @@ public class Model extends Observable implements Serializable {
      * set current player
      * @param  p player
      */
-    public static void setCurrentPlayer(Player p) {
+    public void setCurrentPlayer(Player p) {
         currentPlayer = p;
     }
 
@@ -872,6 +883,8 @@ public class Model extends Observable implements Serializable {
     public boolean save(String fileName){
         try {
 
+            staticToNonStatic();
+
             FileOutputStream fileStream = new FileOutputStream(fileName + "model.ser");
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
             os.writeObject(this);
@@ -890,6 +903,18 @@ public class Model extends Observable implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public void staticToNonStatic(){
+        cardsValueNonStatic = Model.cardsValue;
+        phaseNumberNonStatic = Model.phaseNumber;
+        disableNonStatic = Model.disable;
+    }
+
+    public void nonStaticToStatic(){
+        Model.phaseNumber = phaseNumberNonStatic;
+        Model.disable = disableNonStatic;
+        Model.cardsValue = cardsValueNonStatic;
     }
 
 }
