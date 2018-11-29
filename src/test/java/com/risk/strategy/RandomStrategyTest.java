@@ -112,16 +112,16 @@ public class RandomStrategyTest {
 
     @Test
     public void attack() {
+        player.setArmies(player.getArmies()+100);
         singapore.setArmies(100);
         player.attack(singapore,"0",china,"0",true);
-    }
-
-    @Test
-    public void moveArmy() {
-
+        assertEquals(canada.getOwner(),player);
+        assertEquals(usa.getOwner(),player);
+        assertEquals(thailand.getOwner(),defender);
     }
 
     @Test
     public void fortification() {
+
     }
 }
