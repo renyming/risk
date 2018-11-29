@@ -546,7 +546,7 @@ public class MapController {
      */
     public void saveGame() {
 
-        String fileName = "game1.ser";
+        String fileName = "game1";
         model.save(fileName);
     }
 
@@ -555,6 +555,7 @@ public class MapController {
      * Called when user clicks Load Button
      */
     public void loadGame() {
+        initPhaseView();
        try {
            menuController.loadGame();
        } catch (IOException ex){

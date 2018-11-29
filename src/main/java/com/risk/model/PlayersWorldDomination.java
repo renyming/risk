@@ -17,8 +17,8 @@ public class PlayersWorldDomination extends Observable implements Serializable {
 
     private static PlayersWorldDomination instance;
 
-    private ArrayList<Player> players;
-    private int totalNumCountries;
+    static private ArrayList<Player> players;
+    static private int totalNumCountries;
 
 
     /**
@@ -37,6 +37,13 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         return instance;
     }
 
+    public static ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public static int getTotalNumCountries(){
+        return totalNumCountries;
+    }
 
     /**
      * Model call this method after calling all of the following setter functions
@@ -56,7 +63,7 @@ public class PlayersWorldDomination extends Observable implements Serializable {
      * Model sets the total number of countries, use the value to calculate country percentage later
      * @param totalNumCountries is the total number of countries for the map
      */
-    void setTotalNumCountries(int totalNumCountries) { this.totalNumCountries = totalNumCountries; }
+    public void setTotalNumCountries(int totalNumCountries) { this.totalNumCountries = totalNumCountries; }
 
 
     /**

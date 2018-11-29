@@ -820,9 +820,19 @@ public class Model extends Observable implements Serializable {
      */
     public boolean save(String fileName){
         try {
-            FileOutputStream fileStream = new FileOutputStream(fileName);
+
+            FileOutputStream fileStream = new FileOutputStream(fileName + "model.ser");
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
             os.writeObject(this);
+
+            fileStream = new FileOutputStream(fileName + "phase.ser");
+            os = new ObjectOutputStream(fileStream);
+            os.writeObject(Phase.getInstance());
+
+            fileStream = new FileOutputStream(fileName + "world.ser");
+            os = new ObjectOutputStream(fileStream);
+            os.writeObject(PlayersWorldDomination.getInstance());
+
         } catch (FileNotFoundException ex){
             return false;
         } catch (IOException ex){
