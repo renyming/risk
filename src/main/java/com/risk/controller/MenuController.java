@@ -1,5 +1,7 @@
 package com.risk.controller;
 
+import com.risk.common.Action;
+import com.risk.model.CardModel;
 import com.risk.model.Phase;
 import com.risk.model.PlayersWorldDomination;
 import com.risk.view.*;
@@ -219,6 +221,7 @@ public class MenuController {
     public void loadGame() throws IOException,ClassNotFoundException {
         mapController.initPhaseView();
 
+
         String fileName = "game1";
 
         FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
@@ -226,15 +229,21 @@ public class MenuController {
         model = (Model) os.readObject();
         model.nonStaticToStatic();
 
+        view.setModel(model);
+
         os.close();
 
         fileStream = new FileInputStream(fileName + "phase.ser");
         os = new ObjectInputStream(fileStream);
 
         Phase phase = (Phase)os.readObject();
-        //phase.setCurrentPhase("Reinforcement Phase");
+        phase.setCurrentPhase("Start Up Phase");
+
         phase.addObserver(PhaseView.getInstance());
         phase.update();
+        phase.setActionResult(Action.Show_Next_Phase_Button);
+        phase.update();
+
 
         fileStream = new FileInputStream(fileName + "world.ser");
         os = new ObjectInputStream(fileStream);

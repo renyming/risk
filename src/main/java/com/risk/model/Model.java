@@ -897,6 +897,10 @@ public class Model extends Observable implements Serializable {
             os = new ObjectOutputStream(fileStream);
             os.writeObject(PlayersWorldDomination.getInstance());
 
+            fileStream = new FileOutputStream(fileName + "card.ser");
+            os = new ObjectOutputStream(fileStream);
+            os.writeObject(CardModel.getInstance());
+
         } catch (FileNotFoundException ex){
             return false;
         } catch (IOException ex){
