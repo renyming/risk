@@ -1,6 +1,8 @@
 package com.risk.common;
 
+import com.risk.model.Phase;
 import com.risk.model.Player;
+import javafx.application.Platform;
 
 /**
  * tools
@@ -11,6 +13,11 @@ public class Tool {
 
     }
 
+    /**
+     * Print out the useful info
+     * @param player player need to print
+     * @param title title
+     */
     public static void printBasicInfo(Player player, String title) {
 
         System.out.println();
@@ -26,5 +33,21 @@ public class Tool {
         System.out.println("Current Card owned: ");
         System.out.println(player.getCards());
         System.out.println();
+    }
+
+    /**
+     * update UI when not in the FX thread
+     */
+    public static void updateThread() {
+
+        new Thread(new Runnable() {
+            @Override public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        Phase.getInstance().update();
+                    }
+                });
+            }
+        }).start();
     }
 }

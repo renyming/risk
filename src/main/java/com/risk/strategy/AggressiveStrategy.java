@@ -85,7 +85,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         // computer the armies that need to added roundly
 //        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         player.addRoundArmies();
-        Phase.getInstance().update();
+        phase.update();
+        Tool.updateThread();
 
         // find the strongest country
         Country strongest = player.getCountriesOwned().stream()
@@ -98,7 +99,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         // update phase
         phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+//        phase.update();
+        Tool.updateThread();
 
         Tool.printBasicInfo(player, "After reinforcement: ");
 
@@ -135,6 +137,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                 player.allOut(strongest, enemy);
 
                 if (phase.getActionResult() == Action.Win) {
+                    Tool.updateThread();
                     return;
                 }
 
@@ -145,7 +148,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         }
 
         player.addRandomCard();
-        phase.update();
+//        phase.update();
+        Tool.updateThread();
         Tool.printBasicInfo(player,"After attack: ");
 
 
@@ -205,8 +209,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                     c1.setArmies(c1.getArmies() + c2.getArmies());
                     c2.setArmies(0);
 
-                    Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-                    Phase.getInstance().update();
+                    phase.setActionResult(Action.Show_Next_Phase_Button);
+//                    phase.update();
+                    Tool.updateThread();
 
                     Tool.printBasicInfo(player,"After fortification: ");
                     return;

@@ -22,7 +22,11 @@ public class WorkerThread extends Thread {
                 if (Phase.getInstance().getActionResult() == Action.Win) {
                     return;
                 }
-                model.nextPlayer();
+
+                if (!model.isNextPlayerHuman()) {
+                    model.nextPlayer();
+                }
+
             }
         });
     }

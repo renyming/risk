@@ -734,6 +734,7 @@ public class Player extends Observable implements Serializable {
                 // give the name of winner
                 phase.setInvalidInfo("Congratulations, You Win!");
                 System.out.println(name + ", Congratulations, You Win!");
+                Model.winner = attacker.getOwner().getName();
             }
 
             return true;

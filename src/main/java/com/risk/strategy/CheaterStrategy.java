@@ -76,14 +76,16 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
         // correct display current phase
         phase.setCurrentPhase("Reinforcement Phase");
-        phase.update();
+//        phase.update();
+        Tool.updateThread();
 
         // double armies in owned country
         doubleArmies(c -> true);
 
         // update phase
         phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+//        phase.update();
+        Tool.updateThread();
         Model.phaseNumber = 2;
 
         Tool.printBasicInfo(player, "After reinforcement: ");
@@ -116,10 +118,13 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                         // give the name of winner
                         phase.setInvalidInfo("Congratulations, You Win!");
                         System.out.println(player.getName() + ", Congratulations, You Win! ");
-                        phase.update();
+                        Model.winner = player.getName();
+//                        phase.update();
+                        Tool.updateThread();
                         return;
                     }
-                    phase.update();
+//                    phase.update();
+                    Tool.updateThread();
 
                 });
 
@@ -162,7 +167,8 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
-        phase.update();
+//        phase.update();
+        Tool.updateThread();
 
     }
 
@@ -182,8 +188,9 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         doubleArmies(c -> c.hasAdjEnemy());
 
         // update phase
-        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-        Phase.getInstance().update();
+        phase.setActionResult(Action.Show_Next_Phase_Button);
+//        phase.update();
+        Tool.updateThread();
 
         Tool.printBasicInfo(player,"After fortification: ");
         sleep(500);
@@ -203,4 +210,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
                 });
     }
+
+
+
 }
