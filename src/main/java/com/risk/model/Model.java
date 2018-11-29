@@ -108,6 +108,11 @@ public class Model extends Observable implements Serializable {
         disable = false;
         phaseNumber = 0;
         maxTurn = 0;
+        playerCounter=0;
+        validFile = true;
+        phaseNumber = 0;
+        currentTurn = 0 ;
+
     }
 
     /**
@@ -355,10 +360,7 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
-        Model.currentTurn++;
-        if(currentTurn > maxTurn-2){
-            return;
-        }
+
         isComputerPlayer();
 
 
@@ -369,12 +371,20 @@ public class Model extends Observable implements Serializable {
      */
     public void isComputerPlayer()  {
         if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
-            System.out.println(Phase.getInstance().getCurrentPhase());
+            System.out.println("");
+            System.out.println(">>>>>>>>>>>Player "+currentPlayer.getName()+" is Playing<<<<<<<<<<");
             if (Phase.getInstance().getCurrentPhase().equalsIgnoreCase("Start Up Phase")) {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
                 currentPlayer.execute();
+                Model.currentTurn++;
+                int check = currentTurn / (players.size());
+                System.out.println("Current turn :"+ check);
+                if(check >= maxTurn){
+                    return;
+                }
+                nextPlayer();
 //                WorkerThread thread=new WorkerThread(currentPlayer,this);
 //                thread.start();
 
