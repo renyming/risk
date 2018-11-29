@@ -5,7 +5,6 @@ import com.risk.common.Message;
 import com.risk.common.STATE;
 import com.risk.common.Tool;
 import com.risk.exception.InvalidMapException;
-import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
@@ -336,11 +335,10 @@ public class Model extends Observable implements Serializable {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
-                currentPlayer.execute();
-                if (Phase.getInstance().getActionResult() == Action.Win) {
-                    return;
-                }
-                nextPlayer();
+//                currentPlayer.execute();
+                WorkerThread thread=new WorkerThread(currentPlayer,this);
+                thread.start();
+
             }
         }
     }
