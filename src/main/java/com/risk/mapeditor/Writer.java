@@ -1,6 +1,5 @@
 package com.risk.mapeditor;
 
-import com.risk.common.STATE;
 import com.risk.exception.InvalidMapException;
 import com.risk.model.Model;
 import com.risk.validate.MapValidator;
@@ -43,7 +42,7 @@ public class Writer {
         //[map] and author
         File tmp = File.createTempFile("RiskMap",".tmp");
         tmp.deleteOnExit();
-        FileWriter fileWriter= new FileWriter(tmp.getName(),true);
+        FileWriter fileWriter= new FileWriter(tmp,true);
 
         //[Territories]
         for (Country eachCountry: this.countries) {
@@ -77,30 +76,11 @@ public class Writer {
         MapValidator mapValidator = new MapValidator();
         Model model = new Model();
 
-        mapValidator.validateMap(model);
         model.editorReadFile(tmp.getCanonicalPath());
+        mapValidator.validateMap(model);
 
         Files.copy(tmp.toPath(),filePath);
 
     }
 
-//    /**
-//     * valid the correctness of the map information for the specific file
-//     * @return true if the map is valid; otherwise return false
-//     * @throws IOException IOException
-//     */
-//    private boolean isValidMap() throws IOException, InvalidMapException {
-//
-//        MapValidator mapValidator = new MapValidator();
-//        Model model = new Model();
-//
-//        try {
-//            mapValidator.validateMap(model);
-//            model.editorReadFile(filePath);
-//        } catch (InvalidMapException ex){
-//            invalidReason = ex.getMessage();
-//            return false;
-//        }
-//        return true;
-//    }
 }
