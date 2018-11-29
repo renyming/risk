@@ -1,0 +1,74 @@
+[Map]
+author=Zworg2
+warn=yes
+image=butterfly.bmp
+wrap=yes
+scroll=horizontal
+
+[Continents]
+body=5
+upper left wing=8
+upper right wing=8
+lower left wing=6
+lower right wing=6
+
+[Territories]
+1,110,37,upper left wing,2,3,13
+2,82,68,upper left wing,1,13,14
+3,149,53,upper left wing,1,4,5,13
+4,185,46,upper left wing,3,5,6
+5,168,88,upper left wing,3,4,6,13
+6,205,83,upper left wing,4,5,7,8
+7,218,124,upper left wing,6,8,9,13
+8,246,88,upper left wing,6,7,9
+9,250,137,upper left wing,7,8,10,12,13
+10,293,151,upper left wing,9,11,12,27
+11,284,219,upper left wing,10,12,20,21,27,28
+12,249,204,upper left wing,9,10,11,17
+13,162,163,upper left wing,1,2,3,5,7,9,14,15,17
+14,114,143,upper left wing,2,13,15
+21,303,268,upper left wing,11,20,22,28,29
+
+15,160,252,lower left wing,13,14,16,17,18
+16,177,280,lower left wing,15,17,18
+17,207,320,lower left wing,12,13,15,16,18,19,20,23
+18,140,348,lower left wing,15,16,17,19,22,23,24
+19,177,344,lower left wing,17,18
+20,266,331,lower left wing,11,17,21,22,23
+22,283,388,lower left wing,18,20,21,23,29,30
+23,233,384,lower left wing,17,18,20,22
+24,205,424,lower left wing,18,25
+25,191,470,lower left wing,24
+
+26,334,131,body,27
+27,334,170,body,10,11,26,28,40,41
+28,334,231,body,11,21,27,29,41,42
+29,334,299,body,21,22,28,30,42,44
+30,334,379,body,22,29,44
+
+31,560,36,upper right wing,32,53,54
+32,525,51,upper right wing,31,33,34,53
+33,504,81,upper right wing,32,34,35,53
+34,495,43,upper right wing,32,33,35
+35,470,70,upper right wing,33,34,36,37
+36,459,121,upper right wing,35,37,38,53
+37,430,83,upper right wing,35,36,38
+38,419,132,upper right wing,36,37,39,40,53
+39,423,208,upper right wing,38,40,41,45
+40,377,149,upper right wing,38,39,41,27
+41,382,221,upper right wing,27,28,39,40,42,43
+42,364,270,upper right wing,28,29,41,43,44
+52,558,163,upper right wing,51,53,54
+53,515,163,upper right wing,31,32,33,36,38,45,51,52,54
+54,591,68,upper right wing,31,53,52
+
+43,406,336,lower right wing,41,42,44,45,46
+44,388,391,lower right wing,29,42,43,46,55,30,47
+45,466,320,lower right wing,53,51,50,55,49,46,43,39
+46,452,386,lower right wing,43,45,55,44
+47,465,428,lower right wing,44,55,48
+48,477,472,lower right wing,47
+49,507,348,lower right wing,45,55
+50,506,283,lower right wing,45,51,55
+51,505,247,lower right wing,52,50,55,45,53
+55,534,351,lower right wing,51,50,45,49,46,44,47
