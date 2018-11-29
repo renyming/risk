@@ -435,6 +435,13 @@ public class ViewController {
             alert.setContentText("Some country(s) is isolated. Please create at lease one connection for those isolated country(s).");
             alert.show();
             return;
+        } else if (validity == VALIDITY.COUNTRY_NO_NAME) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save to File");
+            alert.setHeaderText("Save to file failed");
+            alert.setContentText("Some country(s) has no name. Please name every country before saving.");
+            alert.show();
+            return;
         }
 
 
@@ -494,6 +501,8 @@ public class ViewController {
      */
     private VALIDITY validateCountry(ArrayList<Country> countryList) {
         for (Country country : countryList) {
+            if (country.getName().trim().isEmpty())
+                return VALIDITY.COUNTRY_NO_NAME;
             if (country.getEdgeList().isEmpty())
                 return VALIDITY.ISOLATED_COUNTRY;
             ChoiceBox cb = (ChoiceBox) country.lookup("#listContinent");
@@ -503,6 +512,6 @@ public class ViewController {
         return VALIDITY.OK;
     }
 
-    private static enum VALIDITY {OK, CONTINENT_NOT_SET, ISOLATED_COUNTRY}
+    private static enum VALIDITY {OK, CONTINENT_NOT_SET, ISOLATED_COUNTRY, COUNTRY_NO_NAME}
 
 }
