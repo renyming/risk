@@ -45,7 +45,7 @@ public class Model extends Observable implements Serializable {
 
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
-    public static int maxTurn;
+    public static double maxTurn = Double.POSITIVE_INFINITY;
     public static int currentTurn;
 
     /**
@@ -107,7 +107,7 @@ public class Model extends Observable implements Serializable {
         cardsValue = 5;
         disable = false;
         phaseNumber = 0;
-        maxTurn = 0;
+        maxTurn = Double.POSITIVE_INFINITY;
         playerCounter=0;
         validFile = true;
         phaseNumber = 0;
@@ -383,6 +383,9 @@ public class Model extends Observable implements Serializable {
                 int check = currentTurn / (players.size());
                 System.out.println("Current turn :"+ check);
                 if(check >= maxTurn){
+                    return;
+                }
+                if(Phase.getInstance().getActionResult() == Action.Win){
                     return;
                 }
                 nextPlayer();
