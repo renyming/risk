@@ -430,11 +430,11 @@ public class MenuController {
      */
     public void startTournamentGame(){
         int numMaps = 0;
-        int numGames = 0;
+
         ArrayList< ArrayList<String> > finalResult = new ArrayList<>();
 
         while(numMaps < selectedMaps.size()){
-
+            int numGames = 0;
             String mapPath = filesPath.get(numMaps);
             ArrayList<String> winners = new ArrayList<>();
 
@@ -461,9 +461,9 @@ public class MenuController {
             numMaps++;
         }
 
-        for(int i=0; i<numMaps; i++){
-            for(int j=0; j<numGames; j++){
-                System.out.print("Map : "+selectedMaps.get(i)+" Game : "+(j+1)+" Winner : "+finalResult.get(i).get(j));
+        for(int i=0; i<selectedMaps.size(); i++){
+            for(int j=0; j<gamesPerMapSpinner.getValue(); j++){
+                System.out.print("Map : "+selectedMaps.get(i)+"  Game : "+(j+1)+"  Winner : "+finalResult.get(i).get(j));
                 System.out.println("");
 
                 }

@@ -97,7 +97,7 @@ public class Model extends Observable implements Serializable {
     /**
      * reset model object before reload map file
      */
-    private void reset(){
+    public void reset(){
         players = new ArrayList<>();
         countries = new HashMap<>();
         continents = new ArrayList<>();
@@ -355,7 +355,12 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
+        Model.currentTurn++;
+        if(currentTurn > maxTurn-2){
+            return;
+        }
         isComputerPlayer();
+
 
     }
 
@@ -369,9 +374,9 @@ public class Model extends Observable implements Serializable {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
-//                currentPlayer.execute();
-                WorkerThread thread=new WorkerThread(currentPlayer,this);
-                thread.start();
+                currentPlayer.execute();
+//                WorkerThread thread=new WorkerThread(currentPlayer,this);
+//                thread.start();
 
             }
         }
@@ -494,7 +499,7 @@ public class Model extends Observable implements Serializable {
      * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
      */
     public void initiatePlayers(List<String> playerType)  {
-
+        players.clear();
         int initialArmies = getInitialArmies(playerCounter);
 //        initialArmies=3;
 
