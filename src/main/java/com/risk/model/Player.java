@@ -4,6 +4,9 @@ import com.risk.common.Action;
 import com.risk.common.CardType;
 import com.risk.strategy.PlayerBehaviorStrategy;
 import com.risk.strategy.StrategyFactory;
+
+import javax.sound.midi.Soundbank;
+
 import static com.risk.model.Model.cards;
 
 import java.awt.*;
@@ -690,9 +693,19 @@ public class Player extends Observable implements Serializable {
 
     /**
      * Verify if defender loose the country
-     * @return
+     * @return True-defender lost, otherwise false
      */
     public boolean isDefenderLoose() {
+        return isDefenderLoose(attacker,defender);
+    }
+
+    /**
+     * Verify if defender loose the country
+     * @param attacker Attacking country
+     * @param defender Defending country
+     * @return True-defender lost, otherwise false
+     */
+    public boolean isDefenderLoose(Country attacker, Country defender) {
 
         if (defender.getArmies() == 0) {
 
@@ -721,6 +734,7 @@ public class Player extends Observable implements Serializable {
                 // give the name of winner
                 phase.setInvalidInfo("Congratulations, You Win!");
                 System.out.println(name + ", Congratulations, You Win!");
+                Model.winner = attacker.getOwner().getName();
             }
 
             return true;
@@ -769,12 +783,14 @@ public class Player extends Observable implements Serializable {
         this.attacker = attacker;
         this.defender = defender;
 
+        System.out.print(attacker.getName() + " VS " + defender.getName() + ": ");
         //if defender country doesn't has army
         if (isDefenderLoose()) {
             return;
         }
 
         allOut();
+        System.out.println();
     }
 
     /**
@@ -788,9 +804,11 @@ public class Player extends Observable implements Serializable {
 
         // roll the dices to battle
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
-//        System.out.println(dicesAttacker);
         ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
-//        System.out.println(diceDefender);
+        System.out.print(dicesAttacker);
+        System.out.print(" VS ");
+        System.out.print(diceDefender);
+        System.out.print(",  ");
 
         // compare the rolling result
         int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
@@ -805,7 +823,7 @@ public class Player extends Observable implements Serializable {
                 defender.getOwner().subTotalStrength(1);
 
                 //if defender's armies == 0, attacker victory
-                if (isDefenderLoose()) return;
+                if (isDefenderLoose(attacker, defender)) return;
             }
         }
         phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");

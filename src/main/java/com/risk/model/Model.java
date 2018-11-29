@@ -5,7 +5,6 @@ import com.risk.common.Message;
 import com.risk.common.STATE;
 import com.risk.common.Tool;
 import com.risk.exception.InvalidMapException;
-import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
@@ -21,8 +20,14 @@ import static java.lang.Thread.sleep;
 
 public class Model extends Observable implements Serializable {
 
+    //card
     public static int cardsValue = 5;
     public static final String[] cards = {"infantry","cavalry","artillery"};
+
+    //winner
+    public static String winner = "draw";
+
+    // data
     private static Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
@@ -288,6 +293,34 @@ public class Model extends Observable implements Serializable {
         currentPlayer.fortification(source,target,Integer.parseInt(armyNumber));
     }
 
+
+    /**
+     * check if the next player is the compute player
+     * @return
+     */
+    public boolean isNextPlayerHuman() {
+
+        Player nextPlayer;
+        int nextId = 0;
+
+        while (true) {
+            int currentId = currentPlayer.getId();
+            //can be achieved by players rather than getNumOfPlayer()
+            int numPlayer = players.size();
+            //wraps around the bounds of ID
+            nextId = (currentId % numPlayer + numPlayer) % numPlayer + 1;
+            nextPlayer = players.get(nextId - 1);
+
+            if (!nextPlayer.isGg()) break;
+        }
+
+        if (nextPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     
     /**
      * Set current player to the next one according in round robin fashion
@@ -316,12 +349,6 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
-        try{
-            sleep(500);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
-
         isComputerPlayer();
 
     }
@@ -336,11 +363,10 @@ public class Model extends Observable implements Serializable {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
-                currentPlayer.execute();
-                if (Phase.getInstance().getActionResult() == Action.Win) {
-                    return;
-                }
-                nextPlayer();
+//                currentPlayer.execute();
+                WorkerThread thread=new WorkerThread(currentPlayer,this);
+                thread.start();
+
             }
         }
     }

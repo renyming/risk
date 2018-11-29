@@ -112,7 +112,7 @@ public class MapController {
         countryANameLabel.setVisible(false);
         countryBNameLabel.setVisible(false);
         cardButton.setDisable(true);
-        saveGameButton.setVisible(true);
+        saveGameButton.setVisible(false);
         addEventListener();
 
 
