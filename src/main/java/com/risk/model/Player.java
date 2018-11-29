@@ -4,6 +4,9 @@ import com.risk.common.Action;
 import com.risk.common.CardType;
 import com.risk.strategy.PlayerBehaviorStrategy;
 import com.risk.strategy.StrategyFactory;
+
+import javax.sound.midi.Soundbank;
+
 import static com.risk.model.Model.cards;
 
 import java.awt.*;
@@ -770,12 +773,14 @@ public class Player extends Observable implements Serializable {
         this.attacker = attacker;
         this.defender = defender;
 
+        System.out.print(attacker.getName() + " VS " + defender.getName() + ": ");
         //if defender country doesn't has army
         if (isDefenderLoose()) {
             return;
         }
 
         allOut();
+        System.out.println();
     }
 
     /**
@@ -789,9 +794,11 @@ public class Player extends Observable implements Serializable {
 
         // roll the dices to battle
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
-//        System.out.println(dicesAttacker);
         ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
-//        System.out.println(diceDefender);
+        System.out.print(dicesAttacker);
+        System.out.print(" VS ");
+        System.out.print(diceDefender);
+        System.out.print(",  ");
 
         // compare the rolling result
         int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
