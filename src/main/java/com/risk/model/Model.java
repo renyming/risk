@@ -20,9 +20,24 @@ import static java.lang.Thread.sleep;
 
 public class Model extends Observable implements Serializable {
 
+    public int cardsValueNonStatic;
+    public int phaseNumberNonStatic;
+    public boolean disableNonStatic;
+
+
+    //card
     public static int cardsValue = 5;
-    public static final String[] cards = {"infantry","cavalry","artillery"};
-    private static Player currentPlayer;
+
+
+
+    public final static String[] cards = {"infantry","cavalry","artillery"};
+
+
+    //winner
+    public static String winner = "draw";
+
+    // data
+    private Player currentPlayer;
     private int numOfCountries;
     private int numOfContinents;
     private ArrayList<Player> players;
@@ -37,9 +52,12 @@ public class Model extends Observable implements Serializable {
     //indicate current phaseNumber; startUp0; rPhase1; aPhase2; fPhase3
     public static int phaseNumber = 0;
 
+
+
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
-
+    public static double maxTurn = Double.POSITIVE_INFINITY;
+    public static int currentTurn;
 
     /**
      * ctor for Model
@@ -90,18 +108,30 @@ public class Model extends Observable implements Serializable {
     /**
      * reset model object before reload map file
      */
-    private void reset(){
+    public void reset(){
         players = new ArrayList<>();
         countries = new HashMap<>();
         continents = new ArrayList<>();
         validFile = true;
+    }
+    public void resetValue(){
+        cardsValue = 5;
+        disable = false;
+        phaseNumber = 0;
+        maxTurn = Double.POSITIVE_INFINITY;
+        playerCounter=0;
+        validFile = true;
+        phaseNumber = 0;
+        currentTurn = 0 ;
+        winner = "draw";
+
     }
 
     /**
      * get current player
      * @return current player
      */
-    public static Player getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
@@ -109,7 +139,7 @@ public class Model extends Observable implements Serializable {
      * set current player
      * @param  p player
      */
-    public static void setCurrentPlayer(Player p) {
+    public void setCurrentPlayer(Player p) {
         currentPlayer = p;
     }
 
@@ -287,6 +317,34 @@ public class Model extends Observable implements Serializable {
         currentPlayer.fortification(source,target,Integer.parseInt(armyNumber));
     }
 
+
+    /**
+     * check if the next player is the compute player
+     * @return
+     */
+    public boolean isNextPlayerHuman() {
+
+        Player nextPlayer;
+        int nextId = 0;
+
+        while (true) {
+            int currentId = currentPlayer.getId();
+            //can be achieved by players rather than getNumOfPlayer()
+            int numPlayer = players.size();
+            //wraps around the bounds of ID
+            nextId = (currentId % numPlayer + numPlayer) % numPlayer + 1;
+            nextPlayer = players.get(nextId - 1);
+
+            if (!nextPlayer.isGg()) break;
+        }
+
+        if (nextPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     
     /**
      * Set current player to the next one according in round robin fashion
@@ -298,7 +356,6 @@ public class Model extends Observable implements Serializable {
      * again, meanwhile change current player to the first player.
      */
     public void nextPlayer()  {
-
         int nextId = 0;
 
         while (true) {
@@ -315,13 +372,9 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
-        try{
-            sleep(500);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
 
         isComputerPlayer();
+
 
     }
 
@@ -330,14 +383,25 @@ public class Model extends Observable implements Serializable {
      */
     public void isComputerPlayer()  {
         if (!currentPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
-            System.out.println(Phase.getInstance().getCurrentPhase());
+            System.out.println("");
+            System.out.println(">>>>>>>>>>>Player "+currentPlayer.getName()+" is Playing<<<<<<<<<<");
             if (Phase.getInstance().getCurrentPhase().equalsIgnoreCase("Start Up Phase")) {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
-//                currentPlayer.execute();
-                WorkerThread thread=new WorkerThread(currentPlayer,this);
-                thread.start();
+                currentPlayer.execute();
+                Model.currentTurn++;
+                int check = currentTurn / (players.size());
+                System.out.println("Current turn :"+ check);
+                if(check >= maxTurn){
+                    return;
+                }
+                if(Phase.getInstance().getActionResult() == Action.Win){
+                    return;
+                }
+                nextPlayer();
+//                WorkerThread thread=new WorkerThread(currentPlayer,this);
+//                thread.start();
 
             }
         }
@@ -460,7 +524,7 @@ public class Model extends Observable implements Serializable {
      * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
      */
     public void initiatePlayers(List<String> playerType)  {
-
+        players.clear();
         int initialArmies = getInitialArmies(playerCounter);
 //        initialArmies=3;
 
@@ -812,15 +876,43 @@ public class Model extends Observable implements Serializable {
      */
     public boolean save(String fileName){
         try {
-            FileOutputStream fileStream = new FileOutputStream(fileName);
+
+            staticToNonStatic();
+
+            FileOutputStream fileStream = new FileOutputStream(fileName + "model.ser");
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
             os.writeObject(this);
+
+            fileStream = new FileOutputStream(fileName + "phase.ser");
+            os = new ObjectOutputStream(fileStream);
+            os.writeObject(Phase.getInstance());
+
+            fileStream = new FileOutputStream(fileName + "world.ser");
+            os = new ObjectOutputStream(fileStream);
+            os.writeObject(PlayersWorldDomination.getInstance());
+
+            fileStream = new FileOutputStream(fileName + "card.ser");
+            os = new ObjectOutputStream(fileStream);
+            os.writeObject(CardModel.getInstance());
+
         } catch (FileNotFoundException ex){
             return false;
         } catch (IOException ex){
             return false;
         }
         return true;
+    }
+
+    public void staticToNonStatic(){
+        cardsValueNonStatic = Model.cardsValue;
+        phaseNumberNonStatic = Model.phaseNumber;
+        disableNonStatic = Model.disable;
+    }
+
+    public void nonStaticToStatic(){
+        Model.phaseNumber = phaseNumberNonStatic;
+        Model.disable = disableNonStatic;
+        Model.cardsValue = cardsValueNonStatic;
     }
 
 }

@@ -1,0 +1,59 @@
+[Map]
+author=Ian Gibson
+image=belize.bmp
+wrap=no
+scroll=vertical
+warn=yes
+
+[Continents]
+Corozal=1
+Orange Walk=3
+Belize=4
+Cayo=5
+Stann Creek=2
+Toledo=3
+Islands=5
+
+[Territories]
+Corozal3,262,130,Corozal,Corozal1,Corozal2,OrangeWalk1,Belize2,Islands1
+Corozal2,245,70,Corozal,Corozal1,Corozal3,OrangeWalk1
+Corozal1,192,43,Corozal,OrangeWalk1,Corozal2,Corozal3
+OrangeWalk1,180,135,Orange Walk,Corozal1,Corozal2,Corozal3,Belize2,Belize1,OrangeWalk3,OrangeWalk2
+OrangeWalk2,124,175,Orange Walk,OrangeWalk1,OrangeWalk3,OrangeWalk4
+OrangeWalk3,152,203,Orange Walk,OrangeWalk1,OrangeWalk2,Belize1,Belize4,OrangeWalk4
+OrangeWalk4,117,283,Orange Walk,Belize4,OrangeWalk3,OrangeWalk2,OrangeWalk6,OrangeWalk5,Cayo3,Cayo1
+OrangeWalk5,34,233,Orange Walk,OrangeWalk6,OrangeWalk4
+OrangeWalk6,50,301,Orange Walk,OrangeWalk4,OrangeWalk5,Cayo3
+Belize1,199,202,Belize,OrangeWalk1,OrangeWalk3,Belize2,Belize3,Belize4
+Belize2,244,185,Belize,Corozal3,OrangeWalk1,Belize1,Belize3
+Belize3,240,236,Belize,Belize1,Belize4,Belize2,Belize5
+Belize4,193,257,Belize,Belize3,Belize1,OrangeWalk3,Belize5,Belize6,Belize7,Cayo1,OrangeWalk4
+Belize5,253,295,Belize,Belize4,Belize3,Belize7,Islands4
+Belize6,192,351,Belize,Belize4,Belize7,Cayo1,StannCreek1
+Belize7,228,349,Belize,Belize6,Belize4,Belize5,StannCreek1
+Cayo1,144,344,Cayo,Belize4,Belize6,Cayo3,Cayo2,Cayo4,StannCreek1,OrangeWalk4
+Cayo2,107,377,Cayo,Cayo3,Cayo1,Cayo4
+Cayo3,45,364,Cayo,OrangeWalk6,OrangeWalk4,Cayo1,Cayo2,Cayo4,Cayo5
+Cayo4,85,446,Cayo,Cayo3,Cayo2,Cayo6,Cayo5,Cayo1
+Cayo5,47,462,Cayo,Cayo3,Cayo4,Cayo6,Cayo7,Cayo8
+Cayo6,117,477,Cayo,Cayo4,Cayo8,Cayo5,StannCreek4,StannCreek2,Toledo1
+Cayo7,39,536,Cayo,Cayo5,Cayo8,Toledo4
+Cayo8,82,533,Cayo,Cayo6,Cayo5,Cayo7,Toledo1,Toledo4
+StannCreek1,220,416,Stann Creek,Belize7,Belize6,Cayo1,StannCreek2
+StannCreek2,194,449,Stann Creek,Cayo6,StannCreek1,StannCreek4,StannCreek3
+StannCreek3,234,530,Stann Creek,Islands7,StannCreek2,StannCreek4,Toledo2
+StannCreek4,179,513,Stann Creek,Cayo6,Toledo1,StannCreek2,StannCreek3,Toledo2
+Toledo1,130,553,Toledo,Cayo8,Cayo6,Toledo2,Toledo3,StannCreek4,Toledo4
+Toledo2,189,599,Toledo,Toledo1,StannCreek3,StannCreek4,Toledo3
+Toledo3,138,636,Toledo,Toledo1,Toledo2,Toledo4,Toledo5
+Toledo4,48,617,Toledo,Cayo8,Cayo7,Toledo1,Toledo3,Toledo5,Toledo6
+Toledo5,100,671,Toledo,Toledo4,Toledo3,Toledo6
+Toledo6,33,709,Toledo,Toledo4,Toledo5
+Islands1,356,108,Islands,Islands2,Corozal3
+Islands2,339,148,Islands,Islands3,Islands1
+Islands3,321,210,Islands,Islands4,Islands2
+Islands4,309,258,Islands,Belize5,Islands5,Islands3
+Islands5,377,302,Islands,Islands4,Islands6,Islands7
+Islands6,444,358,Islands,Islands5
+Islands7,328,416,Islands,Islands5,Islands8,StannCreek3
+Islands8,377,509,Islands,Islands7

@@ -6,6 +6,7 @@ import com.risk.model.Country;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,11 +17,11 @@ import static java.lang.Thread.sleep;
 /**
  * Benevolent Strategy class
  */
-public class BenevolentStrategy implements PlayerBehaviorStrategy {
+public class BenevolentStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;
-    private Phase phase;
+//    private Phase Phase.getInstance();
 
     /**
      * Constructor
@@ -29,7 +30,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
     public BenevolentStrategy(Player player) {
         name = "benevolent";
         this.player = player;
-        phase = Phase.getInstance();
+//        Phase.getInstance() = Phase.getInstance();
     }
 
 
@@ -56,7 +57,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
         //attack
         Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
-        if (phase.getActionResult() == Action.Win) {
+        if (Phase.getInstance().getActionResult() == Action.Win) {
             return;
         }
 
@@ -88,7 +89,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
         // find the weakest country
         Country weakest = player.getCountriesOwned().stream()
-                .min(Comparator.comparingInt(Country::getArmies))
+                .min(Comparator.comparingLong(Country::getArmies))
                 .get();
 
         // add all the armies to weakest
@@ -96,8 +97,8 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
         player.setArmies(0);
 
         // update phase
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
 
         Tool.printBasicInfo(player, "After reinforcement: ");
         sleep(500);
@@ -113,8 +114,8 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
 
         System.out.println(player.getName() + " enter the attack phase");
 
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
 
         Tool.printBasicInfo(player,"After attack: ");
         sleep(500);
@@ -143,11 +144,14 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
         System.out.println(player.getName() + " enter the fortification phase");
 
         List<Country> increaseSorted = player.getCountriesOwned().stream()
-                .sorted(Comparator.comparingInt(Country::getArmies))
+                .sorted(Comparator.comparingLong(Country::getArmies))
                 .collect(Collectors.toList());
 
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
-                .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
+                .sorted((c1, c2) -> {
+                    if (c2.getArmies() - c1.getArmies() > 0 ) return 1;
+                    else if (c2.getArmies() - c1.getArmies() == 0) return 0;
+                    else return -1; })
                 .collect(Collectors.toList());
 
 
@@ -155,7 +159,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy {
             for (Country stronger : decreaseSorted) {
                 if (player.isConnected(weaker, stronger)) {
                     // re-allocated armies
-                    int total = stronger.getArmies() + weaker.getArmies();
+                    long total = stronger.getArmies() + weaker.getArmies();
                     stronger.setArmies(total/2);
                     weaker.setArmies(total - total/2);
 

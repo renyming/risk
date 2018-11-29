@@ -1,5 +1,11 @@
 package com.risk.controller;
 
+import com.risk.common.Action;
+import com.risk.model.CardModel;
+import com.risk.model.Phase;
+import com.risk.model.PlayersWorldDomination;
+import com.risk.view.*;
+import com.risk.view.Menu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -7,10 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import com.risk.model.Model;
-import com.risk.view.FileInfoMenuView;
-import com.risk.view.Menu;
-import com.risk.view.NumPlayerMenuView;
-import com.risk.view.View;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class MenuController {
     @FXML public TextField numPlayerTextField;
 
     @FXML public Button startButton;
+    @FXML public Button startButton1;
     @FXML public Button selectMapButton;
     @FXML public Button deleteMapButton;
 
@@ -71,8 +74,8 @@ public class MenuController {
     private boolean tournamentMode;
     private ObservableList<String> selectedMaps = FXCollections.observableArrayList();
     private ObservableList<String> playerTypes;
-
-
+    private ArrayList<String> filesPath = new ArrayList<>();
+    private ArrayList<String> selectPlayerTypes = new ArrayList<>();
 
     /**
      * Default ctor
@@ -206,6 +209,8 @@ public class MenuController {
     public void startNewGame() {
         System.out.println("Start New Game");
         tournamentMode(false);
+        startButton.setVisible(true);
+        startButton1.setVisible(false);
         switchToSelectMapMenu();
     }
 
@@ -214,13 +219,40 @@ public class MenuController {
      * Called when users click Load Saved Game
      */
     public void loadGame() throws IOException,ClassNotFoundException {
+        mapController.initPhaseView();
 
-        
-        String fileName = "game1.ser";
-        FileInputStream fileStream = new FileInputStream(fileName);
+
+        String fileName = "game1";
+
+        FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
         ObjectInputStream os = new ObjectInputStream(fileStream);
         model = (Model) os.readObject();
+        model.nonStaticToStatic();
 
+        view.setModel(model);
+
+        os.close();
+
+        fileStream = new FileInputStream(fileName + "phase.ser");
+        os = new ObjectInputStream(fileStream);
+
+        Phase phase = (Phase)os.readObject();
+        phase.setCurrentPhase("Start Up Phase");
+
+        phase.addObserver(PhaseView.getInstance());
+        phase.update();
+        phase.setActionResult(Action.Show_Next_Phase_Button);
+        phase.update();
+
+
+        fileStream = new FileInputStream(fileName + "world.ser");
+        os = new ObjectInputStream(fileStream);
+
+        PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
+        playersWorldDomination.addObserver(PlayersWorldDominationView.getInstance());
+        playersWorldDomination.update();
+
+        os.close();
         load(model.getCountries().size());
 
         //model.loadGame(); // model update Phase, PlayersWorldDomination
@@ -244,6 +276,8 @@ public class MenuController {
     public void tournamentMode() {
         System.out.println("Start Tournament Mode");
         tournamentMode(true);
+        startButton.setVisible(false);
+        startButton1.setVisible(true);
         switchToSelectMapMenu();
     }
 
@@ -277,7 +311,7 @@ public class MenuController {
 
             playerTypes = FXCollections.observableArrayList();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
-                    startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);
+                    startButton, startButton1, mapController, playerNumLabels, playerTypeChoiceBoxes);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         }
         if (null != fileInfoMenuView) {
@@ -305,7 +339,7 @@ public class MenuController {
      */
     public void selectMap() {
         System.out.println("Selecting Map......");
-        if (tournamentMode && 2 == selectedMaps.size()) {
+        if (tournamentMode && 5 == selectedMaps.size()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Max map number is 5, remove first");
             alert.show();
             return;
@@ -317,6 +351,7 @@ public class MenuController {
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
             fileInfoMenuView.setSelectedFilename(riskMapFile.getName());
+            filesPath.add(riskMapFile.getPath());
             try {
                 model.readFile(riskMapFile.getPath());
             } catch (IOException exception) {
@@ -370,12 +405,12 @@ public class MenuController {
      * Pass info to the Menu, Model, and MapController
      */
     public void startGame() {
-        ArrayList<String> playerTypes = new ArrayList<>();
+        selectPlayerTypes.clear();
         for (int i = 0; i < numPlayerMenuView.getTotalNumPlayer(); ++i) {
-            playerTypes.add(playerTypeChoiceBoxes.get(i).getValue());
+            selectPlayerTypes.add(playerTypeChoiceBoxes.get(i).getValue());
         }
         System.out.println("Start Game");
-        System.out.println("Player Type: " + playerTypes);
+        System.out.println("Player Type: " + selectPlayerTypes);
         System.out.println("Tournament Mode: " + tournamentMode);
         if (tournamentMode) {
             System.out.println("Selected Map: " + selectedMaps);
@@ -384,7 +419,7 @@ public class MenuController {
         }
 
         mapController.initPhaseView();
-        model.initiatePlayers(playerTypes);
+        model.initiatePlayers(selectPlayerTypes);
         model.startUp(mapController.createCountryViews());
         menu.hide();
         mapController.showMapStage();
@@ -401,5 +436,54 @@ public class MenuController {
     }
 
 
-    public void startTournamentGame(){ }
+    /**
+     * start tournament game
+     */
+    public void startTournamentGame(){
+        int numMaps = 0;
+
+        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();
+
+        while(numMaps < selectedMaps.size()){
+            int numGames = 0;
+            String mapPath = filesPath.get(numMaps);
+            ArrayList<String> winners = new ArrayList<>();
+
+            try {
+                model.resetValue();
+                model.readFile(mapPath);
+            } catch (IOException exception) {
+                System.out.println("MenuController.readFile(): " + exception.getMessage());
+            }
+            System.out.println("Next map is "+mapPath);
+            while(numGames< gamesPerMapSpinner.getValue()){
+                model.resetValue();
+                System.out.println("Next game is "+ (numGames+1));
+                Model.maxTurn = turnsPerGameSpinner.getValue();
+                System.out.println("Max Turn: "+Model.maxTurn);
+                startGame();
+                System.out.println("Finish one game on map :"+mapPath);
+                winners.add(Model.winner);
+                numGames++;
+            }
+            System.out.println("Finish all "+gamesPerMapSpinner.getValue()+" games on map "+mapPath);
+            finalResult.add(winners);
+            numMaps++;
+        }
+        System.out.println("");
+        System.out.println("=============Tournament Result============= ");
+        System.out.println("Maps : "+selectedMaps);
+        System.out.println("Players : "+ selectPlayerTypes);
+        System.out.println("Games Per Map : "+gamesPerMapSpinner.getValue());
+        System.out.println("Max Turns : "+turnsPerGameSpinner.getValue());
+        for(int i=0; i<selectedMaps.size(); i++){
+            for(int j=0; j<gamesPerMapSpinner.getValue(); j++){
+                System.out.print("Map : "+selectedMaps.get(i)+"  Game : "+(j+1)+"  Winner : "+finalResult.get(i).get(j));
+                System.out.println("");
+
+                }
+            }
+        System.out.println("=============Tournament Finish=============");
+    }
+
 }

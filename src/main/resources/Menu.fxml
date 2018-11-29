@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
+<AnchorPane fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.controller.MenuController">
    <children>
       <AnchorPane fx:id="startGamePane" prefHeight="450.0" prefWidth="700.0" visible="false">
          <children>
@@ -73,6 +73,7 @@
             <Separator layoutX="348.0" orientation="VERTICAL" prefHeight="450.0" />
             <ListView fx:id="selectedMapsListView" layoutX="72.0" layoutY="168.0" prefHeight="90.0" prefWidth="199.0" />
             <Button fx:id="deleteMapButton" layoutX="72.0" layoutY="308.0" mnemonicParsing="false" onAction="#deleteMap" prefHeight="30.0" prefWidth="199.0" text="Delete Map" />
+            <Button fx:id="startButton1" disable="true" layoutX="72.0" layoutY="345.0" mnemonicParsing="false" onAction="#startTournamentGame" prefHeight="30.0" prefWidth="199.0" stylesheets="@ButtonStyle.css" text="Start Tournament" visible="false" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="quitPane" prefHeight="450.0" prefWidth="700.0" visible="false">

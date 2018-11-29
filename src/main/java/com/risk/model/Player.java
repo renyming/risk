@@ -28,11 +28,11 @@ public class Player extends Observable implements Serializable {
     //Counter to assign unique Id
     private static int cId=0;
     private String name;
-    private int armies;
+    private long armies;
     private ArrayList<Country> countriesOwned;
     private ArrayList<Continent> continentsOwned;
     private String color = "#4B0082";
-    private int totalStrength;
+    private long totalStrength;
 
     private Country attacker;
     private int attackerDiceNum;
@@ -44,7 +44,7 @@ public class Player extends Observable implements Serializable {
     private HashMap<String,Integer> cards;
     private int numberOccupy;
 
-    private Phase phase;
+//    private Phase Phase.getInstance();
     private PlayersWorldDomination worldDomination;
     private PlayerBehaviorStrategy strategy;
 
@@ -70,7 +70,7 @@ public class Player extends Observable implements Serializable {
         cards.put("artillery",0);
         numberOccupy = 0;
 
-        phase = Phase.getInstance();
+//        Phase.getInstance() = Phase.getInstance();
         worldDomination = PlayersWorldDomination.getInstance();
 
         strategy = StrategyFactory.getStrategy(s, this);
@@ -216,7 +216,7 @@ public class Player extends Observable implements Serializable {
      * Getter to get the number of armies
      * @return The number of armies that the player has currently
      */
-    public int getArmies() {
+    public long getArmies() {
         return armies;
     }
 
@@ -246,7 +246,7 @@ public class Player extends Observable implements Serializable {
     * set the number of armies
     * @param  armies the number of armies
     */
-    public void setArmies(int armies) {
+    public void setArmies(long armies) {
         this.armies = armies;
     }
 
@@ -254,7 +254,7 @@ public class Player extends Observable implements Serializable {
      * Getter to get totalStrength
      * @return  The num of totalStrength that the player has currently
      */
-    public int getTotalStrength() {
+    public long getTotalStrength() {
         return totalStrength;
     }
 
@@ -262,7 +262,7 @@ public class Player extends Observable implements Serializable {
      * set the number of totalStrength
      * @param totalStrength the number of totalStrength
      */
-    public void setTotalStrength(int totalStrength) {
+    public void setTotalStrength(long totalStrength) {
         this.totalStrength = totalStrength;
         worldDomination.update();
     }
@@ -286,7 +286,7 @@ public class Player extends Observable implements Serializable {
      */
     public void subArmies(int num){
 
-        int newArmies = armies - num;
+        long newArmies = armies - num;
         setArmies(newArmies);
     }
 
@@ -296,8 +296,8 @@ public class Player extends Observable implements Serializable {
      */
     public void subTotalStrength(int num){
 
-        int newStrength = totalStrength - num;
-        setTotalStrength(newStrength);
+        long newStrength = totalStrength - num;
+        setTotalStrength((newStrength));
     }
 
     /**
@@ -625,9 +625,9 @@ public class Player extends Observable implements Serializable {
 
         // if any of countries is none
         if (attacker == null || defender == null) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Countries can not be none");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Countries can not be none");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -638,9 +638,9 @@ public class Player extends Observable implements Serializable {
             attackerDiceNum = Integer.valueOf(attackerNum);
             defenderDiceNum = Integer.valueOf(defenderNum);
         } catch (Exception e){
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Input error, invalid dice number.");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Input error, invalid dice number.");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -653,33 +653,33 @@ public class Player extends Observable implements Serializable {
 
         //if the contries owner is the same
         if (attacker.getOwner().equals(defender.getOwner())) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid attack, cannot attack a country owned by player himself.");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid attack, cannot attack a country owned by player himself.");
+            Phase.getInstance().update();
             return false;
         }
 
         // if attacker's dice valid
         if (!attacker.isValidAttacker(attackerDiceNum)) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid attacker dice number, armies in attacker must more than two, and the dice must less than armies");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid attacker dice number, armies in attacker must more than two, and the dice must less than armies");
+            Phase.getInstance().update();
             return false;
         }
 
         // if defender's dice valid
         if (!defender.isValidDefender(defenderDiceNum)) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid defender's dice number, the dice must less than armies");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid defender's dice number, the dice must less than armies");
+            Phase.getInstance().update();
             return false;
         }
 
         // if two countries adjacent
         if (!attacker.isAdjacent(defender)){
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Two countries is not adjacent");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Two countries is not adjacent");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -712,8 +712,8 @@ public class Player extends Observable implements Serializable {
             if (defender.getOwner().countriesOwned.size() == 1) {
 
                 // TODO: add all cards form defender's owner
-                phase.setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
-                phase.update();
+                Phase.getInstance().setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
+                Phase.getInstance().update();
                 getDefenderCards(attacker.getOwner(),defender.getOwner());
             }
 
@@ -724,16 +724,19 @@ public class Player extends Observable implements Serializable {
 
             // add numOfOccupy
             numberOccupy++;
-            phase.setActionResult(Action.Move_After_Conquer);
-            phase.setInvalidInfo("Successfully Conquered Country : "+ defender.getName()
+            Phase.getInstance().setActionResult(Action.Move_After_Conquer);
+            Phase.getInstance().setInvalidInfo("Successfully Conquered Country : "+ defender.getName()
                     +". Now You Must Place At Least " + attackerDiceNum + " Armies.");
 
             // if attacker win the game
             if (attacker.getOwner().isWin()) {
-                phase.setActionResult(Action.Win);
+                Phase.getInstance().setActionResult(Action.Win);
+                Model.winner = attacker.getName();
                 // give the name of winner
-                phase.setInvalidInfo("Congratulations, You Win!");
+                Phase.getInstance().setInvalidInfo("Congratulations, You Win!");
+                System.out.println();
                 System.out.println(name + ", Congratulations, You Win!");
+                Model.winner = attacker.getOwner().getName();
             }
 
             return true;
@@ -759,8 +762,12 @@ public class Player extends Observable implements Serializable {
     public void allOut() {
 
         while (true) {
-            attackerDiceNum = attacker.getArmies() > 3? 3 : attacker.getArmies();
-            defenderDiceNum = defender.getArmies() > 2? 2 : defender.getArmies();
+
+            long three = 3;
+            long two = 2;
+
+            attackerDiceNum = Math.toIntExact(attacker.getArmies() > 3? 3 : attacker.getArmies());
+            defenderDiceNum = Math.toIntExact(defender.getArmies() > 2? 2 : defender.getArmies());
 
             attackOnce();
             // if defender is occupied by attacker
@@ -810,7 +817,7 @@ public class Player extends Observable implements Serializable {
         System.out.print(",  ");
 
         // compare the rolling result
-        int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
+        long range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
         for (int i=0; i<range; i++){
 
             if (diceDefender.get(i) >= dicesAttacker.get(i)) {
@@ -825,7 +832,7 @@ public class Player extends Observable implements Serializable {
                 if (isDefenderLoose(attacker, defender)) return;
             }
         }
-        phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
+        Phase.getInstance().setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
         return;
 
     }

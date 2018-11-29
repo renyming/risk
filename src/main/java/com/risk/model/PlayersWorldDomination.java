@@ -37,6 +37,13 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         return instance;
     }
 
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public int getTotalNumCountries(){
+        return totalNumCountries;
+    }
 
     /**
      * Model call this method after calling all of the following setter functions
@@ -56,7 +63,7 @@ public class PlayersWorldDomination extends Observable implements Serializable {
      * Model sets the total number of countries, use the value to calculate country percentage later
      * @param totalNumCountries is the total number of countries for the map
      */
-    void setTotalNumCountries(int totalNumCountries) { this.totalNumCountries = totalNumCountries; }
+    public void setTotalNumCountries(int totalNumCountries) { this.totalNumCountries = totalNumCountries; }
 
 
     /**
@@ -67,7 +74,7 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         ArrayList<String> countryPercentage = new ArrayList<>();
         if (0 != totalNumCountries) {
             for (Player player : players) {
-                countryPercentage.add(player.getName() + ":  " + player.getCountriesOwned().size() * 100.0 / totalNumCountries + "%");
+                countryPercentage.add(player.getName() + "_" + player.getStrategy().getName() + ": " + player.getCountriesOwned().size() * 100.0 / totalNumCountries + "%");
             }
         }
         return countryPercentage;

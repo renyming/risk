@@ -101,7 +101,7 @@ public class PlayersWorldDominationView implements Observer {
         // update country percentage
         allPlayerCountryPercentage.clear();
         allPlayerCountryPercentage.addAll(playersWorldDomination.getCountryPercentage());
-        populateCountryDominationData();
+//        populateCountryDominationData();
 
         // update army distribution
         allPlayerArmyDistribution.clear();

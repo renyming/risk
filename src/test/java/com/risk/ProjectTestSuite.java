@@ -7,10 +7,16 @@ import com.risk.model.ContinentTest;
 import com.risk.model.CountryTest;
 import com.risk.model.ModelTest;
 import com.risk.model.PlayerTest;
+import com.risk.strategy.AggressiveStrategyTest;
+import com.risk.strategy.BenevolentStrategyTest;
+import com.risk.strategy.CheaterStrategyTest;
+import com.risk.strategy.RandomStrategyTest;
 import com.risk.validate.MapValidatorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
+import java.util.zip.CheckedInputStream;
 
 
 @RunWith(Suite.class)
@@ -18,7 +24,12 @@ import org.junit.runners.Suite.SuiteClasses;
         ModelTest.class,
         CountryTest.class,
         PlayerTest.class,
-        MapValidatorTest.class})
+        MapValidatorTest.class,
+        AggressiveStrategyTest.class,
+        BenevolentStrategyTest.class,
+        CheaterStrategyTest.class,
+        RandomStrategyTest.class
+})
 
 public class ProjectTestSuite {
 

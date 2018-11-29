@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 /**
  * Test Model class
@@ -68,9 +70,9 @@ public class ModelTest {
      */
     @Test
     public void testSave() throws Exception{
-        newModel1.save("testmodel.ser");
+        newModel1.save("game");
         Model newModel2;
-        FileInputStream fileStream = new FileInputStream("testmodel.ser");
+        FileInputStream fileStream = new FileInputStream("gamemodel.ser");
         ObjectInputStream os = new ObjectInputStream(fileStream);
         newModel2 = (Model) os.readObject();
         assertTrue(newModel2.getContinents().size() == 8);
@@ -109,15 +111,15 @@ public class ModelTest {
         testedModel3.setFileInfoMenu(new FileInfoMenu());
         testedModel3.setNumPlayerMenu(new NumPlayerMenu());
 
-        testedModel1.readFile("./src/main/resources/Invalid1.map");
+        testedModel1.readFile("./src/main/resources/maps/Invalid1.map");
         assertEquals(false, testedModel1.getFileInfoMenu().getValid());
         assertEquals(false, testedModel1.isValidFile());
 
-        testedModel2.readFile("./src/main/resources/Invalid3.map");
+        testedModel2.readFile("./src/main/resources/maps/Invalid3.map");
         assertEquals(false, testedModel2.getFileInfoMenu().getValid());
         assertEquals(false, testedModel2.isValidFile());
 
-        testedModel3.readFile("./src/main/resources/Invalid4.map");
+        testedModel3.readFile("./src/main/resources/maps/Invalid4.map");
         assertEquals(false, testedModel3.getFileInfoMenu().getValid());
         assertEquals(false, testedModel3.isValidFile());
     }
@@ -133,7 +135,7 @@ public class ModelTest {
         testedModel.setFileInfoMenu(new FileInfoMenu());
         testedModel.setNumPlayerMenu(new NumPlayerMenu());
 
-        testedModel.readFile("./src/main/resources/Aden.map");
+        testedModel.readFile("./src/main/resources/maps/Aden.map");
         assertEquals(newModel1.getContinents().size(), testedModel.getContinents().size());
         assertTrue(testedModel.getContinents().get(1).getName().equals("Centre Metro"));
         assertTrue(testedModel.getContinents().get(7).getControlVal() == 4);
@@ -155,27 +157,36 @@ public class ModelTest {
     }
 
 
-//    /**
-//     * Test startUp phase method
-//     * @throws IOException io exceptions
-//     */
-//    @Ignore
-//    public void testStartUpPhase() throws IOException {
-//
-//        Model testedModel = new Model();
-//        testedModel.setFileInfoMenu(new FileInfoMenu());
-//        testedModel.setNumPlayerMenu(new NumPlayerMenu());
-//
-//        testedModel.readFile("./src/main/resources/Aden.map");
-//        testedModel.initiatePlayers("10");
-//        assertEquals(0, testedModel.getPlayers().size());
-//
-//        testedModel.readFile("./src/main/resources/Aden.map");
-//        testedModel.initiatePlayers("4" );
-//        assertEquals(4, testedModel.getPlayers().size());
-//        assertEquals(42, testedModel.getCountries().size());
-//        assertEquals(8, testedModel.getContinents().size());
-//    }
+    /**
+     * Test startUp phase method
+     * @throws IOException io exceptions
+     */
+    @Test
+    public void testStartUpPhase() throws IOException {
+
+        Model testedModel = new Model();
+        testedModel.setFileInfoMenu(new FileInfoMenu());
+        testedModel.setNumPlayerMenu(new NumPlayerMenu());
+
+
+        testedModel.readFile("./src/main/resources/maps/Aden.map");
+        ArrayList<String> players1 = new ArrayList<>();
+        IntStream.range(0, 10)
+                .forEach(c -> players1.add("human player"));
+//        PlayersWorldDomination.getInstance().setTotalNumCountries(42);
+        testedModel.checkPlayersNum("10");
+        assertEquals(0, testedModel.getPlayers().size());
+
+        testedModel.readFile("./src/main/resources/maps/Aden.map");
+        ArrayList<String> players2 = new ArrayList<>();
+        IntStream.range(0, 4)
+                .forEach(c -> players2.add("human player"));
+//        PlayersWorldDomination.getInstance().setTotalNumCountries(42);
+        testedModel.initiatePlayers(players2);
+        assertEquals(4, testedModel.getPlayers().size());
+        assertEquals(42, testedModel.getCountries().size());
+        assertEquals(8, testedModel.getContinents().size());
+    }
 
 
 }

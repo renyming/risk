@@ -7,17 +7,18 @@ import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.lang.Thread.sleep;
 
-public class RandomStrategy implements PlayerBehaviorStrategy {
+public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;
-    private Phase phase;
+//    private Phase Phase.getInstance();
     Country attackingCountry;
     Country defendingCountry;
     int attackerDiceNum;
@@ -27,7 +28,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
     public RandomStrategy(Player player) {
         name = "random";
         this.player = player;
-        phase = Phase.getInstance();
+//        Phase.getInstance() = Phase.getInstance();
     }
 
     /**
@@ -53,7 +54,8 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         //attack
         Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
-        if (phase.getActionResult() == Action.Win) {
+        if (Phase.getInstance().getActionResult() == Action.Win) {
+            Model.winner = player.getName();
             return;
         }
 
@@ -71,7 +73,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         System.out.println(player.getName() + " enter the reinforcement phase");
         //update current phase on view
 //        phase.setCurrentPhase("Reinforcement Phase");
-        phase.update();
+        Phase.getInstance().update();
 
         player.addRoundArmies();
         Country country= getRandomCountry(player.getCountriesOwned());
@@ -79,8 +81,8 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         player.setArmies(0);
 
         //update result on view
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
         Model.phaseNumber=2;
 
         Tool.printBasicInfo(player, "After reinforcement: ");
@@ -140,12 +142,12 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
                 player.attackOnce(attackingCountry, attackerDiceNum, defendingCountry, defenderDiceNum);
 
-                if (phase.getActionResult()==Action.Move_After_Conquer)
+                if (Phase.getInstance().getActionResult()==Action.Move_After_Conquer)
                     moveArmy(""); //dummy param
 
                 // update phase
-                phase.setActionResult(Action.Show_Next_Phase_Button);
-                phase.update();
+                Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+                Phase.getInstance().update();
 
             } else {
                 attackingCandidatesList.remove(attackingCountry);
@@ -176,7 +178,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void moveArmy(String num) {
-        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum+1)+attackerDiceNum;
+        int n=random.nextInt(Math.toIntExact(attackingCountry.getArmies())-attackerDiceNum+1)+attackerDiceNum;
         attackingCountry.setArmies(attackingCountry.getArmies()-n);
         defendingCountry.setArmies(defendingCountry.getArmies()+n);
     }
@@ -228,12 +230,12 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         }
 
         //number of armies to move
-        int numArmies=random.nextInt(fromCountry.getArmies()+1);
+        int numArmies=random.nextInt(Math.toIntExact(fromCountry.getArmies())+1);
         fromCountry.setArmies(fromCountry.getArmies()-numArmies);
         toCountry.setArmies(toCountry.getArmies()+numArmies);
 
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().update();
 
         Tool.printBasicInfo(player,"After fortification: ");
         sleep(500);

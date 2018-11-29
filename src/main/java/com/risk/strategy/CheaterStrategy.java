@@ -6,6 +6,8 @@ import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
+
+import java.io.Serializable;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -14,11 +16,11 @@ import static java.lang.Thread.sleep;
 /**
  * Cheater Strategy class
  */
-public class CheaterStrategy implements PlayerBehaviorStrategy {
+public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;
-    private Phase phase;
+//    private Phase Phase.getInstance();
 
     /**
      * Constructor
@@ -27,7 +29,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
     public CheaterStrategy(Player player){
         name = "cheater";
         this.player = player;
-        phase = Phase.getInstance();
+//        Phase.getInstance() = Phase.getInstance();
     }
 
 
@@ -55,7 +57,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         //attack
         Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
-        if (phase.getActionResult() == Action.Win) {
+        if (Phase.getInstance().getActionResult() == Action.Win) {
             return;
         }
 
@@ -75,15 +77,17 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
         System.out.println(player.getName() + " enter the reinforcement phase");
 
         // correct display current phase
-        phase.setCurrentPhase("Reinforcement Phase");
-        phase.update();
+        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+//        phase.update();
+        Tool.updateThread();
 
         // double armies in owned country
         doubleArmies(c -> true);
 
         // update phase
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+//        phase.update();
+        Tool.updateThread();
         Model.phaseNumber = 2;
 
         Tool.printBasicInfo(player, "After reinforcement: ");
@@ -107,19 +111,20 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
                     // set phase info
                     player.setNumberOccupy(player.getNumberOccupy() + 1);
-                    phase.setActionResult(Action.Move_After_Conquer);
-                    phase.setInvalidInfo("Successfully Conquered Country : "+ defender.getName());
+                    Phase.getInstance().setActionResult(Action.Move_After_Conquer);
+                    Phase.getInstance().setInvalidInfo("Successfully Conquered Country : "+ defender.getName());
 
                     // if attacker win the game
                     if (player.isWin()) {
-                        phase.setActionResult(Action.Win);
+                        Phase.getInstance().setActionResult(Action.Win);
                         // give the name of winner
-                        phase.setInvalidInfo("Congratulations, You Win!");
+                        Phase.getInstance().setInvalidInfo("Congratulations, You Win!");
                         System.out.println(player.getName() + ", Congratulations, You Win! ");
-                        phase.update();
+                        Model.winner = player.getName();
+                        Phase.getInstance().update();
                         return;
                     }
-                    phase.update();
+                    Phase.getInstance().update();
 
                 });
 
@@ -160,9 +165,9 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
     @Override
     public void moveArmy(String num) {
 
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
-        phase.update();
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
+        Phase.getInstance().update();
 
     }
 
@@ -203,4 +208,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
                 });
     }
+
+
+
 }

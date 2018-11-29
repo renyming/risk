@@ -37,7 +37,6 @@ public class Phase extends Observable implements Serializable {
         return instance;
     }
 
-
     /**
      * Model call this when finish calling any setXXX() method within this class
      * i.e. call setCurrentPhase("Start Up Phase"), then must call update()
@@ -67,7 +66,7 @@ public class Phase extends Observable implements Serializable {
      * Called when the Model change the current player to the next one
      * @param currentPlayer is the next Player reference
      */
-    void setCurrentPlayer(Player currentPlayer) { this.currentPlayer = currentPlayer; }
+    public void setCurrentPlayer(Player currentPlayer) { this.currentPlayer = currentPlayer; }
 
 
     /**
@@ -115,4 +114,5 @@ public class Phase extends Observable implements Serializable {
      * @return the invalid info
      */
     public String getInvalidInfo() { return invalidInfo; }
+
 }

@@ -1,13 +1,15 @@
 package com.risk.model;
 
 import javafx.scene.control.CheckBox;
+
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *  Observable of CardView
  *  Save the info that CardView needed
  */
-public class CardModel extends Observable {
+public class CardModel extends Observable implements Serializable {
 
     private static CardModel instance;
     private Player currentPlayer;
