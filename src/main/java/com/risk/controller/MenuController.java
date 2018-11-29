@@ -225,23 +225,20 @@ public class MenuController {
         ObjectInputStream os = new ObjectInputStream(fileStream);
         model = (Model) os.readObject();
 
+        os.close();
 
         fileStream = new FileInputStream(fileName + "phase.ser");
         os = new ObjectInputStream(fileStream);
 
         Phase phase = (Phase)os.readObject();
 
-        Phase.getInstance().setActionResult(phase.getActionResult());
-        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-        Phase.getInstance().setCurrentPlayer(phase.getCurrentPlayer());
+        phase.update();
 
         fileStream = new FileInputStream(fileName + "world.ser");
         os = new ObjectInputStream(fileStream);
 
         PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
-
-        PlayersWorldDomination.getInstance().setPlayers(playersWorldDomination.getPlayers());
-        PlayersWorldDomination.getInstance().setTotalNumCountries(playersWorldDomination.getTotalNumCountries());
+        playersWorldDomination.update();
 
         os.close();
         load(model.getCountries().size());

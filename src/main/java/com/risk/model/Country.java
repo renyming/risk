@@ -20,7 +20,7 @@ public class Country extends Observable implements Comparable<Country>, Serializ
     private String name;
     private Continent continent;
     private Player player;
-    private int armies;
+    private long armies;
     private ArrayList<Country> adjCountries;
     // verify if the country is visited in BFS
     private boolean isProcessed;
@@ -97,7 +97,7 @@ public class Country extends Observable implements Comparable<Country>, Serializ
      * Getter for number of armies of a country
      * @return The number of armies of a country
      */
-    public int getArmies() {
+    public long getArmies() {
         return armies;
     }
 
@@ -106,7 +106,7 @@ public class Country extends Observable implements Comparable<Country>, Serializ
      * Overall handler for the change of armies, will call observers
      * @param armies Number of armies to set to
      */
-    public void setArmies(int armies){
+    public void setArmies(long armies){
         this.armies = armies;
         callObservers();
     }
@@ -198,7 +198,7 @@ public class Country extends Observable implements Comparable<Country>, Serializ
      * @param armies Number of armies to be added
      * @return Whether add operation is successful
      */
-    public boolean addArmies(int armies){
+    public boolean addArmies(long armies){
         //Player doesn't have enough number of armies as specified
         if (player.getArmies() < armies)
             return false;

@@ -176,7 +176,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
      */
     @Override
     public void moveArmy(String num) {
-        int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum+1)+attackerDiceNum;
+        int n=random.nextInt(Math.toIntExact(attackingCountry.getArmies())-attackerDiceNum+1)+attackerDiceNum;
         attackingCountry.setArmies(attackingCountry.getArmies()-n);
         defendingCountry.setArmies(defendingCountry.getArmies()+n);
     }
@@ -228,7 +228,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         }
 
         //number of armies to move
-        int numArmies=random.nextInt(fromCountry.getArmies()+1);
+        int numArmies=random.nextInt(Math.toIntExact(fromCountry.getArmies())+1);
         fromCountry.setArmies(fromCountry.getArmies()-numArmies);
         toCountry.setArmies(toCountry.getArmies()+numArmies);
 
