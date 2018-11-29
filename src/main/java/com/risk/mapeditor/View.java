@@ -87,13 +87,8 @@ public class View extends AnchorPane {
             return;
         }
 
-//        if (model.isValidFile())
-            drawMap(model);
-//        else{
-//            Alert err=new Alert(Alert.AlertType.ERROR,"Invalid map format");
-//            err.show();
-//            return;
-//        }
+        drawMap(model);
+
     }
 
 

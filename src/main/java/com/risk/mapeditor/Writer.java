@@ -20,7 +20,6 @@ public class Writer {
     private ArrayList<Country> countries;
     private HashMap<String,Integer> continents;
     private Path filePath;
-    public String invalidReason;
 
     public Writer(ArrayList<Country> countries, Path filePath) {
         this.countries = countries;

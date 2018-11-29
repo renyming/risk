@@ -119,8 +119,8 @@ public class ViewController {
 
         currentLine.setUserData(country);
         Point2D p=currentLine.getParent().sceneToLocal(country.getX(),country.getY());
-        currentLine.setStartX(p.getX());
-        currentLine.setStartY(p.getY());
+        currentLine.setStartX(p.getX()+country.getWidth()/2);
+        currentLine.setStartY(p.getY()+country.getHeight()/2);
         currentLine.setVisible(true);
         currentLine.endXProperty().bind(mouseX);
         currentLine.endYProperty().bind(mouseY);
@@ -208,6 +208,7 @@ public class ViewController {
         draw_pane.getChildren().add(country);
         country.relocateToPoint();
         countryList.add(country);
+        country.setOpacity(0.95);
     }
 
     /**
@@ -467,27 +468,6 @@ public class ViewController {
                     alert.show();
                 }
 
-//                if (writer.write()) {
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Save to File");
-//                    alert.setHeaderText("Save to file successfully");
-//                    alert.show();
-//                    return;
-//                } else {
-//                    Alert alert = new Alert(Alert.AlertType.ERROR);
-//                    alert.setTitle("Save to File");
-//                    alert.setHeaderText("Save to file failed");
-//                    alert.setContentText(writer.invalidReason);
-//                    alert.show();
-//                    return;
-//                }
-//            } catch (IOException ex) {
-//                Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Save to File");
-//                alert.setHeaderText("Save to file failed");
-//                alert.setContentText("IO Error: \n" + ex.getMessage());
-//                alert.show();
-//            }
         }
 
     }
