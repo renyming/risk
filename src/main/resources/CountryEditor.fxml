@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root fx:id="country_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: #1f91e2; -fx-background-radius: 10 10 10 10;" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.mapeditor.CountryController">
+<fx:root fx:id="country_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: #1f91e2;" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.mapeditor.CountryController">
    <children>
       <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0">
+            <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: linear-gradient(to bottom, #08527b 0%,#2b88d9 50%,#207cca 51%,#7db9e8 100%);">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="101.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" />
@@ -25,7 +25,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="lblCountry" style="-fx-background-radius: 10 0 0 0; -fx-background-color: transparent;" text="Country">
+                  <TextField fx:id="lblCountry" style="-fx-background-radius: 10 0 0 0; -fx-background-color: transparent; -fx-text-fill: white;" text="Country">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

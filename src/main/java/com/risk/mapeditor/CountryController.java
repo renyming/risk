@@ -2,19 +2,16 @@ package com.risk.mapeditor;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +22,7 @@ public class CountryController {
 
     private static final String HIGHLIGHTCOLOR="#f2e94e";
     private static final String NORMALCOLOR="#171a1e";
+    private Rectangle rectangle=new Rectangle(120,80);
 
     @FXML
     AnchorPane country_pane;
@@ -46,6 +44,7 @@ public class CountryController {
      */
     @FXML
     public void initialize(Country country){
+
         lblCountry.setText(country.getName());
 
         listContinent.setItems(View.continents);
@@ -101,10 +100,14 @@ public class CountryController {
         });
 
         lblCountry.setOnMouseExited(event -> {
-            lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: "+NORMALCOLOR);
+            lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: #ffffff");
             country.setName(lblCountry.getText());
         });
 
+        rectangle.setArcHeight(15);
+        rectangle.setArcWidth(12);
+
+        country_pane.setClip(rectangle);
 
     }
 
