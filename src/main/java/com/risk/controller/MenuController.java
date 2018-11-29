@@ -73,7 +73,7 @@ public class MenuController {
     private boolean tournamentMode;
     private ObservableList<String> selectedMaps = FXCollections.observableArrayList();
     private ObservableList<String> playerTypes;
-
+    private ArrayList<String> filesPath = new ArrayList<>();
 
 
     /**
@@ -307,7 +307,7 @@ public class MenuController {
      */
     public void selectMap() {
         System.out.println("Selecting Map......");
-        if (tournamentMode && 2 == selectedMaps.size()) {
+        if (tournamentMode && 5 == selectedMaps.size()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Max map number is 5, remove first");
             alert.show();
             return;
@@ -319,6 +319,7 @@ public class MenuController {
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
             fileInfoMenuView.setSelectedFilename(riskMapFile.getName());
+            filesPath.add(riskMapFile.getPath());
             try {
                 model.readFile(riskMapFile.getPath());
             } catch (IOException exception) {
@@ -407,47 +408,46 @@ public class MenuController {
      * start tournament game
      */
     public void startTournamentGame(){
-//        int maps = 0;
-//        int games = 0;
-//        int turns = 0;
-//        ArrayList<HashMap<String, ArrayList<Player>>> finalResult = new ArrayList<>();
-//        while(maps < selectedMaps.size()){
-//            String mapPath = filesPath.get(maps);
-//            HashMap<String, ArrayList<Player>> mapResult = new HashMap<>();
-//            ArrayList<Player> winners = new ArrayList<>();
-//            try {
-////                    model.resetValue();
-////                    model.reset();
-//                model.readFile(mapPath);
-//                System.out.println(model.phaseNumber);
-//            } catch (IOException exception) {
-//                System.out.println("MenuController.readFile(): " + exception.getMessage());
-//            }
-//            System.out.println("Next map is "+mapPath);
-//            while(games < gamesPerMapSpinner.getValue()){
-//                model.resetValue();
-//                System.out.println("Next game is "+ games);
-//
-//                model.setTurnBeforeEnd(turnsPerGameSpinner.getValue());
-//                startGame();
-//                winners.add(model.getWinner());
-//                games++;
-//            }
-//            mapResult.put(selectedMaps.get(maps), winners);
-//            finalResult.add(mapResult);
-//            maps++;
-//
-//        }
-//        int counter =0;
-//        for(HashMap<String, ArrayList<Player>> f : finalResult){
-//            for(ArrayList<Player> w : (f.values())){
-//                for(Player p : w){
-//                    System.out.print("Map : "+f.entrySet()+" Game : "+(w.indexOf(p)+1)+" Winner : "+p.getName());
-//                    System.out.println("");
-//                    counter++;
-//                }
-//            }
-//        }
+        int numMaps = 0;
+        int numGames = 0;
+        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();
+
+        while(numMaps < selectedMaps.size()){
+
+            String mapPath = filesPath.get(numMaps);
+            ArrayList<String> winners = new ArrayList<>();
+
+            try {
+                model.resetValue();
+                model.readFile(mapPath);
+                System.out.println(model.phaseNumber);
+            } catch (IOException exception) {
+                System.out.println("MenuController.readFile(): " + exception.getMessage());
+            }
+            System.out.println("Next map is "+mapPath);
+            while(numGames< gamesPerMapSpinner.getValue()){
+                model.resetValue();
+                System.out.println("Next game is "+ numGames);
+                Model.maxTurn = turnsPerGameSpinner.getValue();
+                System.out.println("max TUrn:"+Model.maxTurn);
+                startGame();
+                System.out.println("finish!!!!!!!!!!!!!!!!!!!!!");
+                winners.add(Model.winner);
+                numGames++;
+            }
+
+            finalResult.add(winners);
+            numMaps++;
+        }
+
+        for(int i=0; i<numMaps; i++){
+            for(int j=0; j<numGames; j++){
+                System.out.print("Map : "+selectedMaps.get(i)+" Game : "+(j+1)+" Winner : "+finalResult.get(i).get(j));
+                System.out.println("");
+
+                }
+            }
+
     }
 
 }
