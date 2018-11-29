@@ -21,7 +21,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
     private String name;
     private Player player;
-    private Phase phase;
+//    private Phase Phase.getInstance();
 
     /**
      * constructor
@@ -31,7 +31,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
         name = "aggressive";
         this.player = player;
-        phase = Phase.getInstance();
+//        Phase.getInstance() = Phase.getInstance();
     }
 
 
@@ -58,7 +58,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
         //attack
         Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
-        if (phase.getActionResult() == Action.Win) {
+        if (Phase.getInstance().getActionResult() == Action.Win) {
             return;
         }
 
@@ -86,7 +86,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
         // computer the armies that need to added roundly
 //        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         player.addRoundArmies();
-        phase.update();
+        Phase.getInstance().update();
         Tool.updateThread();
 
         // find the strongest country
@@ -99,7 +99,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
         player.setArmies(0);
 
         // update phase
-        phase.setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //        phase.update();
         Tool.updateThread();
 
@@ -137,13 +137,13 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
             if (strongest.getArmies() >= 2) {
                 player.allOut(strongest, enemy);
 
-                if (phase.getActionResult() == Action.Win) {
+                if (Phase.getInstance().getActionResult() == Action.Win) {
                     Tool.updateThread();
                     player.addRandomCard();
                     return;
                 }
 
-                if (phase.getActionResult() == Action.Move_After_Conquer) {
+                if (Phase.getInstance().getActionResult() == Action.Move_After_Conquer) {
                     moveArmy(String.valueOf(player.getAttackerDiceNum()));
                 }
             }
@@ -174,8 +174,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
         attacker.setArmies(attacker.getArmies() - numArmies);
         defender.setArmies(defender.getArmies() + numArmies);
 
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
+        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+        Phase.getInstance().setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
     }
 
 
@@ -213,7 +213,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
                     c1.setArmies(c1.getArmies() + c2.getArmies());
                     c2.setArmies(0);
 
-                    phase.setActionResult(Action.Show_Next_Phase_Button);
+                    Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
 //                    phase.update();
                     Tool.updateThread();
 
