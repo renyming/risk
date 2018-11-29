@@ -208,7 +208,7 @@ public class ViewController {
         draw_pane.getChildren().add(country);
         country.relocateToPoint();
         countryList.add(country);
-        country.setOpacity(0.95);
+        country.setOpacity(0.9);
     }
 
     /**
