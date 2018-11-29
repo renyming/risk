@@ -42,14 +42,14 @@ public class Tool {
      */
     public static void updateThread() {
 
-        new Thread(new Runnable() {
-            @Override public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override public void run() {
-                        Phase.getInstance().update();
-                    }
-                });
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override public void run() {
+//                Platform.runLater(new Runnable() {
+//                    @Override public void run() {
+//                        Phase.getInstance().update();
+//                    }
+//                });
+//            }
+//        }).start();
     }
 }

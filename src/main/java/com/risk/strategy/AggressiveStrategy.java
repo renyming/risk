@@ -99,8 +99,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         // update phase
         phase.setActionResult(Action.Show_Next_Phase_Button);
-//        phase.update();
-        Tool.updateThread();
+        phase.update();
+//        Tool.updateThread();
 
         Tool.printBasicInfo(player, "After reinforcement: ");
 
@@ -137,8 +137,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                 player.allOut(strongest, enemy);
 
                 if (phase.getActionResult() == Action.Win) {
-                    Tool.updateThread();
+//                    Tool.updateThread();
                     player.addRandomCard();
+                    Phase.getInstance().update();
                     return;
                 }
 
@@ -149,8 +150,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         }
 
         player.addRandomCard();
-//        phase.update();
-        Tool.updateThread();
+        phase.update();
+//        Tool.updateThread();
         Tool.printBasicInfo(player,"After attack: ");
 
 //        sleep(500);
@@ -213,8 +214,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
                     c2.setArmies(0);
 
                     phase.setActionResult(Action.Show_Next_Phase_Button);
-//                    phase.update();
-                    Tool.updateThread();
+                    phase.update();
+//                    Tool.updateThread();
 
                     Tool.printBasicInfo(player,"After fortification: ");
                     return;

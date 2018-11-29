@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 /**
  * Test Model class
@@ -155,27 +157,36 @@ public class ModelTest {
     }
 
 
-//    /**
-//     * Test startUp phase method
-//     * @throws IOException io exceptions
-//     */
-//    @Ignore
-//    public void testStartUpPhase() throws IOException {
-//
-//        Model testedModel = new Model();
-//        testedModel.setFileInfoMenu(new FileInfoMenu());
-//        testedModel.setNumPlayerMenu(new NumPlayerMenu());
-//
-//        testedModel.readFile("./src/main/resources/Aden.map");
-//        testedModel.initiatePlayers("10");
-//        assertEquals(0, testedModel.getPlayers().size());
-//
-//        testedModel.readFile("./src/main/resources/Aden.map");
-//        testedModel.initiatePlayers("4" );
-//        assertEquals(4, testedModel.getPlayers().size());
-//        assertEquals(42, testedModel.getCountries().size());
-//        assertEquals(8, testedModel.getContinents().size());
-//    }
+    /**
+     * Test startUp phase method
+     * @throws IOException io exceptions
+     */
+    @Test
+    public void testStartUpPhase() throws IOException {
+
+        Model testedModel = new Model();
+        testedModel.setFileInfoMenu(new FileInfoMenu());
+        testedModel.setNumPlayerMenu(new NumPlayerMenu());
+
+
+        testedModel.readFile("./src/main/resources/maps/Aden.map");
+        ArrayList<String> players1 = new ArrayList<>();
+        IntStream.range(0, 10)
+                .forEach(c -> players1.add("human player"));
+//        PlayersWorldDomination.getInstance().setTotalNumCountries(42);
+        testedModel.checkPlayersNum("10");
+        assertEquals(0, testedModel.getPlayers().size());
+
+        testedModel.readFile("./src/main/resources/maps/Aden.map");
+        ArrayList<String> players2 = new ArrayList<>();
+        IntStream.range(0, 4)
+                .forEach(c -> players2.add("human player"));
+//        PlayersWorldDomination.getInstance().setTotalNumCountries(42);
+        testedModel.initiatePlayers(players2);
+        assertEquals(4, testedModel.getPlayers().size());
+        assertEquals(42, testedModel.getCountries().size());
+        assertEquals(8, testedModel.getContinents().size());
+    }
 
 
 }

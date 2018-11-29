@@ -119,12 +119,12 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                         phase.setInvalidInfo("Congratulations, You Win!");
                         System.out.println(player.getName() + ", Congratulations, You Win! ");
                         Model.winner = player.getName();
-//                        phase.update();
-                        Tool.updateThread();
+                        phase.update();
+//                        Tool.updateThread();
                         return;
                     }
-//                    phase.update();
-                    Tool.updateThread();
+                    phase.update();
+//                    Tool.updateThread();
 
                 });
 
@@ -167,8 +167,8 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
-//        phase.update();
-        Tool.updateThread();
+        phase.update();
+//        Tool.updateThread();
 
     }
 
@@ -189,8 +189,8 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
 
         // update phase
         phase.setActionResult(Action.Show_Next_Phase_Button);
-//        phase.update();
-        Tool.updateThread();
+        phase.update();
+//        Tool.updateThread();
 
         Tool.printBasicInfo(player,"After fortification: ");
         sleep(500);

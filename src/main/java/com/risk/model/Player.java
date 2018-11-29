@@ -734,6 +734,7 @@ public class Player extends Observable implements Serializable {
                 Model.winner = attacker.getName();
                 // give the name of winner
                 phase.setInvalidInfo("Congratulations, You Win!");
+                System.out.println();
                 System.out.println(name + ", Congratulations, You Win!");
                 Model.winner = attacker.getOwner().getName();
             }
@@ -769,6 +770,7 @@ public class Player extends Observable implements Serializable {
             defenderDiceNum = Math.toIntExact(defender.getArmies() > 2? 2 : defender.getArmies());
 
             attackOnce();
+
             // if defender is occupied by attacker
             if(attacker.getOwner().equals(defender.getOwner())) break;
             // if attacker exhaust all its armies
