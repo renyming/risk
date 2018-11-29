@@ -1,5 +1,6 @@
 package com.risk.controller;
 
+import com.risk.model.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -38,6 +39,7 @@ public class MenuController {
     @FXML public TextField numPlayerTextField;
 
     @FXML public Button startButton;
+    @FXML public Button startButton1;
     @FXML public Button selectMapButton;
     @FXML public Button deleteMapButton;
 
@@ -277,7 +279,7 @@ public class MenuController {
 
             playerTypes = FXCollections.observableArrayList();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
-                    startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);
+                    startButton, startButton1, mapController, playerNumLabels, playerTypeChoiceBoxes);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         }
         if (null != fileInfoMenuView) {
@@ -401,5 +403,51 @@ public class MenuController {
     }
 
 
-    public void startTournamentGame(){ }
+    /**
+     * start tournament game
+     */
+    public void startTournamentGame(){
+//        int maps = 0;
+//        int games = 0;
+//        int turns = 0;
+//        ArrayList<HashMap<String, ArrayList<Player>>> finalResult = new ArrayList<>();
+//        while(maps < selectedMaps.size()){
+//            String mapPath = filesPath.get(maps);
+//            HashMap<String, ArrayList<Player>> mapResult = new HashMap<>();
+//            ArrayList<Player> winners = new ArrayList<>();
+//            try {
+////                    model.resetValue();
+////                    model.reset();
+//                model.readFile(mapPath);
+//                System.out.println(model.phaseNumber);
+//            } catch (IOException exception) {
+//                System.out.println("MenuController.readFile(): " + exception.getMessage());
+//            }
+//            System.out.println("Next map is "+mapPath);
+//            while(games < gamesPerMapSpinner.getValue()){
+//                model.resetValue();
+//                System.out.println("Next game is "+ games);
+//
+//                model.setTurnBeforeEnd(turnsPerGameSpinner.getValue());
+//                startGame();
+//                winners.add(model.getWinner());
+//                games++;
+//            }
+//            mapResult.put(selectedMaps.get(maps), winners);
+//            finalResult.add(mapResult);
+//            maps++;
+//
+//        }
+//        int counter =0;
+//        for(HashMap<String, ArrayList<Player>> f : finalResult){
+//            for(ArrayList<Player> w : (f.values())){
+//                for(Player p : w){
+//                    System.out.print("Map : "+f.entrySet()+" Game : "+(w.indexOf(p)+1)+" Winner : "+p.getName());
+//                    System.out.println("");
+//                    counter++;
+//                }
+//            }
+//        }
+    }
+
 }
