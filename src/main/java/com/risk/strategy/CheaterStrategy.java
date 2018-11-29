@@ -121,12 +121,10 @@ public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
                         Phase.getInstance().setInvalidInfo("Congratulations, You Win!");
                         System.out.println(player.getName() + ", Congratulations, You Win! ");
                         Model.winner = player.getName();
-//                        phase.update();
-                        Tool.updateThread();
+                        Phase.getInstance().update();
                         return;
                     }
-//                    phase.update();
-                    Tool.updateThread();
+                    Phase.getInstance().update();
 
                 });
 
@@ -169,8 +167,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
 
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
         Phase.getInstance().setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
-//        phase.update();
-        Tool.updateThread();
+        Phase.getInstance().update();
 
     }
 
@@ -191,8 +188,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
 
         // update phase
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//        phase.update();
-        Tool.updateThread();
+        Phase.getInstance().update();
 
         Tool.printBasicInfo(player,"After fortification: ");
         sleep(500);

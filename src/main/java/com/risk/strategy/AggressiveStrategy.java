@@ -87,7 +87,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 //        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
         player.addRoundArmies();
         Phase.getInstance().update();
-        Tool.updateThread();
+
 
         // find the strongest country
         Country strongest = player.getCountriesOwned().stream()
@@ -100,8 +100,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
         // update phase
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//        phase.update();
-        Tool.updateThread();
+        Phase.getInstance().update();
 
         Tool.printBasicInfo(player, "After reinforcement: ");
 
@@ -138,7 +137,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
                 player.allOut(strongest, enemy);
 
                 if (Phase.getInstance().getActionResult() == Action.Win) {
-                    Tool.updateThread();
+                    Phase.getInstance().update();
                     player.addRandomCard();
                     return;
                 }
@@ -150,8 +149,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
         }
 
         player.addRandomCard();
-//        phase.update();
-        Tool.updateThread();
+        Phase.getInstance().update();
         Tool.printBasicInfo(player,"After attack: ");
 
 //        sleep(500);
@@ -214,8 +212,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
                     c2.setArmies(0);
 
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//                    phase.update();
-                    Tool.updateThread();
+                    Phase.getInstance().update();
 
                     Tool.printBasicInfo(player,"After fortification: ");
                     return;
