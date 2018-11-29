@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -78,7 +79,7 @@ public class Writer {
         model.editorReadFile(tmp.getCanonicalPath());
         mapValidator.validateMap(model);
 
-        Files.copy(tmp.toPath(),filePath);
+        Files.copy(tmp.toPath(),filePath, StandardCopyOption.REPLACE_EXISTING);
 
     }
 

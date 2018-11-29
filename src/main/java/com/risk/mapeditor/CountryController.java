@@ -101,7 +101,10 @@ public class CountryController {
 
         lblCountry.setOnMouseExited(event -> {
             lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: #ffffff");
-            country.setName(lblCountry.getText());
+        });
+
+        lblCountry.textProperty().addListener((observable, oldValue, newValue) -> {
+            country.setName(newValue);
         });
 
         rectangle.setArcHeight(15);
