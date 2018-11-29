@@ -74,7 +74,7 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         ArrayList<String> countryPercentage = new ArrayList<>();
         if (0 != totalNumCountries) {
             for (Player player : players) {
-                countryPercentage.add(player.getName() + ":  " + player.getCountriesOwned().size() * 100.0 / totalNumCountries + "%");
+                countryPercentage.add(player.getName() + "_" + player.getStrategy().getName() + ": " + player.getCountriesOwned().size() * 100.0 / totalNumCountries + "%");
             }
         }
         return countryPercentage;
