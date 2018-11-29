@@ -28,11 +28,11 @@ public class Player extends Observable implements Serializable {
     //Counter to assign unique Id
     private static int cId=0;
     private String name;
-    private int armies;
+    private long armies;
     private ArrayList<Country> countriesOwned;
     private ArrayList<Continent> continentsOwned;
     private String color = "#4B0082";
-    private int totalStrength;
+    private long totalStrength;
 
     private Country attacker;
     private int attackerDiceNum;
@@ -216,7 +216,7 @@ public class Player extends Observable implements Serializable {
      * Getter to get the number of armies
      * @return The number of armies that the player has currently
      */
-    public int getArmies() {
+    public long getArmies() {
         return armies;
     }
 
@@ -246,7 +246,7 @@ public class Player extends Observable implements Serializable {
     * set the number of armies
     * @param  armies the number of armies
     */
-    public void setArmies(int armies) {
+    public void setArmies(long armies) {
         this.armies = armies;
     }
 
@@ -254,7 +254,7 @@ public class Player extends Observable implements Serializable {
      * Getter to get totalStrength
      * @return  The num of totalStrength that the player has currently
      */
-    public int getTotalStrength() {
+    public long getTotalStrength() {
         return totalStrength;
     }
 
@@ -262,7 +262,7 @@ public class Player extends Observable implements Serializable {
      * set the number of totalStrength
      * @param totalStrength the number of totalStrength
      */
-    public void setTotalStrength(int totalStrength) {
+    public void setTotalStrength(long totalStrength) {
         this.totalStrength = totalStrength;
         worldDomination.update();
     }
@@ -286,7 +286,7 @@ public class Player extends Observable implements Serializable {
      */
     public void subArmies(int num){
 
-        int newArmies = armies - num;
+        long newArmies = armies - num;
         setArmies(newArmies);
     }
 
@@ -296,8 +296,8 @@ public class Player extends Observable implements Serializable {
      */
     public void subTotalStrength(int num){
 
-        int newStrength = totalStrength - num;
-        setTotalStrength(newStrength);
+        long newStrength = totalStrength - num;
+        setTotalStrength((newStrength));
     }
 
     /**
@@ -760,8 +760,12 @@ public class Player extends Observable implements Serializable {
     public void allOut() {
 
         while (true) {
-            attackerDiceNum = attacker.getArmies() > 3? 3 : attacker.getArmies();
-            defenderDiceNum = defender.getArmies() > 2? 2 : defender.getArmies();
+
+            long three = 3;
+            long two = 2;
+
+            attackerDiceNum = Math.toIntExact(attacker.getArmies() > 3? 3 : attacker.getArmies());
+            defenderDiceNum = Math.toIntExact(defender.getArmies() > 2? 2 : defender.getArmies());
 
             attackOnce();
             // if defender is occupied by attacker
@@ -811,7 +815,7 @@ public class Player extends Observable implements Serializable {
         System.out.print(",  ");
 
         // compare the rolling result
-        int range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
+        long range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
         for (int i=0; i<range; i++){
 
             if (diceDefender.get(i) >= dicesAttacker.get(i)) {
