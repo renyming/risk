@@ -170,8 +170,8 @@ public class CheaterStrategyTest {
     @Test
     public void fortification() {
 
-        // original totalStrength = 9
-        //singapore = 0, canada = 1, usa = 8
+        // original totalStrength = 10
+        //singapore = 1, canada = 1, usa = 8
         player.fortification(null, null,0);
         assertEquals(2, singapore.getArmies());
         assertEquals(1, canada.getArmies());
