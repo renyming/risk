@@ -128,7 +128,10 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
                 }
 //                System.out.println("Attacker dice number: "+attackerDiceNum);
 
-                if (defendingCountry.getArmies()==1) {
+                if (defendingCountry.getArmies()==0) {
+                    player.isDefenderLoose(attackingCountry,defendingCountry);
+                    continue;
+                } else if (defendingCountry.getArmies()==1) {
                     defenderDiceNum=1;
                 } else {
                     defenderDiceNum=random.nextInt(2)+1; //1~2
