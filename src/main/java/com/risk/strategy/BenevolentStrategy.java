@@ -6,6 +6,7 @@ import com.risk.model.Country;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,7 +17,7 @@ import static java.lang.Thread.sleep;
 /**
  * Benevolent Strategy class
  */
-public class BenevolentStrategy implements PlayerBehaviorStrategy {
+public class BenevolentStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;

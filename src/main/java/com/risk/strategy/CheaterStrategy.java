@@ -6,6 +6,8 @@ import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
+
+import java.io.Serializable;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -14,7 +16,7 @@ import static java.lang.Thread.sleep;
 /**
  * Cheater Strategy class
  */
-public class CheaterStrategy implements PlayerBehaviorStrategy {
+public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;

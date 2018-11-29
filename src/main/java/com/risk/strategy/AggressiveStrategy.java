@@ -7,6 +7,7 @@ import com.risk.model.Country;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 import static java.lang.Thread.sleep;
 
 
-public class AggressiveStrategy implements PlayerBehaviorStrategy {
+public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;

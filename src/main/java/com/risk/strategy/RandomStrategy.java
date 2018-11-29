@@ -7,13 +7,14 @@ import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.lang.Thread.sleep;
 
-public class RandomStrategy implements PlayerBehaviorStrategy {
+public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;
