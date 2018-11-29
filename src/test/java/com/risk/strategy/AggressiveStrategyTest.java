@@ -88,9 +88,9 @@ public class AggressiveStrategyTest {
     @Before
     public void setUp() throws Exception {
 
-        newPlayer = new Player("Lee", 5, "aggressive");
+        newPlayer = new Player("Lee", 5, "aggressive computer");
 
-        player = new Player("Ann", 5, "aggressive");
+        player = new Player("Ann", 5, "aggressive computer");
 
         ArrayList<Country> countries = new ArrayList<Country>();
         singapore.setPlayer(player);
@@ -112,7 +112,7 @@ public class AggressiveStrategyTest {
 //        player.setTotalStrength(10);
 
 
-        defender = new Player("Mike", 5, "aggressive");
+        defender = new Player("Mike", 5, "aggressive computer");
         defender.setTotalStrength(5);
 
         china.setPlayer(defender);
@@ -159,6 +159,7 @@ public class AggressiveStrategyTest {
 
         defender.attack(null, "0", null, "0", true);
         assertEquals(defender, singapore.getOwner());
+        assertEquals(1, player.getTotalCards());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
 
     }
@@ -185,7 +186,6 @@ public class AggressiveStrategyTest {
         assertEquals(player, china.getOwner());
         assertEquals(player, thailand.getOwner());
         assertTrue(player.getContinentsOwned().contains(asien));
-        assertEquals(1, player.getTotalCards());
         assertEquals(Action.Win, Phase.getInstance().getActionResult());
 
     }

@@ -80,9 +80,9 @@ public class PlayerTest {
     @Before
     public void setUp() throws Exception {
 
-        newPlayer = new Player("Lee",5, "human");
+        newPlayer = new Player("Lee",5, "human player");
 
-        player = new Player("Ann",5, "human");
+        player = new Player("Ann",5, "human player");
 
         ArrayList<Country> countries= new ArrayList<Country>();
         singapore.setPlayer(player);
@@ -104,7 +104,7 @@ public class PlayerTest {
 //        player.setTotalStrength(10);
 
 
-        defender = new Player("Mike", 5, "human");
+        defender = new Player("Mike", 5, "human player");
         defender.setTotalStrength(5);
 
         china.setPlayer(defender);
