@@ -91,9 +91,10 @@ public class Writer {
 
         MapValidator mapValidator = new MapValidator();
         Model model = new Model();
-        model.editorReadFile(filePath);
+
         try {
             mapValidator.validateMap(model);
+            model.editorReadFile(filePath);
         } catch (InvalidMapException ex){
             invalidReason = ex.getMessage();
             return false;

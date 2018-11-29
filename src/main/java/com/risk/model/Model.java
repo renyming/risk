@@ -593,21 +593,15 @@ public class Model extends Observable implements Serializable {
         }
     }
 
-
     /**
      * load file path for map editor
      * @param filePath The path of the map file
      * @throws IOException
+     * @throws InvalidMapException Exception when the map layout is invalid
      */
-    public void editorReadFile(String filePath) throws IOException{
+    public void editorReadFile(String filePath) throws IOException, InvalidMapException {
         loadFromMapFile(filePath);
-        try {
-            MapValidator.validateMap(this);
-        }
-        catch (InvalidMapException ex){
-            validFile = false;
-            System.out.println(ex.toString());
-        }
+        MapValidator.validateMap(this);
     }
 
     /**
