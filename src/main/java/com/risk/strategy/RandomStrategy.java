@@ -88,6 +88,15 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     }
 
+    /**
+     * Attacks at a random number of times, each attack chooses a country as attacking country and one of its adjacent enemy countries as defending country
+     * @param attacker dummy param
+     * @param attackerNum dummy param
+     * @param defender dummy param
+     * @param defenderNum dummy param
+     * @param isAllOut dummy param
+     * @throws InterruptedException
+     */
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
@@ -158,13 +167,24 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
     }
 
+    /**
+     * Move a random number of armies from attacking country to recently conquered country
+     * @param num dummy param
+     */
     @Override
     public void moveArmy(String num) {
         int n=random.nextInt(attackingCountry.getArmies()-attackerDiceNum+1)+attackerDiceNum;
-        attackingCountry.addArmies(-n);
-        defendingCountry.addArmies(n);
+        attackingCountry.setArmies(attackingCountry.getArmies()-n);
+        defendingCountry.setArmies(defendingCountry.getArmies()+n);
     }
 
+    /**
+     * Randomly fortificates a country by a random number of armies
+     * @param source
+     * @param target
+     * @param armyNumber
+     * @throws InterruptedException
+     */
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
