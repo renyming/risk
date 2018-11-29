@@ -162,7 +162,7 @@ public class PhaseView implements Observer {
             currentPlayerNameLabel.setText(currentPlayer.getName());
             currentPlayerNameLabel.setStyle("-fx-background-color: " + currentPlayer.getColor());
             currentPlayerTypeLabel.setText(currentPlayer.getStrategy().getName());
-            armiesInHandLabel.setText(Integer.toString(phase.getCurrentPlayer().getArmies()));
+            armiesInHandLabel.setText(Long.toString(phase.getCurrentPlayer().getArmies()));
         }
 
         // check current Phase update, or current action update
@@ -178,14 +178,14 @@ public class PhaseView implements Observer {
                     hide();
                     reset();
                     // update current Player UI
-                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                    armiesInHandLabel.setText(Long.toString(currentPlayer.getArmies()));
                     nextPhaseButton.setText("Click To Enter Reinforcement Phase");
                     break;
                 case "Reinforcement Phase":
                     // set Reinforcement Phase UI
                     hide();
                     // update current Player UI
-                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                    armiesInHandLabel.setText(Long.toString(currentPlayer.getArmies()));
                     nextPhaseButton.setText("Click To Enter Attack Phase");
                     break;
                 case "Attack Phase":
@@ -219,7 +219,7 @@ public class PhaseView implements Observer {
                     // TODO: display the invalid result in card exchange View, Model may tell cardView directly
                     phase.clearActionResult();
                 case Allocate_Army:
-                    armiesInHandLabel.setText(Integer.toString(currentPlayer.getArmies()));
+                    armiesInHandLabel.setText(Long.toString(currentPlayer.getArmies()));
                     phase.clearActionResult();
                     break;
                 case Invalid_Move:

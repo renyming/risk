@@ -45,7 +45,8 @@ public class Model extends Observable implements Serializable {
 
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
-
+    public static int maxTurn;
+    public static int currentTurn;
 
     /**
      * ctor for Model
@@ -101,6 +102,12 @@ public class Model extends Observable implements Serializable {
         countries = new HashMap<>();
         continents = new ArrayList<>();
         validFile = true;
+    }
+    public void resetValue(){
+        cardsValue = 5;
+        disable = false;
+        phaseNumber = 0;
+        maxTurn = 0;
     }
 
     /**
@@ -332,7 +339,6 @@ public class Model extends Observable implements Serializable {
      * again, meanwhile change current player to the first player.
      */
     public void nextPlayer()  {
-
         int nextId = 0;
 
         while (true) {

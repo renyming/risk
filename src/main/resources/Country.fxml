@@ -23,9 +23,9 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Label fx:id="numArmiesLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="81.0" style="-fx-background-color: red; -fx-background-radius: 5;" text="999" textAlignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="numArmiesLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="81.0" style="-fx-background-color: red; -fx-background-radius: 5;" text="99999" textAlignment="CENTER" GridPane.rowIndex="1">
                <font>
-                  <Font size="30.0" />
+                  <Font size="15.0" />
                </font>
             </Label>
          </children>

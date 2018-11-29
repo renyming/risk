@@ -19,7 +19,10 @@ public class WorkerThread extends Thread {
             @Override
             public void run() {
                 player.execute();
+                Model.currentTurn++;
                 if (Phase.getInstance().getActionResult() == Action.Win) {
+                    return;
+                }else if(Model.currentTurn >= Model.maxTurn){
                     return;
                 }
 

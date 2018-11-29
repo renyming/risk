@@ -90,7 +90,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         // find the strongest country
         Country strongest = player.getCountriesOwned().stream()
-                .max(Comparator.comparingInt(Country::getArmies))
+                .max(Comparator.comparingLong(Country::getArmies))
                 .get();
 
         // add all the armies to weakest
@@ -125,7 +125,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
         // attacker is the strongest country
         Country strongest = player.getCountriesOwned().stream()
-                .max(Comparator.comparingInt(Country::getArmies))
+                .max(Comparator.comparingLong(Country::getArmies))
                 .get();
 
         List<Country> enemies = strongest.getAdjCountries().stream()
@@ -191,7 +191,10 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
         System.out.println(player.getName() + " enter the fortification phase");
 
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
-                .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
+                .sorted((c1, c2) -> {
+                    if (c2.getArmies() - c1.getArmies() > 0 ) return 1;
+                    else if (c2.getArmies() - c1.getArmies() == 0) return 0;
+                    else return -1; })
                 .collect(Collectors.toList());
 
         for (int i = 0; i < decreaseSorted.size(); i++) {

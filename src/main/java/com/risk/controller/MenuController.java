@@ -40,6 +40,7 @@ public class MenuController {
     @FXML public TextField numPlayerTextField;
 
     @FXML public Button startButton;
+    @FXML public Button startButton1;
     @FXML public Button selectMapButton;
     @FXML public Button deleteMapButton;
 
@@ -73,7 +74,7 @@ public class MenuController {
     private boolean tournamentMode;
     private ObservableList<String> selectedMaps = FXCollections.observableArrayList();
     private ObservableList<String> playerTypes;
-
+    private ArrayList<String> filesPath = new ArrayList<>();
 
 
     /**
@@ -217,7 +218,7 @@ public class MenuController {
      */
     public void loadGame() throws IOException,ClassNotFoundException {
         mapController.initPhaseView();
-        
+
         String fileName = "game1";
 
         FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
@@ -296,7 +297,7 @@ public class MenuController {
 
             playerTypes = FXCollections.observableArrayList();
             numPlayerMenuView.init(numPlayerInstructionLabel, validationOfUserEnteredLabel, numPlayerTextField,
-                    startButton, mapController, playerNumLabels, playerTypeChoiceBoxes);
+                    startButton, startButton1, mapController, playerNumLabels, playerTypeChoiceBoxes);
             model.setMenuViews(fileInfoMenuView, numPlayerMenuView);
         }
         if (null != fileInfoMenuView) {
@@ -324,7 +325,7 @@ public class MenuController {
      */
     public void selectMap() {
         System.out.println("Selecting Map......");
-        if (tournamentMode && 2 == selectedMaps.size()) {
+        if (tournamentMode && 5 == selectedMaps.size()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Max map number is 5, remove first");
             alert.show();
             return;
@@ -336,6 +337,7 @@ public class MenuController {
         File riskMapFile = fileChooser.showOpenDialog(menu.getMenuStage());
         if (null != riskMapFile && riskMapFile.exists()) {
             fileInfoMenuView.setSelectedFilename(riskMapFile.getName());
+            filesPath.add(riskMapFile.getPath());
             try {
                 model.readFile(riskMapFile.getPath());
             } catch (IOException exception) {
@@ -420,5 +422,50 @@ public class MenuController {
     }
 
 
-    public void startTournamentGame(){ }
+    /**
+     * start tournament game
+     */
+    public void startTournamentGame(){
+        int numMaps = 0;
+        int numGames = 0;
+        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();
+
+        while(numMaps < selectedMaps.size()){
+
+            String mapPath = filesPath.get(numMaps);
+            ArrayList<String> winners = new ArrayList<>();
+
+            try {
+                model.resetValue();
+                model.readFile(mapPath);
+                System.out.println(model.phaseNumber);
+            } catch (IOException exception) {
+                System.out.println("MenuController.readFile(): " + exception.getMessage());
+            }
+            System.out.println("Next map is "+mapPath);
+            while(numGames< gamesPerMapSpinner.getValue()){
+                model.resetValue();
+                System.out.println("Next game is "+ numGames);
+                Model.maxTurn = turnsPerGameSpinner.getValue();
+                System.out.println("max TUrn:"+Model.maxTurn);
+                startGame();
+                System.out.println("finish!!!!!!!!!!!!!!!!!!!!!");
+                winners.add(Model.winner);
+                numGames++;
+            }
+
+            finalResult.add(winners);
+            numMaps++;
+        }
+
+        for(int i=0; i<numMaps; i++){
+            for(int j=0; j<numGames; j++){
+                System.out.print("Map : "+selectedMaps.get(i)+" Game : "+(j+1)+" Winner : "+finalResult.get(i).get(j));
+                System.out.println("");
+
+                }
+            }
+
+    }
+
 }

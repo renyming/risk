@@ -21,6 +21,7 @@ public class NumPlayerMenuView implements Observer {
     private Label validationOfUserEnteredLabel;
     private TextField numPlayerTextField;
     private Button startButton;
+    private Button startButton1;
     private HashMap<Integer, Label> playerNumLabels;
     private HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes;
     private String totalPlayer;
@@ -45,12 +46,13 @@ public class NumPlayerMenuView implements Observer {
      * @param playerTypeChoiceBoxes allows user to select each Player's type
      */
     public void init(Label playerNumInstructionLabel, Label userEnteredPlayNumLabel, TextField playerNumTextField,
-                     Button startButton, MapController mapController,
+                     Button startButton, Button startButton1, MapController mapController,
                      HashMap<Integer, Label> playerNumLabels, HashMap<Integer, ChoiceBox<String>> playerTypeChoiceBoxes) {
         this.numPlayerInstructionLabel = playerNumInstructionLabel;
         this.validationOfUserEnteredLabel = userEnteredPlayNumLabel;
         this.numPlayerTextField = playerNumTextField;
         this.startButton = startButton;
+        this.startButton1 = startButton1;
         this.mapController = mapController;
         this.playerNumLabels = playerNumLabels;
         this.playerTypeChoiceBoxes = playerTypeChoiceBoxes;
@@ -81,13 +83,16 @@ public class NumPlayerMenuView implements Observer {
         if (numPlayerMenu.getValid()) {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #00ff00; -fx-border-width: 3");
             startButton.setStyle("-fx-border-color: #4CAF50;");
+            startButton1.setStyle("-fx-border-color: #4CAF50;");
             showPlayerTypeInfo(Integer.parseInt(totalPlayer), true);
             startButton.setDisable(false);
+            startButton1.setDisable(false);
         } else {
             validationOfUserEnteredLabel.setStyle("-fx-border-color: #ff0000; -fx-border-width: 3");
             validationOfUserEnteredLabel.setText(numPlayerMenu.getValidationInfo());
             showPlayerTypeInfo(6, false);
             startButton.setDisable(true);
+            startButton1.setDisable(true);
         }
     }
 
@@ -103,7 +108,9 @@ public class NumPlayerMenuView implements Observer {
         numPlayerTextField.setDisable(true);
         numPlayerTextField.clear();
         startButton.setDisable(true);
+        startButton1.setDisable(true);
         startButton.setStyle("");
+        startButton1.setStyle("");
         showPlayerTypeInfo(6, false);
     }
 

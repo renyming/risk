@@ -57,7 +57,7 @@ public class CountryController {
         countryNameLabel.setText(country.getName());
         countryNameLabel.setStyle("-fx-background-color: " + country.getContinent().getColor() + "; -fx-background-radius: 5");
         countryNameLabel.setTooltip(new Tooltip(country.getContinent().getName()));
-        numArmiesLabel.setText(Integer.toString(country.getArmies()));
+        numArmiesLabel.setText(Long.toString(country.getArmies()));
         numArmiesLabel.setStyle("-fx-background-color: " + country.getOwner().getColor() + "; -fx-background-radius: 5");
     }
 }
