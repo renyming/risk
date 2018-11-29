@@ -26,6 +26,10 @@ public class RandomStrategyTest {
     private Player player;
     private Player defender;
 
+    /**
+     * Setup map
+     * @throws Exception
+     */
     @SuppressWarnings("Duplicates")
     @BeforeClass
     public static void before() throws Exception {
@@ -62,6 +66,10 @@ public class RandomStrategyTest {
         usa.setContinent(northAmerica);
     }
 
+    /**
+     * Initiate user and assign countries
+     * @throws Exception
+     */
     @SuppressWarnings("Duplicates")
     @Before
     public void setUp() throws Exception {
@@ -89,6 +97,9 @@ public class RandomStrategyTest {
         defender.addCountry(thailand);
     }
 
+    /**
+     * Test case for reinforcement
+     */
     @Test
     public void reinforcement() {
         // original totalStrength = 5
@@ -110,6 +121,9 @@ public class RandomStrategyTest {
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
     }
 
+    /**
+     * Test case for attack
+     */
     @Test
     public void attack() {
         player.setArmies(player.getArmies()+100);
@@ -121,6 +135,9 @@ public class RandomStrategyTest {
         assertEquals(Phase.getInstance().getActionResult(),Action.Show_Next_Phase_Button);
     }
 
+    /**
+     * Test case for fortification
+     */
     @Test
     public void fortification() {
         player.fortification(singapore,china,0);
