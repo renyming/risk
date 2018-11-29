@@ -102,6 +102,7 @@ public class CountryController {
 
         lblCountry.setOnMouseExited(event -> {
             lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: "+NORMALCOLOR);
+            country.setName(lblCountry.getText());
         });
 
 
