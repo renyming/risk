@@ -118,7 +118,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
 
             } else {
                 attackingCandidatesList.remove(attackingCountry);
-                System.out.println("Country invalid");
+//                System.out.println("Country invalid");
                 continue;
             }
 
@@ -151,19 +151,38 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         //terminates if player has less than two countries
         if (player.getCountriesSize()<2) return;
 
-        Country fromCountry=getRandomCountry(player.getCountriesOwned());
-        Country toCountry;
+        //get source country candidates list
+        ArrayList<Country> sourceCandidates=new ArrayList<>(player.getCountriesOwned());
+
+        Country fromCountry;
+        while(true) {
+            fromCountry=getRandomCountry(sourceCandidates);
+            ArrayList<Country> adjOwnedCountries=fromCountry.getAdjCountries().stream()
+                    .filter(c -> c.getOwner()==player)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            if (adjOwnedCountries.isEmpty()) {
+                sourceCandidates.remove(fromCountry);
+                if (sourceCandidates.isEmpty()) return;
+            } else {
+                break;
+            }
+        }
+
+        //get dest country candidates list
+        ArrayList<Country> destCandidates=new ArrayList<>(player.getCountriesOwned());
+        destCandidates.remove(fromCountry);
+        Country toCountry=getRandomCountry(destCandidates);
 
         //pick a dest country until it's not the origin country
-        while(true){
-            toCountry=getRandomCountry(player.getCountriesOwned());
-            if (toCountry!=fromCountry) break;
+        while(!player.isConnected(fromCountry,toCountry)){
+            destCandidates.remove(toCountry);
+            toCountry=getRandomCountry(destCandidates);
         }
 
         //number of armies to move
         int numArmies=random.nextInt(fromCountry.getArmies()+1);
-        fromCountry.addArmies(-numArmies);
-        toCountry.addArmies(numArmies);
+        fromCountry.setArmies(fromCountry.getArmies()-numArmies);
+        toCountry.setArmies(toCountry.getArmies()+numArmies);
 
         phase.setActionResult(Action.Show_Next_Phase_Button);
         phase.update();
