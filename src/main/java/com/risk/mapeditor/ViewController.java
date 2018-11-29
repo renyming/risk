@@ -1,5 +1,6 @@
 package com.risk.mapeditor;
 
+import com.risk.exception.InvalidMapException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -444,29 +445,49 @@ public class ViewController {
         File file = fileChooser.showSaveDialog(view_pane.getScene().getWindow());
 
         if (file != null) {
-            try {
-                Writer writer = new Writer(countryList, file.getPath());
-                if (writer.write()) {
+
+                Writer writer = new Writer(countryList, file.toPath());
+                try {
+                    writer.write();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file successfully");
                     alert.show();
-                    return;
-                } else {
+                } catch (IOException ex) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file failed");
-                    alert.setContentText(writer.invalidReason);
+                    alert.setContentText("IO Error: \n" + ex.getMessage());
                     alert.show();
-                    return;
+                } catch (InvalidMapException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Save to File");
+                    alert.setHeaderText("Save to file failed");
+                    alert.setContentText("Invalid map layout: \n" + ex.getMessage());
+                    alert.show();
                 }
-            } catch (IOException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Save to File");
-                alert.setHeaderText("Save to file failed");
-                alert.setContentText("IO Error: \n" + ex.getMessage());
-                alert.show();
-            }
+
+//                if (writer.write()) {
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Save to File");
+//                    alert.setHeaderText("Save to file successfully");
+//                    alert.show();
+//                    return;
+//                } else {
+//                    Alert alert = new Alert(Alert.AlertType.ERROR);
+//                    alert.setTitle("Save to File");
+//                    alert.setHeaderText("Save to file failed");
+//                    alert.setContentText(writer.invalidReason);
+//                    alert.show();
+//                    return;
+//                }
+//            } catch (IOException ex) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Save to File");
+//                alert.setHeaderText("Save to file failed");
+//                alert.setContentText("IO Error: \n" + ex.getMessage());
+//                alert.show();
+//            }
         }
 
     }
