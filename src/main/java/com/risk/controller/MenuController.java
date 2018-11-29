@@ -75,7 +75,7 @@ public class MenuController {
     private ObservableList<String> selectedMaps = FXCollections.observableArrayList();
     private ObservableList<String> playerTypes;
     private ArrayList<String> filesPath = new ArrayList<>();
-
+    private ArrayList<String> selectPlayerTypes = new ArrayList<>();
 
     /**
      * Default ctor
@@ -395,12 +395,12 @@ public class MenuController {
      * Pass info to the Menu, Model, and MapController
      */
     public void startGame() {
-        ArrayList<String> playerTypes = new ArrayList<>();
+        selectPlayerTypes.clear();
         for (int i = 0; i < numPlayerMenuView.getTotalNumPlayer(); ++i) {
-            playerTypes.add(playerTypeChoiceBoxes.get(i).getValue());
+            selectPlayerTypes.add(playerTypeChoiceBoxes.get(i).getValue());
         }
         System.out.println("Start Game");
-        System.out.println("Player Type: " + playerTypes);
+        System.out.println("Player Type: " + selectPlayerTypes);
         System.out.println("Tournament Mode: " + tournamentMode);
         if (tournamentMode) {
             System.out.println("Selected Map: " + selectedMaps);
@@ -409,7 +409,7 @@ public class MenuController {
         }
 
         mapController.initPhaseView();
-        model.initiatePlayers(playerTypes);
+        model.initiatePlayers(selectPlayerTypes);
         model.startUp(mapController.createCountryViews());
         menu.hide();
         mapController.showMapStage();
@@ -463,7 +463,7 @@ public class MenuController {
         System.out.println("");
         System.out.println("=============Tournament Result============= ");
         System.out.println("Maps : "+selectedMaps);
-        System.out.println("Players : "+ playerTypes);
+        System.out.println("Players : "+ selectPlayerTypes);
         System.out.println("Games Per Map : "+gamesPerMapSpinner.getValue());
         System.out.println("Max Turns : "+turnsPerGameSpinner.getValue());
         for(int i=0; i<selectedMaps.size(); i++){

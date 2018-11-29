@@ -54,6 +54,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy {
         Phase.getInstance().setCurrentPhase("Attack Phase");
         attack(null, "0", null, "0", true);
         if (phase.getActionResult() == Action.Win) {
+            Model.winner = player.getName();
             return;
         }
 

@@ -112,6 +112,7 @@ public class Model extends Observable implements Serializable {
         validFile = true;
         phaseNumber = 0;
         currentTurn = 0 ;
+        winner = "draw";
 
     }
 
