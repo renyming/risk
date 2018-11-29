@@ -179,4 +179,5 @@ public class CheaterStrategyTest {
         assertEquals(11, player.getTotalStrength());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
     }
+
 }

@@ -157,9 +157,11 @@ public class AggressiveStrategyTest {
     @Test
     public void attack1() {
 
+        // original totalStrength = 5
+        // china = 4, thailand = 1
         defender.attack(null, "0", null, "0", true);
         assertEquals(defender, singapore.getOwner());
-        assertEquals(1, player.getTotalCards());
+        assertEquals(1, defender.getTotalCards());
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
 
     }
@@ -186,6 +188,7 @@ public class AggressiveStrategyTest {
         assertEquals(player, china.getOwner());
         assertEquals(player, thailand.getOwner());
         assertTrue(player.getContinentsOwned().contains(asien));
+        assertEquals(1, player.getTotalCards());
         assertEquals(Action.Win, Phase.getInstance().getActionResult());
 
     }

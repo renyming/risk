@@ -138,6 +138,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 
                 if (phase.getActionResult() == Action.Win) {
                     Tool.updateThread();
+                    player.addRandomCard();
                     return;
                 }
 
@@ -151,7 +152,6 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
 //        phase.update();
         Tool.updateThread();
         Tool.printBasicInfo(player,"After attack: ");
-
 
 //        sleep(500);
     }
