@@ -44,7 +44,7 @@ public class Player extends Observable implements Serializable {
     private HashMap<String,Integer> cards;
     private int numberOccupy;
 
-    private Phase phase;
+//    private Phase Phase.getInstance();
     private PlayersWorldDomination worldDomination;
     private PlayerBehaviorStrategy strategy;
 
@@ -70,7 +70,7 @@ public class Player extends Observable implements Serializable {
         cards.put("artillery",0);
         numberOccupy = 0;
 
-        phase = Phase.getInstance();
+//        Phase.getInstance() = Phase.getInstance();
         worldDomination = PlayersWorldDomination.getInstance();
 
         strategy = StrategyFactory.getStrategy(s, this);
@@ -625,9 +625,9 @@ public class Player extends Observable implements Serializable {
 
         // if any of countries is none
         if (attacker == null || defender == null) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Countries can not be none");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Countries can not be none");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -638,9 +638,9 @@ public class Player extends Observable implements Serializable {
             attackerDiceNum = Integer.valueOf(attackerNum);
             defenderDiceNum = Integer.valueOf(defenderNum);
         } catch (Exception e){
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Input error, invalid dice number.");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Input error, invalid dice number.");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -653,33 +653,33 @@ public class Player extends Observable implements Serializable {
 
         //if the contries owner is the same
         if (attacker.getOwner().equals(defender.getOwner())) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid attack, cannot attack a country owned by player himself.");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid attack, cannot attack a country owned by player himself.");
+            Phase.getInstance().update();
             return false;
         }
 
         // if attacker's dice valid
         if (!attacker.isValidAttacker(attackerDiceNum)) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid attacker dice number, armies in attacker must more than two, and the dice must less than armies");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid attacker dice number, armies in attacker must more than two, and the dice must less than armies");
+            Phase.getInstance().update();
             return false;
         }
 
         // if defender's dice valid
         if (!defender.isValidDefender(defenderDiceNum)) {
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Invalid defender's dice number, the dice must less than armies");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Invalid defender's dice number, the dice must less than armies");
+            Phase.getInstance().update();
             return false;
         }
 
         // if two countries adjacent
         if (!attacker.isAdjacent(defender)){
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Two countries is not adjacent");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Two countries is not adjacent");
+            Phase.getInstance().update();
             return false;
         }
 
@@ -712,8 +712,8 @@ public class Player extends Observable implements Serializable {
             if (defender.getOwner().countriesOwned.size() == 1) {
 
                 // TODO: add all cards form defender's owner
-                phase.setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
-                phase.update();
+                Phase.getInstance().setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
+                Phase.getInstance().update();
                 getDefenderCards(attacker.getOwner(),defender.getOwner());
             }
 
@@ -724,17 +724,16 @@ public class Player extends Observable implements Serializable {
 
             // add numOfOccupy
             numberOccupy++;
-            phase.setActionResult(Action.Move_After_Conquer);
-            phase.setInvalidInfo("Successfully Conquered Country : "+ defender.getName()
+            Phase.getInstance().setActionResult(Action.Move_After_Conquer);
+            Phase.getInstance().setInvalidInfo("Successfully Conquered Country : "+ defender.getName()
                     +". Now You Must Place At Least " + attackerDiceNum + " Armies.");
 
             // if attacker win the game
             if (attacker.getOwner().isWin()) {
-                phase.setActionResult(Action.Win);
+                Phase.getInstance().setActionResult(Action.Win);
                 Model.winner = attacker.getName();
                 // give the name of winner
-                phase.setInvalidInfo("Congratulations, You Win!");
-                System.out.println();
+                Phase.getInstance().setInvalidInfo("Congratulations, You Win!");
                 System.out.println(name + ", Congratulations, You Win!");
                 Model.winner = attacker.getOwner().getName();
             }
@@ -770,7 +769,6 @@ public class Player extends Observable implements Serializable {
             defenderDiceNum = Math.toIntExact(defender.getArmies() > 2? 2 : defender.getArmies());
 
             attackOnce();
-
             // if defender is occupied by attacker
             if(attacker.getOwner().equals(defender.getOwner())) break;
             // if attacker exhaust all its armies
@@ -833,7 +831,7 @@ public class Player extends Observable implements Serializable {
                 if (isDefenderLoose(attacker, defender)) return;
             }
         }
-        phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
+        Phase.getInstance().setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");
         return;
 
     }

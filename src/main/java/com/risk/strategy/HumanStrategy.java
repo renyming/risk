@@ -14,13 +14,13 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;
-    private Phase phase;
+//    private Phase Phase.getInstance();
 
     //TODO:doc
     public HumanStrategy(Player player){
         name = "human";
         this.player = player;
-        phase = Phase.getInstance();
+//        phase = Phase.getInstance();
     }
 
     /**
@@ -70,7 +70,7 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
 
         // if defender country doesn't has army
         if (player.isDefenderLoose()) {
-            phase.update();
+            Phase.getInstance().update();
             return;
         }
 
@@ -83,18 +83,18 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
         }
 
         //update phase info
-        if (phase.getActionResult() == null) {
-            phase.setActionResult(Action.Show_Next_Phase_Button);
+        if (Phase.getInstance().getActionResult() == null) {
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
         }
-        if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
-            phase.setActionResult(Action.Show_Next_Phase_Button);
+        if (Phase.getInstance().getActionResult() != Action.Win && Phase.getInstance().getActionResult() != Action.Move_After_Conquer){
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
             if (!player.isAttackPossible()) {
-                phase.setActionResult(Action.Attack_Impossible);
-                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
+                Phase.getInstance().setActionResult(Action.Attack_Impossible);
+                Phase.getInstance().setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
             }
         }
 
-        phase.update();
+        Phase.getInstance().update();
 
         return;
     }
@@ -115,9 +115,9 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
         try{
             numArmies = Integer.valueOf(num);
         } catch (Exception e){
-            phase.setActionResult(Action.Invalid_Move);
-            phase.setInvalidInfo("Please input a number");
-            phase.update();
+            Phase.getInstance().setActionResult(Action.Invalid_Move);
+            Phase.getInstance().setInvalidInfo("Please input a number");
+            Phase.getInstance().update();
             return;
         }
 
@@ -126,19 +126,19 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
             attacker.setArmies(attacker.getArmies() - numArmies);
             defender.setArmies(defender.getArmies() + numArmies);
 
-            phase.setActionResult(Action.Show_Next_Phase_Button);
-            phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
+            Phase.getInstance().setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
             if (!player.isAttackPossible()) {
-                phase.setActionResult(Action.Attack_Impossible);
-                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
+                Phase.getInstance().setActionResult(Action.Attack_Impossible);
+                Phase.getInstance().setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
             }
-            phase.update();
+            Phase.getInstance().update();
             return;
         }
-        phase.setActionResult(Action.Invalid_Move);
-        phase.setInvalidInfo("You Must Place At Least " + attackerDiceNum + ", And Maximum "
+        Phase.getInstance().setActionResult(Action.Invalid_Move);
+        Phase.getInstance().setInvalidInfo("You Must Place At Least " + attackerDiceNum + ", And Maximum "
                 +attacker.getArmies()+" Armies.");
-        phase.update();
+        Phase.getInstance().update();
         return;
 
     }
