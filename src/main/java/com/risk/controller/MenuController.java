@@ -209,6 +209,8 @@ public class MenuController {
     public void startNewGame() {
         System.out.println("Start New Game");
         tournamentMode(false);
+        startButton.setVisible(true);
+        startButton1.setVisible(false);
         switchToSelectMapMenu();
     }
 
@@ -264,6 +266,8 @@ public class MenuController {
     public void tournamentMode() {
         System.out.println("Start Tournament Mode");
         tournamentMode(true);
+        startButton.setVisible(false);
+        startButton1.setVisible(true);
         switchToSelectMapMenu();
     }
 
