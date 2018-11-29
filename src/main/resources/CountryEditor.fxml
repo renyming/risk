@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,33 +12,42 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root fx:id="country_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: #A3D9FF; -fx-background-radius: 10;" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.mapeditor.CountryController">
+<fx:root fx:id="country_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: #1f91e2;" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.risk.mapeditor.CountryController">
    <children>
       <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0">
+            <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: linear-gradient(to bottom, #08527b 0%,#2b88d9 50%,#207cca 51%,#7db9e8 100%);">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="101.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="lblCountry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Country">
+                  <TextField fx:id="lblCountry" style="-fx-background-radius: 10 0 0 0; -fx-background-color: transparent; -fx-text-fill: white;" text="Country">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                      <GridPane.margin>
-                        <Insets left="2.0" />
+                        <Insets />
                      </GridPane.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <Label fx:id="btnRemove" contentDisplay="CENTER" prefWidth="200.0" text="✕" GridPane.columnIndex="1">
+                     <padding>
+                        <Insets left="3.0" />
+                     </padding>
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnRemove" blendMode="SRC_ATOP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="X" GridPane.columnIndex="1">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Button>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </GridPane>
             <GridPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="65.0">
               <columnConstraints>
@@ -62,4 +72,7 @@
          </children>
       </AnchorPane>
    </children>
+   <effect>
+      <DropShadow blurType="GAUSSIAN" color="#000000bb" height="5.0" radius="2.0" width="5.0" />
+   </effect>
 </fx:root>

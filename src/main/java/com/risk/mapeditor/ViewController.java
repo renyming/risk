@@ -1,5 +1,6 @@
 package com.risk.mapeditor;
 
+import com.risk.exception.InvalidMapException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -118,8 +119,8 @@ public class ViewController {
 
         currentLine.setUserData(country);
         Point2D p=currentLine.getParent().sceneToLocal(country.getX(),country.getY());
-        currentLine.setStartX(p.getX());
-        currentLine.setStartY(p.getY());
+        currentLine.setStartX(p.getX()+country.getWidth()/2);
+        currentLine.setStartY(p.getY()+country.getHeight()/2);
         currentLine.setVisible(true);
         currentLine.endXProperty().bind(mouseX);
         currentLine.endYProperty().bind(mouseY);
@@ -207,6 +208,7 @@ public class ViewController {
         draw_pane.getChildren().add(country);
         country.relocateToPoint();
         countryList.add(country);
+//        country.setOpacity(0.8);
     }
 
     /**
@@ -433,6 +435,13 @@ public class ViewController {
             alert.setContentText("Some country(s) is isolated. Please create at lease one connection for those isolated country(s).");
             alert.show();
             return;
+        } else if (validity == VALIDITY.COUNTRY_NO_NAME) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save to File");
+            alert.setHeaderText("Save to file failed");
+            alert.setContentText("Some country(s) has no name. Please name every country before saving.");
+            alert.show();
+            return;
         }
 
 
@@ -444,29 +453,28 @@ public class ViewController {
         File file = fileChooser.showSaveDialog(view_pane.getScene().getWindow());
 
         if (file != null) {
-            try {
-                Writer writer = new Writer(countryList, file.getPath());
-                if (writer.write()) {
+
+                Writer writer = new Writer(countryList, file.toPath());
+                try {
+                    writer.write();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file successfully");
                     alert.show();
-                    return;
-                } else {
+                } catch (IOException ex) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Save to File");
                     alert.setHeaderText("Save to file failed");
-                    alert.setContentText(writer.invalidReason);
+                    alert.setContentText("IO Error: \n" + ex.getMessage());
                     alert.show();
-                    return;
+                } catch (InvalidMapException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Save to File");
+                    alert.setHeaderText("Save to file failed");
+                    alert.setContentText("Invalid map layout: \n" + ex.getMessage());
+                    alert.show();
                 }
-            } catch (IOException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Save to File");
-                alert.setHeaderText("Save to file failed");
-                alert.setContentText("IO Error: \n" + ex.getMessage());
-                alert.show();
-            }
+
         }
 
     }
@@ -493,6 +501,8 @@ public class ViewController {
      */
     private VALIDITY validateCountry(ArrayList<Country> countryList) {
         for (Country country : countryList) {
+            if (country.getName().trim().isEmpty())
+                return VALIDITY.COUNTRY_NO_NAME;
             if (country.getEdgeList().isEmpty())
                 return VALIDITY.ISOLATED_COUNTRY;
             ChoiceBox cb = (ChoiceBox) country.lookup("#listContinent");
@@ -502,6 +512,6 @@ public class ViewController {
         return VALIDITY.OK;
     }
 
-    private static enum VALIDITY {OK, CONTINENT_NOT_SET, ISOLATED_COUNTRY}
+    private static enum VALIDITY {OK, CONTINENT_NOT_SET, ISOLATED_COUNTRY, COUNTRY_NO_NAME}
 
 }

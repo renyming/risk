@@ -233,8 +233,9 @@ public class Country extends AnchorPane {
 //        System.out.println(widthProperty());
 
         relocate(
-                (getParent().sceneToLocal(x,y).getX() - (widthCountry / 2)),
-                (getParent().sceneToLocal(x,y).getY() - (heightCountry / 2))
+//                (getParent().sceneToLocal(x,y).getX() - (widthCountry / 2)),
+//                (getParent().sceneToLocal(x,y).getY() - (heightCountry / 2))
+                getParent().sceneToLocal(x,y).getX(), getParent().sceneToLocal(x,y).getY()
         );
     }
 }

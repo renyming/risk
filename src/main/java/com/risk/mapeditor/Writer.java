@@ -1,6 +1,5 @@
 package com.risk.mapeditor;
 
-import com.risk.common.STATE;
 import com.risk.exception.InvalidMapException;
 import com.risk.model.Model;
 import com.risk.validate.MapValidator;
@@ -8,6 +7,9 @@ import com.risk.validate.MapValidator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,10 +20,9 @@ public class Writer {
 
     private ArrayList<Country> countries;
     private HashMap<String,Integer> continents;
-    private String filePath;
-    public String invalidReason;
+    private Path filePath;
 
-    public Writer(ArrayList<Country> countries, String filePath) {
+    public Writer(ArrayList<Country> countries, Path filePath) {
         this.countries = countries;
         this.filePath = filePath;
         continents = new HashMap<>();
@@ -32,15 +33,16 @@ public class Writer {
      * @throws IOException IOException
      * @return true if the map to be written is valid; otherwise return false
      */
-    public boolean  write() throws IOException {
+    public void write() throws IOException, InvalidMapException {
 
         String headContent = "[Map]\nauthor=SOEN6441Team11\nwarn=yes\nimage=unavailable.bmp\nwrap=no\nscroll=none\n\n";
 
         String continentsContent = "[Continents]\n";
         String territoriesContent = "[Territories]\n";
         //[map] and author
-        File file = new File(filePath);
-        FileWriter fileWriter= new FileWriter(file);
+        File tmp = File.createTempFile("RiskMap",".tmp");
+        tmp.deleteOnExit();
+        FileWriter fileWriter= new FileWriter(tmp,true);
 
         //[Territories]
         for (Country eachCountry: this.countries) {
@@ -71,33 +73,14 @@ public class Writer {
         fileWriter.write(headContent + continentsContent + territoriesContent);
         fileWriter.close();
 
-        //delete the file if the map is invalid
-
-        if(!isValidMap()){
-            if(file.exists() && file.isFile()){
-                file.delete();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * valid the correctness of the map information for the specific file
-     * @return true if the map is valid; otherwise return false
-     * @throws IOException IOException
-     */
-    private boolean isValidMap() throws IOException{
-
         MapValidator mapValidator = new MapValidator();
         Model model = new Model();
-        model.editorReadFile(filePath);
-        try {
-            mapValidator.validateMap(model);
-        } catch (InvalidMapException ex){
-            invalidReason = ex.getMessage();
-            return false;
-        }
-        return true;
+
+        model.editorReadFile(tmp.getCanonicalPath());
+        mapValidator.validateMap(model);
+
+        Files.copy(tmp.toPath(),filePath, StandardCopyOption.REPLACE_EXISTING);
+
     }
+
 }

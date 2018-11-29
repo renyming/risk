@@ -1,5 +1,6 @@
 package com.risk.mapeditor;
 
+import com.risk.exception.InvalidMapException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -76,19 +77,18 @@ public class View extends AnchorPane {
 
         try{
             model.editorReadFile(file.toString());
-        }catch(IOException e) {
+        } catch(IOException e) {
             Alert err=new Alert(Alert.AlertType.ERROR,"File IO error: \n"+e.getMessage());
+            err.show();
+            return;
+        } catch(InvalidMapException e) {
+            Alert err=new Alert(Alert.AlertType.ERROR,e.getMessage());
             err.show();
             return;
         }
 
-        if (model.isValidFile())
-            drawMap(model);
-        else{
-            Alert err=new Alert(Alert.AlertType.ERROR,"Invalid map format");
-            err.show();
-            return;
-        }
+        drawMap(model);
+
     }
 
 

@@ -2,14 +2,15 @@ package com.risk.mapeditor;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -19,10 +20,14 @@ import java.util.ArrayList;
  */
 public class CountryController {
 
+    private static final String HIGHLIGHTCOLOR="#f2e94e";
+    private static final String NORMALCOLOR="#171a1e";
+    private Rectangle rectangle=new Rectangle(120,80);
+
     @FXML
     AnchorPane country_pane;
     @FXML
-    Label lblCountry;
+    TextField lblCountry;
     @FXML
     ChoiceBox listContinent;
     @FXML
@@ -30,7 +35,7 @@ public class CountryController {
     @FXML
     AnchorPane right_pane;
     @FXML
-    Button btnRemove;
+    Label btnRemove;
 
     /**
      * Initialization
@@ -39,6 +44,7 @@ public class CountryController {
      */
     @FXML
     public void initialize(Country country){
+
         lblCountry.setText(country.getName());
 
         listContinent.setItems(View.continents);
@@ -53,24 +59,30 @@ public class CountryController {
         });
 
         // remove button listener
-        btnRemove.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ArrayList<Edge> edgeList=new ArrayList<>(country.getEdgeList());
-                for (Edge line:edgeList){
-                    Country p1=line.getP1();
-                    Country p2=line.getP2();
-                    p1.removeAdjCountry(p2);
-                    p2.removeAdjCountry(p1);
-                    p1.removeEdge(line);
-                    p2.removeEdge(line);
-                    AnchorPane draw_pane=(AnchorPane) line.getParent();
-                    draw_pane.getChildren().remove(line);
-                }
-                AnchorPane draw_pane=(AnchorPane) country.getParent();
-                draw_pane.getChildren().remove(country);
-                event.consume();
+        btnRemove.setOnMouseClicked(event ->  {
+            ArrayList<Edge> edgeList=new ArrayList<>(country.getEdgeList());
+            for (Edge line:edgeList){
+                Country p1=line.getP1();
+                Country p2=line.getP2();
+                p1.removeAdjCountry(p2);
+                p2.removeAdjCountry(p1);
+                p1.removeEdge(line);
+                p2.removeEdge(line);
+                AnchorPane draw_pane=(AnchorPane) line.getParent();
+                draw_pane.getChildren().remove(line);
             }
+            AnchorPane draw_pane=(AnchorPane) country.getParent();
+            draw_pane.getChildren().remove(country);
+            event.consume();
+        });
+
+        btnRemove.setOnMouseEntered(event -> {
+            btnRemove.setTextFill(Color.web(HIGHLIGHTCOLOR));
+        });
+
+        btnRemove.setOnMouseExited(event -> {
+
+            btnRemove.setTextFill(Color.web(NORMALCOLOR));
         });
 
         //Choice box listener
@@ -82,6 +94,23 @@ public class CountryController {
             }
         });
 
+        //Country title listener
+        lblCountry.setOnMouseEntered(event -> {
+            lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: "+HIGHLIGHTCOLOR+"; -fx-highlight-fill: #72bce4");
+        });
+
+        lblCountry.setOnMouseExited(event -> {
+            lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: #ffffff");
+        });
+
+        lblCountry.textProperty().addListener((observable, oldValue, newValue) -> {
+            country.setName(newValue);
+        });
+
+        rectangle.setArcHeight(15);
+        rectangle.setArcWidth(12);
+
+        country_pane.setClip(rectangle);
 
     }
 
