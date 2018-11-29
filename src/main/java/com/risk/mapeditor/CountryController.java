@@ -23,6 +23,9 @@ import java.util.ArrayList;
  */
 public class CountryController {
 
+    private static final String HIGHLIGHTCOLOR="#f2e94e";
+    private static final String NORMALCOLOR="#171a1e";
+
     @FXML
     AnchorPane country_pane;
     @FXML
@@ -75,12 +78,12 @@ public class CountryController {
         });
 
         btnRemove.setOnMouseEntered(event -> {
-            btnRemove.setTextFill(Edge.deleteColor);
+            btnRemove.setTextFill(Color.web(HIGHLIGHTCOLOR));
         });
 
         btnRemove.setOnMouseExited(event -> {
 
-            btnRemove.setTextFill(Color.BLACK);
+            btnRemove.setTextFill(Color.web(NORMALCOLOR));
         });
 
         //Choice box listener
@@ -93,8 +96,12 @@ public class CountryController {
         });
 
         //Country title listener
-        lblCountry.setOnMouseClicked(event -> {
-            lblCountry.setStyle("-fx-background-color: #FFFFFF; -fx-background-radius: 10 0 0 0");
+        lblCountry.setOnMouseEntered(event -> {
+            lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: "+HIGHLIGHTCOLOR+"; -fx-highlight-fill: #72bce4");
+        });
+
+        lblCountry.setOnMouseExited(event -> {
+            lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: "+NORMALCOLOR);
         });
 
 
