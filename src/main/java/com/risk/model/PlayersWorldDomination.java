@@ -17,8 +17,8 @@ public class PlayersWorldDomination extends Observable implements Serializable {
 
     private static PlayersWorldDomination instance;
 
-    static private ArrayList<Player> players;
-    static private int totalNumCountries;
+    private ArrayList<Player> players;
+    private int totalNumCountries;
 
 
     /**
@@ -37,11 +37,11 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         return instance;
     }
 
-    public static ArrayList<Player> getPlayers(){
+    public ArrayList<Player> getPlayers(){
         return players;
     }
 
-    public static int getTotalNumCountries(){
+    public int getTotalNumCountries(){
         return totalNumCountries;
     }
 
