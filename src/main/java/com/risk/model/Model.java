@@ -5,7 +5,6 @@ import com.risk.common.Message;
 import com.risk.common.STATE;
 import com.risk.common.Tool;
 import com.risk.exception.InvalidMapException;
-import com.risk.strategy.*;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
 
@@ -147,6 +146,7 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().update();
 
         CardModel.getInstance().addObserver(CardView.getInstance());
+
     }
 
     /**
@@ -335,11 +335,10 @@ public class Model extends Observable implements Serializable {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
             } else {
-                currentPlayer.execute();
-                if (Phase.getInstance().getActionResult() == Action.Win) {
-                    return;
-                }
-                nextPlayer();
+//                currentPlayer.execute();
+                WorkerThread thread=new WorkerThread(currentPlayer,this);
+                thread.start();
+
             }
         }
     }
@@ -393,7 +392,7 @@ public class Model extends Observable implements Serializable {
      */
     public void autoLocatedArmy()  {
 
-        System.out.println(currentPlayer.getName() + " is allocating armies......");
+        System.out.println(currentPlayer.getName() + " enter autoLocated initiate armies");
 
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
@@ -496,7 +495,6 @@ public class Model extends Observable implements Serializable {
         //current player notify
         currentPlayer = players.get(0);
         Phase.getInstance().setCurrentPhase("Start Up Phase");
-        System.out.println("Current Phase : Start Up Phase");
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
@@ -829,11 +827,6 @@ public class Model extends Observable implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public void loadGame(){
-        Phase.getInstance().update();
-        PlayersWorldDomination.getInstance().update();
     }
 
 }

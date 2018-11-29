@@ -103,7 +103,6 @@ public class CheaterStrategy implements PlayerBehaviorStrategy {
                     // change the ownership of the defender country
                     defender.getOwner().delCountry(defender);
                     defender.setPlayer(country.getOwner());
-                    defender.setArmies(0);
                     country.getOwner().addCountry(defender);
 
                     // set phase info

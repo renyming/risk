@@ -466,7 +466,6 @@ public class Player extends Observable implements Serializable {
     public void addRoundArmies(){
 
         int newArmies = getArmiesAdded();
-        System.out.println("Total Army To Allocate :"+newArmies);
         setArmies(newArmies);
         setTotalStrength(totalStrength + newArmies);
     }
@@ -694,9 +693,19 @@ public class Player extends Observable implements Serializable {
 
     /**
      * Verify if defender loose the country
-     * @return
+     * @return True-defender lost, otherwise false
      */
     public boolean isDefenderLoose() {
+        return isDefenderLoose(attacker,defender);
+    }
+
+    /**
+     * Verify if defender loose the country
+     * @param attacker Attacking country
+     * @param defender Defending country
+     * @return True-defender lost, otherwise false
+     */
+    public boolean isDefenderLoose(Country attacker, Country defender) {
 
         if (defender.getArmies() == 0) {
 
@@ -813,7 +822,7 @@ public class Player extends Observable implements Serializable {
                 defender.getOwner().subTotalStrength(1);
 
                 //if defender's armies == 0, attacker victory
-                if (isDefenderLoose()) return;
+                if (isDefenderLoose(attacker, defender)) return;
             }
         }
         phase.setInvalidInfo("Attack Finish. You Can Start Another Attack Or Enter Next Phase Now.");

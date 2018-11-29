@@ -49,7 +49,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void execute() throws InterruptedException {
 
-        Tool.printBasicInfo(player,"Before Reinforcement");
+        Tool.printBasicInfo(player,"Before Round-Robin");
 
         //reinforcement
         reinforcement();
@@ -74,7 +74,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void reinforcement() throws InterruptedException {
 
-        System.out.println(player.getName() + " is doing reinforcement......");
+        System.out.println(player.getName() + " enter the reinforcement phase");
 
         // change card first
         // cards = {"infantry","cavalry","artillery"};
@@ -119,7 +119,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
 
-        System.out.println(player.getName() + " is attacking......");
+        System.out.println(player.getName() + " enter the attack phase");
 
         // attacker is the strongest country
         Country strongest = player.getCountriesOwned().stream()
@@ -184,7 +184,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy {
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
-        System.out.println(player.getName() + " is fortifying......");
+        System.out.println(player.getName() + " enter the fortification phase");
 
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
                 .sorted((c1, c2) -> c2.getArmies() - c1.getArmies())
