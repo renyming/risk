@@ -1,6 +1,7 @@
 package com.risk.controller;
 
-import com.risk.model.Player;
+import com.risk.model.Phase;
+import com.risk.model.PlayersWorldDomination;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -216,13 +217,33 @@ public class MenuController {
      * Called when users click Load Saved Game
      */
     public void loadGame() throws IOException,ClassNotFoundException {
+        mapController.initPhaseView();
 
-        
-        String fileName = "game1.ser";
-        FileInputStream fileStream = new FileInputStream(fileName);
+        String fileName = "game1";
+
+        FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
         ObjectInputStream os = new ObjectInputStream(fileStream);
         model = (Model) os.readObject();
 
+
+        fileStream = new FileInputStream(fileName + "phase.ser");
+        os = new ObjectInputStream(fileStream);
+
+        Phase phase = (Phase)os.readObject();
+
+        Phase.getInstance().setActionResult(phase.getActionResult());
+        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
+        Phase.getInstance().setCurrentPlayer(phase.getCurrentPlayer());
+
+        fileStream = new FileInputStream(fileName + "world.ser");
+        os = new ObjectInputStream(fileStream);
+
+        PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
+
+        PlayersWorldDomination.getInstance().setPlayers(playersWorldDomination.getPlayers());
+        PlayersWorldDomination.getInstance().setTotalNumCountries(playersWorldDomination.getTotalNumCountries());
+
+        os.close();
         load(model.getCountries().size());
 
         //model.loadGame(); // model update Phase, PlayersWorldDomination
