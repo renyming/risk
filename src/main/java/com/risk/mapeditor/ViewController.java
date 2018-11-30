@@ -47,6 +47,9 @@ public class ViewController {
     private DoubleProperty mouseX=new SimpleDoubleProperty();
     private DoubleProperty mouseY=new SimpleDoubleProperty();
 
+    /**
+     * Click to draw new country
+     */
     private EventHandler drawPaneClicked=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
@@ -177,6 +180,10 @@ public class ViewController {
         }
     }
 
+    /**
+     * Remove a country from the list keeping country positions when deleted
+     * @param country Country to be deleted
+     */
     public void removeFromCountryList(Country country) {
         countryList.remove(country);
     }
