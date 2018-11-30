@@ -132,7 +132,6 @@ public class Continent implements Serializable {
     * @param obj continent need to be compare
     * @return  true same continent, false  different continent
     */
-
     public boolean equals(Object obj) {
 
         if (obj == this) {

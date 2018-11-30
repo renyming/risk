@@ -37,19 +37,4 @@ public class Tool {
         System.out.println();
     }
 
-    /**
-     * update UI when not in the FX thread
-     */
-    public static void updateThread() {
-
-//        new Thread(new Runnable() {
-//            @Override public void run() {
-//                Platform.runLater(new Runnable() {
-//                    @Override public void run() {
-//                        Phase.getInstance().update();
-//                    }
-//                });
-//            }
-//        }).start();
-    }
 }

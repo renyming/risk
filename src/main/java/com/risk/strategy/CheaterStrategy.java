@@ -78,16 +78,14 @@ public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
 
         // correct display current phase
         Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-//        phase.update();
-        Tool.updateThread();
+        Phase.getInstance().update();
 
         // double armies in owned country
         doubleArmies(c -> true);
 
         // update phase
         Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//        phase.update();
-        Tool.updateThread();
+        Phase.getInstance().update();
         Model.phaseNumber = 2;
 
         Tool.printBasicInfo(player, "After reinforcement: ");
@@ -197,6 +195,7 @@ public class CheaterStrategy implements PlayerBehaviorStrategy, Serializable {
 
     /**
      * Double armies in all the countries owned
+     * @param p the conditon of filter
      */
     public void doubleArmies(Predicate<Country> p) {
 

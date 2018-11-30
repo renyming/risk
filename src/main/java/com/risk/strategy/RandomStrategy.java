@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Random strategy class
+ */
 public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;

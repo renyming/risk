@@ -454,9 +454,6 @@ public class Player extends Observable implements Serializable {
             System.out.println("Payer.reinforcement(): " + e.getMessage());
         }
 
-//        Phase.getInstance().setCurrentPhase("Reinforcement Phase");
-//        addRoundArmies();
-//        Phase.getInstance().update();
     }
 
     /**
@@ -469,8 +466,6 @@ public class Player extends Observable implements Serializable {
         setArmies(newArmies);
         setTotalStrength(totalStrength + newArmies);
     }
-
-
 
 
     /**
@@ -500,7 +495,6 @@ public class Player extends Observable implements Serializable {
         }
 
         return armiesAdded;
-
     }
 
     /**
@@ -532,7 +526,6 @@ public class Player extends Observable implements Serializable {
         if (strategy.getName().equalsIgnoreCase("human")) {
             CardModel.getInstance().update();
         }
-
     }
 
     /**
@@ -578,39 +571,6 @@ public class Player extends Observable implements Serializable {
             System.out.println("Payer.reinforcement(): " + e.getMessage());
         }
 
-//        if (!isValidAttack(attacker, attackerNum, defender, defenderNum)) {
-//            return;
-//        }
-//
-//        // if defender country doesn't has army
-//        if (isDefenderLoose()) {
-//            phase.update();
-//            return;
-//        }
-//
-//        if (isAllOut) {
-//            // dice number depend by computer
-//            allOut();
-//        } else {
-//            // players choose how many dice need to put
-//            attackOnce();
-//        }
-//
-//        //update phase info
-//        if (phase.getActionResult() == null) {
-//            phase.setActionResult(Action.Show_Next_Phase_Button);
-//        }
-//        if (phase.getActionResult() != Action.Win && phase.getActionResult() != Action.Move_After_Conquer){
-//            phase.setActionResult(Action.Show_Next_Phase_Button);
-//            if (!isAttackPossible()) {
-//                phase.setActionResult(Action.Attack_Impossible);
-//                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
-//            }
-//        }
-//
-//        phase.update();
-//
-//        return;
     }
 
     /**
@@ -889,34 +849,6 @@ public class Player extends Observable implements Serializable {
 
         strategy.moveArmy(num);
 
-//        int numArmies = 0;
-//        try{
-//            numArmies = Integer.valueOf(num);
-//        } catch (Exception e){
-//            phase.setActionResult(Action.Invalid_Move);
-//            phase.setInvalidInfo("Please input a number");
-//            phase.update();
-//            return;
-//        }
-//
-//        if (this.isContain(attacker) && this.isContain(defender) && attacker.getArmies() >= numArmies && numArmies >= attackerDiceNum) {
-//            attacker.setArmies(attacker.getArmies() - numArmies);
-//            defender.setArmies(defender.getArmies() + numArmies);
-//
-//            phase.setActionResult(Action.Show_Next_Phase_Button);
-//            phase.setInvalidInfo("Army Movement Finish. You Can Start Another Attack Or Enter Next Phase Now");
-//            if (!isAttackPossible()) {
-//                phase.setActionResult(Action.Attack_Impossible);
-//                phase.setInvalidInfo("Attack Impossible. You Can Enter Next Phase Now.");
-//            }
-//            phase.update();
-//            return;
-//        }
-//        phase.setActionResult(Action.Invalid_Move);
-//        phase.setInvalidInfo("You Must Place At Least " + attackerDiceNum + ", And Maximum "
-//                +attacker.getArmies()+" Armies.");
-//        phase.update();
-//        return;
     }
 
     /**
@@ -968,27 +900,6 @@ public class Player extends Observable implements Serializable {
         } catch (InterruptedException e) {
             System.out.println("Payer.reinforcement(): " + e.getMessage());
         }
-//        //return no response to view if source country's army number is less than the number of armies on moving,
-//        //or the source and target countries aren't connected through the same player's countries
-//        if (!source.getOwner().equals(this) || !target.getOwner().equals(this)) {
-//            Phase.getInstance().setActionResult(Action.Invalid_Move);
-//            Phase.getInstance().setInvalidInfo("Invalid move, This is not your country.");
-//            Phase.getInstance().update();
-//            return;
-//        }
-//
-//        if(source.getArmies()<armyNumber || !source.getOwner().isConnected(source,target)) {
-//            Phase.getInstance().setActionResult(Action.Invalid_Move);
-//            Phase.getInstance().setInvalidInfo("invalid move");
-//            Phase.getInstance().update();
-//            return;
-//        }
-//
-//        source.setArmies(source.getArmies()-armyNumber);
-//        target.setArmies(target.getArmies()+armyNumber);
-//
-//        Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
-//        Phase.getInstance().update();
     }
 
     /**

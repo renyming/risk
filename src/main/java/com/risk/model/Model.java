@@ -69,6 +69,10 @@ public class Model extends Observable implements Serializable {
         playerCounter = 0;
     }
 
+    /**
+     * ctor for Model
+     * @param model
+     */
     public Model(Model model){
         this.continents = model.continents;
     }
@@ -114,6 +118,10 @@ public class Model extends Observable implements Serializable {
         continents = new ArrayList<>();
         validFile = true;
     }
+
+    /**
+     * for reset values when tournament mode
+     */
     public void resetValue(){
         cardsValue = 5;
         disable = false;
@@ -124,7 +132,6 @@ public class Model extends Observable implements Serializable {
         phaseNumber = 0;
         currentTurn = 0 ;
         winner = "draw";
-
     }
 
     /**
@@ -372,10 +379,7 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().setCurrentPlayer(currentPlayer);
         Phase.getInstance().update();
 
-
         isComputerPlayer();
-
-
     }
 
     /**
@@ -570,43 +574,6 @@ public class Model extends Observable implements Serializable {
 
 //        isComputerPlayer();
     }
-
-//    /**
-//     * initiate player strategy before start game
-//     * @param listOfPlayersType string types of strategy
-//     */
-//    public void initiatePlayersType(ArrayList<String> listOfPlayersType){
-//        for(Player p : players){
-//            PlayerBehaviorStrategy strategyToSet = convertTypeToStrategy(listOfPlayersType.get(players.indexOf(p)),p);
-//            p.setStrategy(strategyToSet);
-//            System.out.println(p.getName());
-//            System.out.println(p.getArmies());
-//            System.out.println(p.getStrategy());
-//        }
-//
-//    }
-//
-//    /**
-//     * This method converts string type to strategy.
-//     * @param playerType String of player type
-//     * @param newPlayer new players
-//     * @return strategy corresponding to string type
-//     */
-//    public PlayerBehaviorStrategy convertTypeToStrategy(String playerType, Player newPlayer) {
-//        PlayerBehaviorStrategy strategy = null;
-//        if (playerType.equals("Human Player")) {
-//            strategy = new HumanStrategy(newPlayer);
-//        } else if (playerType.equals("Aggressive Computer")) {
-//            strategy = new AggressiveStrategy(newPlayer);
-//        } else if (playerType.equals("Benevolent Computer")) {
-//            strategy = new BenevolentStrategy(newPlayer);
-//        } else if (playerType.equals("Random Computer")) {
-//            strategy = new RandomStrategy(newPlayer);
-//        }else if (playerType.equals("Cheater Computer")) {
-//            strategy = new CheaterStrategy(newPlayer);
-//        }
-//        return strategy;
-//    }
 
     /**
      * calculate initial armies

@@ -8,15 +8,13 @@ import com.risk.model.Phase;
 import com.risk.model.Player;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-import static java.lang.Thread.sleep;
-
-
+/**
+ * Aggressive strategy class
+ */
 public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;

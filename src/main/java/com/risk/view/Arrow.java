@@ -9,6 +9,10 @@ import javafx.scene.transform.Rotate;
 import static java.lang.Math.cos;
 import static java.lang.StrictMath.sin;
 
+
+/**
+ * Able to form a arrow shape and draw it on the map
+ */
 public class Arrow extends Group {
 
     // common attributes
@@ -32,6 +36,10 @@ public class Arrow extends Group {
 //    private int arrowComponentCounter;
 
 
+    /**
+     * Ctor, create an Arrow
+     * @param arrowType determines how arrow is going to be shaped
+     */
     public Arrow(String arrowType) {
         this.arrowType = arrowType;
 //        armies = new Text("99");
@@ -63,6 +71,10 @@ public class Arrow extends Group {
         }
     }
 
+
+    /**
+     * Dynamically update the Arrow length, rotation, etc.
+     */
     private void update() {
         // calculate arrow parameters
         int countryViewHalfSize = 30;
@@ -128,11 +140,23 @@ public class Arrow extends Group {
 //        armies.setLayoutY(startY + (endY - startY)/4*3/2 + 0.4*armiesTextSize-1);
     }
 
+
+    /**
+     * Set start point for the Arrow
+     * @param startX is the start X position
+     * @param startY is the start Y position
+     */
     public void setStart(double startX, double startY) {
         this.startX = startX;
         this.startY = startY;
     }
 
+
+    /**
+     * Set end point for the Arrow
+     * @param endX is the end X position
+     * @param endY is the end Y position
+     */
     public void setEnd(double endX, double endY) {
         this.endX = endX;
         this.endY = endY;
