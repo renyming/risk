@@ -342,12 +342,12 @@ public class Model extends Observable implements Serializable {
         }
 
         if (nextPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
             return true;
         } else {
             return false;
         }
     }
-
     
     /**
      * Set current player to the next one according in round robin fashion
@@ -428,7 +428,6 @@ public class Model extends Observable implements Serializable {
         country.addArmies(1);
         country.getOwner().subArmies(1);
 
-
         Phase.getInstance().setActionResult(Action.Allocate_Army);
         Phase.getInstance().update();
 
@@ -457,10 +456,16 @@ public class Model extends Observable implements Serializable {
     public void autoLocatedArmy()  {
 
         System.out.println(currentPlayer.getName() + " enter autoLocated initiate armies");
-
+        System.out.println(currentPlayer.getArmies());
+        HashMap<String,Integer> allocatedCountry = new HashMap<>();
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
             country.addArmies(1);
+            if(allocatedCountry.containsKey(country)){
+                allocatedCountry.put(country.getName(),allocatedCountry.get(country)+1);
+            }else{
+                allocatedCountry.put(country.getName(),1);
+            }
             currentPlayer.subArmies(1);
         }
 
@@ -474,6 +479,7 @@ public class Model extends Observable implements Serializable {
         }
 
         Tool.printBasicInfo(currentPlayer, "After allocated armies");
+        System.out.println(allocatedCountry);
 
         isLastPlayer();
     }
@@ -524,6 +530,7 @@ public class Model extends Observable implements Serializable {
      * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
      */
     public void initiatePlayers(List<String> playerType)  {
+        System.out.println("initiatel~~~~~~~~~");
         players.clear();
         int initialArmies = getInitialArmies(playerCounter);
 //        initialArmies=3;
@@ -889,5 +896,20 @@ public class Model extends Observable implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public Model load(String fileName){
+        Model loadModel = new Model();
+        try {
+            FileInputStream fileStream = new FileInputStream(fileName);
+            ObjectInputStream os = new ObjectInputStream(fileStream);
+            loadModel = (Model) os.readObject();
+
+        } catch (IOException ex){
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex){
+            ex.getStackTrace();
+        }
+        return loadModel;
     }
 }

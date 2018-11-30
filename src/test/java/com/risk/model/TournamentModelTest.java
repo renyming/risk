@@ -9,6 +9,9 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test class of Tournament 
+ */
 public class TournamentModelTest {
     private  ArrayList<ArrayList<String>> finalResult;
     private  int maps;
@@ -25,7 +28,6 @@ public class TournamentModelTest {
         maps = random.nextInt(5) + 1;
         games = random.nextInt(5) + 1;
         winner = "Winner";
-
     }
 
     /**
@@ -47,6 +49,5 @@ public class TournamentModelTest {
         assertNotNull(finalResult);
         assertEquals(maps, finalResult.size());
         finalResult.stream().forEach(w -> assertEquals(games, w.size()));
-
     }
 }

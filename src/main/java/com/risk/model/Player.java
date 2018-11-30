@@ -684,7 +684,7 @@ public class Player extends Observable implements Serializable {
     public boolean isDefenderLoose(Country attacker, Country defender) {
 
         if (defender.getArmies() == 0) {
-
+            System.out.println(defender.getName()+ "lost all armies");
             if (defender.getOwner().countriesOwned.size() == 1) {
 
                 // add all cards form defender's owner
@@ -790,6 +790,8 @@ public class Player extends Observable implements Serializable {
         System.out.print(" VS ");
         System.out.print(diceDefender);
         System.out.print(",  ");
+        System.out.print(dicesAttacker);
+        System.out.print(diceDefender);
 
         // compare the rolling result
         long range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
@@ -798,11 +800,12 @@ public class Player extends Observable implements Serializable {
             if (diceDefender.get(i) >= dicesAttacker.get(i)) {
                 attacker.setArmies(attacker.getArmies()-1);
                 attacker.getOwner().subTotalStrength(1);
+                System.out.print(" "+attacker.getName() + "lost one army");
 
             } else {
                 defender.setArmies(defender.getArmies()-1);
                 defender.getOwner().subTotalStrength(1);
-
+                System.out.println(" "+defender.getName() + "lost one army");
                 //if defender's armies == 0, attacker victory
                 if (isDefenderLoose(attacker, defender)) return;
             }
