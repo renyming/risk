@@ -104,7 +104,12 @@ public class PlayersWorldDominationView implements Observer {
         // update country percentage
         allPlayerCountryPercentage.clear();
         allPlayerCountryPercentage.addAll(PlayersWorldDomination.getInstance().getCountryPercentage());
-//        populateCountryDominationData();
+        if(!Model.isTournamentMode){
+            currentPercentageLabel.setVisible(false);
+            allPlayerCountryPercentage.clear();
+            populateCountryDominationData();
+        }
+
 
         // update army distribution
         allPlayerArmyDistribution.clear();
