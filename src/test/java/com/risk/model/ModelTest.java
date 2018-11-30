@@ -78,6 +78,7 @@ public class ModelTest {
         ObjectInputStream os = new ObjectInputStream(fileStream);
         newModel2 = (Model) os.readObject();
         assertTrue(newModel2.getContinents().size() == 8);
+        assertTrue(newModel2.getCountries().size() == 1);
         assertTrue(newModel2.getCurrentPlayer().getName().equals("Lee"));
         assertTrue(newModel2.getCurrentPlayer().getCountriesOwned().size() == 1);
     }

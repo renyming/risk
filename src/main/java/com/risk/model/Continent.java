@@ -115,6 +115,10 @@ public class Continent implements Serializable {
         return contries.size();
     }
 
+    /**
+     * Get the ID of the continent
+     * @return ID of the continent
+     */
     public int getID(){
         return ID;
     }
