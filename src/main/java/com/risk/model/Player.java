@@ -5,17 +5,11 @@ import com.risk.common.CardType;
 import com.risk.strategy.PlayerBehaviorStrategy;
 import com.risk.strategy.StrategyFactory;
 
-import javax.sound.midi.Soundbank;
-
-import static com.risk.model.Model.cards;
-
 import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
-import static com.risk.model.Model.cards;
-import static com.risk.model.Model.phaseNumber;
 
 /**
  * Define class of a player
@@ -269,15 +263,33 @@ public class Player extends Observable implements Serializable {
         PlayersWorldDomination.getInstance().update();
     }
 
-    //TODO:doc
+    /**
+     * Get Card Armies
+     * @return cardArmy
+     */
     public int getCardsArmy(){return cardsArmy;}
 
+    /**
+     * Get Countries Size
+     * @return countries size
+     */
     public int getCountriesSize(){return countriesSize;}
 
+    /**
+     * Set Strategy
+     * @param newStrategy new strategy
+     */
     public void setStrategy(PlayerBehaviorStrategy newStrategy){this.strategy = newStrategy;}
 
+    /**
+     * get Strategy
+     * @return strategy
+     */
     public PlayerBehaviorStrategy getStrategy(){return strategy;}
 
+    /**
+     * increase number of occupied
+     */
     public void increaseNumberOccupy() {
         numberOccupy ++;
     }
@@ -880,6 +892,11 @@ public class Player extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Is country c include in the countries owned
+     * @param c country need to check
+     * @return true, yes, false, no
+     */
     public boolean isContain(Country c) {
 
         for (Country each : countriesOwned) {
@@ -889,7 +906,6 @@ public class Player extends Observable implements Serializable {
         }
         return false;
     }
-
 
     /**
      * Method for fortification operation
