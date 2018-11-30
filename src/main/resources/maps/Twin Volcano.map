@@ -66,7 +66,7 @@ Grand Glade,580,240,Passive Volcano,North Pass,Beech Beach,Cone Shadow
 Beech Beach,510,242,Passive Volcano,Grand Glade,Elm Pass,Mount-View,Round South
 Elm Pass,464,272,Passive Volcano,Beech Beach,Mount-View,Oak Pass
 Mount-View,505,300,Passive Volcano,Beech Beach,Elm Pass,Grim Glade,Larch Pass
-Cone Shadow,615,290,Passive Volcano,Grand Glade,Grim Glade,Pointless point
+Cone Shadow,615,290,Passive Volcano,Grand Glade,Grim Glade,Pointless Point
 Grim Glade,555,316,Passive Volcano,Mount-View,Cone Shadow,Larch Pass,Wide Beach,Pointless Point
 Larch Pass,497,337,Passive Volcano,Mount-View,Grim Glade,Wide Beach,Ash Pass
 Pointless Point,615,335,Passive Volcano,Cone Shadow,Grim Glade,Wide Beach
@@ -81,7 +81,7 @@ Ash Pass,430,355,Active Volcano,Middle Flats,Bad Lands,Larch Pass
 Bad Lands,408,397,Active Volcano,Middle Flats,Ash Pass,Lava Land,Mid Barren Rock
 Volcano View,260,388,Active Volcano,Lump View,West Point,River Side
 West Point,215,417,Active Volcano,Volcano View,River Side,Landward Lump
-River Side,264,434,Active Volcano,Volcano View,West point,Magma Plains
+River Side,264,434,Active Volcano,Volcano View,West Point,Magma Plains
 Lava Land,358,437,Active Volcano,Bad Lands,Magma Plains,Land's End
 Magma Plains,300,450,Active Volcano,River Side,Lava Land,Land's End,South Barren Rock
 Land's End,338,475,Active Volcano,Lava Land,Magma Plains
