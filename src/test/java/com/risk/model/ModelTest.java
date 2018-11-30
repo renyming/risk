@@ -2,6 +2,7 @@ package com.risk.model;
 
 import static org.junit.Assert.*;
 
+import com.risk.strategy.PlayerBehaviorStrategy;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -70,14 +71,15 @@ public class ModelTest {
      * @throws Exception exception
      */
     @Test
-    public void testSave() throws Exception{
+    public void testSaveAndLoad() throws Exception{
         newModel1.save("game");
         Model newModel2;
-        FileInputStream fileStream = new FileInputStream("gamemodel.ser");
+        FileInputStream fileStream = new FileInputStream("g_model.ser");
         ObjectInputStream os = new ObjectInputStream(fileStream);
         newModel2 = (Model) os.readObject();
         assertTrue(newModel2.getContinents().size() == 8);
-
+        assertTrue(newModel2.getCurrentPlayer().getName().equals("Lee"));
+        assertTrue(newModel2.getCurrentPlayer().getCountriesOwned().size() == 1);
     }
 
     /**
