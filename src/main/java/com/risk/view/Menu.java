@@ -53,7 +53,7 @@ public class Menu {
      * Singleton standard getter method, get the instance
      * @return the instance
      */
-    static Menu getInstance(){
+    public static Menu getInstance(){
         if (null == instance) instance = new Menu();
         return instance;
     }

@@ -710,6 +710,11 @@ public class Model extends Observable implements Serializable {
         String[] list = countriesList.split("\n");
         for (String s : list) {
             String contents[] = s.split(",");
+
+            for (int i = 0; i < contents.length; i++){
+                contents[i] = contents[i].trim();
+            }
+
             String continentName = contents[3];
             int indexOfContinent = -1;
             for(int i = 0; i < continents.size(); i ++){
@@ -871,6 +876,9 @@ public class Model extends Observable implements Serializable {
             fileWriter.write("nothing here");
             fileWriter.close();
 
+            fileName = fileName.substring(0, fileName.length() - 3);
+            fileName += "_";
+
             FileOutputStream fileStream = new FileOutputStream(fileName + "model.ser");
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
             os.writeObject(this);
@@ -878,14 +886,6 @@ public class Model extends Observable implements Serializable {
             fileStream = new FileOutputStream(fileName + "phase.ser");
             os = new ObjectOutputStream(fileStream);
             os.writeObject(Phase.getInstance());
-
-            fileStream = new FileOutputStream(fileName + "world.ser");
-            os = new ObjectOutputStream(fileStream);
-            os.writeObject(PlayersWorldDomination.getInstance());
-
-            fileStream = new FileOutputStream(fileName + "card.ser");
-            os = new ObjectOutputStream(fileStream);
-            os.writeObject(CardModel.getInstance());
 
         } catch (FileNotFoundException ex){
             return false;

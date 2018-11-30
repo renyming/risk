@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import com.risk.model.PlayersWorldDomination;
 
@@ -26,6 +27,7 @@ public class PlayersWorldDominationView implements Observer {
 
     private static PlayersWorldDominationView instance;
 
+    private Label currentPercentageLabel;
     private ObservableList<String> allPlayerCountryPercentage = FXCollections.observableArrayList();
     private ObservableList<String> allPlayerArmyDistribution = FXCollections.observableArrayList();
     private ObservableList<String> allPlayerContinentName = FXCollections.observableArrayList();
@@ -54,7 +56,8 @@ public class PlayersWorldDominationView implements Observer {
      * @param armyDistributionListView is the map component for displaying the army distribution
      * @param continentNameListView is the map component for displaying the continent name
      */
-    public void init(ListView<String> countryPercentageListView, ListView<String> armyDistributionListView, ListView<String> continentNameListView, Model model, PieChart countryChart) {
+    public void init(Label currentPercentageLabel, ListView<String> countryPercentageListView, ListView<String> armyDistributionListView, ListView<String> continentNameListView, Model model, PieChart countryChart) {
+        this.currentPercentageLabel = currentPercentageLabel;
         countryPercentageListView.setItems(allPlayerCountryPercentage);
         armyDistributionListView.setItems(allPlayerArmyDistribution);
         continentNameListView.setItems(allPlayerContinentName);
@@ -96,21 +99,19 @@ public class PlayersWorldDominationView implements Observer {
     @Override
     public void update(Observable obs, Object obj) {
 
-        PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)obs;
+        //PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)obs;
 
         // update country percentage
         allPlayerCountryPercentage.clear();
-        allPlayerCountryPercentage.addAll(playersWorldDomination.getCountryPercentage());
-        if(!Model.isTournamentMode) {
-            allPlayerCountryPercentage.clear();
-            populateCountryDominationData();
-        }
+        allPlayerCountryPercentage.addAll(PlayersWorldDomination.getInstance().getCountryPercentage());
+//        populateCountryDominationData();
+
         // update army distribution
         allPlayerArmyDistribution.clear();
-        allPlayerArmyDistribution.addAll(playersWorldDomination.getArmyDistribution());
+        allPlayerArmyDistribution.addAll(PlayersWorldDomination.getInstance().getArmyDistribution());
 
         // update continent name
         allPlayerContinentName.clear();
-        allPlayerContinentName.addAll(playersWorldDomination.getContinentNames());
+        allPlayerContinentName.addAll(PlayersWorldDomination.getInstance().getContinentNames());
     }
 }
