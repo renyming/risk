@@ -11,6 +11,7 @@ import com.risk.model.Player;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static java.lang.Thread.sleep;
@@ -22,17 +23,19 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
 
     private String name;
     private Player player;
-//    private Phase Phase.getInstance();
     Country attackingCountry;
     Country defendingCountry;
     int attackerDiceNum;
     int defenderDiceNum;
     private Random random=new Random();
 
+    /**
+     * Ctor
+     * @param player Random strategy computer player
+     */
     public RandomStrategy(Player player) {
         name = "random";
         this.player = player;
-//        Phase.getInstance() = Phase.getInstance();
     }
 
     /**
@@ -75,8 +78,6 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
     public void reinforcement() throws InterruptedException {
 
         System.out.println(player.getName() + " enter the reinforcement phase");
-        //update current phase on view
-//        phase.setCurrentPhase("Reinforcement Phase");
         Phase.getInstance().update();
 
         player.addRoundArmies();
@@ -95,7 +96,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
     }
 
     /**
-     * Attacks at a random number of times, each attack chooses a country as attacking country and one of its adjacent enemy countries as defending country
+     * Attacks a random number of times, each attack chooses a country as attacking country and one of its adjacent enemy countries as defending country
      * @param attacker dummy param
      * @param attackerNum dummy param
      * @param defender dummy param
@@ -143,6 +144,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
                     defenderDiceNum=random.nextInt(2)+1; //1~2
                 }
 //                System.out.println("Defender dice number: "+defenderDiceNum);
+//                System.out.println("Attacker army num before attack: "+attackingCountry.getArmies());
 
                 player.attackOnce(attackingCountry, attackerDiceNum, defendingCountry, defenderDiceNum);
 
@@ -182,7 +184,13 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
      */
     @Override
     public void moveArmy(String num) {
-        int n=random.nextInt(Math.toIntExact(attackingCountry.getArmies())-attackerDiceNum+1)+attackerDiceNum;
+//        System.out.println("Attacker dice num: "+attackerDiceNum);
+//        System.out.println("Attacking country army num: "+attackingCountry.getArmies());
+        long n;
+        if (attackerDiceNum>attackingCountry.getArmies())
+            n=attackingCountry.getArmies();
+        else
+            n=ThreadLocalRandom.current().nextLong(attackerDiceNum, attackingCountry.getArmies()+1);
         attackingCountry.setArmies(attackingCountry.getArmies()-n);
         defendingCountry.setArmies(defendingCountry.getArmies()+n);
     }
@@ -234,7 +242,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
         }
 
         //number of armies to move
-        int numArmies=random.nextInt(Math.toIntExact(fromCountry.getArmies())+1);
+        long numArmies=ThreadLocalRandom.current().nextLong(fromCountry.getArmies()+1);
         fromCountry.setArmies(fromCountry.getArmies()-numArmies);
         toCountry.setArmies(toCountry.getArmies()+numArmies);
 
