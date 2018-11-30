@@ -207,9 +207,6 @@ public class Country extends AnchorPane {
     }
 
     public double getCenterX(){
-        if (getParent()==null){
-            System.out.println("null");
-        }
         return getParent().sceneToLocal(x,y).getX() + (widthCountry / 2);
     }
 
@@ -227,18 +224,25 @@ public class Country extends AnchorPane {
 
     /**
      * Relocate the coordinates from scene to local, and align the center to the cursor position
+     * @param isUserClick If this operation is to deal with a country adding by user click
      */
-    public void relocateToPoint(){
+    public void relocateToPoint(boolean isUserClick){
 //        System.out.println("Scene x: "+point.getX()+", y: "+point.getY());
 //        System.out.println("Local x: "+getParent().sceneToLocal(point).getX()+", y: "+getParent().sceneToLocal(point).getY());
 //        System.out.println("Relocate x: "+(getParent().sceneToLocal(point).getX() - (getWidth() / 2))+", y: "+(getParent().sceneToLocal(point).getY() - (getHeight() / 2)));
 //        System.out.println(getBoundsInLocal().getWidth());
 //        System.out.println(widthProperty());
 
-        relocate(
+        if (isUserClick) {
+            relocate(
 //                (getParent().sceneToLocal(x,y).getX() - (widthCountry / 2)),
 //                (getParent().sceneToLocal(x,y).getY() - (heightCountry / 2))
-                getParent().sceneToLocal(x,y).getX(), getParent().sceneToLocal(x,y).getY()
-        );
+                    getParent().sceneToLocal(x,y).getX(), getParent().sceneToLocal(x,y).getY()
+            );
+        } else {
+            relocate(x,y);
+        }
+
+
     }
 }
