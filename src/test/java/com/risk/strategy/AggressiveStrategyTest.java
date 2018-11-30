@@ -1,10 +1,11 @@
 package com.risk.strategy;
 
 import com.risk.common.Action;
-import com.risk.model.Continent;
-import com.risk.model.Country;
-import com.risk.model.Phase;
-import com.risk.model.Player;
+import com.risk.model.*;
+import com.risk.view.PlayersWorldDominationView;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -121,6 +122,7 @@ public class AggressiveStrategyTest {
         thailand.setPlayer(defender);
         thailand.setArmies(1);
         defender.addCountry(thailand);
+
     }
 
     /**

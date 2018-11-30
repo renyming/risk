@@ -51,6 +51,9 @@ public class PlayersWorldDominationView implements Observer {
         return instance;
     }
 
+    public void setModel(Model model) {
+        this.model = model;
+    }
 
     /**
      * Initialize the map component
@@ -107,11 +110,11 @@ public class PlayersWorldDominationView implements Observer {
         // update country percentage
         allPlayerCountryPercentage.clear();
         allPlayerCountryPercentage.addAll(PlayersWorldDomination.getInstance().getCountryPercentage());
-        if(!Model.isTournamentMode){
-            countryPercentagePane.setVisible(false);
-            allPlayerCountryPercentage.clear();
-            populateCountryDominationData();
-        }
+//        if(!Model.isTournamentMode){
+//            countryPercentagePane.setVisible(false);
+//            allPlayerCountryPercentage.clear();
+//            populateCountryDominationData();
+//        }
 
         // update army distribution
         allPlayerArmyDistribution.clear();

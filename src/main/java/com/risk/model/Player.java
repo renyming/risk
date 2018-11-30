@@ -5,17 +5,11 @@ import com.risk.common.CardType;
 import com.risk.strategy.PlayerBehaviorStrategy;
 import com.risk.strategy.StrategyFactory;
 
-import javax.sound.midi.Soundbank;
-
-import static com.risk.model.Model.cards;
-
 import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
-import static com.risk.model.Model.cards;
-import static com.risk.model.Model.phaseNumber;
 
 /**
  * Define class of a player
@@ -269,34 +263,32 @@ public class Player extends Observable implements Serializable {
         PlayersWorldDomination.getInstance().update();
     }
 
-    //TODO:doc
-
     /**
-     * get army value of cards
-     * @return cardsArmy the army value of cards
+     * Get Card Armies
+     * @return cardArmy
      */
     public int getCardsArmy(){return cardsArmy;}
 
     /**
-     * get number of countries
-     * @return countriesSize number of countries
+     * Get Countries Size
+     * @return countries size
      */
     public int getCountriesSize(){return countriesSize;}
 
     /**
-     * set the strategy type for current player
-     * @param newStrategy type of the strategy to be set
+     * Set Strategy
+     * @param newStrategy new strategy
      */
     public void setStrategy(PlayerBehaviorStrategy newStrategy){this.strategy = newStrategy;}
 
     /**
-     * get the strategy type of current player
-     * @return strategy the strategy type of current player
+     * get Strategy
+     * @return strategy
      */
     public PlayerBehaviorStrategy getStrategy(){return strategy;}
 
     /**
-     * increase numberOccupy by 1
+     * increase number of occupied
      */
     public void increaseNumberOccupy() {
         numberOccupy ++;
@@ -695,7 +687,7 @@ public class Player extends Observable implements Serializable {
 
             if (defender.getOwner().countriesOwned.size() == 1) {
 
-                // TODO: add all cards form defender's owner
+                // add all cards form defender's owner
                 Phase.getInstance().setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
                 Phase.getInstance().update();
                 getDefenderCards(attacker.getOwner(),defender.getOwner());
@@ -722,7 +714,6 @@ public class Player extends Observable implements Serializable {
                 System.out.println(name + ", Congratulations, You Win!");
                 Model.winner = attacker.getOwner().getName();
             }
-
             return true;
         }
         return false;
@@ -902,9 +893,9 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
-     * determine if a given country is owned by player
-     * @param c the given country
-     * @return true if the give country is owned; otherwise return false
+     * Is country c include in the countries owned
+     * @param c country need to check
+     * @return true, yes, false, no
      */
     public boolean isContain(Country c) {
 

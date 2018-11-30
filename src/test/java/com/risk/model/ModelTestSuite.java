@@ -13,7 +13,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ContinentTest.class,
         ModelTest.class,
         CountryTest.class,
-        PlayerTest.class
+        PlayerTest.class,
+        TournamentModelTest.class
 })
 
 public class ModelTestSuite {
