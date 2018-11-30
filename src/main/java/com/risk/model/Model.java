@@ -457,10 +457,16 @@ public class Model extends Observable implements Serializable {
     public void autoLocatedArmy()  {
 
         System.out.println(currentPlayer.getName() + " enter autoLocated initiate armies");
-
+        System.out.println(currentPlayer.getArmies());
+        HashMap<String,Integer> allocatedCountry = new HashMap<>();
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
             country.addArmies(1);
+            if(allocatedCountry.containsKey(country)){
+                allocatedCountry.put(country.getName(),allocatedCountry.get(country)+1);
+            }else{
+                allocatedCountry.put(country.getName(),1);
+            }
             currentPlayer.subArmies(1);
         }
 
@@ -474,6 +480,7 @@ public class Model extends Observable implements Serializable {
         }
 
         Tool.printBasicInfo(currentPlayer, "After allocated armies");
+        System.out.println(allocatedCountry);
 
         isLastPlayer();
     }
@@ -524,6 +531,7 @@ public class Model extends Observable implements Serializable {
      * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
      */
     public void initiatePlayers(List<String> playerType)  {
+        System.out.println("initiatel~~~~~~~~~");
         players.clear();
         int initialArmies = getInitialArmies(playerCounter);
 //        initialArmies=3;

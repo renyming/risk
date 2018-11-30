@@ -9,6 +9,7 @@ import com.risk.model.Player;
 
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
     public void reinforcement() throws InterruptedException {
 
         System.out.println(player.getName() + " enter the reinforcement phase");
-
+        HashMap<Country, Long> reinforceCountry = new HashMap<>();
         // change card first
         // cards = {"infantry","cavalry","artillery"};
         while (player.getTotalCards() >= 5) {
@@ -94,6 +95,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
         // add all the armies to weakest
         strongest.addArmies(player.getArmies());
+        reinforceCountry.put(strongest,player.getArmies());
         player.setArmies(0);
 
         // update phase
@@ -101,6 +103,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
         Phase.getInstance().update();
 
         Tool.printBasicInfo(player, "After reinforcement: ");
+        System.out.println(reinforceCountry);
 
 //        sleep(500);
     }
@@ -202,13 +205,13 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
                 if (player.isConnected(c1, c2)){
 
-                    System.out.println(c1.getName());
-                    System.out.println(c2.getName());
+                    System.out.println("From Country : "+c1.getName());
+                    System.out.println("TO Country : "+c2.getName());
 
                     // re-allocated armies
                     c1.setArmies(c1.getArmies() + c2.getArmies());
                     c2.setArmies(0);
-
+                    System.out.println("Move "+c1.getArmies() + c2.getArmies() +" Armies");
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                     Phase.getInstance().update();
 
