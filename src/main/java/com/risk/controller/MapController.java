@@ -59,6 +59,7 @@ public class MapController {
     @FXML private Button skipFortificationPhaseButton;
 
     // players world domination view
+    @FXML private Label currentPercentageLabel;
     @FXML private ListView<String> countryPercentageListView;
     @FXML private ListView<String> armyDistributionListView;
     @FXML private ListView<String> continentNameListView;
@@ -122,7 +123,7 @@ public class MapController {
         countryClickable = true;
         win = false;
 
-        PlayersWorldDominationView.getInstance().init(countryPercentageListView, armyDistributionListView, continentNameListView, model, countryChart);
+        PlayersWorldDominationView.getInstance().init(currentPercentageLabel, countryPercentageListView, armyDistributionListView, continentNameListView, model, countryChart);
     }
 
 

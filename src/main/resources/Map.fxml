@@ -24,7 +24,7 @@
          <children>
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="110.0" text="Current Player" />
             <Label fx:id="currentPlayerNameLabel" alignment="CENTER" layoutX="2.0" layoutY="30.0" prefHeight="30.0" prefWidth="108.0" style="-fx-background-color: red;" text="Player_99" />
-            <Label alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="110.0" text="Arimes in hand" />
+            <Label alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="110.0" text="Armies in hand" />
             <Label fx:id="armiesInHandLabel" alignment="CENTER" layoutY="120.0" prefHeight="30.0" prefWidth="108.0" text="99" />
             <Label fx:id="countryALabel" alignment="CENTER" layoutY="150.0" prefHeight="30.0" prefWidth="110.0" text="From Country" />
             <Label fx:id="countryANameLabel" alignment="CENTER" layoutY="180.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="108.0" style="-fx-border-color: red; -fx-border-width: 3;" text="NONE" />
@@ -64,7 +64,7 @@
             <ListView fx:id="countryPercentageListView" layoutX="2.0" layoutY="38.0" prefHeight="142.0" prefWidth="330.0" />
             <ListView fx:id="armyDistributionListView" layoutX="360.0" layoutY="38.0" prefHeight="142.0" prefWidth="270.0" />
             <ListView fx:id="continentNameListView" layoutX="660.0" layoutY="38.0" prefHeight="142.0" prefWidth="330.0" />
-            <Label layoutX="2.0" prefHeight="30.0" prefWidth="171.0" text="Player Country%" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="currentPercentageLabel" layoutX="2.0" prefHeight="30.0" prefWidth="171.0" text="Player Country%" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>
