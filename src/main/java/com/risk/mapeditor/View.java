@@ -41,6 +41,10 @@ public class View extends AnchorPane {
         continents.add("Default Continent");
     }
 
+    /**
+     * Getter for View reference
+     * @return Static View reference
+     */
     public static ViewController getViewController() {
         return viewController;
     }

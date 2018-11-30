@@ -870,6 +870,9 @@ public class Model extends Observable implements Serializable {
             fileWriter.write("nothing here");
             fileWriter.close();
 
+            fileName = fileName.substring(0, fileName.length() - 3);
+            fileName += "_";
+
             FileOutputStream fileStream = new FileOutputStream(fileName + "model.ser");
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
             os.writeObject(this);

@@ -188,9 +188,9 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
 
     /**
      * Randomly fortificates a country by a random number of armies
-     * @param source
-     * @param target
-     * @param armyNumber
+     * @param source dummy param
+     * @param target dummy param
+     * @param armyNumber dummy param
      * @throws InterruptedException
      */
     @Override
