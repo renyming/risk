@@ -445,7 +445,10 @@ public class MenuController {
 
         TournamentModel.startTournament(selectedMaps,filesPath,model,gamesPerMapSpinner,
                 turnsPerGameSpinner,this,selectPlayerTypes);
-
+        selectedMaps.clear();
+        filesPath.clear();
+        model.reset();
+        model.resetValue();
 //        int numMaps = 0;
 //
 //        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();

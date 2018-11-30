@@ -69,5 +69,6 @@ public class TournamentModel {
             }
         }
         System.out.println("=============Tournament Finish=============");
+        finalResult.clear();
     }
 }
