@@ -111,51 +111,6 @@ public class MenuController {
     }
 
 
-//    /**
-//     * Decides type of players .
-//     */
-//    public void playersTypeSelectionListener() {
-//        playerOneTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                listOfPlayersType.add(0,playerOneTypeChoiceBox.getSelectionModel().getSelectedItem());
-//            }
-//        });
-//
-//        playerTwoTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                listOfPlayersType.add(1,playerTwoTypeChoiceBox.getSelectionModel().getSelectedItem());
-//            }
-//        });
-//
-//        playerThreeTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                listOfPlayersType.add(2,playerThreeTypeChoiceBox.getSelectionModel().getSelectedItem());
-//            }
-//        });
-//
-//        playerFourTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                listOfPlayersType.add(3,playerFourTypeChoiceBox.getSelectionModel().getSelectedItem());
-//            }
-//        });
-//        playerFiveTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                listOfPlayersType.add(4,playerFiveTypeChoiceBox.getSelectionModel().getSelectedItem());
-//            }
-//        });
-//        playerSixTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                listOfPlayersType.add(5,playerSixTypeChoiceBox.getSelectionModel().getSelectedItem());
-//            }
-//        });
-//    }
-
     /**
      * Switch to start game menu
      */

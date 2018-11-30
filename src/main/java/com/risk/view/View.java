@@ -83,7 +83,7 @@ public class View {
      * Close the map editor, show beginning of the menu page
      * Called when 'quitGame' is click through the map editor menu
      */
-    public void quitToMenu() { // TODO: rename, quitToMenu
+    public void quitToMenu() {
         mapEditorStage.hide();
         menu.show();
     }

@@ -37,13 +37,13 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         return instance;
     }
 
-    public ArrayList<Player> getPlayers(){
-        return players;
-    }
 
-    public int getTotalNumCountries(){
-        return totalNumCountries;
-    }
+    /**
+     * Get all Players
+     * @return all Players
+     */
+    public ArrayList<Player> getPlayers(){ return players; }
+
 
     /**
      * Model call this method after calling all of the following setter functions
@@ -53,11 +53,13 @@ public class PlayersWorldDomination extends Observable implements Serializable {
         notifyObservers();
     }
 
+
     /**
      * Model sets the total Player reference, use them to get each player info
      * @param players is the total Player reference
      */
     public void setPlayers(ArrayList<Player> players) { this.players = players; }
+
 
     /**
      * Model sets the total number of countries, use the value to calculate country percentage later

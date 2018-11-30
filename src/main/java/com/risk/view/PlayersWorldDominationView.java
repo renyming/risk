@@ -104,8 +104,6 @@ public class PlayersWorldDominationView implements Observer {
     @Override
     public void update(Observable obs, Object obj) {
 
-        //PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)obs;
-
         // update country percentage
         allPlayerCountryPercentage.clear();
         allPlayerCountryPercentage.addAll(PlayersWorldDomination.getInstance().getCountryPercentage());

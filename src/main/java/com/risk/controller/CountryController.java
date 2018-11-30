@@ -45,7 +45,6 @@ public class CountryController {
     }
 
 
-
     /**
      * Receive new labels' info, update them
      * Called by CountryView for updating labels' info

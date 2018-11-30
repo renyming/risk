@@ -97,7 +97,7 @@ public class PhaseView implements Observer {
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
                      Button skipFortificationPhaseButton, Button saveGameButton,
-                     MapController mapController) { // TODO: refactor
+                     MapController mapController) {
         this.phaseLabel = phaseLabel;
         this.nextPhaseButton = nextPhaseButton;
         this.currentPlayerNameLabel = currentPlayerNameLabel;
@@ -203,7 +203,7 @@ public class PhaseView implements Observer {
                 case "Fortification Phase":
                     // set Fortification Phase UI
                     hide();
-                    reset(); // TODO: may not needed
+                    reset();
                     countryALabel.setVisible(true);
                     countryANameLabel.setVisible(true);
                     countryBLabel.setVisible(true);
@@ -217,7 +217,6 @@ public class PhaseView implements Observer {
         } else {
             switch (phase.getActionResult()) {
                 case Invalid_Card_Exchange:
-                    // TODO: display the invalid result in card exchange View, Model may tell cardView directly
                     phase.clearActionResult();
                 case Allocate_Army:
                     armiesInHandLabel.setText(Long.toString(currentPlayer.getArmies()));
@@ -330,7 +329,6 @@ public class PhaseView implements Observer {
      * @param display indicates whether the components should be show or hide
      */
     private void displayAttackPhaseMapComponent(boolean display) {
-        // TODO: add a pane, just disable the pane
         attackerDiceLabel.setVisible(display);
         attackerDiceOneButton.setVisible(display);
         attackerDiceTwoButton.setVisible(display);

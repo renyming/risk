@@ -575,6 +575,7 @@ public class Model extends Observable implements Serializable {
 
     /**
      * calculate initial armies
+     * @param numOfPlayers is the number of Players
      * @return initial armies
      */
     private int getInitialArmies(int numOfPlayers) {

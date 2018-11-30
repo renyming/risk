@@ -26,6 +26,7 @@ public class CardView implements Observer{
     private CardController cardController;
     private Stage cardStage;
 
+
     /**
      * Ctor for CardView
      */
@@ -43,10 +44,9 @@ public class CardView implements Observer{
         cardStage.setResizable(false);
         cardStage.sizeToScene();
         cardStage.initStyle(StageStyle.UNDECORATED);
-        cardStage.setOnCloseRequest((WindowEvent event1) -> {
-            cardController.closeRequest();
-        });
+        cardStage.setOnCloseRequest((WindowEvent event1) -> cardController.closeRequest());
     }
+
 
     /**
      * Get or create the only instance
@@ -56,6 +56,7 @@ public class CardView implements Observer{
         if (null == instance) instance = new CardView();
         return instance;
     }
+
 
     /**
      * get the reference of cardController
@@ -69,15 +70,18 @@ public class CardView implements Observer{
      */
     public void show() { cardStage.show(); }
 
+
     /**
      * hide CardView
      */
     public void hide() { cardStage.hide(); }
 
+
     /**
      * close CardView
      */
     public void close() { cardStage.close(); }
+
 
     /**
      * override update method

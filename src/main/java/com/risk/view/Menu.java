@@ -92,5 +92,5 @@ public class Menu {
      * Get the MenuController
      * @return the MenuController reference
      */
-    MenuController getMenuController() { return menuController; } // TODO: remove later
+    MenuController getMenuController() { return menuController; }
 }
