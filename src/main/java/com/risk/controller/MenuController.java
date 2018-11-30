@@ -254,13 +254,10 @@ public class MenuController {
             phase.update();
 
 
-            fileStream = new FileInputStream(fileName + "world.ser");
-            os = new ObjectInputStream(fileStream);
-
-            PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
-            //playersWorldDomination.setPlayers(model.getPlayers());
-            playersWorldDomination.addObserver(PlayersWorldDominationView.getInstance());
-            playersWorldDomination.update();
+            PlayersWorldDomination.getInstance().setTotalNumCountries(model.getCountries().size());
+            PlayersWorldDomination.getInstance().setPlayers(model.getPlayers());
+            PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
+            PlayersWorldDomination.getInstance().update();
 
             os.close();
 
