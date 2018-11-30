@@ -44,8 +44,10 @@ public class Player extends Observable implements Serializable {
     private HashMap<String,Integer> cards;
     private int numberOccupy;
 
-//    private Phase Phase.getInstance();
-    private PlayersWorldDomination worldDomination;
+    //private Phase Phase.getInstance();
+    //private PlayersWorldDomination worldDomination;
+
+
     private PlayerBehaviorStrategy strategy;
 
     /**
@@ -70,8 +72,8 @@ public class Player extends Observable implements Serializable {
         cards.put("artillery",0);
         numberOccupy = 0;
 
-//        Phase.getInstance() = Phase.getInstance();
-        worldDomination = PlayersWorldDomination.getInstance();
+        //Phase.getInstance() = Phase.getInstance();
+        //worldDomination = PlayersWorldDomination.getInstance();
 
         strategy = StrategyFactory.getStrategy(s, this);
     }
@@ -264,7 +266,7 @@ public class Player extends Observable implements Serializable {
      */
     public void setTotalStrength(long totalStrength) {
         this.totalStrength = totalStrength;
-        worldDomination.update();
+        PlayersWorldDomination.getInstance().update();
     }
 
     //TODO:doc
@@ -316,12 +318,12 @@ public class Player extends Observable implements Serializable {
         Continent continent = c.getContinent();
         for (Country country : continent.getCountry()) {
             if (country.getOwner() == null || !country.getOwner().equals(this)) {
-                worldDomination.update();
+                PlayersWorldDomination.getInstance().update();
                 return;
             }
         }
         addContinent(continent);
-        worldDomination.update();
+        PlayersWorldDomination.getInstance().update();
     }
 
     /**
@@ -339,7 +341,7 @@ public class Player extends Observable implements Serializable {
                 if (continentsOwned.contains(c.getContinent())) {
                     delContinent(c.getContinent());
                 }
-                worldDomination.update();
+                PlayersWorldDomination.getInstance().update();
                 return true;
             }
         }
