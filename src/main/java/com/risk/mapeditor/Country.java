@@ -90,9 +90,8 @@ public class Country extends AnchorPane {
      * setter for the x position of the country
      * @param x The x positon of the country
      */
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
-        this.relocate(x,y);
     }
 
     /**
@@ -107,9 +106,8 @@ public class Country extends AnchorPane {
      * setter for the y position of the country
      * @param y The y positioj of the country
      */
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
-        this.relocate(x,y);
     }
 
     /**
@@ -234,10 +232,14 @@ public class Country extends AnchorPane {
 //        System.out.println(widthProperty());
 
         if (isUserClick) {
+            double new_x=getParent().sceneToLocal(x,y).getX();
+            double new_y=getParent().sceneToLocal(x,y).getY();
+            setX(new_x);
+            setY(new_y);
             relocate(
 //                (getParent().sceneToLocal(x,y).getX() - (widthCountry / 2)),
 //                (getParent().sceneToLocal(x,y).getY() - (heightCountry / 2))
-                    getParent().sceneToLocal(x,y).getX(), getParent().sceneToLocal(x,y).getY()
+                    new_x,new_y
             );
         } else {
             relocate(x,y);
