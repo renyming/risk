@@ -48,7 +48,6 @@ public class MenuController {
     @FXML public ChoiceBox<String> playerFourTypeChoiceBox;
     @FXML public ChoiceBox<String> playerFiveTypeChoiceBox;
     @FXML public ChoiceBox<String> playerSixTypeChoiceBox;
-//    private ArrayList<String> listOfPlayersType;
 
 
     @FXML public AnchorPane startGamePane;
@@ -93,13 +92,11 @@ public class MenuController {
         this.view = view;
         this.menu = menu;
         this.mapController = mapController;
-//        this.listOfPlayersType = new ArrayList<>();
         startGamePane.setVisible(true);
         newGamePane.setVisible(true);
         quitPane.setVisible(true);
         selectedMapsListView.setItems(selectedMaps);
         addEventListener();
-//        playersTypeSelectionListener();
         SpinnerValueFactory<Integer> gamesPerMapValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
         gamesPerMapSpinner.setValueFactory(gamesPerMapValueFactory);
         SpinnerValueFactory<Integer> turnsPerGameValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 50, 10);
@@ -451,51 +448,5 @@ public class MenuController {
         model.reset();
         model.resetValue();
         SleepTime.setSleepTime(500);
-//        int numMaps = 0;
-//
-//        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();
-//
-//        while(numMaps < selectedMaps.size()){
-//            int numGames = 0;
-//            String mapPath = filesPath.get(numMaps);
-//            ArrayList<String> winners = new ArrayList<>();
-//
-//            try {
-//                model.resetValue();
-//                model.readFile(mapPath);
-//            } catch (IOException exception) {
-//                System.out.println("MenuController.readFile(): " + exception.getMessage());
-//            }
-//            System.out.println("Next map is "+mapPath);
-//            while(numGames< gamesPerMapSpinner.getValue()){
-//                model.resetValue();
-//                System.out.println("Next game is "+ (numGames+1));
-//                Model.maxTurn = turnsPerGameSpinner.getValue();
-//                System.out.println("Max Turn: "+Model.maxTurn);
-////                startGame();
-//
-//                System.out.println("Finish one game on map :"+mapPath);
-//                winners.add(Model.winner);
-//                numGames++;
-//            }
-//            System.out.println("Finish all "+gamesPerMapSpinner.getValue()+" games on map "+mapPath);
-//            finalResult.add(winners);
-//            numMaps++;
-//        }
-//        System.out.println("");
-//        System.out.println("=============Tournament Result============= ");
-//        System.out.println("Maps : "+selectedMaps);
-//        System.out.println("Players : "+ selectPlayerTypes);
-//        System.out.println("Games Per Map : "+gamesPerMapSpinner.getValue());
-//        System.out.println("Max Turns : "+turnsPerGameSpinner.getValue());
-//        for(int i=0; i<selectedMaps.size(); i++){
-//            for(int j=0; j<gamesPerMapSpinner.getValue(); j++){
-//                System.out.print("Map : "+selectedMaps.get(i)+"  Game : "+(j+1)+"  Winner : "+finalResult.get(i).get(j));
-//                System.out.println("");
-//
-//                }
-//            }
-//        System.out.println("=============Tournament Finish=============");
     }
-
 }
