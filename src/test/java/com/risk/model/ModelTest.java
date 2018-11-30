@@ -74,9 +74,9 @@ public class ModelTest {
     public void testSaveAndLoad() throws Exception{
         newModel1.save("game");
         Model newModel2;
-        FileInputStream fileStream = new FileInputStream("g_model.ser");
-        ObjectInputStream os = new ObjectInputStream(fileStream);
-        newModel2 = (Model) os.readObject();
+
+        newModel2 = newModel1.load("g_model.ser");
+
         assertTrue(newModel2.getContinents().size() == 8);
         assertTrue(newModel2.getCountries().size() == 1);
         assertTrue(newModel2.getCurrentPlayer().getName().equals("Lee"));

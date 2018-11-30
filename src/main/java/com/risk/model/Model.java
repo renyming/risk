@@ -889,4 +889,19 @@ public class Model extends Observable implements Serializable {
         }
         return true;
     }
+
+    public Model load(String fileName){
+        Model loadModel = new Model();
+        try {
+            FileInputStream fileStream = new FileInputStream(fileName);
+            ObjectInputStream os = new ObjectInputStream(fileStream);
+            loadModel = (Model) os.readObject();
+
+        } catch (IOException ex){
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex){
+            ex.getStackTrace();
+        }
+        return loadModel;
+    }
 }
