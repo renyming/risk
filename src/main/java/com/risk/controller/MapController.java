@@ -552,7 +552,7 @@ public class MapController {
 
         if (null != file) {
             model.save(file.getName());
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Save Game");
             alert.setHeaderText("Game saved successfully");
             alert.setContentText("Click OK to Continue");
