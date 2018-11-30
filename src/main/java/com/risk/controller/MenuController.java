@@ -1,6 +1,7 @@
 package com.risk.controller;
 
 import com.risk.common.Action;
+import com.risk.common.SleepTime;
 import com.risk.model.*;
 import com.risk.view.*;
 import com.risk.view.Menu;
@@ -442,13 +443,14 @@ public class MenuController {
      * start tournament game
      */
     public void startTournamentGame(){
-
+        SleepTime.setSleepTime(1);
         TournamentModel.startTournament(selectedMaps,filesPath,model,gamesPerMapSpinner,
                 turnsPerGameSpinner,this,selectPlayerTypes);
         selectedMaps.clear();
         filesPath.clear();
         model.reset();
         model.resetValue();
+        SleepTime.setSleepTime(500);
 //        int numMaps = 0;
 //
 //        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();

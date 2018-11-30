@@ -1,9 +1,6 @@
 package com.risk.model;
 
-import com.risk.common.Action;
-import com.risk.common.Message;
-import com.risk.common.STATE;
-import com.risk.common.Tool;
+import com.risk.common.*;
 import com.risk.exception.InvalidMapException;
 import com.risk.validate.MapValidator;
 import com.risk.view.*;
@@ -473,7 +470,7 @@ public class Model extends Observable implements Serializable {
         Phase.getInstance().update();
 
         try{
-            sleep(500);
+            sleep(SleepTime.getSleepTime());
         } catch (InterruptedException e) {
             System.out.println(e);
         }

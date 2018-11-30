@@ -1,6 +1,7 @@
 package com.risk.strategy;
 
 import com.risk.common.Action;
+import com.risk.common.SleepTime;
 import com.risk.common.Tool;
 import com.risk.model.Country;
 import com.risk.model.Phase;
@@ -101,7 +102,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy, Serializable 
         Phase.getInstance().update();
 
         Tool.printBasicInfo(player, "After reinforcement: ");
-        sleep(500);
+        sleep(SleepTime.getSleepTime());
 
     }
 
@@ -118,7 +119,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy, Serializable 
         Phase.getInstance().update();
 
         Tool.printBasicInfo(player,"After attack: ");
-        sleep(500);
+        sleep(SleepTime.getSleepTime());
 
     }
 
@@ -172,7 +173,7 @@ public class BenevolentStrategy implements PlayerBehaviorStrategy, Serializable 
         }
 
         Tool.printBasicInfo(player,"After fortification: ");
-        sleep(500);
+        sleep(SleepTime.getSleepTime());
     }
 }
 
