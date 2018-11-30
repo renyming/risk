@@ -123,9 +123,7 @@ public class Model extends Observable implements Serializable {
         disable = false;
         phaseNumber = 0;
         maxTurn = Double.POSITIVE_INFINITY;
-        playerCounter=0;
         validFile = true;
-        phaseNumber = 0;
         currentTurn = 0 ;
         winner = "draw";
     }
@@ -456,13 +454,12 @@ public class Model extends Observable implements Serializable {
     public void autoLocatedArmy()  {
 
         System.out.println(currentPlayer.getName() + " enter autoLocated initiate armies");
-        System.out.println(currentPlayer.getArmies());
         HashMap<String,Integer> allocatedCountry = new HashMap<>();
         while(currentPlayer.getArmies() > 0) {
             Country country = currentPlayer.getCountriesOwned().get((int)(Math.random() * currentPlayer.getCountriesOwned().size()));
             country.addArmies(1);
-            if(allocatedCountry.containsKey(country)){
-                allocatedCountry.put(country.getName(),allocatedCountry.get(country)+1);
+            if(allocatedCountry.containsKey(country.getName())){
+                allocatedCountry.put(country.getName(),allocatedCountry.get(country.getName())+1);
             }else{
                 allocatedCountry.put(country.getName(),1);
             }
@@ -530,7 +527,6 @@ public class Model extends Observable implements Serializable {
      * @param playerType list of player type, including "aggressive", "benevolent", "human", "random", "cheater"
      */
     public void initiatePlayers(List<String> playerType)  {
-        System.out.println("initiatel~~~~~~~~~");
         players.clear();
         int initialArmies = getInitialArmies(playerCounter);
 //        initialArmies=3;
@@ -575,7 +571,7 @@ public class Model extends Observable implements Serializable {
         PlayersWorldDomination.getInstance().addObserver(PlayersWorldDominationView.getInstance());
         PlayersWorldDomination.getInstance().update();
 
-//        isComputerPlayer();
+        //        isComputerPlayer();
     }
 
     /**

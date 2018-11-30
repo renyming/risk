@@ -77,7 +77,8 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
     public void reinforcement() throws InterruptedException {
 
         System.out.println(player.getName() + " enter the reinforcement phase");
-        HashMap<Country, Long> reinforceCountry = new HashMap<>();
+        System.out.println(" ");
+        HashMap<String, Long> reinforceCountry = new HashMap<>();
         // change card first
         // cards = {"infantry","cavalry","artillery"};
         while (player.getTotalCards() >= 5) {
@@ -97,7 +98,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
         // add all the armies to weakest
         strongest.addArmies(player.getArmies());
-        reinforceCountry.put(strongest,player.getArmies());
+        reinforceCountry.put(strongest.getName(),player.getArmies());
         player.setArmies(0);
 
         // update phase
@@ -123,8 +124,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
      */
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
-
+        System.out.println(" ");
         System.out.println(player.getName() + " enter the attack phase");
+        System.out.println(" ");
 
         // attacker is the strongest country
         Country strongest = player.getCountriesOwned().stream()
@@ -191,7 +193,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {
 
         System.out.println(player.getName() + " enter the fortification phase");
-
+        System.out.println(" ");
         List<Country> decreaseSorted = player.getCountriesOwned().stream()
                 .sorted((c1, c2) -> {
                     if (c2.getArmies() - c1.getArmies() > 0 ) return 1;
@@ -207,13 +209,14 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
                 if (player.isConnected(c1, c2)){
 
-                    System.out.println("From Country : "+c1.getName());
-                    System.out.println("TO Country : "+c2.getName());
+                    System.out.println("From Country : "+c2.getName());
+                    System.out.println("TO Country : "+c1.getName());
 
                     // re-allocated armies
                     c1.setArmies(c1.getArmies() + c2.getArmies());
+                    System.out.println("Move "+c2.getArmies() +" Armies");
                     c2.setArmies(0);
-                    System.out.println("Move "+c1.getArmies() + c2.getArmies() +" Armies");
+
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                     Phase.getInstance().update();
 

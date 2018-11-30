@@ -39,6 +39,8 @@ public class ViewController {
     Button btnDelContinent;
     @FXML
     Button btnAddContinent;
+    @FXML
+    Slider sldOpacity;
 
     private View view;
     private ArrayList<Country> countryList;
@@ -55,7 +57,7 @@ public class ViewController {
         public void handle(MouseEvent event) {
             if (event.isStillSincePress()){
                 Country country = new Country(event.getSceneX(), event.getSceneY());
-                drawCountry(country);
+                drawCountry(country, true);
             }
         }
     };
@@ -94,6 +96,11 @@ public class ViewController {
                 if (!lstContinent.getSelectionModel().isEmpty() && lstContinent.getItems().size() > 1)
                     btnDelContinent.setDisable(false);
             }
+        });
+
+        //attach opacity slider
+        sldOpacity.valueProperty().addListener((observable, oldValue, newValue) -> {
+            countryList.stream().forEach(c->c.setOpacity((double) newValue));
         });
 
     }
@@ -212,13 +219,14 @@ public class ViewController {
      * Draw a country on canvas
      * A wrapper method
      * @param country Country object
+     * @param isUserClick If this operation is to deal with a country adding by user click
      */
-    public void drawCountry(Country country) {
+    public void drawCountry(Country country, boolean isUserClick) {
         setCountryListener(country);
         draw_pane.getChildren().add(country);
-        country.relocateToPoint();
+        country.relocateToPoint(isUserClick);
         countryList.add(country);
-//        country.setOpacity(0.8);
+        country.setOpacity(sldOpacity.getValue());
     }
 
     /**
