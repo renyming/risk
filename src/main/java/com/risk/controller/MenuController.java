@@ -358,8 +358,8 @@ public class MenuController {
             } catch (IOException exception) {
                 System.out.println("MenuController.readFile(): " + exception.getMessage());
             }
+            System.out.println("Current Map Is : "+riskMapFile.getName());
         }
-        System.out.println("Current Map Is : "+riskMapFile.getName());
     }
 
 
