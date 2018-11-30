@@ -419,7 +419,7 @@ public class MenuController {
         model.initiatePlayers(selectPlayerTypes);
         model.startUp(mapController.createCountryViews());
         menu.hide();
-        mapController.showMapStage();
+        if (!tournamentMode) mapController.showMapStage();
         model.isComputerPlayer();
     }
 
@@ -428,7 +428,7 @@ public class MenuController {
      * Called when user confirm the quitGame process by clicking yes button
      */
     public void quitGame() {
-        menu.close();
+        Menu.getInstance().close();
         mapController.quitGame();
     }
 
@@ -439,6 +439,9 @@ public class MenuController {
     public void startTournamentGame(){
         TournamentModel.startTournament(selectedMaps,filesPath,model,gamesPerMapSpinner,
                 turnsPerGameSpinner,this,selectPlayerTypes);
+
+        Menu.getInstance().show();
+
 //        int numMaps = 0;
 //
 //        ArrayList< ArrayList<String> > finalResult = new ArrayList<>();

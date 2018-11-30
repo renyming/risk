@@ -611,5 +611,5 @@ public class MapController {
     /**
      * Called by MenuController when user quit the game from menu
      */
-    void quitGame() { map.close(); }
+    void quitGame() { Map.getInstance().close(); }
 }
