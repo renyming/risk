@@ -39,6 +39,8 @@ public class ViewController {
     Button btnDelContinent;
     @FXML
     Button btnAddContinent;
+    @FXML
+    Slider sldOpacity;
 
     private View view;
     private ArrayList<Country> countryList;
@@ -94,6 +96,11 @@ public class ViewController {
                 if (!lstContinent.getSelectionModel().isEmpty() && lstContinent.getItems().size() > 1)
                     btnDelContinent.setDisable(false);
             }
+        });
+
+        //attach opacity slider
+        sldOpacity.valueProperty().addListener((observable, oldValue, newValue) -> {
+            countryList.stream().forEach(c->c.setOpacity((double) newValue));
         });
 
     }
@@ -219,7 +226,7 @@ public class ViewController {
         draw_pane.getChildren().add(country);
         country.relocateToPoint(isUserClick);
         countryList.add(country);
-//        country.setOpacity(0.85);
+        country.setOpacity(sldOpacity.getValue());
     }
 
     /**

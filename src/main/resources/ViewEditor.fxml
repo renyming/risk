@@ -8,7 +8,9 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -49,8 +51,22 @@
                   </BorderPane>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="165.0" SplitPane.resizableWithParent="false">
                      <children>
+                        <Label text="Opacity of Country Nodes" />
+                        <Slider fx:id="sldOpacity" blockIncrement="0.1" majorTickUnit="10.0" max="1.0" minorTickCount="5" value="1.0">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Slider>
+                        <Separator prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Separator>
                         <Label text="Enter a New Continent        " />
-                        <TextField fx:id="txtContinent" prefHeight="25.0" prefWidth="160.0" promptText="Name of continent" />
+                        <TextField fx:id="txtContinent" prefHeight="25.0" prefWidth="160.0" promptText="Name of continent">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin></TextField>
                         <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" spacing="10.0">
                            <children>
                               <Button fx:id="btnAddContinent" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addContinent" prefHeight="30.0" prefWidth="30.0" text="+" textAlignment="CENTER">
