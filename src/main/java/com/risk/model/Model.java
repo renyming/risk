@@ -342,12 +342,12 @@ public class Model extends Observable implements Serializable {
         }
 
         if (nextPlayer.getStrategy().getName().equalsIgnoreCase("human")) {
+            Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
             return true;
         } else {
             return false;
         }
     }
-
     
     /**
      * Set current player to the next one according in round robin fashion
@@ -427,7 +427,6 @@ public class Model extends Observable implements Serializable {
 
         country.addArmies(1);
         country.getOwner().subArmies(1);
-
 
         Phase.getInstance().setActionResult(Action.Allocate_Army);
         Phase.getInstance().update();
