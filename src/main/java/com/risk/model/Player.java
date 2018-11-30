@@ -270,14 +270,34 @@ public class Player extends Observable implements Serializable {
     }
 
     //TODO:doc
+
+    /**
+     * get army value of cards
+     * @return cardsArmy the army value of cards
+     */
     public int getCardsArmy(){return cardsArmy;}
 
+    /**
+     * get number of countries
+     * @return countriesSize number of countries
+     */
     public int getCountriesSize(){return countriesSize;}
 
+    /**
+     * set the strategy type for current player
+     * @param newStrategy type of the strategy to be set
+     */
     public void setStrategy(PlayerBehaviorStrategy newStrategy){this.strategy = newStrategy;}
 
+    /**
+     * get the strategy type of current player
+     * @return strategy the strategy type of current player
+     */
     public PlayerBehaviorStrategy getStrategy(){return strategy;}
 
+    /**
+     * increase numberOccupy by 1
+     */
     public void increaseNumberOccupy() {
         numberOccupy ++;
     }
@@ -881,6 +901,11 @@ public class Player extends Observable implements Serializable {
         }
     }
 
+    /**
+     * determine if a given country is owned by player
+     * @param c the given country
+     * @return true if the give country is owned; otherwise return false
+     */
     public boolean isContain(Country c) {
 
         for (Country each : countriesOwned) {
@@ -890,7 +915,6 @@ public class Player extends Observable implements Serializable {
         }
         return false;
     }
-
 
     /**
      * Method for fortification operation

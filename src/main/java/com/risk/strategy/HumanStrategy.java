@@ -16,7 +16,10 @@ public class HumanStrategy implements PlayerBehaviorStrategy, Serializable {
     private Player player;
 //    private Phase Phase.getInstance();
 
-    //TODO:doc
+    /**
+     * Constructor
+     * @param player the correspinding player
+     */
     public HumanStrategy(Player player){
         name = "human";
         this.player = player;

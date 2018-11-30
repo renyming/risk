@@ -15,6 +15,9 @@ public class TournamentModelTest {
     private  int games;
     private  String winner;
 
+    /**
+     * Preparation before all this method
+     */
     @Before
     public  void beforeClass() {
         Random random = new Random();
@@ -25,8 +28,11 @@ public class TournamentModelTest {
 
     }
 
+    /**
+     * test tournament model
+     */
     @Test
-    public  void startTournamentTest(){
+    public void startTournamentTest(){
         int numMaps = 0;
         while(numMaps < maps){
             int numGames = 0;

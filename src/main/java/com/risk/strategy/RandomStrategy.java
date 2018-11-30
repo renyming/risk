@@ -29,6 +29,10 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
     int defenderDiceNum;
     private Random random=new Random();
 
+    /**
+     * Constructor
+     * @param player the correspinding player
+     */
     public RandomStrategy(Player player) {
         name = "random";
         this.player = player;

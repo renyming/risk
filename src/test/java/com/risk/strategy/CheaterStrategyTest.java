@@ -146,6 +146,9 @@ public class CheaterStrategyTest {
         assertEquals(Action.Show_Next_Phase_Button, Phase.getInstance().getActionResult());
     }
 
+    /**
+     * Test attack() method
+     */
     @Test
     public void attack(){
 
