@@ -106,11 +106,19 @@ public class CardModel extends Observable implements Serializable {
      */
     public String getInvalidInfo() { return invalidInfo; }
 
+    /**
+     * determine whether it is ready to quit card view or to close the request
+     * @return true if there is no invalid info; otherwise return false
+     */
     public boolean readyToQuit() {
         invalidInfo = null;
         return invalidInfoNum != 3;
     }
 
+    /**
+     * determine whether is is ready to finish the exchange card process
+     * @return true if there is no invalid info; otherwise return false
+     */
     public boolean finishExchange() { return invalidInfoNum == 0; }
 
 }
