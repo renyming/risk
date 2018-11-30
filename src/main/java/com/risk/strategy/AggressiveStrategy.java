@@ -214,8 +214,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
                     // re-allocated armies
                     c1.setArmies(c1.getArmies() + c2.getArmies());
-                    c2.setArmies(0);
                     System.out.println("Move "+c2.getArmies() +" Armies");
+                    c2.setArmies(0);
+
                     Phase.getInstance().setActionResult(Action.Show_Next_Phase_Button);
                     Phase.getInstance().update();
 
