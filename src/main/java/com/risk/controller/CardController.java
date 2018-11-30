@@ -141,6 +141,8 @@ public class CardController {
      *close card ex window without check current card numbers
      */
     public void closeReadOnlyCardWindow(){
+        cancelCardView.setVisible(true);
+        trade.setVisible(true);
         Stage stage = (Stage) cancelCardView.getScene().getWindow();
         stage.close();
     }
