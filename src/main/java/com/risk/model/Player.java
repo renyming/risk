@@ -491,6 +491,8 @@ public class Player extends Observable implements Serializable {
         //need to implement next phase
         armiesAdded += cardsArmy;
 
+        cardsArmy = 0;
+
         // the minimal number of reinforcement armies is 3
         if (armiesAdded < 3) {
             armiesAdded = 3;

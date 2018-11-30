@@ -709,6 +709,11 @@ public class Model extends Observable implements Serializable {
         String[] list = countriesList.split("\n");
         for (String s : list) {
             String contents[] = s.split(",");
+
+            for (int i = 0; i < contents.length; i++){
+                contents[i] = contents[i].trim();
+            }
+
             String continentName = contents[3];
             int indexOfContinent = -1;
             for(int i = 0; i < continents.size(); i ++){
