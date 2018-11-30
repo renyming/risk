@@ -47,13 +47,15 @@ public class ViewController {
     private DoubleProperty mouseX=new SimpleDoubleProperty();
     private DoubleProperty mouseY=new SimpleDoubleProperty();
 
+    /**
+     * Click to draw new country
+     */
     private EventHandler drawPaneClicked=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             if (event.isStillSincePress()){
                 Country country = new Country(event.getSceneX(), event.getSceneY());
                 drawCountry(country);
-                countryList.add(country);
             }
         }
     };
@@ -179,6 +181,14 @@ public class ViewController {
     }
 
     /**
+     * Remove a country from the list keeping country positions when deleted
+     * @param country Country to be deleted
+     */
+    public void removeFromCountryList(Country country) {
+        countryList.remove(country);
+    }
+
+    /**
      * Handler to add a continent from text box to list view
      * Bounded to: btnAddContinent
      */
@@ -277,7 +287,7 @@ public class ViewController {
     private void addMouseReleased(AnchorPane draw_pane) {
         draw_pane.setOnMouseReleased(event -> {
 //            System.out.println("Country released");
-
+            if (!dragActive) return;
             Optional<Country> country_tmp=findCountry(event.getSceneX(),event.getSceneY());
             if (country_tmp.isPresent()){
                 stopDrag(country_tmp.get());
@@ -294,6 +304,10 @@ public class ViewController {
      * @param p2 Country 2 to be connected
      */
     public void drawLine(Country p1, Country p2) {
+        if(p1==null || p2==null) {
+            System.out.println("null");
+        }
+
         if (p1.isAdjacent(p2)) return;
 
         Edge line = new Edge(p1, p2);

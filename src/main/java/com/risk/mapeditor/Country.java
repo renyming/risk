@@ -207,6 +207,9 @@ public class Country extends AnchorPane {
     }
 
     public double getCenterX(){
+        if (getParent()==null){
+            System.out.println("null");
+        }
         return getParent().sceneToLocal(x,y).getX() + (widthCountry / 2);
     }
 

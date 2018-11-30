@@ -72,6 +72,7 @@ public class CountryController {
                 draw_pane.getChildren().remove(line);
             }
             AnchorPane draw_pane=(AnchorPane) country.getParent();
+            View.getViewController().removeFromCountryList(country);
             draw_pane.getChildren().remove(country);
             event.consume();
         });
@@ -97,14 +98,17 @@ public class CountryController {
         //Country title listener
         lblCountry.setOnMouseEntered(event -> {
             lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: "+HIGHLIGHTCOLOR+"; -fx-highlight-fill: #72bce4");
+//            System.out.println("Mouse enter: "+country.getParent());
         });
 
         lblCountry.setOnMouseExited(event -> {
             lblCountry.setStyle("-fx-background-color: transparent; -fx-text-fill: #ffffff");
+//            System.out.println("Mouse exit: "+country.getParent());
         });
 
         lblCountry.textProperty().addListener((observable, oldValue, newValue) -> {
             country.setName(newValue);
+//            System.out.println("Content edit: "+country.getParent());
         });
 
         rectangle.setArcHeight(15);
