@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class View extends AnchorPane {
 
-    private ViewController viewController;
+    private static ViewController viewController;
     private com.risk.view.View menuView;
     public static ObservableList<String> continents= FXCollections.observableArrayList();
 
@@ -39,6 +39,10 @@ public class View extends AnchorPane {
         viewController.initialize(this);
         continents.clear();
         continents.add("Default Continent");
+    }
+
+    public static ViewController getViewController() {
+        return viewController;
     }
 
     /**
