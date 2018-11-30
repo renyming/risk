@@ -29,9 +29,11 @@ public class FileInfoMenuView implements Observer {
 
 
     /**
-     * Initialize the relative menu components
+     * * Initialize the relative menu components
      * @param selectedFilenameLabel displays the selected file name
      * @param mapValidationInfoLabel displays the validation result
+     * @param selectedMaps selected maps
+     * @param deleteMapButton delete maps
      */
     public void init(Label selectedFilenameLabel, Label mapValidationInfoLabel, ObservableList<String> selectedMaps, Button deleteMapButton) {
         this.selectedFilenameLabel = selectedFilenameLabel;

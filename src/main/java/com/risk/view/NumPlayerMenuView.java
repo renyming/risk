@@ -41,6 +41,7 @@ public class NumPlayerMenuView implements Observer {
      * @param userEnteredPlayNumLabel displays the valid entered number, or invalid result
      * @param playerNumTextField allows user to enter the number of player
      * @param startButton allows user to enter the game
+     * @param startButton1 start tournament game
      * @param mapController allow map to be shown
      * @param playerNumLabels displays each Player's name
      * @param playerTypeChoiceBoxes allows user to select each Player's type

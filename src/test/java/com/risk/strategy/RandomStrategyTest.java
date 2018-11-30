@@ -28,7 +28,7 @@ public class RandomStrategyTest {
 
     /**
      * Setup map
-     * @throws Exception
+     * @throws Exception exception
      */
     @SuppressWarnings("Duplicates")
     @BeforeClass
@@ -68,7 +68,7 @@ public class RandomStrategyTest {
 
     /**
      * Initiate user and assign countries
-     * @throws Exception
+     * @throws Exception exception
      */
     @SuppressWarnings("Duplicates")
     @Before

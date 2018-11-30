@@ -14,7 +14,9 @@ public class StrategyFactory {
 
     /**
      * static method to create strategy method
-     *
+     *@param s strategy name
+     *@param p player with that strategy
+     *@return different strategies
      */
     public static PlayerBehaviorStrategy getStrategy(String s, Player p) {
 

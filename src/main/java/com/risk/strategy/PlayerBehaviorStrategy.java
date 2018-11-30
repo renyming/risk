@@ -11,7 +11,7 @@ public interface PlayerBehaviorStrategy {
 
     /**
      * reinforcement method
-     * @throws InterruptedException
+     * @throws InterruptedException exception
      */
     void reinforcement( ) throws InterruptedException;
 
@@ -22,7 +22,7 @@ public interface PlayerBehaviorStrategy {
      * @param defender the country who defend
      * @param defenderNum the number of dice the defender use
      * @param isAllOut true, allout; false, not allout
-     * @throws InterruptedException
+     * @throws InterruptedException exception
      */
     void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException;
 
@@ -37,7 +37,7 @@ public interface PlayerBehaviorStrategy {
      * @param source source country
      * @param target target country
      * @param armyNumber number of armies want to move
-     * @throws InterruptedException
+     * @throws InterruptedException exception
      */
     void fortification(Country source, Country target, int armyNumber) throws InterruptedException;
 
@@ -49,7 +49,7 @@ public interface PlayerBehaviorStrategy {
 
     /**
      * for the computer player, orderly execute the reinforcement, attack and fortification methods
-     * @throws InterruptedException
+     * @throws InterruptedException exception
      */
     void execute() throws InterruptedException;
 }

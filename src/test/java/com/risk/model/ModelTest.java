@@ -67,6 +67,7 @@ public class ModelTest {
 
     /**
      * Test save() method
+     * @throws Exception exception
      */
     @Test
     public void testSave() throws Exception{

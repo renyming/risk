@@ -91,6 +91,7 @@ public class PhaseView implements Observer {
      * @param invalidMoveLabel displays the invalid move info
      * @param skipFortificationPhaseButton allows user to skip the fortification phase
      * @param mapController is the MapController reference
+     * @param saveGameButton save game
      */
     public void init(Label phaseLabel, Button nextPhaseButton, Label currentPlayerNameLabel, Label currentPlayerTypeLabel, Label armiesInHandLabel,
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,

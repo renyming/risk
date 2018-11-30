@@ -72,7 +72,7 @@ public class Model extends Observable implements Serializable {
 
     /**
      * ctor for Model
-     * @param model
+     * @param model model
      */
     public Model(Model model){
         this.continents = model.continents;
@@ -328,7 +328,7 @@ public class Model extends Observable implements Serializable {
 
     /**
      * check if the next player is the compute player
-     * @return
+     * @return true if next player is human
      */
     public boolean isNextPlayerHuman() {
 
@@ -628,7 +628,7 @@ public class Model extends Observable implements Serializable {
     /**
      * load file path for map editor
      * @param filePath The path of the map file
-     * @throws IOException
+     * @throws IOException exception
      * @throws InvalidMapException Exception when the map layout is invalid
      */
     public void editorReadFile(String filePath) throws IOException, InvalidMapException {

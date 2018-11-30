@@ -100,7 +100,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
      * @param defender dummy param
      * @param defenderNum dummy param
      * @param isAllOut dummy param
-     * @throws InterruptedException
+     * @throws InterruptedException exception
      */
     @Override
     public void attack(Country attacker, String attackerNum, Country defender, String defenderNum, boolean isAllOut) throws InterruptedException {
@@ -191,7 +191,7 @@ public class RandomStrategy implements PlayerBehaviorStrategy, Serializable {
      * @param source dummy param
      * @param target dummy param
      * @param armyNumber dummy param
-     * @throws InterruptedException
+     * @throws InterruptedException exception
      */
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {

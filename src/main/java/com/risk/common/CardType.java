@@ -22,7 +22,7 @@ public enum CardType {
 
     /**
      * get random card
-     * @return
+     * @return random card type
      */
     public static CardType randomCard()  {
         return VALUES.get(RANDOM.nextInt(SIZE));

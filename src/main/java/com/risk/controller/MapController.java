@@ -91,9 +91,11 @@ public class MapController {
 
     /**
      * Initialize Map Controller, set references, set default button visibility
-     * @param model is the Model reference
+     * @param model the Model reference
      * @param map is the Map reference
      * @param menuController is the MenuController reference
+     * @param card cards of player
+     * @param cardController card controller
      */
     public void init(Model model, Map map, MenuController menuController, CardView card, CardController cardController) {
         this.model = model;

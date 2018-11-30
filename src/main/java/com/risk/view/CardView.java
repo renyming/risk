@@ -50,7 +50,7 @@ public class CardView implements Observer{
 
     /**
      * Get or create the only instance
-     * @return
+     * @return card view
      */
     public static CardView getInstance() {
         if (null == instance) instance = new CardView();

@@ -52,6 +52,9 @@ public class PlayersWorldDominationView implements Observer {
 
     /**
      * Initialize the map component
+     * @param countryChart pie chart
+     * @param model model
+     * @param currentPercentageLabel label
      * @param countryPercentageListView is the map component for displaying the country percentage
      * @param armyDistributionListView is the map component for displaying the army distribution
      * @param continentNameListView is the map component for displaying the continent name

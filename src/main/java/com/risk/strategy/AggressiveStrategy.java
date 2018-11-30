@@ -23,7 +23,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
     /**
      * constructor
-     * @param player
+     * @param player  player with this strategy
      */
     public AggressiveStrategy(Player player) {
 
@@ -158,7 +158,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
     /**
      * Move army method
      * move the mininum armies that could
-     * @param num
+     * @param num number of army to move
      */
     @Override
     public void moveArmy(String num) {
@@ -178,9 +178,9 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
     /**
      * Fortification method
      * maximize aggregation of forces in one country
-     * @param source
-     * @param target
-     * @param armyNumber
+     * @param source from source
+     * @param target to target
+     * @param armyNumber move num of army
      */
     @Override
     public void fortification(Country source, Country target, int armyNumber) throws InterruptedException {

@@ -32,7 +32,6 @@ public class Writer {
      * This method is to write all the information to a specific file
      * @throws IOException IOException
      * @throws InvalidMapException InvalidMapException
-     * @return true if the map to be written is valid; otherwise return false
      */
     public void write() throws IOException, InvalidMapException {
 

@@ -81,9 +81,10 @@ public class MenuController {
 
 
     /**
-     * Store reference of Model, View and MapController
+     * * Store reference of Model, View and MapController
      * @param model is the reference of Model
      * @param view is the reference of View
+     * @param menu game menu
      * @param mapController is the reference of the MapController
      */
     public void init(Model model, View view, Menu menu, MapController mapController) {
@@ -215,6 +216,8 @@ public class MenuController {
 
     /**
      * Called when users click Load Saved Game
+     * @throws IOException exception
+     * @throws ClassNotFoundException exception
      */
     public void loadGame() throws IOException,ClassNotFoundException {
 
