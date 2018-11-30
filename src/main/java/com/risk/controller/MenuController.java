@@ -418,8 +418,10 @@ public class MenuController {
         mapController.initPhaseView();
         model.initiatePlayers(selectPlayerTypes);
         model.startUp(mapController.createCountryViews());
-        menu.hide();
-        if (!tournamentMode) mapController.showMapStage();
+        if (!tournamentMode) {
+            menu.hide();
+            mapController.showMapStage();
+        }
         model.isComputerPlayer();
     }
 
@@ -437,10 +439,9 @@ public class MenuController {
      * start tournament game
      */
     public void startTournamentGame(){
+
         TournamentModel.startTournament(selectedMaps,filesPath,model,gamesPerMapSpinner,
                 turnsPerGameSpinner,this,selectPlayerTypes);
-
-        Menu.getInstance().show();
 
 //        int numMaps = 0;
 //
