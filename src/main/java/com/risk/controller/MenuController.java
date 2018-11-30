@@ -249,6 +249,7 @@ public class MenuController {
         os = new ObjectInputStream(fileStream);
 
         PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
+        //playersWorldDomination.setPlayers(model.getPlayers());
         playersWorldDomination.addObserver(PlayersWorldDominationView.getInstance());
         playersWorldDomination.update();
 

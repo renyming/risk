@@ -837,6 +837,25 @@ public class Model extends Observable implements Serializable {
     }
 
     /**
+     * copy static data member value from nonstatic data member
+     * used after deserialization
+     */
+    public void staticToNonStatic(){
+        cardsValueNonStatic = Model.cardsValue;
+        phaseNumberNonStatic = Model.phaseNumber;
+        disableNonStatic = Model.disable;
+    }
+    /**
+     * copy non static data member value from static data member
+     * used before serialization
+     */
+    public void nonStaticToStatic(){
+        Model.phaseNumber = phaseNumberNonStatic;
+        Model.disable = disableNonStatic;
+        Model.cardsValue = cardsValueNonStatic;
+    }
+
+    /**
      * save the whole game to be loaded later
      * @param fileName the name of file save to
      * @return true if the game is saved successfully; otherwise return false
@@ -845,6 +864,11 @@ public class Model extends Observable implements Serializable {
         try {
 
             staticToNonStatic();
+
+            File f = new File(fileName);
+            FileWriter fileWriter = new FileWriter(f);
+            fileWriter.write("nothing here");
+            fileWriter.close();
 
             FileOutputStream fileStream = new FileOutputStream(fileName + "model.ser");
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
@@ -868,18 +892,6 @@ public class Model extends Observable implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public void staticToNonStatic(){
-        cardsValueNonStatic = Model.cardsValue;
-        phaseNumberNonStatic = Model.phaseNumber;
-        disableNonStatic = Model.disable;
-    }
-
-    public void nonStaticToStatic(){
-        Model.phaseNumber = phaseNumberNonStatic;
-        Model.disable = disableNonStatic;
-        Model.cardsValue = cardsValueNonStatic;
     }
 
 }
