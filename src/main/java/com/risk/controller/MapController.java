@@ -66,6 +66,8 @@ public class MapController {
     //card button
     @FXML private Button cardButton;
 
+    @FXML private Button loadButton;
+
     private Model model;
     private Map map;
     private MenuController menuController;
@@ -113,6 +115,9 @@ public class MapController {
         countryBNameLabel.setVisible(false);
         cardButton.setDisable(true);
         saveGameButton.setVisible(false);
+
+        loadButton.setVisible(true);
+
         addEventListener();
 
 
@@ -203,7 +208,7 @@ public class MapController {
                 countryALabel, countryANameLabel, countryBLabel, countryBNameLabel,
                 numArmiesMovedLabel, numArmiesMovedTextField, invalidMovedLabel,
                 skipFortificationPhaseButton, saveGameButton,
-                this);
+                this,loadButton);
         phaseView.initAttackComponents(attackerDiceLabel, attackerDiceOneButton, attackerDiceTwoButton, attackerDiceThreeButton,
                 defenderDiceLabel, defenderDiceOneButton, defenderDiceTwoButton,
                 allOutLabel, allOutEnableButton, allOutDisableButton, attackButton);

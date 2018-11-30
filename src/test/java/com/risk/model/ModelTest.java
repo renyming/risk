@@ -74,7 +74,6 @@ public class ModelTest {
     public void testSaveAndLoad() throws Exception{
         newModel1.save("game");
         Model newModel2;
-
         newModel2 = newModel1.load("g_model.ser");
 
         assertTrue(newModel2.getContinents().size() == 8);

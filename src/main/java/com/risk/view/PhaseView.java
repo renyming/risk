@@ -29,6 +29,7 @@ public class PhaseView implements Observer {
     private Label armiesInHandLabel;
     private Label invalidMovedLabel;
     private Button saveGameButton;
+    private Button loadGameButton;
 
     // From-To country relative components
     private Label countryALabel;
@@ -97,7 +98,7 @@ public class PhaseView implements Observer {
                      Label countryALabel, Label countryANameLabel, Label countryBLabel, Label countryBNameLabel,
                      Label numArmiesMovedLabel, TextField numArmiesMovedTextField, Label invalidMoveLabel,
                      Button skipFortificationPhaseButton, Button saveGameButton,
-                     MapController mapController) {
+                     MapController mapController,Button loadGameButton) {
         this.phaseLabel = phaseLabel;
         this.nextPhaseButton = nextPhaseButton;
         this.currentPlayerNameLabel = currentPlayerNameLabel;
@@ -113,6 +114,8 @@ public class PhaseView implements Observer {
         this.skipFortificationPhaseButton = skipFortificationPhaseButton;
         this.saveGameButton = saveGameButton;
         this.mapController = mapController;
+
+        this.loadGameButton = loadGameButton;
     }
 
 
@@ -266,6 +269,7 @@ public class PhaseView implements Observer {
                     phase.clearActionResult();
                     break;
                 case Win:
+                    loadGameButton.setVisible(false);
                     phaseLabel.setVisible(false);
                     nextPhaseButton.setVisible(false);
                     hide();
