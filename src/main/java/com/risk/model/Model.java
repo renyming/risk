@@ -58,6 +58,7 @@ public class Model extends Observable implements Serializable {
     private NumPlayerMenu numPlayerMenu;
     public static double maxTurn = Double.POSITIVE_INFINITY;
     public static int currentTurn;
+    public static boolean isTournamentMode = false;
 
     /**
      * ctor for Model
@@ -392,21 +393,21 @@ public class Model extends Observable implements Serializable {
             if (Phase.getInstance().getCurrentPhase().equalsIgnoreCase("Start Up Phase")) {
                 // autoLocatedArmy() includ the nextPlayer() method
                 autoLocatedArmy();
-            } else {
+            } else if (isTournamentMode) {
                 currentPlayer.execute();
                 Model.currentTurn++;
                 int check = currentTurn / (players.size());
-                System.out.println("Current turn :"+ check);
-                if(check >= maxTurn){
+                System.out.println("Current turn :" + check);
+                if (check >= maxTurn) {
                     return;
                 }
-                if(Phase.getInstance().getActionResult() == Action.Win){
+                if (Phase.getInstance().getActionResult() == Action.Win) {
                     return;
                 }
                 nextPlayer();
-//                WorkerThread thread=new WorkerThread(currentPlayer,this);
-//                thread.start();
-
+            } else {
+                WorkerThread thread=new WorkerThread(currentPlayer,this);
+                thread.start();
             }
         }
     }
