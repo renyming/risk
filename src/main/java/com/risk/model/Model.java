@@ -49,8 +49,6 @@ public class Model extends Observable implements Serializable {
     //indicate current phaseNumber; startUp0; rPhase1; aPhase2; fPhase3
     public static int phaseNumber = 0;
 
-
-
     private FileInfoMenu fileInfoMenu;
     private NumPlayerMenu numPlayerMenu;
     public static double maxTurn = Double.POSITIVE_INFINITY;
