@@ -3,16 +3,15 @@ package com.risk.controller;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import com.risk.model.Country;
 import com.risk.model.Model;
 import com.risk.model.Phase;
 import com.risk.view.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -546,8 +545,19 @@ public class MapController {
      */
     public void saveGame() {
 
-        String fileName = "game1";
-        model.save(fileName);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Save Game (*.sg)", "*.sg"));
+        File file = fileChooser.showSaveDialog(Map.getInstance().getMapRootPane().getScene().getWindow());
+
+        if (null != file) {
+            model.save(file.getName());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Save Game");
+            alert.setHeaderText("Game saved successfully");
+            alert.setContentText("Click OK to Continue");
+            alert.show();
+        }
     }
 
 
@@ -556,13 +566,11 @@ public class MapController {
      */
     public void loadGame() {
         initPhaseView();
-       try {
+        try {
            menuController.loadGame();
-       } catch (IOException ex){
+        } catch (Exception ex){
            ex.getStackTrace();
-       } catch (ClassNotFoundException ex){
-           ex.getStackTrace();
-       }
+        }
     }
 
 
@@ -584,13 +592,15 @@ public class MapController {
             for (int key : countryViews.keySet()) {
                 AnchorPane countryPane = countryViews.get(key).getCountryPane();
                 countryPane.getChildren().clear();
-                map.getMapRootPane().getChildren().remove(countryPane);
+//                map.getMapRootPane().getChildren().remove(countryPane);
+                mapPane.getChildren().remove(countryPane);
             }
             countryViews.clear();
         }
         if (null != arrows) {
             for (Arrow arrow : arrows) {
-                map.getMapRootPane().getChildren().remove(arrow);
+//                map.getMapRootPane().getChildren().remove(arrow);
+                mapPane.getChildren().remove(arrow);
             }
             arrows.clear();
         }
