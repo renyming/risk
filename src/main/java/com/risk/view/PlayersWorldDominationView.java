@@ -6,9 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import com.risk.model.PlayersWorldDomination;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,13 +27,15 @@ public class PlayersWorldDominationView implements Observer {
 
     private static PlayersWorldDominationView instance;
 
-    private Label currentPercentageLabel;
+    private AnchorPane countryPercentagePane;
     private ObservableList<String> allPlayerCountryPercentage = FXCollections.observableArrayList();
     private ObservableList<String> allPlayerArmyDistribution = FXCollections.observableArrayList();
     private ObservableList<String> allPlayerContinentName = FXCollections.observableArrayList();
     private Model model;
     private PieChart countryChart;
     private ArrayList<String> pieChartColor;
+
+
     /**
      * Ctor
      */
@@ -54,13 +56,13 @@ public class PlayersWorldDominationView implements Observer {
      * Initialize the map component
      * @param countryChart pie chart
      * @param model model
-     * @param currentPercentageLabel label
+     * @param countryPercentagePane pane
      * @param countryPercentageListView is the map component for displaying the country percentage
      * @param armyDistributionListView is the map component for displaying the army distribution
      * @param continentNameListView is the map component for displaying the continent name
      */
-    public void init(Label currentPercentageLabel, ListView<String> countryPercentageListView, ListView<String> armyDistributionListView, ListView<String> continentNameListView, Model model, PieChart countryChart) {
-        this.currentPercentageLabel = currentPercentageLabel;
+    public void init(AnchorPane countryPercentagePane, ListView<String> countryPercentageListView, ListView<String> armyDistributionListView, ListView<String> continentNameListView, Model model, PieChart countryChart) {
+        this.countryPercentagePane = countryPercentagePane;
         countryPercentageListView.setItems(allPlayerCountryPercentage);
         armyDistributionListView.setItems(allPlayerArmyDistribution);
         continentNameListView.setItems(allPlayerContinentName);
@@ -108,11 +110,10 @@ public class PlayersWorldDominationView implements Observer {
         allPlayerCountryPercentage.clear();
         allPlayerCountryPercentage.addAll(PlayersWorldDomination.getInstance().getCountryPercentage());
         if(!Model.isTournamentMode){
-            currentPercentageLabel.setVisible(false);
+            countryPercentagePane.setVisible(false);
             allPlayerCountryPercentage.clear();
             populateCountryDominationData();
         }
-
 
         // update army distribution
         allPlayerArmyDistribution.clear();

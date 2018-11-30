@@ -61,14 +61,18 @@
       </AnchorPane>
       <AnchorPane layoutX="10.0" layoutY="665.0" prefHeight="180.0" prefWidth="990.0">
          <children>
-            <ListView fx:id="countryPercentageListView" layoutX="2.0" layoutY="38.0" prefHeight="142.0" prefWidth="330.0" />
+            <AnchorPane fx:id="countryPercentagePane" layoutX="2.0" prefHeight="200.0" prefWidth="330.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="171.0" text="Player Country%" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="countryPercentageListView" layoutY="38.0" prefHeight="142.0" prefWidth="330.0" />
+               </children>
+            </AnchorPane>
             <ListView fx:id="armyDistributionListView" layoutX="360.0" layoutY="38.0" prefHeight="142.0" prefWidth="270.0" />
             <ListView fx:id="continentNameListView" layoutX="660.0" layoutY="38.0" prefHeight="142.0" prefWidth="330.0" />
-            <Label fx:id="currentPercentageLabel" layoutX="2.0" prefHeight="30.0" prefWidth="171.0" text="Player Country%" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
             <Label layoutX="360.0" prefHeight="30.0" prefWidth="127.0" text="Player Armies" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="16.0" />
