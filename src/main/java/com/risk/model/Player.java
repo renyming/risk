@@ -764,7 +764,7 @@ public class Player extends Observable implements Serializable {
         this.attacker = attacker;
         this.defender = defender;
 
-        System.out.print(attacker.getName() + " VS " + defender.getName() + ": ");
+
         //if defender country doesn't has army
         if (isDefenderLoose()) {
             return;
@@ -784,14 +784,14 @@ public class Player extends Observable implements Serializable {
     public void attackOnce(Country attacker, int attackerDiceNum, Country defender, int defenderDiceNum) {
 
         // roll the dices to battle
+        System.out.print(attacker.getName() + " VS " + defender.getName() + ": ");
         ArrayList<Integer> dicesAttacker = getRandomDice(attackerDiceNum);
         ArrayList<Integer> diceDefender = getRandomDice(defenderDiceNum);
         System.out.print(dicesAttacker);
         System.out.print(" VS ");
         System.out.print(diceDefender);
         System.out.print(",  ");
-        System.out.print(dicesAttacker);
-        System.out.print(diceDefender);
+        System.out.println(" ");
 
         // compare the rolling result
         long range = attackerDiceNum < defenderDiceNum? attackerDiceNum : defenderDiceNum;
@@ -800,12 +800,12 @@ public class Player extends Observable implements Serializable {
             if (diceDefender.get(i) >= dicesAttacker.get(i)) {
                 attacker.setArmies(attacker.getArmies()-1);
                 attacker.getOwner().subTotalStrength(1);
-                System.out.print(" "+attacker.getName() + "lost one army");
+                System.out.println(" "+attacker.getName() + " lost one army");
 
             } else {
                 defender.setArmies(defender.getArmies()-1);
                 defender.getOwner().subTotalStrength(1);
-                System.out.println(" "+defender.getName() + "lost one army");
+                System.out.println(" "+defender.getName() + " lost one army");
                 //if defender's armies == 0, attacker victory
                 if (isDefenderLoose(attacker, defender)) return;
             }
