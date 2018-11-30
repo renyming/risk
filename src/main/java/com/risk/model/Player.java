@@ -675,7 +675,7 @@ public class Player extends Observable implements Serializable {
 
             if (defender.getOwner().countriesOwned.size() == 1) {
 
-                // TODO: add all cards form defender's owner
+                // add all cards form defender's owner
                 Phase.getInstance().setInvalidInfo(defender.getOwner().getName() + " lost all the countries!");
                 Phase.getInstance().update();
                 getDefenderCards(attacker.getOwner(),defender.getOwner());
@@ -702,7 +702,6 @@ public class Player extends Observable implements Serializable {
                 System.out.println(name + ", Congratulations, You Win!");
                 Model.winner = attacker.getOwner().getName();
             }
-
             return true;
         }
         return false;

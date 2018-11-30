@@ -3,10 +3,7 @@ package com.risk;
  * the test suite of all project
  */
 
-import com.risk.model.ContinentTest;
-import com.risk.model.CountryTest;
-import com.risk.model.ModelTest;
-import com.risk.model.PlayerTest;
+import com.risk.model.*;
 import com.risk.strategy.AggressiveStrategyTest;
 import com.risk.strategy.BenevolentStrategyTest;
 import com.risk.strategy.CheaterStrategyTest;
@@ -28,9 +25,13 @@ import java.util.zip.CheckedInputStream;
         AggressiveStrategyTest.class,
         BenevolentStrategyTest.class,
         CheaterStrategyTest.class,
-        RandomStrategyTest.class
+        RandomStrategyTest.class,
+        TournamentModelTest.class
 })
 
+/**
+ * project test suite
+ */
 public class ProjectTestSuite {
 
 }
