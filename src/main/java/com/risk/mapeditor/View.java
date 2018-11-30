@@ -137,7 +137,7 @@ public class View extends AnchorPane {
 
                 countryView.setContinent(continentName);
                 countryViewList.put(countryView.getName(), countryView);
-                viewController.drawCountry(countryView);
+                viewController.drawCountry(countryView,false);
             }
 
             //connect line
@@ -147,7 +147,7 @@ public class View extends AnchorPane {
                 if (adjCountryView==null){
                     adjCountryView=new com.risk.mapeditor.Country(adjCountry.getName(),adjCountry.getX(),adjCountry.getY(),adjCountry.getContinent().getName());
                     countryViewList.put(adjCountryView.getName(),adjCountryView);
-                    viewController.drawCountry(adjCountryView);
+                    viewController.drawCountry(adjCountryView,false);
                 }
                 //if already drew a line
                 if (!countryView.isAdjacent(adjCountryView))
