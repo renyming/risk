@@ -219,56 +219,56 @@ public class MenuController {
      * Called when users click Load Saved Game
      */
     public void loadGame() throws IOException,ClassNotFoundException {
-        mapController.initPhaseView();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Saved Game");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Load Game (*.sg)", "*.sg");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File savedGameFile = fileChooser.showOpenDialog(Menu.getInstance().getMenuStage());
+
+        if (null != savedGameFile) {
+            mapController.initPhaseView();
+
+            String fileName = savedGameFile.getName();
+            fileName = fileName.substring(0, fileName.length() - 3);
+            fileName += "_";
+
+            FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
+            ObjectInputStream os = new ObjectInputStream(fileStream);
+            model = (Model) os.readObject();
+            model.nonStaticToStatic();
+
+            view.setModel(model);
+
+            os.close();
+
+            fileStream = new FileInputStream(fileName + "phase.ser");
+            os = new ObjectInputStream(fileStream);
+
+            Phase phase = (Phase)os.readObject();
+            phase.setCurrentPhase("Start Up Phase");
+
+            phase.addObserver(PhaseView.getInstance());
+            phase.update();
+            phase.setActionResult(Action.Show_Next_Phase_Button);
+            phase.update();
 
 
-        String fileName = "game1";
+            fileStream = new FileInputStream(fileName + "world.ser");
+            os = new ObjectInputStream(fileStream);
 
-        FileInputStream fileStream = new FileInputStream(fileName + "model.ser");
-        ObjectInputStream os = new ObjectInputStream(fileStream);
-        model = (Model) os.readObject();
-        model.nonStaticToStatic();
+            PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
+            //playersWorldDomination.setPlayers(model.getPlayers());
+            playersWorldDomination.addObserver(PlayersWorldDominationView.getInstance());
+            playersWorldDomination.update();
 
-        view.setModel(model);
+            os.close();
 
-        os.close();
-
-        fileStream = new FileInputStream(fileName + "phase.ser");
-        os = new ObjectInputStream(fileStream);
-
-        Phase phase = (Phase)os.readObject();
-        phase.setCurrentPhase("Start Up Phase");
-
-        phase.addObserver(PhaseView.getInstance());
-        phase.update();
-        phase.setActionResult(Action.Show_Next_Phase_Button);
-        phase.update();
-
-
-        fileStream = new FileInputStream(fileName + "world.ser");
-        os = new ObjectInputStream(fileStream);
-
-        PlayersWorldDomination playersWorldDomination = (PlayersWorldDomination)os.readObject();
-        //playersWorldDomination.setPlayers(model.getPlayers());
-        playersWorldDomination.addObserver(PlayersWorldDominationView.getInstance());
-        playersWorldDomination.update();
-
-        os.close();
-        load(model.getCountries().size());
-
-        //model.loadGame(); // model update Phase, PlayersWorldDomination
-    }
-
-
-    /**
-     * Called by model for asking CountryViews
-     * @param numOfCountries is the total number of Countries
-     */
-    public void load(int numOfCountries) {
-        mapController.setNumOfCountries(numOfCountries);
-        model.startUp(mapController.createCountryViews());
-        menu.hide();
-        mapController.showMapStage();
+            mapController.setNumOfCountries(model.getCountries().size());
+            model.startUp(mapController.createCountryViews());
+            menu.hide();
+            mapController.showMapStage();
+        }
     }
 
     /**

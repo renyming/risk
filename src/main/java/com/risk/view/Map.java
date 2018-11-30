@@ -56,7 +56,7 @@ public class Map {
      * Singleton standard getter method, get the instance
      * @return the instance
      */
-    static Map getInstance(){
+    public static Map getInstance(){
         if (null == instance) instance = new Map();
         return instance;
     }
