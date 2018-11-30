@@ -508,6 +508,7 @@ public class MapController {
     public void disableFortification() {
         enableFortification = false;
         skipFortificationPhaseButton.setVisible(false);
+        skipFortificationPhase();
     }
 
 

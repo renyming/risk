@@ -56,6 +56,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
         //attack
         Phase.getInstance().setCurrentPhase("Attack Phase");
+        Phase.getInstance().update();
         attack(null, "0", null, "0", true);
         if (Phase.getInstance().getActionResult() == Action.Win) {
             return;
@@ -63,6 +64,7 @@ public class AggressiveStrategy implements PlayerBehaviorStrategy, Serializable 
 
         //fortification
         Phase.getInstance().setCurrentPhase("Fortification Phase");
+        Phase.getInstance().update();
         fortification(null, null, 0);
     }
 
