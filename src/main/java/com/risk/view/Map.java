@@ -80,7 +80,7 @@ public class Map {
     /**
      * Show map
      */
-    public void show() { mapStage.show(); /*mediaPlayer.play();*/ }
+    public void show() { mapStage.show(); mediaPlayer.play(); }
 
 
     /**

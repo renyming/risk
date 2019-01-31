@@ -64,7 +64,7 @@ public class Menu {
      */
     public void show() {
         menuStage.show();
-//        mediaPlayer.play();
+        mediaPlayer.play();
     }
 
 
