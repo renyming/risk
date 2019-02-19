@@ -1,5 +1,5 @@
 # Risk Game
-Risk game built by Java and JavaFX, implemented different kinds of design patterns.
+Risk game built by Java and JavaFX, adopted agile development approach, implemented different kinds of design patterns.
 
 # Reference
 ### Game rules
